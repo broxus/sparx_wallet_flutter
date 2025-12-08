@@ -2,7 +2,6 @@ import 'package:app/app/service/bootstrap/bootstrap_steps.dart';
 import 'package:app/feature/bootstrap_failed/bootstrap_failed.dart';
 import 'package:app/feature/connection_fail/connection_fail_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Page that displays allows user to make some single operation, that user
 /// can interact with to solve the problem if possible.
