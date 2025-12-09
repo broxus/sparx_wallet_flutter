@@ -133,10 +133,10 @@ class _SeedItemStickyDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => 56;
+  double get maxExtent => 54;
 
   @override
-  double get minExtent => 56;
+  double get minExtent => 54;
 
   @override
   bool shouldRebuild(_SeedItemStickyDelegate oldDelegate) {

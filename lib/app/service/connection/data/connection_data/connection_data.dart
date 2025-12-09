@@ -1,5 +1,4 @@
 import 'package:app/app/service/connection/data/network_type.dart';
-import 'package:app/utils/utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uuid/uuid.dart';
 
@@ -55,7 +54,7 @@ sealed class ConnectionData with _$ConnectionData {
     nativeTokenTicker: nativeTokenTicker,
     isPreset: false,
     canBeEdited: true,
-    sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+    sortingOrder: DateTime.now().millisecondsSinceEpoch.toDouble(),
     latencyDetectionInterval: latencyDetectionInterval,
     maxLatency: maxLatency,
     endpointSelectionRetryCount: endpointSelectionRetryCount,
@@ -118,7 +117,7 @@ sealed class ConnectionData with _$ConnectionData {
     nativeTokenTicker: '',
     isPreset: false,
     canBeEdited: true,
-    sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+    sortingOrder: DateTime.now().millisecondsSinceEpoch.toDouble(),
     latencyDetectionInterval: latencyDetectionInterval,
     maxLatency: maxLatency,
     endpointSelectionRetryCount: endpointSelectionRetryCount,
@@ -164,7 +163,7 @@ sealed class ConnectionData with _$ConnectionData {
     nativeTokenTicker: nativeTokenTicker,
     isPreset: false,
     canBeEdited: true,
-    sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+    sortingOrder: DateTime.now().millisecondsSinceEpoch.toDouble(),
     isUsedOnStart: isUsedOnStart,
     nativeTokenDecimals: nativeTokenDecimals,
   );
@@ -212,7 +211,7 @@ sealed class ConnectionData with _$ConnectionData {
     nativeTokenTicker: '',
     isPreset: false,
     canBeEdited: true,
-    sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+    sortingOrder: DateTime.now().millisecondsSinceEpoch.toDouble(),
     isUsedOnStart: isUsedOnStart,
     nativeTokenDecimals: nativeTokenDecimals,
   );
@@ -255,7 +254,7 @@ sealed class ConnectionData with _$ConnectionData {
     nativeTokenTicker: nativeTokenTicker,
     isPreset: false,
     canBeEdited: true,
-    sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+    sortingOrder: DateTime.now().millisecondsSinceEpoch.toDouble(),
     isUsedOnStart: isUsedOnStart,
     nativeTokenDecimals: nativeTokenDecimals,
   );
@@ -303,7 +302,7 @@ sealed class ConnectionData with _$ConnectionData {
     nativeTokenTicker: '',
     isPreset: false,
     canBeEdited: true,
-    sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+    sortingOrder: DateTime.now().millisecondsSinceEpoch.toDouble(),
     isUsedOnStart: isUsedOnStart,
     nativeTokenDecimals: nativeTokenDecimals,
   );

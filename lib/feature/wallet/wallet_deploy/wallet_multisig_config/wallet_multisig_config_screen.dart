@@ -440,6 +440,10 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
       );
     }
 
+    if (!PublicKey(publicKey: value).isValid) {
+      return LocaleKeys.invalidValue.tr();
+    }
+
     return null;
   }
 

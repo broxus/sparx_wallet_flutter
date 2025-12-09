@@ -13,11 +13,11 @@ mixin ConnectionMixin {
 
   Future<bool> get isConnected => networkConnectionService.isExistInternet;
 
-  Future<bool> checkConnection(BuildContext context) async {
+  Future<bool> checkConnection() async {
     if (await isConnected) {
       return true;
     }
-    messengerService.showConnectionError(context);
+    messengerService.showConnectionError();
     return false;
   }
 }
