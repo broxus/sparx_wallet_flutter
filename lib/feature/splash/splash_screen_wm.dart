@@ -16,8 +16,6 @@ class SplashScreenWidgetModel
     extends CustomWidgetModel<SplashScreen, SplashScreenModel> {
   SplashScreenWidgetModel(super.model);
 
-  final _logger = Logger('SplashScreenWidgetModel');
-
   late final isIos = Platform.isIOS;
 
   @override
