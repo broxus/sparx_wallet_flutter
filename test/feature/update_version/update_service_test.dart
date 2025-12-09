@@ -105,6 +105,7 @@ void main() {
       mockLatestVersionFinder,
       mockStorageService,
       mockAppVersionService,
+      mockNtpService,
     );
 
     // Mock AppVersion.appVersion

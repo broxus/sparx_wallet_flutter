@@ -1,7 +1,6 @@
-import 'package:flutter/foundation.dart';
+import 'package:app/app/service/service.dart';
+import 'package:app/di/di.dart';
 import 'package:flutter/widgets.dart';
-import 'package:logging/logging.dart';
-import 'package:no_screenshot/no_screenshot.dart';
 
 class ProtectedContent extends StatefulWidget {
   const ProtectedContent({required this.child, super.key});
@@ -13,60 +12,20 @@ class ProtectedContent extends StatefulWidget {
 }
 
 class _ProtectedContentState extends State<ProtectedContent> {
-  static final _logger = Logger('ProtectedContent');
-
-  static var _isNoScreenshotEnabled = false;
-
-  late var _shouldDisableOnDispose = false;
+  late final _protectedContentService = inject<ProtectedContentService>();
 
   @override
   void initState() {
     super.initState();
-    _enableFlagSecure();
+    _protectedContentService.enableProtectedContent();
   }
 
   @override
   void dispose() {
-    _disableFlagSecure();
+    _protectedContentService.disableProtectedContent();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => widget.child;
-
-  Future<void> _enableFlagSecure() async {
-    if (kDebugMode) return;
-    if (_isNoScreenshotEnabled) return;
-
-    _isNoScreenshotEnabled = true;
-    _shouldDisableOnDispose = true;
-
-    try {
-      final result = await NoScreenshot.instance.screenshotOff();
-
-      if (!result) {
-        _isNoScreenshotEnabled = false;
-        _shouldDisableOnDispose = false;
-        _logger.warning('Failed to disable screenshot');
-      }
-    } catch (e, st) {
-      _logger.warning('Failed to disable screenshot', e, st);
-      _isNoScreenshotEnabled = false;
-      _shouldDisableOnDispose = false;
-    }
-  }
-
-  Future<void> _disableFlagSecure() async {
-    if (kDebugMode) return;
-    if (!_shouldDisableOnDispose) return;
-
-    _isNoScreenshotEnabled = false;
-    _shouldDisableOnDispose = false;
-
-    try {
-      await NoScreenshot.instance.screenshotOn();
-    } catch (e, st) {
-      _logger.warning('Failed to enable screenshot', e, st);
-    }
-  }
 }

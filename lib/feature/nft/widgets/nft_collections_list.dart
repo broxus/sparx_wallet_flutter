@@ -1,5 +1,6 @@
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -10,85 +11,73 @@ const _aspectRatio = 168 / 196;
 class NftCollectionsList extends StatelessWidget {
   const NftCollectionsList({
     required this.collections,
-    required this.pending,
-    required this.displayMode,
+    required this.displayModeState,
+    required this.pendingState,
     required this.onNftCollectionPressed,
     super.key,
   });
 
+  final ListenableState<NftDisplayMode?> displayModeState;
+  final ListenableState<Map<Address, List<PendingNft>>> pendingState;
   final List<NftCollection> collections;
-  final Map<Address, List<PendingNft>> pending;
-  final NftDisplayMode displayMode;
   final ValueChanged<NftCollection> onNftCollectionPressed;
 
   @override
   Widget build(BuildContext context) {
-    return switch (displayMode) {
-      NftDisplayMode.grid => _buildGridView(context),
-      NftDisplayMode.list => _buildListView(context),
-    };
-  }
+    return StateNotifierBuilder(
+      listenableState: displayModeState,
+      builder: (_, displayMode) => switch (displayMode) {
+        NftDisplayMode.grid || null => GridView.count(
+          crossAxisCount: 2,
+          mainAxisSpacing: DimensSizeV2.d8,
+          crossAxisSpacing: DimensSizeV2.d8,
+          childAspectRatio: _aspectRatio,
+          children: [
+            for (final collection in collections)
+              _GridItem(
+                key: ValueKey(collection.address),
+                collection: collection,
+                pendingState: pendingState,
+                onTap: () => onNftCollectionPressed(collection),
+              ),
+          ],
+        ),
+        NftDisplayMode.list => ListView.separated(
+          itemCount: collections.length,
+          separatorBuilder: (_, index) =>
+              const SizedBox(height: DimensSizeV2.d8),
+          itemBuilder: (_, index) {
+            final collection = collections[index];
+            return _ListItem(
+              key: ValueKey(collection.address),
+              collection: collection,
 
-  Widget _buildGridView(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 2,
-      mainAxisSpacing: DimensSizeV2.d8,
-      crossAxisSpacing: DimensSizeV2.d8,
-      childAspectRatio: _aspectRatio,
-      children: [
-        for (final collection in collections)
-          _Item(
-            key: ValueKey(collection.address),
-            displayMode: displayMode,
-            collection: collection,
-            pendingCount: pending[collection.address]?.length ?? 0,
-            onTap: () => onNftCollectionPressed(collection),
-          ),
-      ],
-    );
-  }
-
-  Widget _buildListView(BuildContext context) {
-    return ListView.separated(
-      itemCount: collections.length,
-      separatorBuilder: (_, index) => const SizedBox(height: DimensSizeV2.d8),
-      itemBuilder: (_, index) {
-        final collection = collections[index];
-        return _Item(
-          key: ValueKey(collection.address),
-          displayMode: displayMode,
-          collection: collection,
-          pendingCount: pending[collection.address]?.length ?? 0,
-          onTap: () => onNftCollectionPressed(collection),
-        );
+              pendingState: pendingState,
+              onTap: () => onNftCollectionPressed(collection),
+            );
+          },
+        ),
       },
     );
   }
 }
 
-class _Item extends StatelessWidget {
-  const _Item({
-    required this.displayMode,
+class _GridItem extends StatelessWidget {
+  const _GridItem({
+    required this.pendingState,
     required this.collection,
-    required this.pendingCount,
     required this.onTap,
     super.key,
   });
 
-  final NftDisplayMode displayMode;
+  final ListenableState<Map<Address, List<PendingNft>>> pendingState;
+
   final NftCollection collection;
-  final int pendingCount;
+
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return switch (displayMode) {
-      NftDisplayMode.grid => _buildGridItem(context),
-      NftDisplayMode.list => _buildListItem(context),
-    };
-  }
-
-  Widget _buildGridItem(BuildContext context) {
     final theme = context.themeStyleV2;
 
     return GestureDetector(
@@ -120,32 +109,60 @@ class _Item extends StatelessWidget {
                 ),
               ],
             ),
-            if (pendingCount > 0)
-              Positioned(
-                top: DimensSizeV2.d6,
-                right: DimensSizeV2.d6,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(DimensRadiusV2.radius10),
-                  child: Container(
-                    width: DimensSizeV2.d20,
-                    height: DimensSizeV2.d20,
-                    color: theme.colors.backgroundAccent,
-                    child: Center(
-                      child: Text(
-                        pendingCount.toString(),
-                        style: theme.textStyles.labelXSmall,
+            StateNotifierBuilder(
+              listenableState: pendingState,
+              builder: (_, pending) {
+                final count = pending?[collection.address]?.length ?? 0;
+
+                if (count <= 0) {
+                  return const SizedBox.shrink();
+                }
+
+                return Positioned(
+                  top: DimensSizeV2.d6,
+                  right: DimensSizeV2.d6,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                      DimensRadiusV2.radius10,
+                    ),
+                    child: Container(
+                      width: DimensSizeV2.d20,
+                      height: DimensSizeV2.d20,
+                      color: theme.colors.backgroundAccent,
+                      child: Center(
+                        child: Text(
+                          count.toString(),
+                          style: theme.textStyles.labelXSmall,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
+                );
+              },
+            ),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _buildListItem(BuildContext context) {
+class _ListItem extends StatelessWidget {
+  const _ListItem({
+    required this.pendingState,
+    required this.collection,
+    required this.onTap,
+    super.key,
+  });
+
+  final ListenableState<Map<Address, List<PendingNft>>> pendingState;
+
+  final NftCollection collection;
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
 
     return GestureDetector(
@@ -180,23 +197,33 @@ class _Item extends StatelessWidget {
                     softWrap: false,
                     maxLines: 1,
                   ),
-                  if (pendingCount > 0)
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                        DimensRadiusV2.radius10,
-                      ),
-                      child: Container(
-                        width: DimensSizeV2.d20,
-                        height: DimensSizeV2.d20,
-                        color: theme.colors.backgroundAccent,
-                        child: Center(
-                          child: Text(
-                            pendingCount.toString(),
-                            style: theme.textStyles.labelXSmall,
+                  StateNotifierBuilder(
+                    listenableState: pendingState,
+                    builder: (_, pending) {
+                      final count = pending?[collection.address]?.length ?? 0;
+
+                      if (count <= 0) {
+                        return const SizedBox.shrink();
+                      }
+
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                          DimensRadiusV2.radius10,
+                        ),
+                        child: Container(
+                          width: DimensSizeV2.d20,
+                          height: DimensSizeV2.d20,
+                          color: theme.colors.backgroundAccent,
+                          child: Center(
+                            child: Text(
+                              count.toString(),
+                              style: theme.textStyles.labelXSmall,
+                            ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),

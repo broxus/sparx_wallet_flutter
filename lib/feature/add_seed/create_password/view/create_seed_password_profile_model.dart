@@ -53,7 +53,7 @@ class CreateSeedPasswordProfileModel extends ElementaryModel
           : null,
     );
 
-    if (seed.isEmpty || !await checkConnection(context)) {
+    if (seed.isEmpty || !await checkConnection()) {
       return null;
     }
 

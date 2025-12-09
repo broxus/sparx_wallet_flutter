@@ -14,22 +14,22 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$QrScanResult {
 
- Object get value;
+
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QrScanResult&&const DeepCollectionEquality().equals(other.value, value));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is QrScanResult);
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(value));
+int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'QrScanResult(value: $value)';
+  return 'QrScanResult()';
 }
 
 
@@ -55,10 +55,11 @@ extension QrScanResultPatterns on QrScanResult {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( QrScanResultAddress value)?  address,TResult Function( QrScanResultUri value)?  uri,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( QrScanResultInvalid value)?  invalid,TResult Function( QrScanResultAddress value)?  address,TResult Function( QrScanResultUri value)?  uri,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case QrScanResultAddress() when address != null:
+case QrScanResultInvalid() when invalid != null:
+return invalid(_that);case QrScanResultAddress() when address != null:
 return address(_that);case QrScanResultUri() when uri != null:
 return uri(_that);case _:
   return orElse();
@@ -78,10 +79,11 @@ return uri(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( QrScanResultAddress value)  address,required TResult Function( QrScanResultUri value)  uri,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( QrScanResultInvalid value)  invalid,required TResult Function( QrScanResultAddress value)  address,required TResult Function( QrScanResultUri value)  uri,}){
 final _that = this;
 switch (_that) {
-case QrScanResultAddress():
+case QrScanResultInvalid():
+return invalid(_that);case QrScanResultAddress():
 return address(_that);case QrScanResultUri():
 return uri(_that);}
 }
@@ -97,10 +99,11 @@ return uri(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( QrScanResultAddress value)?  address,TResult? Function( QrScanResultUri value)?  uri,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( QrScanResultInvalid value)?  invalid,TResult? Function( QrScanResultAddress value)?  address,TResult? Function( QrScanResultUri value)?  uri,}){
 final _that = this;
 switch (_that) {
-case QrScanResultAddress() when address != null:
+case QrScanResultInvalid() when invalid != null:
+return invalid(_that);case QrScanResultAddress() when address != null:
 return address(_that);case QrScanResultUri() when uri != null:
 return uri(_that);case _:
   return null;
@@ -119,9 +122,10 @@ return uri(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( Address value)?  address,TResult Function( Uri value)?  uri,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  invalid,TResult Function( Address value)?  address,TResult Function( Uri value)?  uri,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case QrScanResultAddress() when address != null:
+case QrScanResultInvalid() when invalid != null:
+return invalid();case QrScanResultAddress() when address != null:
 return address(_that.value);case QrScanResultUri() when uri != null:
 return uri(_that.value);case _:
   return orElse();
@@ -141,9 +145,10 @@ return uri(_that.value);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( Address value)  address,required TResult Function( Uri value)  uri,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  invalid,required TResult Function( Address value)  address,required TResult Function( Uri value)  uri,}) {final _that = this;
 switch (_that) {
-case QrScanResultAddress():
+case QrScanResultInvalid():
+return invalid();case QrScanResultAddress():
 return address(_that.value);case QrScanResultUri():
 return uri(_that.value);}
 }
@@ -159,9 +164,10 @@ return uri(_that.value);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( Address value)?  address,TResult? Function( Uri value)?  uri,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  invalid,TResult? Function( Address value)?  address,TResult? Function( Uri value)?  uri,}) {final _that = this;
 switch (_that) {
-case QrScanResultAddress() when address != null:
+case QrScanResultInvalid() when invalid != null:
+return invalid();case QrScanResultAddress() when address != null:
 return address(_that.value);case QrScanResultUri() when uri != null:
 return uri(_that.value);case _:
   return null;
@@ -174,11 +180,43 @@ return uri(_that.value);case _:
 /// @nodoc
 
 
+class QrScanResultInvalid implements QrScanResult {
+  const QrScanResultInvalid();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is QrScanResultInvalid);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'QrScanResult.invalid()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
 class QrScanResultAddress implements QrScanResult {
   const QrScanResultAddress(this.value);
   
 
-@override final  Address value;
+ final  Address value;
 
 /// Create a copy of QrScanResult
 /// with the given fields replaced by the non-null parameter values.
@@ -253,7 +291,7 @@ class QrScanResultUri implements QrScanResult {
   const QrScanResultUri(this.value);
   
 
-@override final  Uri value;
+ final  Uri value;
 
 /// Create a copy of QrScanResult
 /// with the given fields replaced by the non-null parameter values.

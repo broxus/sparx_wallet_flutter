@@ -38,10 +38,11 @@ class ChangeSeedPasswordModel extends ElementaryModel {
       newPassword: newPassword,
     );
 
-    await _biometryService.updatePasswordIfPossible(
+    await _biometryService.setKeyPassword(
       publicKey: publicKey,
-      newPassword: newPassword,
+      password: newPassword,
     );
+    await _passwordService.reset(publicKey);
   }
 
   Future<bool> checkKeyPassword({

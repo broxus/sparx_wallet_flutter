@@ -55,35 +55,17 @@ class NftPrepareTransfer
                         crossAxisAlignment: CrossAxisAlignment.start,
                         spacing: DimensSize.d12,
                         children: [
-                          if (!wm.tokenFlag)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: DimensSizeV2.d4,
-                              ),
-                              child: Text(
-                                LocaleKeys.nftTransferDescription.tr(),
-                                style: theme.textStyles.paragraphMedium
-                                    .copyWith(color: theme.colors.content1),
-                              ),
-                            ),
+                          if (!wm.tokenFlag) const _TokenFlag(),
                           AccountInfo(account: data.account),
                           _Item(item: data.item, collection: data.collection),
                           if (data.localCustodians != null &&
                               data.localCustodians!.length > 1)
-                            CommonSelectDropdown<PublicKey>(
-                              values: [
-                                for (final c in data.localCustodians!)
-                                  CommonSheetDropdownItem<PublicKey>(
-                                    value: c,
-                                    title:
-                                        wm.getSeedName(c) ??
-                                        c.toEllipseString(),
-                                  ),
-                              ],
-                              titleText: LocaleKeys.custodianWord.tr(),
-                              currentValue: data.custodian,
-                              onChanged: wm.onChangedCustodian,
+                            _SeedNamesDropdown(
+                              data: data,
+                              getSeedName: wm.getSeedName,
+                              onChangedCustodian: wm.onChangedCustodian,
                             ),
+
                           PrimaryTextField(
                             labelText: LocaleKeys.toInputLabel.tr(),
                             hintText: LocaleKeys.receiverAddress.tr(),
@@ -154,6 +136,53 @@ class NftPrepareTransfer
           );
         },
       ),
+    );
+  }
+}
+
+class _TokenFlag extends StatelessWidget {
+  const _TokenFlag();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d4),
+      child: Text(
+        LocaleKeys.nftTransferDescription.tr(),
+        style: theme.textStyles.paragraphMedium.copyWith(
+          color: theme.colors.content1,
+        ),
+      ),
+    );
+  }
+}
+
+class _SeedNamesDropdown extends StatelessWidget {
+  const _SeedNamesDropdown({
+    required this.data,
+    required this.getSeedName,
+    required this.onChangedCustodian,
+  });
+
+  final NftPrepareTransferData data;
+  final String? Function(PublicKey pk) getSeedName;
+  final ValueChanged<PublicKey> onChangedCustodian;
+
+  @override
+  Widget build(BuildContext context) {
+    return CommonSelectDropdown<PublicKey>(
+      values: [
+        for (final c in data.localCustodians!)
+          CommonSheetDropdownItem<PublicKey>(
+            value: c,
+            title: getSeedName(c) ?? c.toEllipseString(),
+          ),
+      ],
+      titleText: LocaleKeys.custodianWord.tr(),
+      currentValue: data.custodian,
+      onChanged: onChangedCustodian,
     );
   }
 }

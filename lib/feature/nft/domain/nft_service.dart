@@ -13,7 +13,6 @@ class NftService {
   NftService(
     this._nekotonRepository,
     this._nftStorageService,
-    this._appStorageService,
     this._currentAccountsService,
   );
 
@@ -21,17 +20,12 @@ class NftService {
 
   final NekotonRepository _nekotonRepository;
   final NftStorageService _nftStorageService;
-  final AppStorageService _appStorageService;
   final CurrentAccountsService _currentAccountsService;
 
   final Map<Address, NftCollection> _collections = {};
   KeyAccount? _currentSubscribedAccount;
   StreamSubscription<KeyAccount?>? _accountSubscription;
   StreamSubscription<NftTransferEvent>? _nftTransferSubscription;
-
-  Stream<NftDisplayMode?> get displayModeStream => _appStorageService
-      .getValueStream<String>(StorageKey.nftGridMode())
-      .map((name) => name != null ? NftDisplayMode.byName(name) : null);
 
   void init() {
     _accountSubscription = _currentAccountsService.currentActiveAccountStream
@@ -55,32 +49,28 @@ class NftService {
     _currentSubscribedAccount = null;
   }
 
-  void setDisplayMode(NftDisplayMode mode) {
-    _appStorageService.addValue(StorageKey.nftGridMode(), mode.name);
-  }
-
-  Stream<List<CollectionMeta>> getAccountCollectionsMetaStream(Address owner) {
+  Stream<List<NftCollection>> getAccountCollectionsStream(Address owner) {
     return Rx.combineLatest2(
       _nekotonRepository.currentTransportStream
           .map((e) => e.networkGroup)
           .distinct(),
-      _nftStorageService.metadataStream,
+      _nftStorageService.collectionsStream,
       (group, metadata) {
-        final collections = metadata[owner] ?? [];
-        return collections
-            .where((meta) => meta.networkGroup == group && meta.isVisible)
-            .toList();
-      },
-    );
-  }
+        final collectionsSettings = metadata[owner] ?? [];
 
-  Stream<List<NftCollection>> getAccountCollectionsStream(Address owner) {
-    return getAccountCollectionsMetaStream(owner).map(
-      (e) => e
-          .map((meta) => _collections[meta.collection])
-          .nonNulls
-          .sortedBy((c) => c.name ?? '')
-          .toList(),
+        final result = <NftCollection>[];
+
+        for (final s in collectionsSettings) {
+          if (s.networkGroup == group && s.isVisible) {
+            final collection = _collections[s.collection];
+            if (collection == null) continue;
+
+            result.add(collection);
+          }
+        }
+
+        return result.sortedBy((c) => c.name ?? '');
+      },
     );
   }
 
@@ -91,9 +81,10 @@ class NftService {
           .distinct(),
       _nftStorageService.pendingNftStream,
       (group, pendingNft) {
-        return pendingNft
-            .where((e) => e.networkGroup == group && e.owner == owner)
-            .toList();
+        return [
+          for (final p in pendingNft)
+            if (p.networkGroup == group && p.owner == owner) p,
+        ];
       },
     );
   }
@@ -146,62 +137,75 @@ class NftService {
     final networkGroup = _nekotonRepository.currentTransport.networkGroup;
     final defaultCollections =
         _nekotonRepository.currentTransport.nftInformation?.defaultCollections;
-    final meta = (_nftStorageService.readMetadata()[owner] ?? []).where(
-      (e) => e.networkGroup == networkGroup,
+
+    final cachedCollections = _nftStorageService.getCollections(
+      owner,
+      networkGroup,
     );
-    final hidden = meta
-        .where((e) => !e.isVisible)
-        .map((e) => e.collection)
-        .toSet();
-    final pending = _nftStorageService.pendingNft
-        .where((e) => e.networkGroup == networkGroup && e.owner == owner)
-        .map((e) => e.collection)
-        .toSet();
 
-    final collections = [
-      if (defaultCollections != null) ...defaultCollections,
-      ...meta.map((e) => e.collection),
-      ...pending,
-    ];
+    final hiddenAddresses = <Address>[];
+    final cachedCollectionsAddresses = <Address>{};
 
-    final scanned = await _nekotonRepository.scanNftCollections(
+    for (final c in cachedCollections) {
+      if (!c.isVisible) {
+        hiddenAddresses.add(c.collection);
+      }
+      cachedCollectionsAddresses.add(c.collection);
+    }
+
+    final pending = _nftStorageService.getPendingNftAddresses(
+      owner,
+      networkGroup,
+    );
+
+    final scannedCollections = await _nekotonRepository.scanNftCollections(
       owner: owner,
-      collections: collections.toSet().toList(), // remove possible duplicates
+      collections: {
+        ...?defaultCollections,
+        ...cachedCollectionsAddresses,
+        ...pending,
+      }.toList(), // remove possible duplicates
     );
 
-    for (final collection in scanned) {
+    for (final collection in scannedCollections) {
       _collections[collection.address] = collection;
     }
 
-    _nftStorageService.setMetadata(
-      account: owner,
-      metadata: scanned
+    _nftStorageService.setCollections(
+      accountAddress: owner,
+      collections: scannedCollections
           .map(
-            (e) => CollectionMeta(
+            (e) => NftCollectionSettings(
               collection: e.address,
               networkGroup: networkGroup,
-              isVisible: !hidden.contains(e.address),
+              isVisible: !hiddenAddresses.contains(e.address),
             ),
           )
           .toList(),
     );
   }
 
-  void addCollection({required Address account, required Address collection}) {
-    _nftStorageService.addMetadata(
-      account: account,
-      collectionMeta: CollectionMeta(
-        collection: collection,
+  void addCollection({
+    required Address accountAddress,
+    required Address collectionAddress,
+  }) {
+    _nftStorageService.addCollection(
+      accountAddress: accountAddress,
+      collection: NftCollectionSettings(
+        collection: collectionAddress,
         networkGroup: _nekotonRepository.currentTransport.networkGroup,
       ),
     );
   }
 
-  void hideCollection({required Address account, required Address collection}) {
-    _nftStorageService.addMetadata(
-      account: account,
-      collectionMeta: CollectionMeta(
-        collection: collection,
+  void hideCollection({
+    required Address accountAddress,
+    required Address collectionAddress,
+  }) {
+    _nftStorageService.addCollection(
+      accountAddress: accountAddress,
+      collection: NftCollectionSettings(
+        collection: collectionAddress,
         networkGroup: _nekotonRepository.currentTransport.networkGroup,
         isVisible: false,
       ),
@@ -235,7 +239,7 @@ class NftService {
     }
   }
 
-  void _handleTransferEvent(NftTransferEvent event) {
+  Future<void> _handleTransferEvent(NftTransferEvent event) async {
     if (event.direction == TransferDirection.incoming) {
       _nftStorageService.addPendingNft(
         PendingNft(

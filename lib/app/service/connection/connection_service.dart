@@ -29,6 +29,10 @@ class ConnectionService {
   final MessengerService _messengerService;
   final Dio _dio;
 
+  var _initialized = false;
+  var _failedConnections = <String>{};
+  ConnectionData? _prevConnection;
+
   /// Set up selected connection.
   Future<void> setUp() async {
     final connection = _storageService.currentConnection;
@@ -39,9 +43,10 @@ class ConnectionService {
     // skip 1 due to duplicate events
     _storageService.currentConnectionStream.skip(1).listen((connection) async {
       _log.info('setUp: switching to ${connection.name}');
-
       await _updateTransportByConnection(connection);
     });
+
+    _initialized = true;
   }
 
   /// Create TransportStrategy based on [ConnectionData.group] of
@@ -121,22 +126,36 @@ class ConnectionService {
       final strategy = createStrategyByConnection(transport, connection);
 
       await _nekotonRepository.updateTransport(strategy);
+
       _storageService.updateNetworksIds([(connection.id, transport.networkId)]);
+      _prevConnection = connection;
+      _failedConnections = {};
 
       _log.finest('updateTransportByConnection completed!');
     } catch (e, t) {
-      _messengerService.showConnectionError(null);
       _log.severe('updateTransportByConnection', e, t);
 
-      final base = _storageService.baseConnection;
+      // Skip reverting if app was not initialized yet. Let user to choose
+      // another network manually.
+      if (_initialized) {
+        _messengerService.showConnectionError();
+        _failedConnections.add(connection.id);
 
-      if (base != null && base.id != connection.id) {
-        _storageService.saveCurrentConnectionId(base.id);
-        return;
+        // try to revert to previous connection
+        if (_prevConnection != null &&
+            !_failedConnections.contains(_prevConnection!.id)) {
+          _storageService.saveCurrentConnectionId(_prevConnection!.id);
+          return;
+        }
+
+        // try to revert to base connection if previous is not available
+        final base = _storageService.baseConnection;
+        if (base != null && !_failedConnections.contains(base.id)) {
+          _storageService.saveCurrentConnectionId(base.id);
+          return;
+        }
       }
 
-      /// Тут. Вернуть на 1 сеть
-      // allow level above to track fail
       rethrow;
     }
   }

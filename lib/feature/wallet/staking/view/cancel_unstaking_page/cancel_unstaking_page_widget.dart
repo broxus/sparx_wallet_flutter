@@ -74,7 +74,7 @@ class CancelUnstakingPageWidget
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const SizedBox.shrink(),
-                    _StatusDateRow(request: wm.request),
+                    _StatusDateRow(request: wm.request, now: wm.now),
                     Text(
                       LocaleKeys.withdrawHoursNote.tr(
                         args: [wm.withdrawHours.toString()],
@@ -159,15 +159,16 @@ class CancelUnstakingPageWidget
 }
 
 class _StatusDateRow extends StatelessWidget {
-  const _StatusDateRow({required this.request});
+  const _StatusDateRow({required this.request, required this.now});
 
   final StEverWithdrawRequest request;
+  final DateTime now;
 
   @override
   Widget build(BuildContext context) {
     final date = request.data.timestamp;
     final theme = context.themeStyleV2;
-    final formatter = date.year == NtpTime.now().year
+    final formatter = date.year == now.year
         ? DateFormat('MM.dd, HH:mm', context.locale.languageCode)
         : DateFormat('MM.dd.y, HH:mm', context.locale.languageCode);
 

@@ -18,10 +18,10 @@ class NftPageWidgetModel
 
   late final _loadingState = createNotifier(true);
   late final _collectionsState = createNotifierFromStream(
-    model.getCollectionsStream(),
+    model.collectionsStream,
   );
   late final _pendingState = createNotifierFromStream(
-    model.getPendingNftStream().map(
+    model.pendingNftStream.map(
       (pending) => pending.groupListsBy((e) => e.collection),
     ),
   );
@@ -63,10 +63,6 @@ class NftPageWidgetModel
               .scanNftCollections(owner)
               .then((_) => _loadingState.accept(false)),
         );
-
-    _transferEventSubscription = model.getNftTransferEventStream().listen(
-      (_) => _reload(),
-    );
   }
 
   @override
@@ -91,6 +87,10 @@ class NftPageWidgetModel
       );
       await _reload(owner);
     }
+  }
+
+  void onMarketplaceUrlPressed(String marketplaceUrl) {
+    model.openBrowserByString(marketplaceUrl);
   }
 
   void onNftCollectionPressed(NftCollection collection) {

@@ -7,6 +7,7 @@ import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/route.dart';
 import 'package:app/feature/wallet/widgets/account_settings/account_settings.dart';
 import 'package:app/feature/wallet/widgets/wallet_app_bar/wallet_app_bar_model.dart';
+import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -57,9 +58,13 @@ class WalletAppBarWidgetModel
 
     return switch (result) {
       QrScanResultAddress(:final value) => _handleAddress(value),
-      QrScanResultUri(:final value) => _handleUri(value),
+      QrScanResultUri(:final value) when model.isValidAppLink(value) =>
+        _handleUri(value),
+      _ => _handleInvalidScan(),
     };
   }
+
+  void _handleInvalidScan() => model.showError(LocaleKeys.qrScannerError.tr());
 
   void _handleAddress(Address address) {
     final account = currentAccountState.value;

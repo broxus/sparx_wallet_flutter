@@ -6,10 +6,6 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-const _indicator = Center(
-  child: ProgressIndicatorWidget(size: DimensSizeV2.d24),
-);
-
 class Nftist extends StatelessWidget {
   const Nftist({
     required this.controller,
@@ -51,8 +47,8 @@ class Nftist extends StatelessWidget {
       ),
       builderDelegate: PagedChildBuilderDelegate(
         invisibleItemsThreshold: 1,
-        firstPageProgressIndicatorBuilder: (_) => _indicator,
-        newPageProgressIndicatorBuilder: (_) => _indicator,
+        firstPageProgressIndicatorBuilder: (_) => const _Indicator(),
+        newPageProgressIndicatorBuilder: (_) => const _Indicator(),
         itemBuilder: _itemBuilder,
       ),
     );
@@ -69,8 +65,8 @@ class Nftist extends StatelessWidget {
       separatorBuilder: (_, index) => const SizedBox(height: DimensSizeV2.d8),
       builderDelegate: PagedChildBuilderDelegate(
         invisibleItemsThreshold: 1,
-        firstPageProgressIndicatorBuilder: (_) => _indicator,
-        newPageProgressIndicatorBuilder: (_) => _indicator,
+        firstPageProgressIndicatorBuilder: (_) => const _Indicator(),
+        newPageProgressIndicatorBuilder: (_) => const _Indicator(),
         itemBuilder: _itemBuilder,
       ),
     );
@@ -268,5 +264,14 @@ class _Badge extends StatelessWidget {
         maxLines: 1,
       ),
     );
+  }
+}
+
+class _Indicator extends StatelessWidget {
+  const _Indicator();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(child: ProgressIndicatorWidget(size: DimensSizeV2.d24));
   }
 }

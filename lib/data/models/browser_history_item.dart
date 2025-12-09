@@ -1,5 +1,4 @@
 import 'package:app/data/models/browser_item.dart';
-import 'package:app/utils/utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uuid/uuid.dart';
 
@@ -22,7 +21,7 @@ abstract class BrowserHistoryItem
     id: const Uuid().v4(),
     title: url.host,
     url: url,
-    visitTime: NtpTime.now(),
+    visitTime: DateTime.now(),
   );
 
   const BrowserHistoryItem._();

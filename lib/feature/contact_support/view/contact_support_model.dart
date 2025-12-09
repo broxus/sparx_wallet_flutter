@@ -1,10 +1,10 @@
+import 'package:app/app/service/service.dart';
 import 'package:app/core/app_build_type.dart';
 import 'package:app/feature/contact_support/contact_support.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/runner.dart';
-import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:injectable/injectable.dart';
@@ -14,12 +14,16 @@ import 'package:the_logger/the_logger.dart';
 
 @injectable
 class ContactSupportModel extends ElementaryModel {
-  ContactSupportModel(ErrorHandler errorHandler, this._messengerService)
-    : super(errorHandler: errorHandler);
+  ContactSupportModel(
+    ErrorHandler errorHandler,
+    this._messengerService,
+    this._ntpService,
+  ) : super(errorHandler: errorHandler);
 
   static final _logger = Logger('ContactSupportModel');
 
   final MessengerService _messengerService;
+  final NtpService _ntpService;
 
   bool get isQaEnabled => currentAppBuildType != AppBuildType.production;
 
@@ -50,7 +54,7 @@ class ContactSupportModel extends ElementaryModel {
   }
 
   Future<String> _contactSupportCreateLogfile() async {
-    final now = NtpTime.now().toLocal().toString().replaceAll(
+    final now = _ntpService.now().toLocal().toString().replaceAll(
       RegExp(r'\s'),
       '_',
     );

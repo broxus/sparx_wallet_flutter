@@ -1,10 +1,8 @@
 import 'package:app/data/models/browser_item.dart';
-import 'package:app/utils/utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uuid/uuid.dart';
 
 part 'browser_bookmark_item.freezed.dart';
-
 part 'browser_bookmark_item.g.dart';
 
 @freezed
@@ -28,6 +26,6 @@ abstract class BrowserBookmarkItem
     id: const Uuid().v4(),
     title: title,
     url: url,
-    sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+    sortingOrder: DateTime.now().millisecondsSinceEpoch.toDouble(),
   );
 }

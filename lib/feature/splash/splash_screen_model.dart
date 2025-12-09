@@ -1,5 +1,4 @@
 import 'package:app/app/service/bootstrap/bootstrap_service.dart';
-import 'package:app/app/service/navigation_service.dart';
 import 'package:app/app/service/network_connection/network_connection_service.dart';
 import 'package:app/feature/browser/domain/service/browser_service.dart';
 import 'package:app/feature/splash/splash_screen.dart';
@@ -13,13 +12,11 @@ class SplashScreenModel extends ElementaryModel {
   SplashScreenModel(
     ErrorHandler errorHandler,
     this._bootstrapService,
-    this._navigationService,
     this._networkConnectionService,
     this._browserService,
   ) : super(errorHandler: errorHandler);
 
   final BootstrapService _bootstrapService;
-  final NavigationService _navigationService;
   final NetworkConnectionService _networkConnectionService;
   final BrowserService _browserService;
 
@@ -30,10 +27,6 @@ class SplashScreenModel extends ElementaryModel {
     await _browserService.init();
 
     return isInitSuccess;
-  }
-
-  Future<String?> getSavedNavigation() {
-    return _navigationService.getSavedState();
   }
 
   String getBootstrapStepPathParam() {

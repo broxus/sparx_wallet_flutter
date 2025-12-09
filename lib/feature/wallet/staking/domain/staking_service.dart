@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/wallet/staking/staking.dart';
-import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -17,12 +16,14 @@ class StakingService {
     this._dio,
     this._abiProvider,
     this._gasPriceService,
+    this._ntpService,
   );
 
   final NekotonRepository _nekotonRepository;
   final Dio _dio;
   final StakingAbiProvider _abiProvider;
   final GasPriceService _gasPriceService;
+  final NtpService _ntpService;
   final _cachedContractStateProvider = CachedContractStateProvider();
 
   Future<void> init() async {}
@@ -73,7 +74,7 @@ class StakingService {
       method: 'deposit',
       abi: await _abiProvider.getVaultAbi(_networkType),
       params: {
-        '_nonce': NtpTime.now().millisecondsSinceEpoch,
+        '_nonce': _ntpService.now().millisecondsSinceEpoch,
         '_amount': depositAmount.toString(),
       },
     );
@@ -92,7 +93,7 @@ class StakingService {
       accountStuffBoc: contract.boc,
       contractAbi: await _abiProvider.getVaultAbi(_networkType),
       methodId: 'encodeDepositPayload',
-      input: {'_nonce': NtpTime.now().millisecondsSinceEpoch},
+      input: {'_nonce': _ntpService.now().millisecondsSinceEpoch},
       responsible: false,
     );
 
