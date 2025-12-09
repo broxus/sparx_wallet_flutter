@@ -56,7 +56,7 @@ class ImportWalletScreenWidgetModel
   );
 
   Future<void> onPressedImport() async {
-    if (!await model.checkConnection(context)) {
+    if (!await model.checkConnection()) {
       return;
     }
 

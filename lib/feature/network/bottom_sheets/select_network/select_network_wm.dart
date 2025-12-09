@@ -36,7 +36,7 @@ class SelectNetworkWidgetModel
   }
 
   void onItemTap(Connection connection) {
-    if (_needPopAfterAction) Navigator.of(context).pop();
+    if (_needPopAfterAction) Navigator.of(context).pop(connection.id);
     model.changeCurrentConnection(connection.id);
   }
 }

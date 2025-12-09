@@ -30,6 +30,7 @@ class InpageProvider extends ProviderApi {
     required this.connectionsStorageService,
     required this.connectionService,
     required this.ledgerService,
+    required this.ntpService,
   });
 
   final _logger = Logger('InpageProvider');
@@ -44,6 +45,7 @@ class InpageProvider extends ProviderApi {
   final s.ConnectionsStorageService connectionsStorageService;
   final s.ConnectionService connectionService;
   final LedgerService ledgerService;
+  final s.NtpService ntpService;
 
   Uri? url;
 
@@ -575,7 +577,7 @@ class InpageProvider extends ProviderApi {
       disableSignatureCheck:
           input.executorParams?.disableSignatureCheck ?? false,
       message: message,
-      utime: NtpTime.now(),
+      utime: ntpService.now(),
       globalId: config.globalId,
       overwriteBalance: overrideBalance == null
           ? null
@@ -1675,7 +1677,7 @@ class InpageProvider extends ProviderApi {
     final info = await nr.computeStorageFee(
       config: config.config,
       account: input.state.boc,
-      utime: input.timestamp?.toInt() ?? NtpTime.now().secondsSinceEpoch,
+      utime: input.timestamp?.toInt() ?? ntpService.now().secondsSinceEpoch,
       isMasterchain: input.masterchain,
     );
 

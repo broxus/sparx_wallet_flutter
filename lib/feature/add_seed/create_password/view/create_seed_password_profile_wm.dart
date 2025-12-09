@@ -6,7 +6,6 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/add_seed/create_password/model/password_status.dart';
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_page.dart';
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_profile_model.dart';
-import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
 import 'package:app/feature/profile/route.dart';
 import 'package:app/feature/profile/widgets/switch_to_seed_sheet/switch_to_seed_sheet.dart';
 import 'package:app/utils/utils.dart';
@@ -76,29 +75,23 @@ class CreateSeedPasswordProfileWidgetModel
       isChecked: params.isChecked,
     );
 
-    if (publicKey == null) {
-      _loadingState.accept(false);
-      return;
-    }
+    _loadingState.accept(false);
+
+    if (publicKey == null) return;
+
+    final router = CompassRouterProvider.of(context)
+      // navigate to profile to dispose all add seed flow pages
+      ..compassPoint(const ProfileRouteData());
 
     final routeData = await showSwitchToSeedSheet(
       context: context,
       publicKey: publicKey,
     );
 
-    _loadingState.accept(false);
-
     try {
-      final router = CompassRouterProvider.of(context)
-        ..compassPoint(const ProfileRouteData());
-
-      await Future.delayed(const Duration(milliseconds: 50), () {
-        if (routeData != null) {
-          router.compassPoint(routeData);
-        } else {
-          router.compassContinue(const ManageSeedsAccountsRouteData());
-        }
-      });
+      if (routeData != null) {
+        router.compassPoint(routeData);
+      }
     } catch (e, s) {
       _logger.severe('Error during navigation after adding seed', e, s);
     }

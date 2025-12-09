@@ -13,15 +13,19 @@ class CancelUnstakingPageModel extends ElementaryModel {
     this._nekotonRepository,
     this._stakingService,
     this._assetsService,
+    this._ntpService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final StakingService _stakingService;
   final AssetsService _assetsService;
+  final NtpService _ntpService;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
   Currency get nativeCurrency => Currencies()[transport.nativeTokenTicker]!;
+
+  DateTime get now => _ntpService.now();
 
   StakingInformation get staking {
     if (transport.stakeInformation == null) {

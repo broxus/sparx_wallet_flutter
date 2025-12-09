@@ -41,6 +41,7 @@ class BrowserPageModel extends ElementaryModel {
     this._tonConnectJsBridge,
     this._ledgerService,
     this._appPermissionsService,
+    this._ntpService,
   ) : super(errorHandler: errorHandler);
 
   final isShowBrowserLog = currentAppBuildType == AppBuildType.development;
@@ -56,6 +57,7 @@ class BrowserPageModel extends ElementaryModel {
   final TonConnectJsBridge _tonConnectJsBridge;
   final LedgerService _ledgerService;
   final AppPermissionsService _appPermissionsService;
+  final NtpService _ntpService;
 
   InpageProvider? _inpageProvider;
 
@@ -94,6 +96,7 @@ class BrowserPageModel extends ElementaryModel {
       connectionsStorageService: _connectionsStorageService,
       connectionService: _connectionService,
       ledgerService: _ledgerService,
+      ntpService: _ntpService,
     );
     _inpageProvider = inpageProvider;
     inpageProvider.controller = controller;

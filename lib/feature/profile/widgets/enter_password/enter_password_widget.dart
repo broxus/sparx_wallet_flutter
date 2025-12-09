@@ -162,7 +162,7 @@ class _Biometry extends StatelessWidget {
       buttonShape: ButtonShape.pill,
       title: title ?? LocaleKeys.submitWord.tr(),
       isLoading: isLoading,
-      icon: isFace ? LucideIcons.scanFace : LucideIcons.fingerprint,
+      icon: isFace ? LucideIcons.scanFace : LucideIcons.fingerprintPattern,
       onPressed: isDisabled ? null : () => onSubmit(isFace),
     );
   }

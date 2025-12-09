@@ -37,7 +37,7 @@ class NewAccountScreenWidgetModel
 
   void _init() {
     if (wmParams.value.publicKey == null) {
-      model.showError(context, LocaleKeys.publicKeyNull.tr());
+      model.showError(LocaleKeys.publicKeyNull.tr());
     }
   }
 }

@@ -25,7 +25,9 @@ class OnboardingGuard extends CompassGuard {
   @override
   void attachToRouter(CompassRouter router) {
     _router = router;
-    _seedsSubscription = _nekotonRepository.hasSeeds.listen(_listenSeed);
+    _seedsSubscription = _nekotonRepository.hasSeeds.distinct().listen(
+      _listenSeed,
+    );
   }
 
   @override
@@ -60,6 +62,8 @@ class OnboardingGuard extends CompassGuard {
     final router = _router;
     final rootRoutePath = _router?.currentRoutes.firstOrNull;
     if (rootRoutePath == null || router == null) return;
+
+    if (!_bootstrapService.isConfigured) return;
 
     if (!hasSeeds && rootRoutePath is! OnBoardingRoute) {
       _log.info('No seeds, redirecting to onboarding');

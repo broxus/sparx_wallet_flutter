@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:app/app/service/service.dart';
-import 'package:app/utils/utils.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -10,12 +9,17 @@ import 'package:rxdart/rxdart.dart';
 
 @singleton
 final class PasswordService {
-  PasswordService(this._storageService, this._nekotonRepository);
+  PasswordService(
+    this._storageService,
+    this._nekotonRepository,
+    this._ntpService,
+  );
 
   static final _logger = Logger('PasswordService');
 
   final NekotonRepository _nekotonRepository;
   final SecureStorageService _storageService;
+  final NtpService _ntpService;
 
   /// Master key to state map
   final _state = <PublicKey, _State>{};
@@ -31,7 +35,14 @@ final class PasswordService {
         for (final entry in map.entries) {
           try {
             final masterKey = PublicKey(publicKey: entry.key);
-            final state = _State.fromJson(entry.value as Map<String, dynamic>);
+            final json = entry.value as Map<String, dynamic>;
+            final state = _State(
+              _ntpService,
+              attempts: json['attempts'] as int,
+              lastAttempt: json['lastAttempt'] != null
+                  ? DateTime.tryParse(json['lastAttempt'] as String)
+                  : null,
+            );
 
             _state[masterKey] = state;
           } catch (e, s) {
@@ -77,7 +88,7 @@ final class PasswordService {
     final masterKey = _getMasterKey(publicKey);
 
     // invalid state, should not happen
-    if (masterKey == null) return _State.unlocked();
+    if (masterKey == null) return _State(_ntpService);
 
     return _getLockState(masterKey);
   }
@@ -123,7 +134,7 @@ final class PasswordService {
   }
 
   _State _getLockState(PublicKey masterKey) {
-    return _state[masterKey] ??= _State.unlocked();
+    return _state[masterKey] ??= _State(_ntpService);
   }
 
   PublicKey? _getMasterKey(PublicKey publicKey) => _nekotonRepository.seedList
@@ -151,20 +162,11 @@ abstract class PasswordLockState {
 }
 
 final class _State implements PasswordLockState {
-  _State._({this.lastAttempt, this.attempts = 0}) {
+  _State(this._ntpService, {this.lastAttempt, this.attempts = 0}) {
     _update();
   }
 
-  factory _State.unlocked() = _State._;
-
-  factory _State.fromJson(Map<String, dynamic> json) {
-    return _State._(
-      attempts: json['attempts'] as int,
-      lastAttempt: json['lastAttempt'] != null
-          ? DateTime.tryParse(json['lastAttempt'] as String)
-          : null,
-    );
-  }
+  final NtpService _ntpService;
 
   @override
   int attempts;
@@ -202,7 +204,7 @@ final class _State implements PasswordLockState {
   bool get isLocked {
     final lockUntil = this.lockUntil;
     if (lockUntil == null) return false;
-    return NtpTime.now().isBefore(lockUntil);
+    return _ntpService.now().isBefore(lockUntil);
   }
 
   @override
@@ -216,7 +218,7 @@ final class _State implements PasswordLockState {
   }
 
   void attempt() {
-    lastAttempt = NtpTime.now();
+    lastAttempt = _ntpService.now();
     attempts += 1;
 
     _update();
@@ -243,7 +245,7 @@ final class _State implements PasswordLockState {
     _unlockTimer = null;
 
     if (isLocked && lockUntil != null) {
-      final now = NtpTime.now();
+      final now = _ntpService.now();
       final timeToWait = lockUntil.difference(now) + const Duration(seconds: 1);
 
       if (!timeToWait.isNegative) {

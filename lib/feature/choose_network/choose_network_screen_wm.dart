@@ -77,7 +77,7 @@ class ChooseNetworkScreenWidgetModel
       final context = contextSafe;
       if (context == null) return;
 
-      if (!await model.checkConnection(context)) {
+      if (!await model.checkConnection()) {
         return;
       }
 

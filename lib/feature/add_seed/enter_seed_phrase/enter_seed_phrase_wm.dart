@@ -157,7 +157,7 @@ class EnterSeedPhraseWidgetModel
   }
 
   Future<void> confirm() async {
-    if (!await model.checkConnection(context)) {
+    if (!await model.checkConnection()) {
       return;
     }
 
