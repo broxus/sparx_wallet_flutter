@@ -1,4 +1,5 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/core/app_build_type.dart';
 import 'package:app/di/di.config.dart';
 import 'package:app/feature/browser/domain/service/storages/browser_bookmarks_storage_service.dart';
 import 'package:app/feature/browser/domain/service/storages/browser_favicon_url_storage_service.dart';
@@ -27,7 +28,7 @@ final getIt = GetIt.instance;
   ],
   ignoreUnregisteredTypes: [GetStorage],
 )
-Future<void> configureDi() async {
+Future<void> configureDi({required AppBuildType appBuildType}) async {
   getIt.enableRegisteringMultipleInstancesOfOneType();
 
   const containers = [
@@ -48,6 +49,8 @@ Future<void> configureDi() async {
   for (final container in containers) {
     getIt.registerSingleton(GetStorage(container), instanceName: container);
   }
+
+  getIt.registerSingleton(appBuildType);
 
   await getIt.init();
 }

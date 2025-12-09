@@ -97,6 +97,7 @@ import '../app/service/storage_service/ton_wallet_storage_service/ton_wallet_sto
 import '../app/service/token_wallets_service.dart' as _i877;
 import '../app/view/app_model.dart' as _i425;
 import '../app/view/app_wm.dart' as _i1017;
+import '../core/app_build_type.dart' as _i32;
 import '../core/sentry.dart' as _i438;
 import '../feature/add_seed/add_existing_wallet/route.dart' as _i852;
 import '../feature/add_seed/add_seed.dart' as _i1056;
@@ -825,12 +826,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i798.BarcodeAddressWidgetModel>(
       () => _i798.BarcodeAddressWidgetModel(gh<_i257.BarcodeAddressModel>()),
     );
-    gh.factory<_i335.LoggerConfigurator>(
-      () => _i335.LoggerConfigurator(
-        gh<_i143.AppVersionService>(),
-        gh<_i771.NekotonRepository>(),
-      ),
-    );
     gh.factory<_i1046.QaModel>(
       () => _i1046.QaModel(
         storage: gh<_i426.EncryptedStorage>(),
@@ -922,6 +917,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i83.ErrorHandler>(),
         gh<_i632.MessengerService>(),
         gh<_i128.SecureStringService>(),
+      ),
+    );
+    gh.factory<_i335.LoggerConfigurator>(
+      () => _i335.LoggerConfigurator(
+        gh<_i143.AppVersionService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i32.AppBuildType>(),
       ),
     );
     gh.factory<_i964.AddNewExternalAccountSheetModel>(
@@ -1466,6 +1468,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.BalanceStorageService>(),
       ),
     );
+    gh.lazySingleton<_i361.Dio>(
+      () => dioModule.getDio(
+        gh<_i164.AppLifecycleInterceptor>(),
+        gh<_i32.AppBuildType>(),
+      ),
+    );
     gh.factory<_i309.WalletDeployStatusWidgetModel>(
       () => _i309.WalletDeployStatusWidgetModel(
         gh<_i1053.WalletDeployStatusModel>(),
@@ -1498,6 +1506,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i903.UserAvatarWidgetModel>(
       () => _i903.UserAvatarWidgetModel(gh<_i45.UserAvatarModel>()),
     );
+    gh.singleton<_i487.GaslessRepository>(
+      () => _i487.GaslessRepository(
+        gh<_i771.NekotonRepository>(),
+        gh<_i361.Dio>(),
+      ),
+    );
     gh.factory<_i1070.ExportSeedSheetWidgetModel>(
       () => _i1070.ExportSeedSheetWidgetModel(gh<_i508.ExportSeedSheetModel>()),
     );
@@ -1529,6 +1543,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.NtpService>(),
       ),
     );
+    gh.factory<_i162.TonApi>(() => _i162.TonApi.new(gh<_i361.Dio>()));
+    gh.factory<_i249.PresetsApi>(() => _i249.PresetsApi.new(gh<_i361.Dio>()));
     gh.factory<_i371.SelectAccountWidgetModel>(
       () => _i371.SelectAccountWidgetModel(gh<_i1035.SelectAccountModel>()),
     );
@@ -1536,6 +1552,15 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i772.TonWalletMultisigOrdinaryTransactionWidgetWidgetModel(
         gh<_i63.TonWalletMultisigOrdinaryTransactionWidgetModel>(),
       ),
+    );
+    gh.singleton<_i586.DefaultCurrenciesFetchStrategy>(
+      () => _i586.DefaultCurrenciesFetchStrategy(gh<_i361.Dio>()),
+    );
+    gh.singleton<_i586.TonCurrenciesFetchStrategy>(
+      () => _i586.TonCurrenciesFetchStrategy(gh<_i361.Dio>()),
+    );
+    gh.singleton<_i775.NftApiDataProvider>(
+      () => _i775.NftApiDataProvider(gh<_i361.Dio>()),
     );
     gh.factory<_i313.CustodiansSettingsModel>(
       () => _i313.CustodiansSettingsModel(
@@ -1558,19 +1583,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i11.SwitchToSeedWidgetModel>(
       () => _i11.SwitchToSeedWidgetModel(gh<_i644.SwitchToSeedModel>()),
     );
+    gh.singleton<_i130.PresetsConfigReader>(
+      () => _i130.PresetsConfigReader(
+        gh<_i249.PresetsApi>(),
+        gh<_i679.SecureStorageService>(),
+        gh<_i104.ResourcesService>(),
+        gh<_i32.AppBuildType>(),
+      ),
+    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i650.WalletPrepareTransferRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'TonWalletSendRoute'),
         gh<_i82.CompassBaseRoute>(instanceName: 'TokenWalletSendRoute'),
       ),
       instanceName: 'WalletPrepareTransferRoute',
-    );
-    gh.factory<_i915.ContactSupportModel>(
-      () => _i915.ContactSupportModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i632.MessengerService>(),
-        gh<_i128.NtpService>(),
-      ),
     );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i650.WalletPrepareSpecifiedTransferRoute(
@@ -1579,20 +1605,25 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'WalletPrepareSpecifiedTransferRoute',
     );
-    gh.lazySingleton<_i361.Dio>(
-      () => dioModule.getDio(gh<_i164.AppLifecycleInterceptor>()),
-    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i103.NftCollectionRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'NftItemRoute'),
       ),
       instanceName: 'NftCollectionRoute',
     );
-    gh.factory<_i894.ContactSupportWidgetModel>(
-      () => _i894.ContactSupportWidgetModel(gh<_i915.ContactSupportModel>()),
-    );
     gh.factory<_i830.ManualBackUpWidgetModel>(
       () => _i830.ManualBackUpWidgetModel(gh<_i217.ManualBackUpModel>()),
+    );
+    gh.factory<_i388.NekotonConfigurator>(
+      () => _i388.NekotonConfigurator(
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.NekotonStorageService>(),
+        gh<_i128.TonWalletStorageService>(),
+        gh<_i128.TokenWalletStorageService>(),
+        gh<_i128.NtpService>(),
+        gh<_i865.LedgerConnectionHandlerImpl>(),
+        gh<_i1015.NftApiDataProvider>(),
+      ),
     );
     gh.singleton<_i575.BiometryService>(
       () => _i575.BiometryService(
@@ -1675,6 +1706,16 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'AddAccountRoute',
     );
+    gh.singleton<_i720.UpdateService>(
+      () => _i720.UpdateService(
+        gh<_i130.PresetsConfigReader>(),
+        gh<_i1008.UpdateStatusChecker>(),
+        gh<_i803.LatestVersionFinder>(),
+        gh<_i1030.UpdateVersionStorageService>(),
+        gh<_i143.AppVersionService>(),
+        gh<_i128.NtpService>(),
+      ),
+    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i431.CreateSeedRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'CheckSeedPhraseRoute'),
@@ -1708,6 +1749,17 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.SecureStringService>(),
       ),
     );
+    gh.singleton<_i1052.CurrenciesService>(
+      () => _i1052.CurrenciesService(
+        dio: gh<_i361.Dio>(),
+        nekotonRepository: gh<_i771.NekotonRepository>(),
+        currentAccounts: gh<_i128.CurrentAccountsService>(),
+        storageService: gh<_i128.GeneralStorageService>(),
+        appLifecycle: gh<_i128.AppLifecycleService>(),
+        defaultFetchStrategy: gh<_i128.DefaultCurrenciesFetchStrategy>(),
+        tonFetchStrategy: gh<_i128.TonCurrenciesFetchStrategy>(),
+      ),
+    );
     gh.lazySingleton<_i508.TonConnectRequestValidator>(
       () => _i508.TonConnectRequestValidator(
         gh<_i771.NekotonRepository>(),
@@ -1733,6 +1785,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.PasswordService>(),
       ),
     );
+    gh.singleton<_i495.TonRepository>(
+      () => _i495.TonRepository(gh<_i162.TonApi>()),
+    );
     gh.singleton<_i811.StakingService>(
       () => _i811.StakingService(
         gh<_i771.NekotonRepository>(),
@@ -1740,6 +1795,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i948.StakingAbiProvider>(),
         gh<_i128.GasPriceService>(),
         gh<_i128.NtpService>(),
+      ),
+    );
+    gh.factory<_i915.ContactSupportModel>(
+      () => _i915.ContactSupportModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i632.MessengerService>(),
+        gh<_i128.NtpService>(),
+        gh<_i32.AppBuildType>(),
       ),
     );
     gh.factory<_i352.ConfirmActionModel>(
@@ -1752,6 +1815,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.PasswordService>(),
       ),
     );
+    gh.factory<_i125.NftTransferInfoModel>(
+      () => _i125.NftTransferInfoModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrenciesService>(),
+      ),
+    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i450.StakingRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'TonWalletSendRoute'),
@@ -1759,6 +1829,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i82.CompassBaseRoute>(instanceName: 'CancelUnstakingRoute'),
       ),
       instanceName: 'StakingRoute',
+    );
+    gh.singleton<_i82.CompassGuard>(
+      () => _i169.UpdateVersionGuard(gh<_i484.UpdateService>()),
+      instanceName: 'UpdateVersionGuard',
     );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i750.TokenWalletDetailsRoute(
@@ -1777,6 +1851,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.PasswordService>(),
       ),
     );
+    gh.factory<_i330.AccountTransactionsTabModel>(
+      () => _i330.AccountTransactionsTabModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.TonWalletStorageService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrenciesService>(),
+      ),
+    );
     gh.factory<_i459.AddAccountResultModel>(
       () => _i459.AddAccountResultModel(
         gh<_i83.ErrorHandler>(),
@@ -1792,6 +1874,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i328.LedgerBleScanner>(
       () => _i328.LedgerBleScanner(gh<_i865.LedgerService>()),
+    );
+    gh.factory<_i591.GaslessTokenTransferDelegate>(
+      () => _i591.GaslessTokenTransferDelegate(
+        gh<_i771.NekotonRepository>(),
+        gh<_i487.GaslessRepository>(),
+      ),
+    );
+    gh.singleton<_i116.PresetsConnectionService>(
+      () => _i116.PresetsConnectionService(gh<_i418.PresetsConfigReader>()),
     );
     gh.factory<_i1050.SendMessageModel>(
       () => _i1050.SendMessageModel(
@@ -1822,6 +1913,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i594.ConfirmMultisigTransactionModel>(),
       ),
     );
+    gh.singleton<_i132.TokenTransferDelegateProvider>(
+      () => _i132.TokenTransferDelegateProvider(
+        gh<_i771.NekotonRepository>(),
+        gh<_i487.GaslessRepository>(),
+        gh<_i0.GaslessTokenTransferDelegate>(),
+        gh<_i0.BasicTokenTransferDelegate>(),
+      ),
+    );
     gh.factory<_i760.CheckPhraseWidgetModel>(
       () => _i760.CheckPhraseWidgetModel(gh<_i217.CheckPhraseModel>()),
     );
@@ -1850,6 +1949,16 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i700.BiometryScreenModel>(
       () => _i700.BiometryScreenModel(gh<_i128.BiometryService>()),
+    );
+    gh.factory<_i791.WalletDeployConfirmModel>(
+      () => _i791.WalletDeployConfirmModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i291.WalletDeploymentService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrenciesService>(),
+        gh<_i865.LedgerService>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+      ),
     );
     gh.factory<_i848.NewAccountTypeModel>(
       () => _i848.NewAccountTypeModel(
@@ -1896,6 +2005,22 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i677.AddAccountWidgetModel>(
       () => _i677.AddAccountWidgetModel(gh<_i715.AddAccountModel>()),
     );
+    gh.factory<_i833.NftTransferInfoWidgetModel>(
+      () => _i833.NftTransferInfoWidgetModel(gh<_i1015.NftTransferInfoModel>()),
+    );
+    gh.factory<_i446.TCSendMessageModel>(
+      () => _i446.TCSendMessageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i593.TonRepository>(),
+        gh<_i865.LedgerService>(),
+        gh<_i128.NtpService>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+      ),
+    );
+    gh.factory<_i73.TCSendMessageWidgetModel>(
+      () => _i73.TCSendMessageWidgetModel(gh<_i625.TCSendMessageModel>()),
+    );
     gh.factory<_i762.CreateSeedPasswordScreenWidgetModel>(
       () => _i762.CreateSeedPasswordScreenWidgetModel(
         gh<_i905.CreateSeedPasswordScreenModel>(),
@@ -1904,6 +2029,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i94.CustodianSettingsWidgetModel>(
       () => _i94.CustodianSettingsWidgetModel(
         gh<_i313.CustodiansSettingsModel>(),
+      ),
+    );
+    gh.factory<_i313.WalletDeployConfirmWidgetModel>(
+      () => _i313.WalletDeployConfirmWidgetModel(
+        gh<_i791.WalletDeployConfirmModel>(),
       ),
     );
     gh.factory<_i920.AddAccountConfirmWidgetModel>(
@@ -1922,14 +2052,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.SecureStringService>(),
       ),
     );
-    gh.singleton<_i487.GaslessRepository>(
-      () => _i487.GaslessRepository(
-        gh<_i771.NekotonRepository>(),
-        gh<_i361.Dio>(),
+    gh.factory<_i482.UpdateVersionModel>(
+      () => _i482.UpdateVersionModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i720.UpdateService>(),
+        gh<_i934.StoreUrlGenerator>(),
+        gh<_i438.SentryWorker>(),
       ),
     );
-    gh.factory<_i162.TonApi>(() => _i162.TonApi.new(gh<_i361.Dio>()));
-    gh.factory<_i249.PresetsApi>(() => _i249.PresetsApi.new(gh<_i361.Dio>()));
     gh.factory<_i801.WalletAccountActionsModel>(
       () => _i801.WalletAccountActionsModel(
         gh<_i83.ErrorHandler>(),
@@ -1937,15 +2067,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i948.StakingService>(),
         gh<_i632.MessengerService>(),
       ),
-    );
-    gh.singleton<_i586.DefaultCurrenciesFetchStrategy>(
-      () => _i586.DefaultCurrenciesFetchStrategy(gh<_i361.Dio>()),
-    );
-    gh.singleton<_i586.TonCurrenciesFetchStrategy>(
-      () => _i586.TonCurrenciesFetchStrategy(gh<_i361.Dio>()),
-    );
-    gh.singleton<_i775.NftApiDataProvider>(
-      () => _i775.NftApiDataProvider(gh<_i361.Dio>()),
     );
     gh.factory<_i955.SeedSettingsModel>(
       () => _i955.SeedSettingsModel(
@@ -1956,19 +2077,19 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i865.BleAvailabilityModelDelegate>(),
       ),
     );
+    gh.factory<_i178.TokenWalletTransactionsModel>(
+      () => _i178.TokenWalletTransactionsModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrenciesService>(),
+        gh<_i128.TokenWalletStorageService>(),
+      ),
+    );
+    gh.factory<_i894.ContactSupportWidgetModel>(
+      () => _i894.ContactSupportWidgetModel(gh<_i915.ContactSupportModel>()),
+    );
     gh.factory<_i801.BiometryScreenWidgetModel>(
       () => _i801.BiometryScreenWidgetModel(gh<_i700.BiometryScreenModel>()),
-    );
-    gh.factory<_i388.NekotonConfigurator>(
-      () => _i388.NekotonConfigurator(
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.NekotonStorageService>(),
-        gh<_i128.TonWalletStorageService>(),
-        gh<_i128.TokenWalletStorageService>(),
-        gh<_i128.NtpService>(),
-        gh<_i865.LedgerConnectionHandlerImpl>(),
-        gh<_i1015.NftApiDataProvider>(),
-      ),
     );
     gh.factory<_i338.SelectSeedWidgetModel>(
       () => _i338.SelectSeedWidgetModel(gh<_i479.SelectSeedModel>()),
@@ -1990,209 +2111,19 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1068.SeedSettingsWidgetModel>(
       () => _i1068.SeedSettingsWidgetModel(gh<_i767.SeedSettingsModel>()),
     );
+    gh.singleton<_i637.BalanceService>(
+      () => _i637.BalanceService(
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrenciesService>(),
+        gh<_i128.BalanceStorageService>(),
+      ),
+    );
     gh.factory<_i62.ConfirmActionWidgetModel>(
       () => _i62.ConfirmActionWidgetModel(gh<_i217.ConfirmActionModel>()),
     );
     gh.factory<_i1004.ChangeSeedPasswordWidgetModel>(
       () => _i1004.ChangeSeedPasswordWidgetModel(
         gh<_i56.ChangeSeedPasswordModel>(),
-      ),
-    );
-    gh.factory<_i667.ManageSeedsAccountsPageWidgetModel>(
-      () => _i667.ManageSeedsAccountsPageWidgetModel(
-        gh<_i321.ManageSeedsAccountsPageModel>(),
-      ),
-    );
-    gh.factory<_i57.AddAccountResultWidgetModel>(
-      () => _i57.AddAccountResultWidgetModel(gh<_i459.AddAccountResultModel>()),
-    );
-    gh.singleton<_i130.PresetsConfigReader>(
-      () => _i130.PresetsConfigReader(
-        gh<_i249.PresetsApi>(),
-        gh<_i679.SecureStorageService>(),
-        gh<_i104.ResourcesService>(),
-      ),
-    );
-    gh.singleton<_i1052.CurrenciesService>(
-      () => _i1052.CurrenciesService(
-        dio: gh<_i361.Dio>(),
-        nekotonRepository: gh<_i771.NekotonRepository>(),
-        currentAccounts: gh<_i128.CurrentAccountsService>(),
-        storageService: gh<_i128.GeneralStorageService>(),
-        appLifecycle: gh<_i128.AppLifecycleService>(),
-        defaultFetchStrategy: gh<_i128.DefaultCurrenciesFetchStrategy>(),
-        tonFetchStrategy: gh<_i128.TonCurrenciesFetchStrategy>(),
-      ),
-    );
-    gh.singleton<_i495.TonRepository>(
-      () => _i495.TonRepository(gh<_i162.TonApi>()),
-    );
-    gh.factory<_i667.NewAccountTypeWidgetModel>(
-      () => _i667.NewAccountTypeWidgetModel(gh<_i848.NewAccountTypeModel>()),
-    );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i176.ImportWalletRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedPhraseRoute'),
-        gh<_i82.CompassBaseRoute>(
-          instanceName: 'CreateSeedOnboardingPasswordRoute',
-        ),
-      ),
-      instanceName: 'ImportWalletRoute',
-    );
-    gh.factory<_i769.SendMessageWidgetModel>(
-      () => _i769.SendMessageWidgetModel(gh<_i1050.SendMessageModel>()),
-    );
-    gh.factory<_i445.CreateSeedPasswordProfileWidgetModel>(
-      () => _i445.CreateSeedPasswordProfileWidgetModel(
-        gh<_i81.CreateSeedPasswordProfileModel>(),
-      ),
-    );
-    gh.factory<_i125.NftTransferInfoModel>(
-      () => _i125.NftTransferInfoModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrenciesService>(),
-      ),
-    );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i50.EnterSeedNameRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'CreateSeedRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedPhraseRoute'),
-      ),
-      instanceName: 'EnterSeedNameRoute',
-    );
-    gh.factory<_i330.AccountTransactionsTabModel>(
-      () => _i330.AccountTransactionsTabModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.TonWalletStorageService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrenciesService>(),
-      ),
-    );
-    gh.factory<_i252.TonWalletSendWidgetModel>(
-      () => _i252.TonWalletSendWidgetModel(gh<_i946.TonWalletSendModel>()),
-    );
-    gh.factory<_i591.GaslessTokenTransferDelegate>(
-      () => _i591.GaslessTokenTransferDelegate(
-        gh<_i771.NekotonRepository>(),
-        gh<_i487.GaslessRepository>(),
-      ),
-    );
-    gh.singleton<_i116.PresetsConnectionService>(
-      () => _i116.PresetsConnectionService(gh<_i418.PresetsConfigReader>()),
-    );
-    gh.singleton<_i132.TokenTransferDelegateProvider>(
-      () => _i132.TokenTransferDelegateProvider(
-        gh<_i771.NekotonRepository>(),
-        gh<_i487.GaslessRepository>(),
-        gh<_i0.GaslessTokenTransferDelegate>(),
-        gh<_i0.BasicTokenTransferDelegate>(),
-      ),
-    );
-    gh.factory<_i420.SeedDetailPageWidgetModel>(
-      () => _i420.SeedDetailPageWidgetModel(gh<_i708.SeedDetailPageModel>()),
-    );
-    gh.factory<_i791.WalletDeployConfirmModel>(
-      () => _i791.WalletDeployConfirmModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i291.WalletDeploymentService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrenciesService>(),
-        gh<_i865.LedgerService>(),
-        gh<_i865.BleAvailabilityModelDelegate>(),
-      ),
-    );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i113.WalletRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'EnableBiometryRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'SelectNewAssetRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'CustodiansSettingsRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'AddAccountRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'TonWalletDetailsRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'TokenWalletDetailsRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'WalletPrepareTransferRoute'),
-        gh<_i82.CompassBaseRoute>(
-          instanceName: 'WalletPrepareSpecifiedTransferRoute',
-        ),
-        gh<_i82.CompassBaseRoute>(instanceName: 'WalletMultisigConfigRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'WalletDeployConfirmRoute'),
-        gh<_i82.CompassBaseRoute>(
-          instanceName: 'ConfirmMultisigTransactionRoute',
-        ),
-        gh<_i82.CompassBaseRoute>(instanceName: 'ConfigureNetworksRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'StakingRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedNameRoute'),
-        gh<_i82.CompassBaseRoute>(
-          instanceName: 'PendingTransactionDetailsRoute',
-        ),
-      ),
-      instanceName: 'WalletRoute',
-    );
-    gh.factory<_i833.NftTransferInfoWidgetModel>(
-      () => _i833.NftTransferInfoWidgetModel(gh<_i1015.NftTransferInfoModel>()),
-    );
-    gh.factory<_i446.TCSendMessageModel>(
-      () => _i446.TCSendMessageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i593.TonRepository>(),
-        gh<_i865.LedgerService>(),
-        gh<_i128.NtpService>(),
-        gh<_i865.BleAvailabilityModelDelegate>(),
-      ),
-    );
-    gh.factory<_i73.TCSendMessageWidgetModel>(
-      () => _i73.TCSendMessageWidgetModel(gh<_i625.TCSendMessageModel>()),
-    );
-    gh.factory<_i313.WalletDeployConfirmWidgetModel>(
-      () => _i313.WalletDeployConfirmWidgetModel(
-        gh<_i791.WalletDeployConfirmModel>(),
-      ),
-    );
-    gh.factory<_i532.WalletAccountActionsWidgetModel>(
-      () => _i532.WalletAccountActionsWidgetModel(
-        gh<_i801.WalletAccountActionsModel>(),
-      ),
-    );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i852.AddExistingWalletRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'ImportWalletRoute'),
-      ),
-      instanceName: 'AddExistingWalletRoute',
-    );
-    gh.factory<_i425.NftSendWidgetModel>(
-      () => _i425.NftSendWidgetModel(gh<_i1015.NftSendModel>()),
-    );
-    gh.factory<_i178.TokenWalletTransactionsModel>(
-      () => _i178.TokenWalletTransactionsModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrenciesService>(),
-        gh<_i128.TokenWalletStorageService>(),
-      ),
-    );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i45.ManageSeedsAccountsRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'SeedDetailRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedNameRoute'),
-      ),
-      instanceName: 'ManageSeedsAccountsRoute',
-    );
-    gh.singleton<_i720.UpdateService>(
-      () => _i720.UpdateService(
-        gh<_i130.PresetsConfigReader>(),
-        gh<_i1008.UpdateStatusChecker>(),
-        gh<_i803.LatestVersionFinder>(),
-        gh<_i1030.UpdateVersionStorageService>(),
-        gh<_i143.AppVersionService>(),
-        gh<_i128.NtpService>(),
-      ),
-    );
-    gh.singleton<_i637.BalanceService>(
-      () => _i637.BalanceService(
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrenciesService>(),
-        gh<_i128.BalanceStorageService>(),
       ),
     );
     gh.factory<_i523.TokenWalletSendModel>(
@@ -2203,6 +2134,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i865.BleAvailabilityModelDelegate>(),
         gh<_i0.TokenTransferDelegateProvider>(),
       ),
+    );
+    gh.factory<_i667.ManageSeedsAccountsPageWidgetModel>(
+      () => _i667.ManageSeedsAccountsPageWidgetModel(
+        gh<_i321.ManageSeedsAccountsPageModel>(),
+      ),
+    );
+    gh.factory<_i57.AddAccountResultWidgetModel>(
+      () => _i57.AddAccountResultWidgetModel(gh<_i459.AddAccountResultModel>()),
     );
     gh.factory<_i869.TokenWalletAssetModel>(
       () => _i869.TokenWalletAssetModel(
@@ -2230,14 +2169,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i637.BalanceService>(),
       ),
     );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i805.ChooseNetworkRoute(
-        gh<_i82.CompassBaseRoute>(
-          instanceName: 'CreateSeedOnboardingPasswordRoute',
-        ),
-        gh<_i82.CompassBaseRoute>(instanceName: 'AddExistingWalletRoute'),
-      ),
-      instanceName: 'ChooseNetworkRoute',
+    gh.factory<_i596.UpdateVersionWidgetModel>(
+      () => _i596.UpdateVersionWidgetModel(gh<_i482.UpdateVersionModel>()),
     );
     gh.singleton<_i65.ConnectionsStorageService>(
       () => _i65.ConnectionsStorageService(
@@ -2250,6 +2183,21 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i793.AccountTransactionsTabWidgetModel(
         gh<_i1034.AccountTransactionsTabModel>(),
       ),
+    );
+    gh.factory<_i667.NewAccountTypeWidgetModel>(
+      () => _i667.NewAccountTypeWidgetModel(gh<_i848.NewAccountTypeModel>()),
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i176.ImportWalletRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedPhraseRoute'),
+        gh<_i82.CompassBaseRoute>(
+          instanceName: 'CreateSeedOnboardingPasswordRoute',
+        ),
+      ),
+      instanceName: 'ImportWalletRoute',
+    );
+    gh.factory<_i769.SendMessageWidgetModel>(
+      () => _i769.SendMessageWidgetModel(gh<_i1050.SendMessageModel>()),
     );
     gh.factory<_i771.TokenWalletAssetWidgetModel>(
       () =>
@@ -2277,9 +2225,17 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i865.LedgerStorageService>(),
       ),
     );
-    gh.singleton<_i82.CompassGuard>(
-      () => _i169.UpdateVersionGuard(gh<_i484.UpdateService>()),
-      instanceName: 'UpdateVersionGuard',
+    gh.factory<_i445.CreateSeedPasswordProfileWidgetModel>(
+      () => _i445.CreateSeedPasswordProfileWidgetModel(
+        gh<_i81.CreateSeedPasswordProfileModel>(),
+      ),
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i50.EnterSeedNameRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'CreateSeedRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedPhraseRoute'),
+      ),
+      instanceName: 'EnterSeedNameRoute',
     );
     gh.factory<_i526.TonWalletAssetWidgetModel>(
       () => _i526.TonWalletAssetWidgetModel(gh<_i719.TonWalletAssetModel>()),
@@ -2291,6 +2247,9 @@ extension GetItInjectableX on _i174.GetIt {
         convertService: gh<_i128.CurrencyConvertService>(),
       ),
     );
+    gh.factory<_i252.TonWalletSendWidgetModel>(
+      () => _i252.TonWalletSendWidgetModel(gh<_i946.TonWalletSendModel>()),
+    );
     gh.factory<_i962.MigrateConfigurator>(
       () => _i962.MigrateConfigurator(
         gh<_i426.EncryptedStorage>(),
@@ -2299,6 +2258,35 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.ConnectionsStorageService>(),
         gh<_i940.DatabaseService>(),
       ),
+    );
+    gh.factory<_i420.SeedDetailPageWidgetModel>(
+      () => _i420.SeedDetailPageWidgetModel(gh<_i708.SeedDetailPageModel>()),
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i113.WalletRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'EnableBiometryRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'SelectNewAssetRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'CustodiansSettingsRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'AddAccountRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'TonWalletDetailsRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'TokenWalletDetailsRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'WalletPrepareTransferRoute'),
+        gh<_i82.CompassBaseRoute>(
+          instanceName: 'WalletPrepareSpecifiedTransferRoute',
+        ),
+        gh<_i82.CompassBaseRoute>(instanceName: 'WalletMultisigConfigRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'WalletDeployConfirmRoute'),
+        gh<_i82.CompassBaseRoute>(
+          instanceName: 'ConfirmMultisigTransactionRoute',
+        ),
+        gh<_i82.CompassBaseRoute>(instanceName: 'ConfigureNetworksRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'StakingRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedNameRoute'),
+        gh<_i82.CompassBaseRoute>(
+          instanceName: 'PendingTransactionDetailsRoute',
+        ),
+      ),
+      instanceName: 'WalletRoute',
     );
     gh.factory<_i173.ChooseNetworkScreenModel>(
       () => _i173.ChooseNetworkScreenModel(
@@ -2323,17 +2311,16 @@ extension GetItInjectableX on _i174.GetIt {
         convertService: gh<_i128.CurrencyConvertService>(),
       ),
     );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i1010.OnBoardingRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'ChooseNetworkRoute'),
+    gh.factory<_i532.WalletAccountActionsWidgetModel>(
+      () => _i532.WalletAccountActionsWidgetModel(
+        gh<_i801.WalletAccountActionsModel>(),
       ),
-      instanceName: 'OnBoardingRoute',
     );
     gh.singleton<_i82.CompassBaseRoute>(
-      () => _i302.ProfileRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'ManageSeedsAccountsRoute'),
+      () => _i852.AddExistingWalletRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'ImportWalletRoute'),
       ),
-      instanceName: 'ProfileRoute',
+      instanceName: 'AddExistingWalletRoute',
     );
     gh.factory<_i615.AccountCardModel>(
       () => _i615.AccountCardModel(
@@ -2346,13 +2333,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i948.StakingService>(),
       ),
     );
-    gh.factory<_i482.UpdateVersionModel>(
-      () => _i482.UpdateVersionModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i720.UpdateService>(),
-        gh<_i934.StoreUrlGenerator>(),
-        gh<_i438.SentryWorker>(),
-      ),
+    gh.factory<_i425.NftSendWidgetModel>(
+      () => _i425.NftSendWidgetModel(gh<_i1015.NftSendModel>()),
     );
     gh.factory<_i127.TokenWalletTransactionsWidgetModel>(
       () => _i127.TokenWalletTransactionsWidgetModel(
@@ -2394,6 +2376,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i771.NekotonRepository>(),
         gh<_i632.MessengerService>(),
       ),
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i45.ManageSeedsAccountsRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'SeedDetailRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedNameRoute'),
+      ),
+      instanceName: 'ManageSeedsAccountsRoute',
     );
     gh.singleton<_i754.ConnectionService>(
       () => _i754.ConnectionService(
@@ -2466,8 +2455,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.ConnectionsStorageService>(),
       ),
     );
-    gh.factory<_i596.UpdateVersionWidgetModel>(
-      () => _i596.UpdateVersionWidgetModel(gh<_i482.UpdateVersionModel>()),
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i805.ChooseNetworkRoute(
+        gh<_i82.CompassBaseRoute>(
+          instanceName: 'CreateSeedOnboardingPasswordRoute',
+        ),
+        gh<_i82.CompassBaseRoute>(instanceName: 'AddExistingWalletRoute'),
+      ),
+      instanceName: 'ChooseNetworkRoute',
     );
     gh.singleton<_i544.BrowserService>(
       () => _i544.BrowserService(
@@ -2488,15 +2483,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i564.AddNetworkWidgetModel>(
       () => _i564.AddNetworkWidgetModel(gh<_i350.AddNetworkModel>()),
-    );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i786.RootRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'WalletRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'BrowserRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'ProfileRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'NftRoute'),
-      ),
-      instanceName: 'RootRoute',
     );
     gh.factory<_i267.ChangeNetworkWidgetModel>(
       () => _i267.ChangeNetworkWidgetModel(gh<_i575.ChangeNetworkModel>()),
@@ -2659,8 +2645,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i845.TabListHeaderWidgetModel>(
       () => _i845.TabListHeaderWidgetModel(gh<_i854.TabListHeaderModel>()),
     );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i1010.OnBoardingRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'ChooseNetworkRoute'),
+      ),
+      instanceName: 'OnBoardingRoute',
+    );
     gh.factory<_i645.AccountCardWidgetModel>(
       () => _i645.AccountCardWidgetModel(gh<_i615.AccountCardModel>()),
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i302.ProfileRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'ManageSeedsAccountsRoute'),
+      ),
+      instanceName: 'ProfileRoute',
     );
     gh.factory<_i418.BrowserAddressBarWidgetModel>(
       () => _i418.BrowserAddressBarWidgetModel(
@@ -2758,6 +2756,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i368.ToolbarWidgetModel>(
       () => _i368.ToolbarWidgetModel(gh<_i731.ToolbarModel>()),
     );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i786.RootRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'WalletRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'BrowserRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'ProfileRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'NftRoute'),
+      ),
+      instanceName: 'RootRoute',
+    );
     gh.factory<_i684.WebsiteInfoWidgetModel>(
       () => _i684.WebsiteInfoWidgetModel(gh<_i980.WebsiteInfoModel>()),
     );
@@ -2768,6 +2775,24 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i769.CreateBrowserGroupScreenWidgetModel>(
       () => _i769.CreateBrowserGroupScreenWidgetModel(
         gh<_i447.CreateBrowserGroupScreenModel>(),
+      ),
+    );
+    gh.factory<_i451.BrowserPageModel>(
+      () => _i451.BrowserPageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i544.BrowserService>(),
+        gh<_i128.BrowserApprovalsService>(),
+        gh<_i128.PermissionsService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i632.MessengerService>(),
+        gh<_i128.AssetsService>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i128.ConnectionService>(),
+        gh<_i625.TonConnectJsBridge>(),
+        gh<_i865.LedgerService>(),
+        gh<_i128.AppPermissionsService>(),
+        gh<_i128.NtpService>(),
+        gh<_i32.AppBuildType>(),
       ),
     );
     gh.factory<_i236.WalletPrepareTransferPageWidgetModel>(
@@ -2866,23 +2891,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i926.BootstrapFailedRerunWidgetModel>(
       () => _i926.BootstrapFailedRerunWidgetModel(
         gh<_i9.BootstrapFailedRerunModel>(),
-      ),
-    );
-    gh.factory<_i451.BrowserPageModel>(
-      () => _i451.BrowserPageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i544.BrowserService>(),
-        gh<_i128.BrowserApprovalsService>(),
-        gh<_i128.PermissionsService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i632.MessengerService>(),
-        gh<_i128.AssetsService>(),
-        gh<_i128.ConnectionsStorageService>(),
-        gh<_i128.ConnectionService>(),
-        gh<_i625.TonConnectJsBridge>(),
-        gh<_i865.LedgerService>(),
-        gh<_i128.AppPermissionsService>(),
-        gh<_i128.NtpService>(),
       ),
     );
     gh.factory<_i404.BrowserPageWidgetModel>(
