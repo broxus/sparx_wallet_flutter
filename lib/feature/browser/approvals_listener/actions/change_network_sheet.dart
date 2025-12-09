@@ -1,5 +1,5 @@
 import 'package:app/app/service/connection/data/connection/connection.dart';
-import 'package:app/feature/browser_v1/approvals_listener/actions/change_network/change_network.dart';
+import 'package:app/feature/browser/approvals_listener/actions/change_network/change_network_widget.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';

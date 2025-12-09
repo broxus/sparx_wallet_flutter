@@ -46,6 +46,11 @@ class ConnectionsStorageService extends AbstractStorageService {
   /// Subject of current connection id
   final _currentConnectionIdSubject = BehaviorSubject<(String, int)?>();
 
+  /// Subject of conntection id to network id (global id) map
+  /// This map is used to cache network id, which can only be obtained
+  /// only from network
+  final _networksIdsSubject = BehaviorSubject<Map<String, int>>();
+
   /// Subject of conntection id + workchain id to network id (global id) map
   /// This map is used to cache network id, which can only be obtained
   /// only from network
@@ -59,6 +64,9 @@ class ConnectionsStorageService extends AbstractStorageService {
   Stream<(String, int)?> get currentConnectionIdStream =>
       _currentConnectionIdSubject;
 
+  /// Stream of conntection id to network id map
+  Stream<Map<String, int>> get networksIdsStream => _networksIdsSubject;
+
   /// Get last cached [Connection] items
   List<Connection> get connections => _connectionsSubject.valueOrNull ?? [];
 
@@ -66,6 +74,9 @@ class ConnectionsStorageService extends AbstractStorageService {
       _currentConnectionIdSubject.valueOrNull?.$1;
 
   int? get currentWorkchainId => _currentConnectionIdSubject.valueOrNull?.$2;
+
+  /// Get last cached conntection id to network id map
+  Map<String, int> get networksIds => _networksIdsSubject.value;
 
   int get lastNetworkGroupNumber {
     var number = 10000;
@@ -290,6 +301,28 @@ class ConnectionsStorageService extends AbstractStorageService {
 
     _storage.write(_connectionsIdsKey, map);
     _connectionsIdsSubject.add(map);
+  }
+
+  Future<List<ConnectionWorkchain>> getWorkchainsByNetworkId({
+    required int networkId,
+    required FutureOr<int?> Function(ConnectionWorkchain) getNetworkId,
+  }) async {
+    final connections = this.connections;
+    final networksIds = this.networksIds;
+    final list = <ConnectionWorkchain>[];
+
+    for (final connection in connections) {
+      for (final workchain in connection.workchains) {
+        final id =
+            networksIds[workchain.fullId] ?? await getNetworkId(workchain);
+
+        if (id == networkId) {
+          list.add(workchain);
+        }
+      }
+    }
+
+    return list;
   }
 
   /// Clear [Connection] list

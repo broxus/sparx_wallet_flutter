@@ -16,10 +16,12 @@ import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 /// connection-related data.
 @singleton
 class ConnectionService {
-  ConnectionService(this._storageService,
-      this._nekotonRepository,
-      this._messengerService,
-      this._dio,);
+  ConnectionService(
+    this._storageService,
+    this._nekotonRepository,
+    this._messengerService,
+    this._dio,
+  );
 
   static final _log = Logger('ConnectionService');
 
@@ -30,7 +32,7 @@ class ConnectionService {
 
   var _initialized = false;
   var _failedConnections = <String>{};
-  Connection? _prevConnection;
+  ConnectionWorkchain? _prevWorkchain;
 
   /// Set up selected connection.
   Future<void> setUp() async {
@@ -52,15 +54,10 @@ class ConnectionService {
 
   /// Create TransportStrategy based on ConnectionNetwork networkGroup
   /// of [workchain] data.
-  AppTransportStrategy createStrategyByWorkchain(Transport transport,
-      ConnectionWorkchain workchain,) {
-    // final data =
-    //     _presetsConnectionService.transports[connection.group] ??
-    //     ConnectionTransportData.custom(
-    //       networkType: connection.networkType,
-    //       networkName: connection.name,
-    //     );
-
+  AppTransportStrategy createStrategyByWorkchain(
+    Transport transport,
+    ConnectionWorkchain workchain,
+  ) {
     return CommonTransportStrategy.fromData(
       dio: _dio,
       transport: transport,
@@ -70,44 +67,43 @@ class ConnectionService {
 
   Future<Transport> createTransportByWorkchain(ConnectionWorkchain workchain) {
     return switch (workchain.transportType) {
-      WorkchainTransportType.gql =>
-          _nekotonRepository.createGqlTransport(
-            client: GqlHttpClient(_dio),
-            name: workchain.networkName,
-            group: workchain.networkGroup,
-            endpoints: workchain.endpoints,
-            local: workchain.isLocal,
-            latencyDetectionInterval: workchain.latencyDetectionInterval,
-            maxLatency: workchain.maxLatency,
-            endpointSelectionRetryCount: workchain.endpointSelectionRetryCount,
-          ),
-      WorkchainTransportType.proto =>
-          _nekotonRepository.createProtoTransport(
-            client: ProtoHttpClient(_dio),
-            name: workchain.networkName,
-            group: workchain.networkGroup,
-            endpoint: workchain.endpoints.first,
-          ),
-      WorkchainTransportType.jrpc =>
-          _nekotonRepository.createJrpcTransport(
-            client: JrpcHttpClient(_dio),
-            name: workchain.networkName,
-            group: workchain.networkGroup,
-            endpoint: workchain.endpoints.first,
-          ),
+      WorkchainTransportType.gql => _nekotonRepository.createGqlTransport(
+        client: GqlHttpClient(_dio),
+        name: workchain.networkName,
+        group: workchain.networkGroup,
+        endpoints: workchain.endpoints,
+        local: workchain.isLocal,
+        latencyDetectionInterval: workchain.latencyDetectionInterval,
+        maxLatency: workchain.maxLatency,
+        endpointSelectionRetryCount: workchain.endpointSelectionRetryCount,
+      ),
+      WorkchainTransportType.proto => _nekotonRepository.createProtoTransport(
+        client: ProtoHttpClient(_dio),
+        name: workchain.networkName,
+        group: workchain.networkGroup,
+        endpoint: workchain.endpoints.first,
+      ),
+      WorkchainTransportType.jrpc => _nekotonRepository.createJrpcTransport(
+        client: JrpcHttpClient(_dio),
+        name: workchain.networkName,
+        group: workchain.networkGroup,
+        endpoint: workchain.endpoints.first,
+      ),
     };
   }
 
-  Future<int?> getNetworkId(ConnectionData connection) async {
+  Future<int?> getNetworkId(ConnectionWorkchain workchain) async {
     Transport? transport;
 
     try {
-      transport = await createTransportByConnection(connection);
+      transport = await createTransportByWorkchain(workchain);
       return transport.networkId;
     } catch (e) {
       _log.severe(
         'Error getting network id for connection: '
-            '${connection.name} (${connection.id})',
+        '${workchain.networkName} '
+        '(${workchain.parentConnectionId} '
+        '${workchain.id})',
       );
     } finally {
       await transport?.dispose();
@@ -120,7 +116,8 @@ class ConnectionService {
   /// by its type and put it in nekoton.
   // ignore: long-method
   Future<void> _updateTransportByWorkchain(
-      ConnectionWorkchain workchain,) async {
+    ConnectionWorkchain workchain,
+  ) async {
     _log.finest('updateTransportByConnection: ${workchain.networkName}');
     try {
       final transport = await createTransportByWorkchain(workchain);
@@ -135,24 +132,26 @@ class ConnectionService {
           networkId: transport.networkId,
         ),
       ]);
-      _prevConnection = connection;
+      _prevWorkchain = workchain;
       _failedConnections = {};
 
       _log.finest('updateTransportByConnection completed!');
     } catch (e, t) {
       _log.severe('updateTransportByConnection', e, t);
 
-
       // Skip reverting if app was not initialized yet. Let user to choose
       // another network manually.
       if (_initialized) {
         _messengerService.showConnectionError();
-        _failedConnections.add(connection.id);
+        _failedConnections.add(workchain.fullId);
 
         // try to revert to previous connection
-        if (_prevConnection != null &&
-            !_failedConnections.contains(_prevConnection!.id)) {
-          _storageService.saveCurrentConnectionId(_prevConnection!.id);
+        if (_prevWorkchain != null &&
+            !_failedConnections.contains(_prevWorkchain!.fullId)) {
+          await _storageService.saveCurrentConnectionId(
+            connectionId: _prevWorkchain!.parentConnectionId,
+            workchainId: _prevWorkchain!.id,
+          );
           return;
         }
 
@@ -170,13 +169,9 @@ class ConnectionService {
       }
     }
   }
+}
 
-  extension TransportTypeExtension
-
-  on TransportStrategy
-
-  {
-
+extension TransportTypeExtension on TransportStrategy {
   NetworkType get networkType {
     if (this is CommonTransportStrategy) {
       return (this as CommonTransportStrategy).networkType;
@@ -211,12 +206,9 @@ class ConnectionService {
 
   bool get isEverscale => networkType.isEver;
 
-
   bool get isVenom => networkType.isVenom;
 
-
   bool get isTon => networkType.isTon;
-
 
   bool get isHmstr => networkGroup.startsWith('hmstr');
 }

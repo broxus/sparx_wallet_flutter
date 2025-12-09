@@ -5,6 +5,7 @@ import 'package:app/app/service/app_permissions_service.dart';
 import 'package:app/app/service/approvals_service.dart';
 import 'package:app/app/service/assets_service.dart';
 import 'package:app/app/service/connection/connection_service.dart';
+import 'package:app/app/service/ntp_service.dart';
 import 'package:app/app/service/permissions_service.dart';
 import 'package:app/app/service/storage_service/connections_storage/connections_storage_service.dart';
 import 'package:app/core/app_build_type.dart';

@@ -72,6 +72,9 @@ class $AssetsConfigsGen {
   /// File path: assets/configs/anti_phishing.json
   String get antiPhishing => 'assets/configs/anti_phishing.json';
 
+  /// File path: assets/configs/connections.json
+  String get connections => 'assets/configs/connections.json';
+
   /// File path: assets/configs/connections_v2.json
   String get connectionsV2 => 'assets/configs/connections_v2.json';
 
@@ -84,6 +87,7 @@ class $AssetsConfigsGen {
   /// List of all assets
   List<String> get values => [
     antiPhishing,
+    connections,
     connectionsV2,
     releaseNotes,
     updateRules,

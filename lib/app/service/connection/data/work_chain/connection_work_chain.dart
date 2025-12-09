@@ -165,3 +165,7 @@ abstract class ConnectionWorkchain with _$ConnectionWorkchain {
     );
   }
 }
+
+extension ConnectionWorkchainExt on ConnectionWorkchain {
+  String get fullId => '$parentConnectionId-$id';
+}
