@@ -8,7 +8,8 @@ class AddressStringConverter implements JsonConverter<Address, String> {
   Address fromJson(String json) => Address.fromJson(json);
 
   @override
-  String toJson(Address object) => object.toJson();
+  String toJson(Address object) =>
+      object.address.isEmpty ? '' : object.toJson();
 }
 
 class AddressListConverter

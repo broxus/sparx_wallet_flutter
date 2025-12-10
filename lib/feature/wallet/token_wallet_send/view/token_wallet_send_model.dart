@@ -50,7 +50,7 @@ class TokenWalletSendModel extends ElementaryModel
   }
 
   bool checkIsValidWorkchain(String address) {
-    return _connectionsStorageService.checkIsFrom0To1Workchain(address);
+    return _connectionsStorageService.checkIsRightWorkchainByAddress(address);
   }
 
   KeyAccount? getAccount(Address address) =>

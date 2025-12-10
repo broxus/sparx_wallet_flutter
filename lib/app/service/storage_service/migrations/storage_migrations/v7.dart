@@ -115,7 +115,7 @@ class StorageMigrationV7 implements StorageMigration {
                     connection['endpointSelectionRetryCount'] as int?,
               ),
             ],
-            isPreset: true,
+            isPreset: false,
             canBeEdited: true,
           ).toJson(),
         );
