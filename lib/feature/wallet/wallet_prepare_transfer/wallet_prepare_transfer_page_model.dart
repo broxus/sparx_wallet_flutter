@@ -208,7 +208,7 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
   }
 
   bool checkIsValidWorkchain(String address) {
-    return _connectionsStorageService.checkIsFrom0To1Workchain(address);
+    return _connectionsStorageService.checkIsRightWorkchainByAddress(address);
   }
 
   /// Subscription for native token to find balance
