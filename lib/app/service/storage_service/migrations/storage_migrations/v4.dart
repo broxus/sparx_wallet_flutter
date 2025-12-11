@@ -18,6 +18,9 @@ class StorageMigrationV4 implements StorageMigration {
     await _migrateBalances();
   }
 
+  @override
+  Future<void> complete() async {}
+
   Future<void> _migrateCurrencies() async {
     final containers = [
       GeneralStorageService.currenciesContainer,
@@ -90,7 +93,4 @@ class StorageMigrationV4 implements StorageMigration {
       }
     } catch (_) {}
   }
-
-  @override
-  Future<void> complete() async {}
 }
