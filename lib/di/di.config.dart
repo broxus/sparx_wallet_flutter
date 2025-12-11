@@ -887,6 +887,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i74.SecureStringService>(),
       ),
     );
+    gh.singleton<_i689.ProtectedContentService>(
+      () => _i689.ProtectedContentService(
+        gh<_i830.AppLifecycleService>(),
+        gh<_i32.AppBuildType>(),
+      ),
+      dispose: (i) => i.dispose(),
+    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i971.NewExternalAccountRoute(),
       instanceName: 'NewExternalAccountRoute',
@@ -907,10 +914,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i4.AddNftRoute(),
       instanceName: 'AddNftRoute',
-    );
-    gh.singleton<_i689.ProtectedContentService>(
-      () => _i689.ProtectedContentService(gh<_i830.AppLifecycleService>()),
-      dispose: (i) => i.dispose(),
     );
     gh.factory<_i1030.CheckSeedPhrasePageModel>(
       () => _i1030.CheckSeedPhrasePageModel(
