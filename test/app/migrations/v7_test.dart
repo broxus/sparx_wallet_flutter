@@ -12,7 +12,7 @@ class MockPathProviderPlatform extends Fake
     implements PathProviderPlatform {
   @override
   Future<String?> getApplicationDocumentsPath() async {
-    final dir = await Directory.systemTemp.createTemp('get_storage_test_');
+    final dir = await Directory.systemTemp.createTemp('get_storage_v7_test');
     return dir.path;
   }
 }
