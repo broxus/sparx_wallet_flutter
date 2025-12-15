@@ -84,7 +84,7 @@ void main() {
           id: '1',
           title: 't',
           url: 'https://a.com',
-          visitTime: DateTime.utc(2025, 1, 1),
+          visitTime: DateTime.utc(2025),
         ),
       ]);
 
@@ -134,7 +134,7 @@ void main() {
           id: '1',
           title: 'A',
           url: 'https://a.com',
-          visitTime: DateTime.utc(2025, 1, 1),
+          visitTime: DateTime.utc(2025),
         ),
         _validJson(
           id: '2',
@@ -228,7 +228,7 @@ void main() {
             id: '1',
             title: 'test',
             url: 'https://a.com',
-            visitTime: DateTime.utc(2025, 1, 1),
+            visitTime: DateTime.utc(2025),
           ),
         ]);
 
@@ -257,7 +257,7 @@ void main() {
             id: '1',
             title: 'test',
             url: 'https://a.com',
-            visitTime: DateTime.utc(2025, 1, 1),
+            visitTime: DateTime.utc(2025),
           ),
         ]);
 

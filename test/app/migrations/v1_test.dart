@@ -75,36 +75,34 @@ void main() {
   });
 
   group('StorageMigrationV1.apply', () {
-    test(
-      'migrates sparx:* from FlutterSecureStorage to AppStorageService.container',
-      () async {
-        FlutterSecureStorage.setMockInitialValues({
-          'sparx:boolTrue': 'true',
-          'sparx:boolFalse': 'false',
-          'sparx:string': 'hello',
-          'other:key': 'true',
-        });
+    test('migrates sparx:* from FlutterSecureStorage '
+        'to AppStorageService.container', () async {
+      FlutterSecureStorage.setMockInitialValues({
+        'sparx:boolTrue': 'true',
+        'sparx:boolFalse': 'false',
+        'sparx:string': 'hello',
+        'other:key': 'true',
+      });
 
-        when(
-          () => encryptedStorage.getDomain(domain: any(named: 'domain')),
-        ).thenAnswer((_) async => <String, String>{});
+      when(
+        () => encryptedStorage.getDomain(domain: any(named: 'domain')),
+      ).thenAnswer((_) async => <String, String>{});
 
-        await migration.apply();
+      await migration.apply();
 
-        final appStorage = GetStorage(AppStorageService.container);
+      final appStorage = GetStorage(AppStorageService.container);
 
-        expect(appStorage.hasData('sparx:boolTrue'), isTrue);
-        expect(appStorage.read<bool>('sparx:boolTrue'), isTrue);
+      expect(appStorage.hasData('sparx:boolTrue'), isTrue);
+      expect(appStorage.read<bool>('sparx:boolTrue'), isTrue);
 
-        expect(appStorage.hasData('sparx:boolFalse'), isTrue);
-        expect(appStorage.read<bool>('sparx:boolFalse'), isFalse);
+      expect(appStorage.hasData('sparx:boolFalse'), isTrue);
+      expect(appStorage.read<bool>('sparx:boolFalse'), isFalse);
 
-        expect(appStorage.hasData('sparx:string'), isTrue);
-        expect(appStorage.read<String>('sparx:string'), 'hello');
+      expect(appStorage.hasData('sparx:string'), isTrue);
+      expect(appStorage.read<String>('sparx:string'), 'hello');
 
-        expect(appStorage.hasData('other:key'), isFalse);
-      },
-    );
+      expect(appStorage.hasData('other:key'), isFalse);
+    });
 
     test('migrates domains from EncryptedStorage to GetStorage', () async {
       final capturedDomains = <String>[];
@@ -146,41 +144,39 @@ void main() {
   });
 
   group('StorageMigrationV1.complete', () {
-    test(
-      'removes sparx:* from FlutterSecureStorage and calls clearDomain for all used domains',
-      () async {
-        FlutterSecureStorage.setMockInitialValues({
-          'sparx:one': '1',
-          'sparx:two': '2',
-          'other:key': 'keep-me',
-        });
+    test('removes sparx:* from FlutterSecureStorage '
+        'and calls clearDomain for all used domains', () async {
+      FlutterSecureStorage.setMockInitialValues({
+        'sparx:one': '1',
+        'sparx:two': '2',
+        'other:key': 'keep-me',
+      });
 
-        final clearedDomains = <String>[];
+      final clearedDomains = <String>[];
 
-        when(() => encryptedStorage.clearDomain(any())).thenAnswer((
-          invocation,
-        ) async {
-          final domain = invocation.positionalArguments.first as String;
-          clearedDomains.add(domain);
-        });
+      when(() => encryptedStorage.clearDomain(any())).thenAnswer((
+        invocation,
+      ) async {
+        final domain = invocation.positionalArguments.first as String;
+        clearedDomains.add(domain);
+      });
 
-        await migration.complete();
+      await migration.complete();
 
-        const fss = FlutterSecureStorage();
-        final all = await fss.readAll();
+      const fss = FlutterSecureStorage();
+      final all = await fss.readAll();
 
-        expect(all.keys.any((k) => k.startsWith('sparx:')), isFalse);
+      expect(all.keys.any((k) => k.startsWith('sparx:')), isFalse);
 
-        expect(all['other:key'], 'keep-me');
+      expect(all['other:key'], 'keep-me');
 
-        expect(clearedDomains, isNotEmpty);
+      expect(clearedDomains, isNotEmpty);
 
-        verify(
-          () => encryptedStorage.clearDomain(any()),
-        ).called(clearedDomains.length);
+      verify(
+        () => encryptedStorage.clearDomain(any()),
+      ).called(clearedDomains.length);
 
-        verifyNoMoreInteractions(encryptedStorage);
-      },
-    );
+      verifyNoMoreInteractions(encryptedStorage);
+    });
   });
 }
