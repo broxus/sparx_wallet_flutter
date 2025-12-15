@@ -22,7 +22,7 @@ class _MockEncryptedStorage extends Mock implements EncryptedStorage {}
 class _MockPathProviderPlatform extends PathProviderPlatform {
   @override
   Future<String?> getApplicationDocumentsPath() async {
-    final dir = await Directory.systemTemp.createTemp('get_storage_test');
+    final dir = await Directory.systemTemp.createTemp('get_storage_v1_test');
     return dir.path;
   }
 }

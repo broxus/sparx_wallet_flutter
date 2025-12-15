@@ -27,6 +27,7 @@ class _MockHistoryDelegate extends Mock
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
   PathProviderPlatform.instance = _MockPathProviderPlatform();
 
   const box = 'browser_history';

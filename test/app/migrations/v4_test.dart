@@ -69,76 +69,71 @@ void main() {
     }
   });
 
-  group('StorageMigrationV4._migrateBalances (через apply)', () {
-    test('Move keys from networkType::id to group::id', () async {
-      // given
-      for (final container in balanceContainers) {
-        final storage = GetStorage(container);
+  test('Move keys from networkType::id to group::id', () async {
+    // given
+    for (final container in balanceContainers) {
+      final storage = GetStorage(container);
 
-        await storage.write('ever::123', 'val-ever');
-        await storage.write('venom::456', 'val-venom');
-        await storage.write('invalidKey', 'val-invalid');
+      await storage.write('ever::123', 'val-ever');
+      await storage.write('venom::456', 'val-venom');
+      await storage.write('invalidKey', 'val-invalid');
 
-        expect(storage.read<String>('ever::123'), 'val-ever');
-        expect(storage.read<String>('venom::456'), 'val-venom');
-        expect(storage.read<String>('invalidKey'), 'val-invalid');
-      }
+      expect(storage.read<String>('ever::123'), 'val-ever');
+      expect(storage.read<String>('venom::456'), 'val-venom');
+      expect(storage.read<String>('invalidKey'), 'val-invalid');
+    }
 
-      await migration.apply();
+    await migration.apply();
 
-      for (final container in balanceContainers) {
-        final storage = GetStorage(container);
+    for (final container in balanceContainers) {
+      final storage = GetStorage(container);
 
-        final everGroup = getNetworkGroupByNetworkType('ever');
-        final venomGroup = getNetworkGroupByNetworkType('venom');
+      final everGroup = getNetworkGroupByNetworkType('ever');
+      final venomGroup = getNetworkGroupByNetworkType('venom');
 
-        expect(storage.read<String>('ever::123'), isNull);
-        expect(storage.read<String>('venom::456'), isNull);
+      expect(storage.read<String>('ever::123'), isNull);
+      expect(storage.read<String>('venom::456'), isNull);
 
-        expect(
-          storage.read<String>('$everGroup::123'),
-          'val-ever',
-          reason: 'ever::123 must move to $everGroup::123',
-        );
-        expect(
-          storage.read<String>('$venomGroup::456'),
-          'val-venom',
-          reason: 'venom::456 must move to $venomGroup::456',
-        );
+      expect(
+        storage.read<String>('$everGroup::123'),
+        'val-ever',
+        reason: 'ever::123 must move to $everGroup::123',
+      );
+      expect(
+        storage.read<String>('$venomGroup::456'),
+        'val-venom',
+        reason: 'venom::456 must move to $venomGroup::456',
+      );
 
-        expect(storage.read<String>('invalidKey'), 'val-invalid');
-      }
-    });
+      expect(storage.read<String>('invalidKey'), 'val-invalid');
+    }
   });
+  test('Update networkGroup', () async {
+    when(() => presetsConnectionService.networks).thenReturn([]);
 
-  group('StorageMigrationV4._migrateCurrencies (через apply)', () {
-    test('Update networkGroup', () async {
-      when(() => presetsConnectionService.networks).thenReturn([]);
+    for (final container in currencyContainers) {
+      final storage = GetStorage(container);
 
-      for (final container in currencyContainers) {
-        final storage = GetStorage(container);
+      final value = [
+        {'networkType': 'ever'},
+        {'networkType': 'venom', 'networkGroup': 'keep-me'},
+      ];
 
-        final value = [
-          {'networkType': 'ever'},
-          {'networkType': 'venom', 'networkGroup': 'keep-me'},
-        ];
+      await storage.write('custom', value);
 
-        await storage.write('custom', value);
+      expect(storage.read<List<dynamic>>('custom'), isNotNull);
+    }
 
-        expect(storage.read<List<dynamic>>('custom'), isNotNull);
-      }
+    await migration.apply();
 
-      await migration.apply();
+    for (final container in currencyContainers) {
+      final storage = GetStorage(container);
 
-      for (final container in currencyContainers) {
-        final storage = GetStorage(container);
-
-        expect(
-          storage.read<List<dynamic>>('custom'),
-          isNull,
-          reason: 'custom-keys is removed',
-        );
-      }
-    });
+      expect(
+        storage.read<List<dynamic>>('custom'),
+        isNull,
+        reason: 'custom-keys is removed',
+      );
+    }
   });
 }
