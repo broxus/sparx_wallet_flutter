@@ -70,8 +70,7 @@ class CreateSeedPasswordProfileModel extends ElementaryModel
         );
       }
 
-      final workchainId =
-          _connectionsStorageService.currentConnection?.defaultWorkchainId ?? 0;
+      final workchainId = _connectionsStorageService.currentWorkchainId ?? 0;
 
       try {
         publicKey = await _nekotonRepository.addSeed(

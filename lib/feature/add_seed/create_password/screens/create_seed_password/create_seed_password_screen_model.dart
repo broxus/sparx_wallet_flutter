@@ -51,8 +51,7 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
           ? SeedAddType.import
           : SeedAddType.create;
 
-      final workchainId =
-          _connectionsStorageService.currentConnection?.defaultWorkchainId ?? 0;
+      final workchainId = _connectionsStorageService.currentWorkchainId ?? 0;
 
       final seed = switch (addType) {
         SeedAddType.create => _createSeed(),
