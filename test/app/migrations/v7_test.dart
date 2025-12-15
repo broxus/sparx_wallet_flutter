@@ -53,7 +53,8 @@ void main() {
           'isPreset': true,
         },
       ];
-      storage.write('connections', oldData);
+
+      await storage.write('connections', oldData);
 
       await migration.apply();
 
@@ -76,7 +77,8 @@ void main() {
           'isPreset': false,
         },
       ];
-      storage.write('connections', oldData);
+
+      await storage.write('connections', oldData);
 
       await migration.apply();
 
@@ -125,7 +127,8 @@ void main() {
           'isPreset': false,
         },
       ];
-      storage.write('connections', oldData);
+
+      await storage.write('connections', oldData);
 
       await migration.apply();
 
@@ -160,7 +163,8 @@ void main() {
           'isPreset': false,
         },
       ];
-      storage.write('connections', oldData);
+
+      await storage.write('connections', oldData);
 
       await migration.apply();
 
@@ -190,7 +194,8 @@ void main() {
           'isPreset': false,
         },
       ];
-      storage.write('connections', oldData);
+
+      await storage.write('connections', oldData);
 
       await migration.apply();
 
@@ -221,7 +226,8 @@ void main() {
           'isPreset': false,
         },
       ];
-      storage.write('connections', oldData);
+
+      await storage.write('connections', oldData);
 
       await migration.apply();
 
@@ -236,7 +242,7 @@ void main() {
     });
 
     test('should remove networks_ids key', () async {
-      storage.write('networks_ids', ['id1', 'id2', 'id3']);
+      await storage.write('networks_ids', ['id1', 'id2', 'id3']);
 
       await migration.apply();
 
@@ -244,7 +250,7 @@ void main() {
     });
 
     test('should handle empty connections list', () async {
-      storage.write('connections', <Object>[]);
+      await storage.write('connections', <Object>[]);
 
       await migration.apply();
 
@@ -296,7 +302,8 @@ void main() {
           'isPreset': true,
         },
       ];
-      storage.write('connections', oldData);
+
+      await storage.write('connections', oldData);
 
       await migration.apply();
 
@@ -323,7 +330,8 @@ void main() {
           'isPreset': false,
         },
       ];
-      storage.write('connections', oldData);
+
+      await storage.write('connections', oldData);
 
       await migration.apply();
 
@@ -350,7 +358,8 @@ void main() {
           'isPreset': false,
         },
       ];
-      storage.write('connections', oldData);
+
+      await storage.write('connections', oldData);
 
       await migration.apply();
 
