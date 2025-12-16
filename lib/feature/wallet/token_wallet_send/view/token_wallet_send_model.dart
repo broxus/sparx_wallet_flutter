@@ -49,7 +49,7 @@ class TokenWalletSendModel extends ElementaryModel
     );
   }
 
-  bool checkIsValidWorkchain(String address) {
+  (int?, int, bool) checkIsValidWorkchain(String address) {
     return _connectionsStorageService.checkIsRightWorkchainByAddress(address);
   }
 

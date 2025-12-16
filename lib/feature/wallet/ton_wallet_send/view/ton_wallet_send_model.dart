@@ -37,7 +37,7 @@ class TonWalletSendModel extends ElementaryModel
     super.dispose();
   }
 
-  bool checkIsValidWorkchain(String address) {
+  (int?, int, bool) checkIsValidWorkchain(String address) {
     return _connectionsStorageService.checkIsRightWorkchainByAddress(address);
   }
 

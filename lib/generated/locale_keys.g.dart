@@ -648,8 +648,7 @@ abstract class LocaleKeys {
   static const accountAddedSheetSwitch = 'accountAddedSheetSwitch';
   static const accountAddedSheetContinue = 'accountAddedSheetContinue';
   static const invalidReceiverAddress = 'invalidReceiverAddress';
-  static const invalidWorkchainAddressFrom0To1 =
-      'invalidWorkchainAddressFrom0To1';
+  static const invalidWorkchainAddress = 'invalidWorkchainAddress';
   static const deleteBookmarksQuestion = 'deleteBookmarksQuestion';
   static const deleteBookmarksDescription = 'deleteBookmarksDescription';
   static const save = 'save';

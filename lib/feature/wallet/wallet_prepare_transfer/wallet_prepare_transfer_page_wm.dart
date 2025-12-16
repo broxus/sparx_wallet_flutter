@@ -144,7 +144,9 @@ class WalletPrepareTransferPageWidgetModel
 
     final addr = Address(address: receiverController.text.trim());
 
-    if (!model.checkIsValidWorkchain(addr.address)) {
+    final result = model.checkIsValidWorkchain(addr.address);
+
+    if (!result.$3) {
       return;
     }
 
@@ -250,8 +252,12 @@ class WalletPrepareTransferPageWidgetModel
       return LocaleKeys.addressIsEmpty.tr();
     }
 
-    if (!model.checkIsValidWorkchain(value)) {
-      return LocaleKeys.invalidWorkchainAddressFrom0To1.tr();
+    final (from, to, isAccess) = model.checkIsValidWorkchain(value);
+
+    if (!isAccess) {
+      return LocaleKeys.invalidWorkchainAddress.tr(
+        args: [from?.toString() ?? '', to.toString()],
+      );
     }
 
     if (_selectedAsset?.isNative != true &&

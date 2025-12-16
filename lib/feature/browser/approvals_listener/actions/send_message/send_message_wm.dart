@@ -157,9 +157,17 @@ class SendMessageWidgetModel
   }
 
   Future<void> _init() async {
-    if (model.checkIsValidWorkchain(wmParams.value.recipient.address)) {
+    final (from, to, isAccess) = model.checkIsValidWorkchain(
+      wmParams.value.recipient.address,
+    );
+
+    if (!isAccess) {
       _feeState.error(
-        UiException(LocaleKeys.invalidWorkchainAddressFrom0To1.tr()),
+        UiException(
+          LocaleKeys.invalidWorkchainAddress.tr(
+            args: [from?.toString() ?? '', to.toString()],
+          ),
+        ),
         _feeState.value.data,
       );
       return;

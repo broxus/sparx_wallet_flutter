@@ -137,9 +137,17 @@ class TonWalletSendWidgetModel
   Future<void> _init() async {
     UnsignedMessage? unsignedMessage;
     try {
-      if (!model.checkIsValidWorkchain(wmParams.value.destination.address)) {
+      final (from, to, isAccess) = model.checkIsValidWorkchain(
+        wmParams.value.destination.address,
+      );
+
+      if (!isAccess) {
         _feesState.error(
-          UiException(LocaleKeys.invalidWorkchainAddressFrom0To1.tr()),
+          UiException(
+            LocaleKeys.invalidWorkchainAddress.tr(
+              args: [from?.toString() ?? '', to.toString()],
+            ),
+          ),
           _feesState.value.data,
         );
         return;
