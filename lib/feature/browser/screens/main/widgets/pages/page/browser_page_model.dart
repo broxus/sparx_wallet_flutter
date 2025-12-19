@@ -11,7 +11,7 @@ import 'package:app/feature/browser/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browser/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:app/feature/browser/screens/main/widgets/pages/page/helpers/events_helper.dart';
 import 'package:app/feature/ledger/ledger.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/runner.dart';
 import 'package:elementary/elementary.dart';

@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/parse_utils.dart';
 import 'package:collection/collection.dart';
