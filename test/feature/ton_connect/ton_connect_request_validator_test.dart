@@ -1,7 +1,7 @@
 import 'package:app/app/service/ntp_service.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:nekoton_repository/nekoton_repository.dart' hide Symbol;
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:test/test.dart';
 
 class _MockNekotonRepository extends Mock implements NekotonRepository {}
@@ -29,16 +29,13 @@ void main() {
     when(
       () =>
           bridge.crateApiMergedNtRepackAddress(address: any(named: 'address')),
-    ).thenAnswer(
-      (invocation) =>
-          invocation.namedArguments[const Symbol('address')] as String,
-    );
+    ).thenAnswer((invocation) => invocation.namedArguments[#address] as String);
     when(
       () => bridge.crateApiMergedNtValidateAddress(
         address: any(named: 'address'),
       ),
     ).thenAnswer((invocation) {
-      final addr = invocation.namedArguments[const Symbol('address')] as String;
+      final addr = invocation.namedArguments[#address] as String;
       return !addr.startsWith('0:');
     });
   });

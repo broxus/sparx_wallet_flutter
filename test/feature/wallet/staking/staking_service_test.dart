@@ -9,7 +9,7 @@ import 'package:app/data/models/models.dart';
 import 'package:app/feature/wallet/staking/staking.dart';
 import 'package:dio/dio.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:nekoton_repository/nekoton_repository.dart' hide Symbol;
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:test/test.dart';
 
 class _MockNekotonRepository extends Mock implements NekotonRepository {}
@@ -155,12 +155,9 @@ void main() {
           input: any(named: 'input'),
         ),
       ).thenAnswer((invocation) async {
-        capturedInput =
-            invocation.namedArguments[const Symbol('input')] as String;
-        capturedMethod =
-            invocation.namedArguments[const Symbol('method')] as String;
-        capturedAbi =
-            invocation.namedArguments[const Symbol('contractAbi')] as String;
+        capturedInput = invocation.namedArguments[#input] as String;
+        capturedMethod = invocation.namedArguments[#method] as String;
+        capturedAbi = invocation.namedArguments[#contractAbi] as String;
         return 'body';
       });
 
@@ -212,8 +209,7 @@ void main() {
           input: any(named: 'input'),
         ),
       ).thenAnswer((invocation) async {
-        capturedInput =
-            invocation.namedArguments[const Symbol('input')] as String;
+        capturedInput = invocation.namedArguments[#input] as String;
         return 'remove-body';
       });
 
@@ -251,8 +247,7 @@ void main() {
             libraries: any(named: 'libraries'),
           ),
         ).thenAnswer((invocation) async {
-          final methodId =
-              invocation.namedArguments[const Symbol('methodId')] as String;
+          final methodId = invocation.namedArguments[#methodId] as String;
           if (methodId == 'getAccountAddress') {
             return _executionOutput({'value': userContract.address});
           }
@@ -484,8 +479,7 @@ void main() {
           params: params,
         ),
       ).thenAnswer((invocation) async {
-        final dynamicGas =
-            invocation.namedArguments[const Symbol('dynamicGas')] as BigInt;
+        final dynamicGas = invocation.namedArguments[#dynamicGas] as BigInt;
         return dynamicGas + BigInt.from(100);
       });
 

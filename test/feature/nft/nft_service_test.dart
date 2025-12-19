@@ -7,7 +7,7 @@ import 'package:app/feature/nft/data/pending_nft.dart';
 import 'package:app/feature/nft/domain/nft_service.dart';
 import 'package:app/feature/nft/domain/nft_storage_service.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:nekoton_repository/nekoton_repository.dart' hide Symbol;
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:test/test.dart';
 
