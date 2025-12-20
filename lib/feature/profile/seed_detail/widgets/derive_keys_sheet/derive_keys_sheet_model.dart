@@ -1,3 +1,4 @@
+import 'package:app/app/service/storage_service/connections_storage/connections_storage_service.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
@@ -15,10 +16,12 @@ class DeriveKeysSheetModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._ledgerService,
+    this._connectionsStorageService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final LedgerService _ledgerService;
+  final ConnectionsStorageService _connectionsStorageService;
 
   Seed? findSeed(PublicKey publicKey) =>
       _nekotonRepository.seedList.findSeed(publicKey);
@@ -38,5 +41,8 @@ class DeriveKeysSheetModel extends ElementaryModel {
       _nekotonRepository.removeKeys(keys);
 
   Future<void> deriveKeys(Iterable<DeriveKeysParams> params) =>
-      _nekotonRepository.deriveKeys(params: params, workchainId: 0);
+      _nekotonRepository.deriveKeys(
+        params: params,
+        workchainId: _connectionsStorageService.currentWorkchainId ?? 0,
+      );
 }
