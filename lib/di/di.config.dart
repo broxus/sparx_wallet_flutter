@@ -939,13 +939,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i632.MessengerService>(),
       ),
     );
-    gh.factory<_i6.AddNewLocalAccountTypeSheetModel>(
-      () => _i6.AddNewLocalAccountTypeSheetModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i632.MessengerService>(),
-      ),
-    );
     gh.factory<_i815.RenameSheetModel>(
       () => _i815.RenameSheetModel(
         gh<_i83.ErrorHandler>(),
@@ -1008,11 +1001,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i1020.BalanceStorageService(
         gh<_i792.GetStorage>(instanceName: 'overallBalancesDomain'),
         gh<_i792.GetStorage>(instanceName: 'balancesDomain'),
-      ),
-    );
-    gh.factory<_i865.AddNewLocalAccountTypeSheetWidgetModel>(
-      () => _i865.AddNewLocalAccountTypeSheetWidgetModel(
-        gh<_i6.AddNewLocalAccountTypeSheetModel>(),
       ),
     );
     gh.factory<_i199.AddNewExternalAccountSheetWidgetModel>(
@@ -1758,15 +1746,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i700.BiometryScreenModel>(
       () => _i700.BiometryScreenModel(gh<_i128.BiometryService>()),
     );
-    gh.factory<_i848.NewAccountTypeModel>(
-      () => _i848.NewAccountTypeModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i865.LedgerService>(),
-        gh<_i865.BleAvailabilityModelDelegate>(),
-        gh<_i128.SecureStringService>(),
-      ),
-    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i4.NftRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'AddNftRoute'),
@@ -1884,9 +1863,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i495.TonRepository>(
       () => _i495.TonRepository(gh<_i162.TonApi>()),
-    );
-    gh.factory<_i667.NewAccountTypeWidgetModel>(
-      () => _i667.NewAccountTypeWidgetModel(gh<_i848.NewAccountTypeModel>()),
     );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i176.ImportWalletRoute(
@@ -2051,6 +2027,16 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i940.DatabaseService>(),
       ),
     );
+    gh.factory<_i848.NewAccountTypeModel>(
+      () => _i848.NewAccountTypeModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i865.LedgerService>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+        gh<_i128.SecureStringService>(),
+        gh<_i128.ConnectionsStorageService>(),
+      ),
+    );
     gh.factory<_i445.CreateSeedPasswordProfileWidgetModel>(
       () => _i445.CreateSeedPasswordProfileWidgetModel(
         gh<_i81.CreateSeedPasswordProfileModel>(),
@@ -2059,6 +2045,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i82.CompassGuard>(
       () => _i169.UpdateVersionGuard(gh<_i484.UpdateService>()),
       instanceName: 'UpdateVersionGuard',
+    );
+    gh.factory<_i6.AddNewLocalAccountTypeSheetModel>(
+      () => _i6.AddNewLocalAccountTypeSheetModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i632.MessengerService>(),
+        gh<_i284.ConnectionsStorageService>(),
+      ),
     );
     gh.factory<_i1050.SendMessageModel>(
       () => _i1050.SendMessageModel(
@@ -2199,6 +2193,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i771.NekotonRepository>(),
       ),
     );
+    gh.factory<_i865.AddNewLocalAccountTypeSheetWidgetModel>(
+      () => _i865.AddNewLocalAccountTypeSheetWidgetModel(
+        gh<_i6.AddNewLocalAccountTypeSheetModel>(),
+      ),
+    );
     gh.factory<_i634.StorageConfigurator>(
       () => _i634.StorageConfigurator(gh<_i128.StorageManagerService>()),
     );
@@ -2260,6 +2259,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i495.TonRepository>(),
       ),
       dispose: (i) => i.dispose(),
+    );
+    gh.factory<_i667.NewAccountTypeWidgetModel>(
+      () => _i667.NewAccountTypeWidgetModel(gh<_i848.NewAccountTypeModel>()),
     );
     gh.factory<_i769.SendMessageWidgetModel>(
       () => _i769.SendMessageWidgetModel(gh<_i1050.SendMessageModel>()),

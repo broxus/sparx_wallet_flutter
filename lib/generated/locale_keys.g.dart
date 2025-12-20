@@ -643,6 +643,7 @@ abstract class LocaleKeys {
   static const deprecatedTypesHint = 'deprecatedTypesHint';
   static const newAccount = 'newAccount';
   static const createAccountError = 'createAccountError';
+  static const addAccountError = 'addAccountError';
   static const accountAddedSheetTitle = 'accountAddedSheetTitle';
   static const accountAddedSheetSubtitle = 'accountAddedSheetSubtitle';
   static const accountAddedSheetSwitch = 'accountAddedSheetSwitch';
@@ -801,6 +802,7 @@ abstract class LocaleKeys {
   static const ledgerVerifyCancelled = 'ledgerVerifyCancelled';
   static const ledgerVerifyWaiting = 'ledgerVerifyWaiting';
   static const importFromLedger = 'importFromLedger';
+  static const ledgerImportError = 'ledgerImportError';
   static const settings = 'settings';
   static const faq = 'faq';
   static const legal = 'legal';
