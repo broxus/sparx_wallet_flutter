@@ -15,7 +15,10 @@ class BrowserTabsRenderManager extends RenderParametersManager<String> {
       try {
         itemWidth = renderObject.data.width;
         itemHeight = renderObject.data.height;
-      } catch (_) {}
+      } catch (_) {
+        itemWidth = 0;
+        itemHeight = 0;
+      }
     }
   }
 
