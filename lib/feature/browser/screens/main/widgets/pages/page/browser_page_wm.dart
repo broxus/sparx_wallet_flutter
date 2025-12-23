@@ -49,15 +49,9 @@ class BrowserPageWidgetModel
     with AutomaticKeepAliveWidgetModelMixin {
   BrowserPageWidgetModel(super.model);
 
-  static const _allowSchemes = [
-    'http',
-    'https',
-    'file',
-    'chrome',
-    'data',
-    'javascript',
-    'about',
-  ];
+  static const _pageSchemes = ['https', 'about'];
+
+  static const _notPermittedSchemes = ['file', 'content', 'data', 'javascript'];
 
   static const _customAppLinks = ['metamask.app.link', 'app.tonkeeper.com'];
 
@@ -74,6 +68,7 @@ class BrowserPageWidgetModel
     allowFileAccessFromFileURLs: false,
     // ignore: avoid_redundant_argument_values
     allowUniversalAccessFromFileURLs: false,
+    mixedContentMode: MixedContentMode.MIXED_CONTENT_NEVER_ALLOW,
     isInspectable: kDebugMode,
   );
 
@@ -143,7 +138,14 @@ class BrowserPageWidgetModel
     }
     controller.addJavaScriptHandler(
       handlerName: 'phishClick',
-      callback: (args) => model.addUrlToWhiteList(args.first as String),
+      callback: (args) {
+        final url = args.first.toString();
+        if (!url.toLowerCase().startsWith('https:')) {
+          return;
+        }
+
+        model.addUrlToWhiteList(args.first as String);
+      },
     );
   }
 
@@ -276,9 +278,11 @@ class BrowserPageWidgetModel
       return NavigationActionPolicy.CANCEL;
     }
 
-    final scheme = navigationAction.request.url?.scheme;
+    final scheme = navigationAction.request.url?.scheme.toLowerCase();
 
-    if (!_allowSchemes.contains(scheme) || _checkIsCustomAppLink(url)) {
+    if (_notPermittedSchemes.contains(scheme)) {
+      return NavigationActionPolicy.CANCEL;
+    } else if (!_pageSchemes.contains(scheme) || _checkIsCustomAppLink(url)) {
       try {
         await launchUrl(url);
       } catch (_) {}
