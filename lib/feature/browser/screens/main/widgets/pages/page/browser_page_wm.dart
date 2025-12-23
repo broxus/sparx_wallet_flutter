@@ -68,6 +68,12 @@ class BrowserPageWidgetModel
   final initialSettings = InAppWebViewSettings(
     applicationNameForUserAgent: 'SparXWalletBrowser',
     useShouldOverrideUrlLoading: true,
+    allowFileAccess: false,
+    allowContentAccess: false,
+    // ignore: avoid_redundant_argument_values
+    allowFileAccessFromFileURLs: false,
+    // ignore: avoid_redundant_argument_values
+    allowUniversalAccessFromFileURLs: false,
     isInspectable: kDebugMode,
   );
 
