@@ -26,6 +26,7 @@ class BrowserPageWmParams {
     required this.onWebPageScrollChanged,
     required this.onDispose,
     required this.onLoadingProgressChanged,
+    required this.onLoadingError,
   });
 
   final NotNullListenableState<BrowserTab> tabState;
@@ -33,6 +34,7 @@ class BrowserPageWmParams {
   final ValueChanged<int> onWebPageScrollChanged;
   final VoidCallback onDispose;
   final ValueChanged<int> onLoadingProgressChanged;
+  final ValueChanged<Uri> onLoadingError;
 }
 
 /// [WidgetModel] для [BrowserPage]
@@ -180,9 +182,11 @@ class BrowserPageWidgetModel
   ) {
     _createScreenshot();
     pullToRefreshController.endRefreshing();
+
     _log.warning(
       'Failed to load ${request.url}: ${error.type} ${error.description}',
     );
+    wmParams.value.onLoadingError(request.url);
   }
 
   // The server responded with an HTTP error (4xx/5xx)

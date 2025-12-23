@@ -45,6 +45,7 @@ class BrowserMainScreen
                           wm.progressIndicator.onProgressChanged,
                       onCreateWebViewController: wm.onCreateWebViewController,
                       onWebPageScrollChanged: wm.page.onWebPageScrollChanged,
+                      onLoadingError: wm.onLoadingError,
                       onDispose: wm.onDisposeWebController,
                     ),
                   ),
