@@ -48,7 +48,7 @@ class OnboardingGuard extends CompassGuard {
       return null;
     }
 
-    if (!hasSeeds && rootRoute is! OnBoardingRoute) {
+    if (!hasSeeds && rootRoute is! IndependentSeedRoute) {
       // Not onboarded, redirect to onboarding
       _log.info('No seeds, redirecting to onboarding');
       return const OnBoardingRouteData();
@@ -65,7 +65,7 @@ class OnboardingGuard extends CompassGuard {
 
     if (!_bootstrapService.isConfigured) return;
 
-    if (!hasSeeds && rootRoutePath is! OnBoardingRoute) {
+    if (!hasSeeds && rootRoutePath is! IndependentSeedRoute) {
       _log.info('No seeds, redirecting to onboarding');
       _router?.compassPoint(const OnBoardingRouteData());
     }

@@ -37,6 +37,7 @@ import '../app/service/approvals_service.dart' as _i654;
 import '../app/service/assets_service.dart' as _i964;
 import '../app/service/balance_service.dart' as _i637;
 import '../app/service/biometry_service.dart' as _i575;
+import '../app/service/bootstrap/bootstrap_navigation_delegate.dart' as _i392;
 import '../app/service/bootstrap/bootstrap_service.dart' as _i468;
 import '../app/service/bootstrap/configurators/biometry.dart' as _i728;
 import '../app/service/bootstrap/configurators/connection.dart' as _i159;
@@ -410,11 +411,12 @@ import '../feature/qr_scanner/view/qr_scanner_wm.dart' as _i569;
 import '../feature/root/domain/root_tab_service.dart' as _i533;
 import '../feature/root/restore_subroutes_guard.dart' as _i331;
 import '../feature/root/view/route.dart' as _i786;
-import '../feature/root_device_alert/root_device_alert_screen_model.dart'
-    as _i32;
-import '../feature/root_device_alert/root_device_alert_screen_wm.dart'
-    as _i1049;
+import '../feature/root_device_alert/domain/root_device_service.dart' as _i279;
 import '../feature/root_device_alert/route.dart' as _i141;
+import '../feature/root_device_alert/view/root_device_alert_screen_model.dart'
+    as _i721;
+import '../feature/root_device_alert/view/root_device_alert_screen_wm.dart'
+    as _i886;
 import '../feature/splash/route.dart' as _i592;
 import '../feature/splash/splash_screen_model.dart' as _i582;
 import '../feature/splash/splash_screen_wm.dart' as _i659;
@@ -732,6 +734,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i603.BrowserServiceAuthDelegate>(
       () => _i603.BrowserServiceAuthDelegate(),
     );
+    gh.factory<_i279.RootDeviceDelegate>(() => _i279.RootDeviceDelegate());
     gh.singleton<_i738.TokenWalletStorageService>(
       () => _i738.TokenWalletStorageService(),
     );
@@ -1195,9 +1198,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i241.DeleteSeedSheetWidgetModel>(
       () => _i241.DeleteSeedSheetWidgetModel(gh<_i976.DeleteSeedSheetModel>()),
     );
-    gh.factory<_i32.RootDeviceAlertScreenModel>(
-      () => _i32.RootDeviceAlertScreenModel(gh<_i83.ErrorHandler>()),
-    );
     gh.factory<_i880.AccountInfoWidgetModel>(
       () => _i880.AccountInfoWidgetModel(gh<_i647.AccountInfoModel>()),
     );
@@ -1441,11 +1441,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i644.SwitchToSeedModel(
         gh<_i83.ErrorHandler>(),
         gh<_i128.CurrentKeyService>(),
-      ),
-    );
-    gh.factory<_i1049.RootDeviceAlertScreenWidgetModel>(
-      () => _i1049.RootDeviceAlertScreenWidgetModel(
-        gh<_i32.RootDeviceAlertScreenModel>(),
       ),
     );
     gh.factory<_i321.AddNftModel>(
@@ -2938,6 +2933,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i997.RequestPermissionsModel>(),
       ),
     );
+    gh.factory<_i392.BootstrapNavigationDelegate>(
+      () => _i392.BootstrapNavigationDelegate(
+        gh<_i771.NekotonRepository>(),
+        gh<_i275.NavigationService>(),
+        gh<_i309.CompassRouter>(),
+      ),
+    );
     gh.singleton<_i533.RootTabService>(
       () => _i533.RootTabService(
         gh<_i309.CompassRouter>(),
@@ -2948,6 +2950,13 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i202.BrowserLauncher(
         gh<_i309.CompassRouter>(),
         gh<_i544.BrowserService>(),
+      ),
+    );
+    gh.factory<_i721.RootDeviceAlertScreenModel>(
+      () => _i721.RootDeviceAlertScreenModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i392.BootstrapNavigationDelegate>(),
+        gh<_i279.RootDeviceDelegate>(),
       ),
     );
     gh.singleton<_i239.PendingDeepLinkService>(
@@ -2973,6 +2982,25 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i771.NekotonRepository>(),
         gh<_i393.NftDisplayModeConfigurator>(),
         gh<_i202.BrowserLauncher>(),
+      ),
+    );
+    gh.factory<_i425.AppModel>(
+      () => _i425.AppModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i309.CompassRouter>(),
+        gh<_i850.AppLinksService>(),
+        gh<_i830.AppLifecycleService>(),
+        gh<_i1071.LocalizationService>(),
+        gh<_i575.BiometryService>(),
+        gh<_i632.MessengerService>(),
+        gh<_i47.CrashDetectorService>(),
+        gh<_i335.LoggerConfigurator>(),
+        gh<_i202.BrowserLauncher>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i468.BootstrapService>(),
+        gh<_i239.PendingDeepLinkService>(),
+        gh<_i279.RootDeviceDelegate>(),
+        gh<_i392.BootstrapNavigationDelegate>(),
       ),
     );
     gh.factory<_i8.AccountSettingsModel>(
@@ -3025,6 +3053,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i202.BrowserLauncher>(),
       ),
     );
+    gh.factory<_i1017.AppWidgetModel>(
+      () => _i1017.AppWidgetModel(gh<_i425.AppModel>()),
+    );
     gh.factory<_i962.AccountSettingsWidgetModel>(
       () => _i962.AccountSettingsWidgetModel(gh<_i8.AccountSettingsModel>()),
     );
@@ -3073,28 +3104,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i202.BrowserLauncher>(),
       ),
     );
-    gh.factory<_i425.AppModel>(
-      () => _i425.AppModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i309.CompassRouter>(),
-        gh<_i850.AppLinksService>(),
-        gh<_i830.AppLifecycleService>(),
-        gh<_i1071.LocalizationService>(),
-        gh<_i575.BiometryService>(),
-        gh<_i632.MessengerService>(),
-        gh<_i47.CrashDetectorService>(),
-        gh<_i335.LoggerConfigurator>(),
-        gh<_i202.BrowserLauncher>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i468.BootstrapService>(),
-        gh<_i239.PendingDeepLinkService>(),
-        gh<_i275.NavigationService>(),
-      ),
-    );
     gh.factory<_i278.CustomBottomNavigationBarModel>(
       () => _i278.CustomBottomNavigationBarModel(
         gh<_i83.ErrorHandler>(),
         gh<_i533.RootTabService>(),
+      ),
+    );
+    gh.factory<_i886.RootDeviceAlertScreenWidgetModel>(
+      () => _i886.RootDeviceAlertScreenWidgetModel(
+        gh<_i721.RootDeviceAlertScreenModel>(),
       ),
     );
     gh.factory<_i212.NftCollectionPageWidgetModel>(
@@ -3140,9 +3158,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i1010.TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel(
         gh<_i161.TonWalletMultisigOrdinaryTransactionDetailsScreenModel>(),
       ),
-    );
-    gh.factory<_i1017.AppWidgetModel>(
-      () => _i1017.AppWidgetModel(gh<_i425.AppModel>()),
     );
     return this;
   }

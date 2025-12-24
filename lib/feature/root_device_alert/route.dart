@@ -1,14 +1,13 @@
-import 'dart:ui';
-
 import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
-import 'package:app/feature/root_device_alert/root_device_alert_screen.dart';
+import 'package:app/feature/root_device_alert/view/root_device_alert_screen.dart';
 import 'package:injectable/injectable.dart';
 
 @named
 @Singleton(as: CompassBaseRoute)
 class RootDeviceAlertRoute
-    extends CompassRouteParameterless<RootDeviceAlertRouteData> {
+    extends CompassRouteParameterless<RootDeviceAlertRouteData>
+    implements IndependentSeedRoute {
   RootDeviceAlertRoute()
     : super(
         name: 'root-device-alert',
@@ -26,7 +25,5 @@ class RootDeviceAlertRoute
 }
 
 class RootDeviceAlertRouteData implements CompassRouteData {
-  const RootDeviceAlertRouteData({this.onSuccess});
-
-  final VoidCallback? onSuccess;
+  const RootDeviceAlertRouteData();
 }

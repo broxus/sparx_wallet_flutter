@@ -7,7 +7,8 @@ import 'package:injectable/injectable.dart';
 
 @named
 @Singleton(as: CompassBaseRoute)
-class OnBoardingRoute extends CompassRouteParameterless<OnBoardingRouteData> {
+class OnBoardingRoute extends CompassRouteParameterless<OnBoardingRouteData>
+    implements IndependentSeedRoute {
   OnBoardingRoute(
     @Named.from(ChooseNetworkRoute) CompassBaseRoute chooseNetworkRoute,
   ) : super(

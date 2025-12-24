@@ -4,11 +4,11 @@ import 'package:app/app/router/router.dart';
 import 'package:app/app/service/app_lifecycle_service.dart';
 import 'package:app/app/service/app_links/app_links.dart';
 import 'package:app/app/service/biometry_service.dart';
+import 'package:app/app/service/bootstrap/bootstrap_navigation_delegate.dart';
 import 'package:app/app/service/bootstrap/bootstrap_service.dart';
 import 'package:app/app/service/bootstrap/bootstrap_steps.dart';
 import 'package:app/app/service/bootstrap/configurators/logger.dart';
 import 'package:app/app/service/crash_detector/domain/service/crash_detector_service.dart';
-import 'package:app/app/service/navigation_service.dart';
 import 'package:app/app/service/pending_deep_link_service.dart';
 import 'package:app/app/view/app.dart';
 import 'package:app/feature/browser/domain/browser_launcher.dart';
@@ -18,6 +18,7 @@ import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/nft/route.dart';
 import 'package:app/feature/profile/route.dart';
+import 'package:app/feature/root_device_alert/domain/root_device_service.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
@@ -42,7 +43,8 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     this._nekotonRepository,
     this._bootstrapService,
     this._pendingDeepLinkService,
-    this._navigationService,
+    this._rootDeviceDelegate,
+    this._bootstrapNavigationDelegate,
   ) : super(errorHandler: errorHandler);
 
   final CompassRouter router;
@@ -57,7 +59,8 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   final NekotonRepository _nekotonRepository;
   final BootstrapService _bootstrapService;
   final PendingDeepLinkService _pendingDeepLinkService;
-  final NavigationService _navigationService;
+  final RootDeviceDelegate _rootDeviceDelegate;
+  final BootstrapNavigationDelegate _bootstrapNavigationDelegate;
 
   AppLifecycleListener? _listener;
   StreamSubscription<BrowserAppLinksData>? _appLinksSubs;
@@ -70,11 +73,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   Stream<BootstrapSteps> get bootstrapStepStream =>
       _bootstrapService.bootstrapStepStream;
 
-  bool? get hasSeeds => _nekotonRepository.hasSeeds.valueOrNull;
-
-
-  // TODO check root and flag
-  Future<bool> get isShowRootAlert => Future.value(true);
+  Future<bool> get isShowRootAlert => _rootDeviceDelegate.isShowRootAlert;
 
   @override
   void init() {
@@ -106,9 +105,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   Future<bool> checkCrashDetected() =>
       _crashDetectorService.checkCrashDetected();
 
-  Future<String?> getSavedNavigation() {
-    return _navigationService.getSavedState();
-  }
+  void next() => _bootstrapNavigationDelegate.goToResultBootstrap();
 
   void _onStateChanged(AppLifecycleState state) {
     switch (state) {
