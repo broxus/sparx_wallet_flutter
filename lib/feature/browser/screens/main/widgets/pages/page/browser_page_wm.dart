@@ -68,6 +68,8 @@ class BrowserPageWidgetModel
     allowFileAccessFromFileURLs: false,
     // ignore: avoid_redundant_argument_values
     allowUniversalAccessFromFileURLs: false,
+    // ignore: avoid_redundant_argument_values
+    sharedCookiesEnabled: false,
     mixedContentMode: MixedContentMode.MIXED_CONTENT_NEVER_ALLOW,
     isInspectable: kDebugMode,
   );
