@@ -1,5 +1,5 @@
 {
-  "defaultConnectionId": "preset_hmstr_mainnet_proto",
+  "defaultConnectionId": "preset_ever_mainnet_proto",
   "customNetworkOptions": [
     {
       "networkType": "ever"
@@ -26,6 +26,8 @@
       "walletV3": "WalletV3",
       "highloadWalletV2": "HighloadWallet",
       "everWallet": "Default",
+      "walletV3R1": "WalletV3R1",
+      "walletV3R2": "WalletV3R2",
       "walletV4R1": "WalletV4R1",
       "walletV4R2": "WalletV4R2",
       "walletV5R1": "WalletV5R1"
@@ -49,6 +51,9 @@
     },
     {
       "connectionId": "preset_venom_mainnet_proto"
+    },
+    {
+      "connectionId": "preset_msharia_premain_proto"
     }
   ],
   "connections": [
@@ -67,6 +72,10 @@
           ],
           "blockExplorerUrl": "https://tonviewer.com",
           "manifestUrl": "https://raw.githubusercontent.com/broxus/ton-assets/refs/heads/ton-prod/manifest.json",
+          "nativeTokenTicker": {
+            "name": "TON"
+          },
+          "defaultNativeCurrencyDecimal": 9,
           "icons": {
             "nativeToken": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/ton/native_token.svg",
             "network": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/ton/network.svg",
@@ -81,6 +90,12 @@
               "value": "multisig2_1"
             },
             {
+              "type": "walletV3R1"
+            },
+            {
+              "type": "walletV3R2"
+            },
+            {
               "type": "walletV4R1"
             },
             {
@@ -90,29 +105,22 @@
               "type": "walletV5R1"
             }
           ],
+          "defaultWalletType": {
+            "type": "walletV5R1"
+          },
+          "walletDefaultAccountNames": {
+            "walletV3": "Legacy"
+          },
           "defaultActiveAssets": [
             {
               "address": "0:09f2e59dec406ab26a5259a45d7ff23ef11f3e5c7c21de0b0d2a1cbe52b76b3d"
             }
           ],
-          "walletDefaultAccountNames": {
-            "multisig": {
-              "safeMultisigWallet": "SafeMultisig24h"
-            },
-            "walletV3": "Legacy"
-          },
-          "defaultWalletType": {
-            "type": "everWallet"
-          },
-          "nativeTokenTicker": {
-            "name": "TON"
-          },
           "nativeTokenAddress": "0:9a8da514d575d20234c3fb1395ee9138f5f1ad838abc905dc42c2389b46bd015",
           "seedPhraseWordsCount": [
             12,
             24
           ],
-          "defaultNativeCurrencyDecimal": 9,
           "currencyApiBaseUrl": "https://tonapi.io/v2",
           "genericTokenType": "jetton",
           "accountExplorerLinkType": "packAddress",
@@ -135,6 +143,10 @@
           ],
           "blockExplorerUrl": "https://hamsterscan.io",
           "manifestUrl": "https://raw.githubusercontent.com/broxus/ton-assets/refs/heads/hmstr/manifest.json",
+          "nativeTokenTicker": {
+            "name": "HMSTR"
+          },
+          "defaultNativeCurrencyDecimal": 9,
           "icons": {
             "nativeToken": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/hamster/native_token.svg",
             "network": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/hamster/network.svg",
@@ -149,6 +161,12 @@
               "value": "multisig2_1"
             },
             {
+              "type": "walletV3R1"
+            },
+            {
+              "type": "walletV3R2"
+            },
+            {
               "type": "walletV4R1"
             },
             {
@@ -158,33 +176,24 @@
               "type": "walletV5R1"
             }
           ],
+          "defaultWalletType": {
+            "type": "everWallet"
+          },
           "defaultActiveAssets": [
             {
               "address": "0:fddc005ddffcc9c5cc8e2d684c1338d3fa5548426602b04b2cfd2a1a3504be80"
             }
           ],
-          "defaultWalletType": {
-            "type": "everWallet"
-          },
-          "nativeTokenTicker": {
-            "name": "HMSTR"
-          },
           "nativeTokenAddress": "0:39b50cd546326f132e57ce3d6c488d08cb3900dc309a53681b82216993384546",
           "seedPhraseWordsCount": [
             12,
             24
           ],
-          "defaultNativeCurrencyDecimal": 9,
           "tokenApiBaseUrl": "https://tokens.hamsterscan.io/v1",
           "currencyApiBaseUrl": "https://api.hamsterdex.io/v1/currencies",
           "genericTokenType": "tip3",
           "accountExplorerLinkType": "accounts",
-          "transactionExplorerLinkType": "transactions",
-          "pollingConfig": {
-            "tonWalletRefreshInterval": 2,
-            "tokenWalletRefreshInterval": 2,
-            "intensivePollingInterval": 2
-          }
+          "transactionExplorerLinkType": "transactions"
         }
       ]
     },
@@ -199,10 +208,14 @@
           "networkGroup": "humo_testnet",
           "transportType": "proto",
           "endpoints": [
-            "https://rpc.humonetwork.com"
+            "https://rpc.tvm.mirasmanda.uz"
           ],
-          "blockExplorerUrl": "https://humoscan.com",
+          "blockExplorerUrl": "https://tvm.mirasmanda.uz",
           "manifestUrl": "https://raw.githubusercontent.com/broxus/ton-assets/refs/heads/humo/manifest.json",
+          "nativeTokenTicker": {
+            "name": "HUMO"
+          },
+          "defaultNativeCurrencyDecimal": 9,
           "icons": {
             "nativeToken": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/humo/native_token.svg",
             "network": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/humo/network.svg",
@@ -220,24 +233,20 @@
           "defaultWalletType": {
             "type": "everWallet"
           },
-          "nativeTokenTicker": {
-            "name": "HUMO"
-          },
-          "nativeTokenAddress": "0:ee49dd4c3a7754ace683612e5f9d06508ff13acb4055168fada912af25919271",
+          "nativeTokenAddress": "0:f7d09c6aba2cb23f901e8435f8980ad1df067f59375faa449d14a873ebe27cd0",
           "seedPhraseWordsCount": [
             12
           ],
-          "defaultNativeCurrencyDecimal": 9,
           "tokenApiBaseUrl": "",
           "currencyApiBaseUrl": "https://humo-dex-api.broxus.com/v1/currencies",
+          "pollingConfig": {
+            "tonWalletRefreshInterval": 5,
+            "tokenWalletRefreshInterval": 5,
+            "intensivePollingInterval": 5
+          },
           "genericTokenType": "tip3",
           "accountExplorerLinkType": "accounts",
-          "transactionExplorerLinkType": "transactions",
-          "pollingConfig": {
-            "tonWalletRefreshInterval": 2,
-            "tokenWalletRefreshInterval": 2,
-            "intensivePollingInterval": 2
-          }
+          "transactionExplorerLinkType": "transactions"
         }
       ]
     },
@@ -256,6 +265,10 @@
           ],
           "blockExplorerUrl": "https://testnet.tychoprotocol.com",
           "manifestUrl": "https://raw.githubusercontent.com/broxus/ton-assets/refs/heads/tychotestnet/manifest.json",
+          "nativeTokenTicker": {
+            "name": "TYCHO"
+          },
+          "defaultNativeCurrencyDecimal": 9,
           "icons": {
             "nativeToken": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/tycho/native_token.svg",
             "network": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/tycho/network.svg",
@@ -276,25 +289,32 @@
           "defaultWalletType": {
             "type": "everWallet"
           },
-          "nativeTokenTicker": {
-            "name": "TYCHO"
-          },
           "nativeTokenAddress": "0:8233ae1a3a94f77a9b12ab9b07f37923144fb78a7a8c582a5e3e2ed86cb40ced",
           "seedPhraseWordsCount": [
             12,
             24
           ],
-          "defaultNativeCurrencyDecimal": 9,
           "tokenApiBaseUrl": "https://e-tokens-api-tycho.broxus.com/v1",
           "currencyApiBaseUrl": "https://api-test-tycho.flatqube.io/v1/currencies",
+          "nftInformation": {
+            "marketplaceUrl": "https://tycho.tokstock.io",
+            "apiBaseUrl": "https://api-tycho-testnet.tokstock.io",
+            "defaultCollections": [
+              "0:6891af9a4435f7a53a471a43225eec4b0fe15ce9f1ff20b4ec76db05bddbd399",
+              "0:23a353e5da6a7811a71d6e74ad3034fb39dddfb576d80b4f3afc2796672da516",
+              "0:db8d09dda6803fd8aa28178de838708ee1ee26244c41bb3771412b893e05ea38",
+              "0:ac8d61406398f81f758bfd6ab3f79420dec4ea12861c0bc95e5c55f9dd5ba118"
+            ]
+          },
+          "gaslessApiBaseUrl": "",
+          "pollingConfig": {
+            "tonWalletRefreshInterval": 1,
+            "tokenWalletRefreshInterval": 1,
+            "intensivePollingInterval": 1
+          },
           "genericTokenType": "tip3",
           "accountExplorerLinkType": "accounts",
-          "transactionExplorerLinkType": "transactions",
-          "pollingConfig": {
-            "tonWalletRefreshInterval": 2,
-            "tokenWalletRefreshInterval": 2,
-            "intensivePollingInterval": 2
-          }
+          "transactionExplorerLinkType": "transactions"
         }
       ]
     },
@@ -313,6 +333,10 @@
           ],
           "blockExplorerUrl": "https://everscan.io",
           "manifestUrl": "https://raw.githubusercontent.com/broxus/ton-assets/master/manifest.json",
+          "nativeTokenTicker": {
+            "name": "EVER"
+          },
+          "defaultNativeCurrencyDecimal": 9,
           "icons": {
             "nativeToken": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/ever/native_token.svg",
             "network": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/ever/network.svg",
@@ -358,21 +382,19 @@
               "value": "surfWallet"
             }
           ],
-          "walletDefaultAccountNames": {
-            "everWallet": "EVER Wallet"
-          },
           "defaultWalletType": {
             "type": "everWallet"
           },
-          "nativeTokenTicker": {
-            "name": "EVER"
+          "walletDefaultAccountNames": {
+            "everWallet": "EVER Wallet"
           },
           "nativeTokenAddress": "0:a49cd4e158a9a15555e624759e2e4e766d22600b7800d891e46f9291f044a93d",
           "seedPhraseWordsCount": [
             12,
             24
           ],
-          "defaultNativeCurrencyDecimal": 9,
+          "tokenApiBaseUrl": "https://tokens.everscan.io/v1",
+          "currencyApiBaseUrl": "https://api.flatqube.io/v1/currencies",
           "stakeInformation": {
             "stakingAPYLink": "https://staking.everwallet.net/v1/strategies/main",
             "stakingVaultAddress": "0:675a6d63f27e3f24d41d286043a9286b2e3eb6b84fa4c3308cc2833ef6f54d68",
@@ -381,8 +403,15 @@
             "stakeRemovePendingWithdrawAttachedFee": "2000000000",
             "stakeWithdrawAttachedFee": "3000000000"
           },
-          "tokenApiBaseUrl": "https://tokens.everscan.io/v1",
-          "currencyApiBaseUrl": "https://api.flatqube.io/v1/currencies",
+          "nftInformation": {
+            "marketplaceUrl": "https://tokstock.io",
+            "defaultCollections": [
+              "0:4876694042b5b385318f2bd49f2eebf9d68913f1ccd723ab95c5ccb12979c8ba",
+              "0:a7d0694c025b61e1a4a846f1cf88980a5df8adf737d17ac58e35bf172c9fca29",
+              "0:0cd35b77b73df2ce86288cb8530cb6328363543f04da81687e43b3d5628c0bda",
+              "0:df7b78349b6b194997ee7d7afdb263cdd566c440371d320d1c06d519c6278c5b"
+            ]
+          },
           "genericTokenType": "tip3",
           "accountExplorerLinkType": "accounts",
           "transactionExplorerLinkType": "transactions"
@@ -404,6 +433,10 @@
           ],
           "blockExplorerUrl": "https://venomscan.com",
           "manifestUrl": "https://cdn.venom.foundation/assets/mainnet/manifest.json",
+          "nativeTokenTicker": {
+            "name": "VENOM"
+          },
+          "defaultNativeCurrencyDecimal": 9,
           "icons": {
             "nativeToken": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/venom/native_token.svg",
             "network": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/venom/network.svg",
@@ -418,22 +451,18 @@
               "value": "multisig2_1"
             }
           ],
-          "walletDefaultAccountNames": {
-            "multisig": {
-              "safeMultisigWallet": "SafeMultisig24h"
-            }
-          },
           "defaultWalletType": {
             "type": "everWallet"
           },
-          "nativeTokenTicker": {
-            "name": "VENOM"
+          "walletDefaultAccountNames": {
+            "walletV3": "Legacy"
           },
           "nativeTokenAddress": "0:77d36848bb159fa485628bc38dc37eadb74befa514395e09910f601b841f749e",
           "seedPhraseWordsCount": [
             12
           ],
-          "defaultNativeCurrencyDecimal": 9,
+          "tokenApiBaseUrl": "https://tokens.venomscan.com/v1",
+          "currencyApiBaseUrl": "https://api.web3.world/v1/currencies",
           "stakeInformation": {
             "stakingAPYLink": "https://api.venomstake.com/v1/strategies/main",
             "stakingVaultAddress": "0:9df94dffc0ca1768647f819c04b2cf00c484b3b756ba6ecde68d5fb62de1dfc7",
@@ -442,28 +471,46 @@
             "stakeRemovePendingWithdrawAttachedFee": "2000000000",
             "stakeWithdrawAttachedFee": "3000000000"
           },
-          "tokenApiBaseUrl": "https://tokens.venomscan.com/v1",
-          "currencyApiBaseUrl": "https://api.web3.world/v1/currencies",
+          "nftInformation": {
+            "marketplaceUrl": "https://oasis.gallery/",
+            "defaultCollections": [
+              "0:fa200706e21863c1da8f35d334f48faeb39d34ad21efd81178ffab40850c0898"
+            ]
+          },
           "genericTokenType": "tip3",
           "accountExplorerLinkType": "accounts",
           "transactionExplorerLinkType": "transactions"
-        },
+        }
+      ]
+    },
+    {
+      "id": "preset_msharia_premain_proto",
+      "networkName": "M.Sharia",
+      "defaultWorkchainId": 0,
+      "workchains": [
         {
-          "id": 1,
+          "id": 0,
           "networkType": "tycho",
-          "networkGroup": "venom_mainnet_new",
+          "networkGroup": "msharia_premain",
           "transportType": "proto",
           "endpoints": [
-            "https://tycho-test-sparx-node.broxus.com/"
+            "https://rpc.msharia.io"
           ],
-          "blockExplorerUrl": "",
-          "manifestUrl": "",
+          "blockExplorerUrl": "https://mshariascan.io",
+          "manifestUrl": "https://raw.githubusercontent.com/broxus/ton-assets/refs/heads/msharia/manifest.json",
+          "nativeTokenTicker": {
+            "name": "MSHA"
+          },
+          "defaultNativeCurrencyDecimal": 9,
           "icons": {
-            "nativeToken": "",
-            "network": "",
-            "vector": ""
+            "nativeToken": "https://raw.githubusercontent.com/broxus/sparx-networks/refs/heads/master/icons/msharia/native_token.svg",
+            "network": "https://raw.githubusercontent.com/broxus/sparx-networks/refs/heads/master/icons/msharia/native_token.svg",
+            "vector": "https://raw.githubusercontent.com/broxus/sparx-networks/refs/heads/master/icons/msharia/native_token.svg"
           },
           "availableWalletTypes": [
+            {
+              "type": "walletV5R1"
+            },
             {
               "type": "everWallet"
             },
@@ -472,24 +519,86 @@
               "value": "multisig2_1"
             }
           ],
-          "walletDefaultAccountNames": {
-            "multisig": {
-              "safeMultisigWallet": "SafeMultisig24h"
-            }
-          },
           "defaultWalletType": {
-            "type": "everWallet"
+            "type": "walletV5R1"
           },
-          "nativeTokenTicker": {
-            "name": "newVENOM"
-          },
-          "nativeTokenAddress": "1:77d36848bb159fa485628bc38dc37eadb74befa514395e09910f601b841f749e",
+          "defaultActiveAssets": [
+            {
+              "address": "0:8305ee8616735691da2d329aa28ec6f81eabe7f0204be48a671cf2be18e0f02b"
+            }
+          ],
+          "nativeTokenAddress": "0:dc85db3b3cab2c54dd728e882084b2c03086018ed0ce5928cc510d8756ed49c9",
           "seedPhraseWordsCount": [
             12
           ],
+          "tokenApiBaseUrl": "https://tokens-api.mshariascan.io/v1",
+          "currencyApiBaseUrl": "https://msharia-dex-api.broxus.com/v1/currencies",
+          "nftInformation": {
+            "marketplaceUrl": "",
+            "apiBaseUrl": "https://nft-api.msharia.io",
+            "defaultCollections": [
+              "0:8e6fa1c1d3d9a5929eecb992696cf6eb4fff59b357ce82b3e8977579550648ff"
+            ]
+          },
+          "gaslessApiBaseUrl": "https://gasless-api-msha.sparxwallet.com/v1/gasless",
+          "pollingConfig": {
+            "tonWalletRefreshInterval": 5,
+            "tokenWalletRefreshInterval": 5,
+            "intensivePollingInterval": 5
+          },
+          "genericTokenType": "tip3",
+          "accountExplorerLinkType": "accounts",
+          "transactionExplorerLinkType": "transactions"
+        }
+      ]
+    },
+    {
+      "id": "preset_van_lang_proto",
+      "networkName": "Van Lang",
+      "defaultWorkchainId": 0,
+      "workchains": [
+        {
+          "id": 0,
+          "networkType": "tycho",
+          "networkGroup": "van_lang",
+          "transportType": "proto",
+          "endpoints": [
+            "https://rpc.vanlang.io"
+          ],
+          "blockExplorerUrl": "https://vanlang.io",
+          "manifestUrl": "",
+          "nativeTokenTicker": {
+            "name": "VLP"
+          },
           "defaultNativeCurrencyDecimal": 9,
+          "icons": {
+            "nativeToken": "https://raw.githubusercontent.com/broxus/sparx-networks/refs/heads/master/icons/vlp/native_token2.svg",
+            "network": "https://raw.githubusercontent.com/broxus/sparx-networks/refs/heads/master/icons/vlp/network.svg",
+            "vector": "https://raw.githubusercontent.com/broxus/sparx-networks/refs/heads/master/icons/sparx/sparx.svg"
+          },
+          "availableWalletTypes": [
+            {
+              "type": "walletV5R1"
+            },
+            {
+              "type": "multisig",
+              "value": "multisig2_1"
+            }
+          ],
+          "defaultWalletType": {
+            "type": "walletV5R1"
+          },
+          "nativeTokenAddress": "0:dc85db3b3cab2c54dd728e882084b2c03086018ed0ce5928cc510d8756ed49c9",
+          "seedPhraseWordsCount": [
+            12
+          ],
           "tokenApiBaseUrl": "",
           "currencyApiBaseUrl": "",
+          "pollingConfig": {
+            "tonWalletRefreshInterval": 1,
+            "tokenWalletRefreshInterval": 1,
+            "intensivePollingInterval": 1
+          },
           "genericTokenType": "tip3",
           "accountExplorerLinkType": "accounts",
           "transactionExplorerLinkType": "transactions"
