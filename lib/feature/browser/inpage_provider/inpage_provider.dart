@@ -189,7 +189,6 @@ class InpageProvider extends ProviderApi {
     _logger.finest('changeAccount', permissions.toJson());
 
     final partial = permissions.toPartial();
-    await controller?.permissionsChanged(PermissionsChangedEvent(partial));
 
     return partial;
   }
@@ -322,10 +321,6 @@ class InpageProvider extends ProviderApi {
   Future<void> disconnect() async {
     permissionsService.deletePermissionsForOrigin(origin!);
     nekotonRepository.unsubscribeContractsTab(tabId);
-
-    await controller?.permissionsChanged(
-      const PermissionsChangedEvent(PermissionsPartial(null, null)),
-    );
   }
 
   @override
@@ -834,10 +829,7 @@ class InpageProvider extends ProviderApi {
       );
     }
 
-    final partial = permissions.toPartial();
-    await controller?.permissionsChanged(PermissionsChangedEvent(partial));
-
-    return partial;
+    return permissions.toPartial();
   }
 
   @override

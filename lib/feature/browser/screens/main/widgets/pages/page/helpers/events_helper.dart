@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/app/service/permissions_service.dart';
 import 'package:app/feature/browser/custom_web_controller.dart';
+import 'package:app/utils/utils.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:nekoton_webview/nekoton_webview.dart' as nwv;
@@ -56,23 +57,28 @@ class EventsHelper {
       _nekotonRepository.hasSeeds.listen((hasSeeds) {
         if (!hasSeeds) controller.loggedOut();
       }),
-      _permissionsService.permissionsStream.listen((permissions) async {
-        try {
-          final url = await controller.getUrl();
-          final currentPermissions = url == null
-              ? null
-              : permissions[Uri.parse(url.universalOrigin)];
-          await controller.permissionsChanged(
-            nwv.PermissionsChangedEvent(
-              nwv.PermissionsPartial.fromJson(
-                currentPermissions?.toJson() ?? {},
-              ),
-            ),
-          );
-        } catch (e, s) {
-          _log.severe('ERROR', e, s);
-        }
-      }),
+      _permissionsService.permissionsStream
+          // The stream emits the current cached permissions immediately on
+          // subscription. That initial snapshot is already reflected in the
+          // controller when the tab is created, so we skip it here and react
+          // only to subsequent changes in permissions.
+          .skip(1)
+          .asyncMap((permissions) async {
+            final url = await controller.getUrl();
+            return url?.let((it) => permissions[Uri.parse(it.universalOrigin)]);
+          })
+          .distinct()
+          .listen((permissions) async {
+            try {
+              await controller.permissionsChanged(
+                nwv.PermissionsChangedEvent(
+                  nwv.PermissionsPartial.fromJson(permissions?.toJson() ?? {}),
+                ),
+              );
+            } catch (e, s) {
+              _log.severe('ERROR', e, s);
+            }
+          }),
     ]);
   }
 
