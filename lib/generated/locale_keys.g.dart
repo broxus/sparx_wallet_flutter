@@ -817,4 +817,5 @@ abstract class LocaleKeys {
   static const passwordLockedUntil = 'passwordLockedUntil';
   static const invalidPayloadError = 'invalidPayloadError';
   static const invalidStateInitError = 'invalidStateInitError';
+  static const unsupportedWalletTypeError = 'unsupportedWalletTypeError';
 }

@@ -784,5 +784,6 @@
   "failedToSendTransaction": "Failed to send transaction",
   "passwordLockedUntil": "Password locked until {}",
   "invalidPayloadError": "Payload is invalid",
-  "invalidStateInitError": "StateInit is invalid"
+  "invalidStateInitError": "StateInit is invalid",
+  "unsupportedWalletTypeError": "Unsupported wallet type"
 }

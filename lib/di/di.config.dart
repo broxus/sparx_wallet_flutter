@@ -1265,6 +1265,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i553.MessengerService>(),
       ),
     );
+    gh.factory<_i88.TCConnectModel>(
+      () => _i88.TCConnectModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i128.NtpService>(),
+        gh<_i553.MessengerService>(),
+      ),
+    );
     gh.singleton<_i250.BrowserFaviconURLStorageService>(
       () => _i250.BrowserFaviconURLStorageService(
         gh<_i792.GetStorage>(instanceName: 'browser_favicon_urls'),
@@ -1520,14 +1529,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i634.WelcomeScreenWidgetModel>(
       () => _i634.WelcomeScreenWidgetModel(gh<_i437.WelcomeScreenModel>()),
-    );
-    gh.factory<_i88.TCConnectModel>(
-      () => _i88.TCConnectModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i128.NtpService>(),
-      ),
     );
     gh.factory<_i371.SelectAccountWidgetModel>(
       () => _i371.SelectAccountWidgetModel(gh<_i1035.SelectAccountModel>()),
