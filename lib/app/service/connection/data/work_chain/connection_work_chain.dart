@@ -95,6 +95,7 @@ abstract class ConnectionWorkchain with _$ConnectionWorkchain {
       availableWalletTypes: const [
         WalletType.everWallet(),
         WalletType.multisig(MultisigType.multisig2_1),
+        WalletType.walletV5R1(),
       ],
       walletDefaultAccountNames: WalletDefaultAccountNames(
         multisig: {
