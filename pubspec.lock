@@ -884,6 +884,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.0"
+  flutter_jailbreak_detection:
+    dependency: "direct main"
+    description:
+      name: flutter_jailbreak_detection
+      sha256: "67ff11ea41965152d24db7104da1f9b343f94ada64c2a9e309ec4d753a12d281"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.10.0"
   flutter_keyboard_visibility:
     dependency: transitive
     description:

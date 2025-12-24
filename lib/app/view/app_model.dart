@@ -72,6 +72,10 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
 
   bool? get hasSeeds => _nekotonRepository.hasSeeds.valueOrNull;
 
+
+  // TODO check root and flag
+  Future<bool> get isShowRootAlert => Future.value(true);
+
   @override
   void init() {
     _listener = AppLifecycleListener(onStateChange: _onStateChanged);

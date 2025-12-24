@@ -410,6 +410,11 @@ import '../feature/qr_scanner/view/qr_scanner_wm.dart' as _i569;
 import '../feature/root/domain/root_tab_service.dart' as _i533;
 import '../feature/root/restore_subroutes_guard.dart' as _i331;
 import '../feature/root/view/route.dart' as _i786;
+import '../feature/root_device_alert/root_device_alert_screen_model.dart'
+    as _i32;
+import '../feature/root_device_alert/root_device_alert_screen_wm.dart'
+    as _i1049;
+import '../feature/root_device_alert/route.dart' as _i141;
 import '../feature/splash/route.dart' as _i592;
 import '../feature/splash/splash_screen_model.dart' as _i582;
 import '../feature/splash/splash_screen_wm.dart' as _i659;
@@ -873,6 +878,10 @@ extension GetItInjectableX on _i174.GetIt {
       instanceName: 'NoInternetRoute',
     );
     gh.singleton<_i82.CompassBaseRoute>(
+      () => _i141.RootDeviceAlertRoute(),
+      instanceName: 'RootDeviceAlertRoute',
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
       () => _i303.AccountDetailRoute(),
       instanceName: 'AccountDetailRoute',
     );
@@ -1186,6 +1195,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i241.DeleteSeedSheetWidgetModel>(
       () => _i241.DeleteSeedSheetWidgetModel(gh<_i976.DeleteSeedSheetModel>()),
     );
+    gh.factory<_i32.RootDeviceAlertScreenModel>(
+      () => _i32.RootDeviceAlertScreenModel(gh<_i83.ErrorHandler>()),
+    );
     gh.factory<_i880.AccountInfoWidgetModel>(
       () => _i880.AccountInfoWidgetModel(gh<_i647.AccountInfoModel>()),
     );
@@ -1429,6 +1441,11 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i644.SwitchToSeedModel(
         gh<_i83.ErrorHandler>(),
         gh<_i128.CurrentKeyService>(),
+      ),
+    );
+    gh.factory<_i1049.RootDeviceAlertScreenWidgetModel>(
+      () => _i1049.RootDeviceAlertScreenWidgetModel(
+        gh<_i32.RootDeviceAlertScreenModel>(),
       ),
     );
     gh.factory<_i321.AddNftModel>(
