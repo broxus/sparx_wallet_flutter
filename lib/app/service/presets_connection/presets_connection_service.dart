@@ -1,14 +1,6 @@
 import 'dart:async';
 
-import 'package:app/app/service/connection/data/connection/connection.dart';
-import 'package:app/app/service/connection/data/connection_config/connection_config.dart';
-import 'package:app/app/service/connection/data/connection_config/start_connection.dart';
-import 'package:app/app/service/connection/data/connection_default_settings.dart';
-import 'package:app/app/service/connection/data/default_active_asset.dart';
-import 'package:app/app/service/connection/data/network_type.dart';
-import 'package:app/app/service/connection/data/transport_icons.dart';
-import 'package:app/app/service/connection/default_network.dart';
-import 'package:app/app/service/connection/group.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/presets_config/presets_config.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';

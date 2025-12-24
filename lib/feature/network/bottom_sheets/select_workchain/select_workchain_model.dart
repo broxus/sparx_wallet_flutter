@@ -1,4 +1,3 @@
-import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
 import 'package:app/app/service/service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';

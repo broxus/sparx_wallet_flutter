@@ -1,4 +1,4 @@
-import 'package:app/app/service/connection/data/wallet_default_account_names.dart';
+import 'package:app/app/service/service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'connection_default_settings.freezed.dart';

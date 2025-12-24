@@ -1,13 +1,4 @@
-import 'package:app/app/service/connection/data/account_explorer/account_explorer_link_type.dart';
-import 'package:app/app/service/connection/data/network_type.dart';
-import 'package:app/app/service/connection/data/nft_information/nft_information.dart';
-import 'package:app/app/service/connection/data/transaction_explorer/transaction_explorer_link_type.dart';
-import 'package:app/app/service/connection/data/transport_icons.dart';
-import 'package:app/app/service/connection/data/wallet_default_account_names.dart';
-import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
-import 'package:app/app/service/connection/generic_token_subscriber.dart';
-import 'package:app/app/service/connection/group.dart';
-import 'package:app/app/service/connection/transport_strategies/app_transport_strategy.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
 import 'package:app/generated/generated.dart';
 import 'package:dio/dio.dart';

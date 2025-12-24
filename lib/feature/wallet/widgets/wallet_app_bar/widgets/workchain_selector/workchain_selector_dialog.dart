@@ -1,5 +1,4 @@
-import 'package:app/app/service/connection/connection.dart';
-import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
+import 'package:app/app/service/service.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 

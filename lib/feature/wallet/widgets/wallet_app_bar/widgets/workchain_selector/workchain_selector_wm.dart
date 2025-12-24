@@ -1,5 +1,4 @@
-import 'package:app/app/service/connection/connection.dart';
-import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/network/bottom_sheets/select_workchain_bottom_sheet.dart';
 import 'package:app/feature/wallet/widgets/wallet_app_bar/widgets/workchain_selector/workchain_selector.dart';

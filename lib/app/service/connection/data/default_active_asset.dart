@@ -1,4 +1,4 @@
-import 'package:app/app/service/connection/json_converters/address_converter.dart';
+import 'package:app/app/service/service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 

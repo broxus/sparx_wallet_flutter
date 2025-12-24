@@ -1,5 +1,4 @@
-import 'package:app/app/service/connection/data/connection/connection.dart';
-import 'package:app/app/service/connection/data/work_chain/workchain_transport_type.dart';
+import 'package:app/app/service/service.dart';
 
 enum ConnectionType {
   jrpc,

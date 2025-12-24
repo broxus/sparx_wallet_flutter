@@ -1,4 +1,4 @@
-import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/utils/json/json.dart';
 import 'package:json_annotation/json_annotation.dart';
 

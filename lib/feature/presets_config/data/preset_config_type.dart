@@ -1,4 +1,4 @@
-import 'package:app/app/service/connection/data/connection_config/connection_config.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/core/app_build_type.dart';
 import 'package:app/feature/presets_config/data/release_notes.dart';
 import 'package:app/feature/presets_config/data/update_rules.dart';

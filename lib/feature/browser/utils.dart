@@ -1,9 +1,4 @@
-import 'package:app/app/service/connection/data/connection/connection.dart';
-import 'package:app/app/service/connection/data/native_token_ticker/native_token_ticker.dart';
-import 'package:app/app/service/connection/data/network_type.dart';
-import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
-import 'package:app/app/service/connection/data/work_chain/workchain_transport_type.dart';
-import 'package:app/app/service/connection/transport_strategies/common_transport_strategy.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/utils/utils.dart';
 import 'package:nekoton_repository/nekoton_repository.dart'
     show GqlTransport, TransportStrategy;

@@ -1,10 +1,4 @@
-import 'package:app/app/service/connection/connection.dart';
-import 'package:app/app/service/connection/data/native_token_ticker/native_token_ticker.dart';
-import 'package:app/app/service/connection/data/wallet_default_account_names.dart';
-import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
-import 'package:app/app/service/connection/data/work_chain/workchain_transport_type.dart';
-import 'package:app/app/service/storage_service/connections_storage/connections_storage_service.dart';
-import 'package:app/app/service/storage_service/migrations/storage_migrations/storage_migration.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/generated/assets.gen.dart';
 import 'package:app/utils/json/json.dart';
 import 'package:get_storage/get_storage.dart';

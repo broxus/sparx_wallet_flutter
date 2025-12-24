@@ -1,9 +1,4 @@
-import 'package:app/app/service/connection/data/connection/connection.dart';
-import 'package:app/app/service/connection/data/connection_config/start_connection.dart';
-import 'package:app/app/service/connection/data/connection_default_settings.dart';
-import 'package:app/app/service/connection/data/custom_network/custom_network_option.dart';
-import 'package:app/app/service/connection/data/network_type.dart';
-import 'package:app/app/service/connection/default_network.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/utils/utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 

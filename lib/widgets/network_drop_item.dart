@@ -1,4 +1,4 @@
-import 'package:app/app/service/connection/data/connection/connection.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/widgets/network_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';

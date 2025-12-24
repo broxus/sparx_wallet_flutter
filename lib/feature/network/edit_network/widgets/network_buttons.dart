@@ -1,4 +1,4 @@
-import 'package:app/app/service/connection/data/connection/connection.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';

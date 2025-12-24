@@ -1,5 +1,4 @@
-import 'package:app/app/service/connection/connection_service.dart';
-import 'package:app/app/service/storage_service/connections_storage/connections_storage_service.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
