@@ -165,7 +165,7 @@ class SendMessageWidgetModel
       _feeState.error(
         UiException(
           LocaleKeys.invalidWorkchainAddress.tr(
-            args: [from?.toString() ?? '', to.toString()],
+            args: [from?.toString() ?? '', to?.toString() ?? ''],
           ),
         ),
         _feeState.value.data,

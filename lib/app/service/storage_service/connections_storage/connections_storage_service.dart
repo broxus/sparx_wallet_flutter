@@ -412,18 +412,22 @@ class ConnectionsStorageService extends AbstractStorageService {
     _connectionsIdsSubject.add(_readConnectionsIds());
   }
 
-  (int?, int, bool) checkIsRightWorkchainByAddress(String address) {
-    final targetWorkchain = Address(address: address).workchain;
+  (int?, int?, bool) checkIsRightWorkchainByAddress(String address) {
+    try {
+      final targetWorkchain = Address(address: address).workchain;
 
-    return (
-      currentWorkchainId,
-      targetWorkchain,
-      currentWorkchainId == targetWorkchain ||
-          currentWorkchainId == -1 && targetWorkchain == 0 ||
-          currentWorkchainId == 0 && targetWorkchain == -1 ||
-          currentWorkchainId == -1 && targetWorkchain == 1 ||
-          currentWorkchainId == 1 && targetWorkchain == -1,
-    );
+      return (
+        currentWorkchainId,
+        targetWorkchain,
+        currentWorkchainId == targetWorkchain ||
+            currentWorkchainId == -1 && targetWorkchain == 0 ||
+            currentWorkchainId == 0 && targetWorkchain == -1 ||
+            currentWorkchainId == -1 && targetWorkchain == 1 ||
+            currentWorkchainId == 1 && targetWorkchain == -1,
+      );
+    } catch (_) {
+      return (currentWorkchainId, null, false);
+    }
   }
 
   Future<void> fetchAccountsForCurrentWorkchain() async {

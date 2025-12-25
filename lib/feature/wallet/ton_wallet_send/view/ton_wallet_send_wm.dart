@@ -145,7 +145,7 @@ class TonWalletSendWidgetModel
         _feesState.error(
           UiException(
             LocaleKeys.invalidWorkchainAddress.tr(
-              args: [from?.toString() ?? '', to.toString()],
+              args: [from?.toString() ?? '', to?.toString() ?? ''],
             ),
           ),
           _feesState.value.data,

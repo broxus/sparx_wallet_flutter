@@ -256,7 +256,7 @@ class WalletPrepareTransferPageWidgetModel
 
     if (!isAccess) {
       return LocaleKeys.invalidWorkchainAddress.tr(
-        args: [from?.toString() ?? '', to.toString()],
+        args: [from?.toString() ?? '', to?.toString() ?? value],
       );
     }
 

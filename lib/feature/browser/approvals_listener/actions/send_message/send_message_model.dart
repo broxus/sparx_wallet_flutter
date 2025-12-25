@@ -133,7 +133,7 @@ class SendMessageModel extends ElementaryModel with BleAvailabilityModelMixin {
     );
   }
 
-  (int?, int, bool) checkIsValidWorkchain(String address) {
+  (int?, int?, bool) checkIsValidWorkchain(String address) {
     return _connectionsStorageService.checkIsRightWorkchainByAddress(address);
   }
 }
