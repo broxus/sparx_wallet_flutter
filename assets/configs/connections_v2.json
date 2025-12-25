@@ -38,9 +38,6 @@
       "connectionId": "preset_ton_mainnet_proto"
     },
     {
-      "connectionId": "preset_hmstr_mainnet_proto"
-    },
-    {
       "connectionId": "preset_humo_testnet_proto"
     },
     {
@@ -125,75 +122,6 @@
           "genericTokenType": "jetton",
           "accountExplorerLinkType": "packAddress",
           "transactionExplorerLinkType": "transaction"
-        }
-      ]
-    },
-    {
-      "id": "preset_hmstr_mainnet_proto",
-      "networkName": "Hamster Network",
-      "defaultWorkchainId": 0,
-      "workchains": [
-        {
-          "id": 0,
-          "networkType": "tycho",
-          "networkGroup": "hmstr_mainnet",
-          "transportType": "proto",
-          "endpoints": [
-            "https://rpc.hamster.network"
-          ],
-          "blockExplorerUrl": "https://hamsterscan.io",
-          "manifestUrl": "https://raw.githubusercontent.com/broxus/ton-assets/refs/heads/hmstr/manifest.json",
-          "nativeTokenTicker": {
-            "name": "HMSTR"
-          },
-          "defaultNativeCurrencyDecimal": 9,
-          "icons": {
-            "nativeToken": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/hamster/native_token.svg",
-            "network": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/hamster/network.svg",
-            "vector": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/hamster/vector.svg"
-          },
-          "availableWalletTypes": [
-            {
-              "type": "everWallet"
-            },
-            {
-              "type": "multisig",
-              "value": "multisig2_1"
-            },
-            {
-              "type": "walletV3R1"
-            },
-            {
-              "type": "walletV3R2"
-            },
-            {
-              "type": "walletV4R1"
-            },
-            {
-              "type": "walletV4R2"
-            },
-            {
-              "type": "walletV5R1"
-            }
-          ],
-          "defaultWalletType": {
-            "type": "everWallet"
-          },
-          "defaultActiveAssets": [
-            {
-              "address": "0:fddc005ddffcc9c5cc8e2d684c1338d3fa5548426602b04b2cfd2a1a3504be80"
-            }
-          ],
-          "nativeTokenAddress": "0:39b50cd546326f132e57ce3d6c488d08cb3900dc309a53681b82216993384546",
-          "seedPhraseWordsCount": [
-            12,
-            24
-          ],
-          "tokenApiBaseUrl": "https://tokens.hamsterscan.io/v1",
-          "currencyApiBaseUrl": "https://api.hamsterdex.io/v1/currencies",
-          "genericTokenType": "tip3",
-          "accountExplorerLinkType": "accounts",
-          "transactionExplorerLinkType": "transactions"
         }
       ]
     },
