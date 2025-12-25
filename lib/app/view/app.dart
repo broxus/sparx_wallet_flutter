@@ -1,7 +1,7 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/app_notifications/widget/app_notifications_widget.dart';
 import 'package:app/app/view/app_wm.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/app_notifications/app_notifications.dart';
 import 'package:app/feature/crash_detector/crash_detector.dart';
 import 'package:app/feature/localization/localization.dart';
 import 'package:easy_localization/easy_localization.dart';
