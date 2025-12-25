@@ -194,6 +194,7 @@ class ConnectionsStorageService extends AbstractStorageService {
       _presetsConnectionService.connections;
 
   bool checkIsCurrentWorkchain(int workchainId) =>
+      workchainId == -1 ||
       workchainId == _currentConnectionIdSubject.valueOrNull?.$2;
 
   bool checkIsCurrentWorkchainIfExist(int workchainId) {
