@@ -8,5 +8,4 @@ const tonConnectBackoffMultiplier = 2.0;
 const tonConnectBackoffMaxAttempts = 6; // 2^6 = 64 seconds
 const tonConnectMessageDefaultTtl = 300;
 const tonConnectHttpBridgeSendRetries = 2;
-const tonConnectHttpBridgeUrl =
-    'https://ton-connect-bridge.sparxwallet.com/bridge'; // https://bridge.tonapi.io/bridge
+const tonConnectHttpBridgeUrl = 'https://connect.ton.org/bridge';
