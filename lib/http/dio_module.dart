@@ -13,12 +13,10 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 abstract class DioModule {
   @lazySingleton
   Dio getDio(AppLifecycleInterceptor appLifecycleInterceptor) {
-    const timeoutMinutes = 3;
-
     final dio = Dio()
-      ..options.connectTimeout = const Duration(minutes: timeoutMinutes)
-      ..options.sendTimeout = const Duration(minutes: timeoutMinutes)
-      ..options.receiveTimeout = const Duration(minutes: timeoutMinutes)
+      ..options.connectTimeout = const Duration(seconds: 10)
+      ..options.sendTimeout = const Duration(seconds: 30)
+      ..options.receiveTimeout = const Duration(seconds: 30)
       ..interceptors.addAll([
         appLifecycleInterceptor,
         PrettyDioLogger(
