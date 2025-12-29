@@ -31,7 +31,7 @@ class WalletAppBarModel extends ElementaryModel {
     (wallets, account) => wallets[account.address],
   );
 
-  Stream<ConnectionData?> get connectionStream =>
+  Stream<Connection?> get connectionStream =>
       _storageService.currentConnectionStream;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;

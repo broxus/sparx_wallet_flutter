@@ -128,14 +128,14 @@ return changeNetwork(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String message)?  error,TResult Function( ConnectRequest request,  DappManifest manifest,  Completer<TonConnectUiEventResult<(KeyAccount, List<ConnectItemReply>)>> completer)?  connect,TResult Function( TonAppConnection connection,  TransactionPayload payload,  Completer<TonConnectUiEventResult<SignedMessage>> completer)?  sendTransaction,TResult Function( TonAppConnection connection,  SignDataPayload payload,  Completer<TonConnectUiEventResult<SignDataResult>> completer)?  signData,TResult Function( Uri origin,  int networkId,  List<ConnectionData> connections,  Completer<TransportStrategy?> completer)?  changeNetwork,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String message)?  error,TResult Function( ConnectRequest request,  DappManifest manifest,  Completer<TonConnectUiEventResult<(KeyAccount, List<ConnectItemReply>)>> completer)?  connect,TResult Function( TonAppConnection connection,  TransactionPayload payload,  Completer<TonConnectUiEventResult<SignedMessage>> completer)?  sendTransaction,TResult Function( TonAppConnection connection,  SignDataPayload payload,  Completer<TonConnectUiEventResult<SignDataResult>> completer)?  signData,TResult Function( Uri origin,  int networkId,  List<Connection> conncetions,  Completer<TransportStrategy?> completer)?  changeNetwork,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case TonConnectUiEventError() when error != null:
 return error(_that.message);case TonConnectUiEventConnect() when connect != null:
 return connect(_that.request,_that.manifest,_that.completer);case TonConnectUiEventSendTransaction() when sendTransaction != null:
 return sendTransaction(_that.connection,_that.payload,_that.completer);case TonConnectUiEventSignData() when signData != null:
 return signData(_that.connection,_that.payload,_that.completer);case TonConnectUiEventChangeNetwork() when changeNetwork != null:
-return changeNetwork(_that.origin,_that.networkId,_that.connections,_that.completer);case _:
+return changeNetwork(_that.origin,_that.networkId,_that.conncetions,_that.completer);case _:
   return orElse();
 
 }
@@ -153,14 +153,14 @@ return changeNetwork(_that.origin,_that.networkId,_that.connections,_that.comple
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String message)  error,required TResult Function( ConnectRequest request,  DappManifest manifest,  Completer<TonConnectUiEventResult<(KeyAccount, List<ConnectItemReply>)>> completer)  connect,required TResult Function( TonAppConnection connection,  TransactionPayload payload,  Completer<TonConnectUiEventResult<SignedMessage>> completer)  sendTransaction,required TResult Function( TonAppConnection connection,  SignDataPayload payload,  Completer<TonConnectUiEventResult<SignDataResult>> completer)  signData,required TResult Function( Uri origin,  int networkId,  List<ConnectionData> connections,  Completer<TransportStrategy?> completer)  changeNetwork,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String message)  error,required TResult Function( ConnectRequest request,  DappManifest manifest,  Completer<TonConnectUiEventResult<(KeyAccount, List<ConnectItemReply>)>> completer)  connect,required TResult Function( TonAppConnection connection,  TransactionPayload payload,  Completer<TonConnectUiEventResult<SignedMessage>> completer)  sendTransaction,required TResult Function( TonAppConnection connection,  SignDataPayload payload,  Completer<TonConnectUiEventResult<SignDataResult>> completer)  signData,required TResult Function( Uri origin,  int networkId,  List<Connection> conncetions,  Completer<TransportStrategy?> completer)  changeNetwork,}) {final _that = this;
 switch (_that) {
 case TonConnectUiEventError():
 return error(_that.message);case TonConnectUiEventConnect():
 return connect(_that.request,_that.manifest,_that.completer);case TonConnectUiEventSendTransaction():
 return sendTransaction(_that.connection,_that.payload,_that.completer);case TonConnectUiEventSignData():
 return signData(_that.connection,_that.payload,_that.completer);case TonConnectUiEventChangeNetwork():
-return changeNetwork(_that.origin,_that.networkId,_that.connections,_that.completer);}
+return changeNetwork(_that.origin,_that.networkId,_that.conncetions,_that.completer);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -174,14 +174,14 @@ return changeNetwork(_that.origin,_that.networkId,_that.connections,_that.comple
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String message)?  error,TResult? Function( ConnectRequest request,  DappManifest manifest,  Completer<TonConnectUiEventResult<(KeyAccount, List<ConnectItemReply>)>> completer)?  connect,TResult? Function( TonAppConnection connection,  TransactionPayload payload,  Completer<TonConnectUiEventResult<SignedMessage>> completer)?  sendTransaction,TResult? Function( TonAppConnection connection,  SignDataPayload payload,  Completer<TonConnectUiEventResult<SignDataResult>> completer)?  signData,TResult? Function( Uri origin,  int networkId,  List<ConnectionData> connections,  Completer<TransportStrategy?> completer)?  changeNetwork,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String message)?  error,TResult? Function( ConnectRequest request,  DappManifest manifest,  Completer<TonConnectUiEventResult<(KeyAccount, List<ConnectItemReply>)>> completer)?  connect,TResult? Function( TonAppConnection connection,  TransactionPayload payload,  Completer<TonConnectUiEventResult<SignedMessage>> completer)?  sendTransaction,TResult? Function( TonAppConnection connection,  SignDataPayload payload,  Completer<TonConnectUiEventResult<SignDataResult>> completer)?  signData,TResult? Function( Uri origin,  int networkId,  List<Connection> conncetions,  Completer<TransportStrategy?> completer)?  changeNetwork,}) {final _that = this;
 switch (_that) {
 case TonConnectUiEventError() when error != null:
 return error(_that.message);case TonConnectUiEventConnect() when connect != null:
 return connect(_that.request,_that.manifest,_that.completer);case TonConnectUiEventSendTransaction() when sendTransaction != null:
 return sendTransaction(_that.connection,_that.payload,_that.completer);case TonConnectUiEventSignData() when signData != null:
 return signData(_that.connection,_that.payload,_that.completer);case TonConnectUiEventChangeNetwork() when changeNetwork != null:
-return changeNetwork(_that.origin,_that.networkId,_that.connections,_that.completer);case _:
+return changeNetwork(_that.origin,_that.networkId,_that.conncetions,_that.completer);case _:
   return null;
 
 }
@@ -523,16 +523,16 @@ $SignDataPayloadCopyWith<$Res> get payload {
 
 
 class TonConnectUiEventChangeNetwork implements TonConnectUiEvent {
-   TonConnectUiEventChangeNetwork({required this.origin, required this.networkId, required final  List<ConnectionData> connections, required this.completer}): _connections = connections;
+   TonConnectUiEventChangeNetwork({required this.origin, required this.networkId, required final  List<Connection> conncetions, required this.completer}): _conncetions = conncetions;
   
 
  final  Uri origin;
  final  int networkId;
- final  List<ConnectionData> _connections;
- List<ConnectionData> get connections {
-  if (_connections is EqualUnmodifiableListView) return _connections;
+ final  List<Connection> _conncetions;
+ List<Connection> get conncetions {
+  if (_conncetions is EqualUnmodifiableListView) return _conncetions;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_connections);
+  return EqualUnmodifiableListView(_conncetions);
 }
 
  final  Completer<TransportStrategy?> completer;
@@ -547,16 +547,16 @@ $TonConnectUiEventChangeNetworkCopyWith<TonConnectUiEventChangeNetwork> get copy
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TonConnectUiEventChangeNetwork&&(identical(other.origin, origin) || other.origin == origin)&&(identical(other.networkId, networkId) || other.networkId == networkId)&&const DeepCollectionEquality().equals(other._connections, _connections)&&(identical(other.completer, completer) || other.completer == completer));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TonConnectUiEventChangeNetwork&&(identical(other.origin, origin) || other.origin == origin)&&(identical(other.networkId, networkId) || other.networkId == networkId)&&const DeepCollectionEquality().equals(other._conncetions, _conncetions)&&(identical(other.completer, completer) || other.completer == completer));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,origin,networkId,const DeepCollectionEquality().hash(_connections),completer);
+int get hashCode => Object.hash(runtimeType,origin,networkId,const DeepCollectionEquality().hash(_conncetions),completer);
 
 @override
 String toString() {
-  return 'TonConnectUiEvent.changeNetwork(origin: $origin, networkId: $networkId, connections: $connections, completer: $completer)';
+  return 'TonConnectUiEvent.changeNetwork(origin: $origin, networkId: $networkId, conncetions: $conncetions, completer: $completer)';
 }
 
 
@@ -567,7 +567,7 @@ abstract mixin class $TonConnectUiEventChangeNetworkCopyWith<$Res> implements $T
   factory $TonConnectUiEventChangeNetworkCopyWith(TonConnectUiEventChangeNetwork value, $Res Function(TonConnectUiEventChangeNetwork) _then) = _$TonConnectUiEventChangeNetworkCopyWithImpl;
 @useResult
 $Res call({
- Uri origin, int networkId, List<ConnectionData> connections, Completer<TransportStrategy?> completer
+ Uri origin, int networkId, List<Connection> conncetions, Completer<TransportStrategy?> completer
 });
 
 
@@ -584,12 +584,12 @@ class _$TonConnectUiEventChangeNetworkCopyWithImpl<$Res>
 
 /// Create a copy of TonConnectUiEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? origin = null,Object? networkId = null,Object? connections = null,Object? completer = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? origin = null,Object? networkId = null,Object? conncetions = null,Object? completer = null,}) {
   return _then(TonConnectUiEventChangeNetwork(
 origin: null == origin ? _self.origin : origin // ignore: cast_nullable_to_non_nullable
 as Uri,networkId: null == networkId ? _self.networkId : networkId // ignore: cast_nullable_to_non_nullable
-as int,connections: null == connections ? _self._connections : connections // ignore: cast_nullable_to_non_nullable
-as List<ConnectionData>,completer: null == completer ? _self.completer : completer // ignore: cast_nullable_to_non_nullable
+as int,conncetions: null == conncetions ? _self._conncetions : conncetions // ignore: cast_nullable_to_non_nullable
+as List<Connection>,completer: null == completer ? _self.completer : completer // ignore: cast_nullable_to_non_nullable
 as Completer<TransportStrategy?>,
   ));
 }

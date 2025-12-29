@@ -71,10 +71,15 @@ class TokenWalletSendWidgetModel
   PreparedTokenTransfer? _transfer;
 
   Address get owner => wmParams.value.owner;
+
   Address get rootTokenContract => wmParams.value.rootTokenContract;
+
   PublicKey get publicKey => wmParams.value.publicKey;
+
   Address get destination => wmParams.value.destination;
+
   String? get comment => wmParams.value.comment;
+
   Currency get currency => model.currency;
 
   ListenableState<bool> get isLoadingState => _isLoadingState;
@@ -153,6 +158,22 @@ class TokenWalletSendWidgetModel
 
   Future<void> _init() async {
     try {
+      final (from, to, isAccess) = model.checkIsValidWorkchain(
+        wmParams.value.destination.address,
+      );
+
+      if (!isAccess) {
+        _feesState.error(
+          UiException(
+            LocaleKeys.invalidWorkchainAddress.tr(
+              args: [from?.toString() ?? '', to?.toString() ?? ''],
+            ),
+          ),
+          _feesState.value.data,
+        );
+        return;
+      }
+
       _isLoadingState.accept(true);
 
       await model.initTransfer(
