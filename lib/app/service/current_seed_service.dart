@@ -72,6 +72,7 @@ class CurrentSeedService {
     SeedList list,
   ) async {
     final seed = _getCurrentSeed(currentKey, list);
+
     if (seed != null &&
         currentKey != null &&
         seed.findKeyByPublicKey(currentKey)?.publicKey == currentKey) {
