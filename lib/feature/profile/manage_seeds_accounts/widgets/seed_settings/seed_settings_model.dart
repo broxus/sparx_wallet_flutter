@@ -11,12 +11,14 @@ class SeedSettingsModel extends ElementaryModel with BleAvailabilityModelMixin {
     this._nekotonRepository,
     this._currentKeyService,
     this._ledgerService,
+    this._connectionsStorageService,
     this._delegate,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final CurrentKeyService _currentKeyService;
   final LedgerService _ledgerService;
+  final ConnectionsStorageService _connectionsStorageService;
   final BleAvailabilityModelDelegate _delegate;
 
   @override
@@ -30,8 +32,18 @@ class SeedSettingsModel extends ElementaryModel with BleAvailabilityModelMixin {
   SeedKey? getMasterKey(PublicKey publicKey) =>
       _nekotonRepository.seedList.findSeedByAnyPublicKey(publicKey)?.masterKey;
 
-  Future<void> triggerAddingAccounts(PublicKey publicKey) => _nekotonRepository
-      .triggerAddingAccounts(publicKeys: [publicKey], workchainId: 0);
+  Future<void> triggerAddingAccounts(PublicKey publicKey) async {
+    final currentWorkchainId = _connectionsStorageService.currentWorkchainId;
+
+    if (currentWorkchainId == null) {
+      return;
+    }
+
+    return _nekotonRepository.triggerAddingAccounts(
+      publicKeys: [publicKey],
+      workchainId: currentWorkchainId,
+    );
+  }
 
   Future<void> triggerDerivingKeys({
     required PublicKey masterKey,
@@ -39,10 +51,18 @@ class SeedSettingsModel extends ElementaryModel with BleAvailabilityModelMixin {
   }) => _ledgerService.runWithLedgerIfKeyIsLedger(
     interactionType: LedgerInteractionType.getPublicKey,
     publicKey: masterKey,
-    action: () => _nekotonRepository.triggerDerivingKeys(
-      masterKey: masterKey,
-      password: password,
-      workchainId: 0,
-    ),
+    action: () async {
+      final currentWorkchainId = _connectionsStorageService.currentWorkchainId;
+
+      if (currentWorkchainId == null) {
+        return;
+      }
+
+      return _nekotonRepository.triggerDerivingKeys(
+        masterKey: masterKey,
+        password: password,
+        workchainId: currentWorkchainId,
+      );
+    },
   );
 }

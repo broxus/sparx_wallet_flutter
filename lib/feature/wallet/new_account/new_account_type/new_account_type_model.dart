@@ -15,12 +15,14 @@ class NewAccountTypeModel extends ElementaryModel
     this._ledgerService,
     this._delegate,
     this._secureStringService,
+    this._connectionsStorageService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final LedgerService _ledgerService;
   final BleAvailabilityModelDelegate _delegate;
   final SecureStringService _secureStringService;
+  final ConnectionsStorageService _connectionsStorageService;
 
   @override
   BleAvailabilityModelDelegate get delegate => _delegate;
@@ -43,11 +45,15 @@ class NewAccountTypeModel extends ElementaryModel
       ),
     );
 
-    if (seedKey == null) throw Exception(LocaleKeys.createAccountError.tr());
+    final currentWorkchainId = _connectionsStorageService.currentWorkchainId;
+
+    if (seedKey == null || currentWorkchainId == null) {
+      throw Exception(LocaleKeys.createAccountError.tr());
+    }
 
     return seedKey.accountList.addAccount(
       walletType: walletType,
-      workchain: 0,
+      workchain: currentWorkchainId,
       name: name,
     );
   }
@@ -110,7 +116,7 @@ class NewAccountTypeModel extends ElementaryModel
 
       final found = await TonWallet.findExistingWallets(
         transport: transport.transport,
-        workchainId: 0,
+        workchainId: _connectionsStorageService.currentWorkchainId ?? 0,
         publicKey: key,
         walletTypes: [walletType],
       );
@@ -127,7 +133,7 @@ class NewAccountTypeModel extends ElementaryModel
       derivedKey = await _nekotonRepository.deriveKey(
         params: params,
         addActiveAccounts: false,
-        workchainId: 0,
+        workchainId: _connectionsStorageService.currentWorkchainId ?? 0,
       );
       break;
     }

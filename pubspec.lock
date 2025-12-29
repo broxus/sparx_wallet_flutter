@@ -997,10 +997,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_secure_storage_darwin
-      sha256: f226f2a572bed96bc6542198ebaec227150786e34311d455a7e2d3d06d951845
+      sha256: "81ef5abfb9cbeb78110d8043ba29f0b36cd7ffa989baa1b2d9482542b2200051"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "0.1.1"
   flutter_secure_storage_linux:
     dependency: transitive
     description:
@@ -1132,10 +1132,10 @@ packages:
     dependency: "direct main"
     description:
       name: get_it
-      sha256: "2c120112e34bbd5f4ce2ca1ad3076a5b2068eb1e48aae8dd7b717b26cdd38543"
+      sha256: "1d648d2dd2047d7f7450d5727ca24ee435f240385753d90b49650e3cdff32e56"
       url: "https://pub.dev"
     source: hosted
-    version: "9.1.1"
+    version: "9.2.0"
   get_storage:
     dependency: "direct main"
     description:
@@ -1292,10 +1292,10 @@ packages:
     dependency: transitive
     description:
       name: image_picker_ios
-      sha256: "997d100ce1dda5b1ba4085194c5e36c9f8a1fb7987f6a36ab677a344cd2dc986"
+      sha256: "956c16a42c0c708f914021666ffcd8265dde36e673c9fa68c81f7d085d9774ad"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.13+2"
+    version: "0.8.13+3"
   image_picker_linux:
     dependency: transitive
     description:
@@ -1364,10 +1364,10 @@ packages:
     dependency: "direct main"
     description:
       name: injectable
-      sha256: "32e9bac6fe9c84339c5add60478d27a01e363ce1ad5c22ca7e525c6b28a7559c"
+      sha256: "8fc24421cfeff76d1d38484d8b9617beeb54a58b6edfd002b10cc896b8b8f3fe"
       url: "https://pub.dev"
     source: hosted
-    version: "2.7.0"
+    version: "2.7.1+2"
   injectable_generator:
     dependency: "direct dev"
     description:
@@ -1385,10 +1385,10 @@ packages:
     dependency: "direct main"
     description:
       name: internet_connection_checker_plus
-      sha256: "66dc124f9b58a630844f61c1ae6f01f100f5fe63d9410506218d81d93d86ead3"
+      sha256: "4f1817b67106349905235020d30c7387c0fbb464c8d5b1237df741f5b9bdd346"
       url: "https://pub.dev"
     source: hosted
-    version: "2.9.1"
+    version: "2.9.1+1"
   intl:
     dependency: transitive
     description:
@@ -1489,10 +1489,10 @@ packages:
     dependency: transitive
     description:
       name: local_auth_android
-      sha256: "04dd9050b59cb4bcaf051d44eec65865779a9b2f6daccc523f59f96b565a5d54"
+      sha256: "162b8e177fd9978c4620da2a8002a5c6bed4d20f0c6daf5137e72e9a8b767d2e"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.3"
+    version: "2.0.4"
   local_auth_darwin:
     dependency: transitive
     description:
@@ -1790,7 +1790,7 @@ packages:
     source: hosted
     version: "2.2.1"
   path_provider_platform_interface:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: path_provider_platform_interface
       sha256: "88f5779f72ba699763fa3a3b06aa4bf6de76c8e5de842cf6f29e2e06476c2334"
@@ -1878,7 +1878,7 @@ packages:
     source: hosted
     version: "3.1.6"
   plugin_platform_interface:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: plugin_platform_interface
       sha256: "4820fbfdb9478b1ebae27888254d445073732dae3d6ea81f0b7e06d5dedc3f02"
@@ -2066,18 +2066,18 @@ packages:
     dependency: "direct main"
     description:
       name: rive
-      sha256: fc0abf65d03d1c9afaeb35be9e71c7cf04d2d1f76e94e69d2af1b3ba413cddf9
+      sha256: "4e555e212e28d6502eba37bab08213faa798de79c5cf21c950f122b50a5e33ba"
       url: "https://pub.dev"
     source: hosted
-    version: "0.14.0-dev.14"
+    version: "0.14.0"
   rive_native:
     dependency: transitive
     description:
       name: rive_native
-      sha256: e9c7d36f19eb6d32f563825d4e9d5032b19a36d3ca3341641431035bca022d19
+      sha256: "4e72aab284fe875e4b7da4b445117e8882f777fcc0358d4416b5850334246fb7"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.17"
+    version: "0.1.0"
   rxdart:
     dependency: "direct main"
     description:
@@ -2138,10 +2138,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_android
-      sha256: "46a46fd64659eff15f4638bbe19de43f9483f0e0bf024a9fb6b3582064bacc7b"
+      sha256: "83af5c682796c0f7719c2bbf74792d113e40ae97981b8f266fa84574573556bc"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.17"
+    version: "2.4.18"
   shared_preferences_foundation:
     dependency: transitive
     description:
@@ -2335,10 +2335,10 @@ packages:
     dependency: transitive
     description:
       name: sqlparser
-      sha256: "54eea43e36dd3769274c3108625f9ea1a382f8d2ac8b16f3e4589d9bd9b0e16c"
+      sha256: "162435ede92bcc793ea939fdc0452eef0a73d11f8ed053b58a89792fba749da5"
       url: "https://pub.dev"
     source: hosted
-    version: "0.42.0"
+    version: "0.42.1"
   stack_trace:
     dependency: transitive
     description:
@@ -2448,10 +2448,10 @@ packages:
     dependency: transitive
     description:
       name: time
-      sha256: "370572cf5d1e58adcb3e354c47515da3f7469dac3a95b447117e728e7be6f461"
+      sha256: "46187cf30bffdab28c56be9a63861b36e4ab7347bf403297595d6a97e10c789f"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.5"
+    version: "2.1.6"
   timing:
     dependency: transitive
     description:
@@ -2696,10 +2696,10 @@ packages:
     dependency: transitive
     description:
       name: yaml_edit
-      sha256: fb38626579fb345ad00e674e2af3a5c9b0cc4b9bfb8fd7f7ff322c7c9e62aef5
+      sha256: ec709065bb2c911b336853b67f3732dd13e0336bd065cc2f1061d7610ddf45e3
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.2"
+    version: "2.2.3"
 sdks:
   dart: ">=3.9.0 <4.0.0"
   flutter: ">=3.35.5"

@@ -1,4 +1,4 @@
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/service.dart';
 
 enum ConnectionType {
   jrpc,
@@ -27,10 +27,10 @@ enum ConnectionType {
     }
   }
 
-  static ConnectionType fromConnection(ConnectionData connection) =>
-      switch (connection) {
-        ConnectionDataGql() => ConnectionType.gql,
-        ConnectionDataProto() => ConnectionType.proto,
-        ConnectionDataJrpc() => ConnectionType.jrpc,
+  static ConnectionType fromConnection(Connection connection) =>
+      switch (connection.defaultWorkchain.transportType) {
+        WorkchainTransportType.gql => ConnectionType.gql,
+        WorkchainTransportType.proto => ConnectionType.proto,
+        WorkchainTransportType.jrpc => ConnectionType.jrpc,
       };
 }
