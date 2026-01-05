@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:app/app/service/service.dart';
 import 'package:app/app/service/service.dart' as s;
+import 'package:app/app/service/storage_service/connections_storage/connections_ids_data.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/browser/custom_web_controller.dart';
 import 'package:app/feature/browser/utils.dart';
@@ -1693,11 +1695,7 @@ class InpageProvider extends ProviderApi {
     _checkBasicPermission();
 
     final networkId = input.network.networkId.toInt();
-    final connections = await connectionsStorageService
-        .getConnectionsByNetworkId(
-          networkId: networkId,
-          getNetworkId: connectionService.getNetworkId,
-        );
+    final connections = await _getConnections(networkId);
 
     if (connections.isNotEmpty) {
       throw s.ApprovalsHandleException(LocaleKeys.networkAlreadyExists.tr());
@@ -1705,8 +1703,8 @@ class InpageProvider extends ProviderApi {
 
     nr.Transport? transport;
     try {
-      transport = await connectionService.createTransportByConnection(
-        input.network.getConnection(),
+      transport = await connectionService.createTransportByWorkchain(
+        input.network.getConnection().defaultWorkchain,
       );
 
       if (transport.networkId != input.network.networkId) {
@@ -1731,11 +1729,7 @@ class InpageProvider extends ProviderApi {
 
     final networkId = input.networkId.toInt();
     final currentTransport = nekotonRepository.currentTransport;
-    final connections = await connectionsStorageService
-        .getConnectionsByNetworkId(
-          networkId: networkId,
-          getNetworkId: connectionService.getNetworkId,
-        );
+    final connections = await _getConnections(networkId);
 
     if (connections.isEmpty) {
       return const ChangeNetworkOutput(null);
@@ -1787,6 +1781,56 @@ class InpageProvider extends ProviderApi {
     );
 
     return RunGetterOutput(executionOutput.output, executionOutput.code);
+  }
+
+  Future<List<Connection>> _getConnections(int networkId) async {
+    final connections = connectionsStorageService.connections;
+    final networksIds = connectionsStorageService.connectionsIds;
+    final list = <Connection>[];
+    final update = <ConnectionIdsData>[];
+
+    for (final connection in connections) {
+      nr.Transport? transport;
+
+      try {
+        var cachedNetworkId =
+            networksIds['${connection.id}${connection.defaultWorkchain.id}']
+                ?.networkId;
+
+        // connect to get network id
+        if (cachedNetworkId == null) {
+          transport = await connectionService.createTransportByWorkchain(
+            connection.defaultWorkchain,
+          );
+
+          cachedNetworkId = transport.networkId;
+          update.add(
+            ConnectionIdsData(
+              connectionId: connection.id,
+              workchainId: connection.defaultWorkchainId,
+              networkId: transport.networkId,
+            ),
+          );
+        }
+
+        if (cachedNetworkId == networkId) {
+          list.add(connection);
+        }
+      } catch (e) {
+        _logger.severe(
+          'Error getting network id for connection: '
+          '${connection.networkName} (${connection.id})',
+        );
+      } finally {
+        await transport?.dispose();
+      }
+    }
+
+    if (update.isNotEmpty) {
+      connectionsStorageService.updateConnectionsIds(update);
+    }
+
+    return list;
   }
 
   Future<int?> _computeSignatureId(Object? withSignatureId) async {
