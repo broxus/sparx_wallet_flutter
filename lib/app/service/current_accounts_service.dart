@@ -21,11 +21,13 @@ class CurrentAccountsService {
     this._nekotonRepository,
     this._currentKeyService,
     this._storage,
+    this._connectionsStorageService,
   );
 
   final NekotonRepository _nekotonRepository;
   final CurrentKeyService _currentKeyService;
   final GeneralStorageService _storage;
+  final ConnectionsStorageService _connectionsStorageService;
 
   final _currentAccountsSubject = BehaviorSubject<AccountList?>();
 
@@ -46,12 +48,19 @@ class CurrentAccountsService {
   ///
   /// You can affect for this stream, calling [updateCurrentActiveAccount]
   Stream<KeyAccount?> get currentActiveAccountStream =>
-      CombineLatestStream.combine2(
+      CombineLatestStream.combine3(
         _storage.currentAddressStream,
         _currentAccountsSubject,
-        (address, accounts) => accounts?.allAccounts.firstWhereOrNull(
-          (account) => account.address == address,
-        ),
+        _connectionsStorageService.currentConnectionIdStream,
+        (address, accounts, _) {
+          return accounts?.allAccounts.firstWhereOrNull(
+            (account) =>
+                account.address == address &&
+                _connectionsStorageService.checkIsCurrentWorkchainIfExist(
+                  account.workchain,
+                ),
+          );
+        },
       );
 
   /// Get current active account in wallet tab.
@@ -69,6 +78,8 @@ class CurrentAccountsService {
 
   Future<void> init() async {
     // skip 1 to avoid duplicate calls
+
+    await _connectionsStorageService.fetchAccountsForCurrentWorkchain();
     _nekotonRepository.seedListStream
         .skip(1)
         .listen(
@@ -104,7 +115,6 @@ class CurrentAccountsService {
 
   void _initCurrentAccount() {
     final address = _storage.currentAddress;
-
     if (address == null) {
       return;
     }
@@ -162,15 +172,31 @@ class CurrentAccountsService {
     }
 
     final address = currentActiveAccountAddress;
+
     final keyChanged =
         address == null ||
-        list.allAccounts.every((account) => account.address != address);
+        list.allAccounts.every(
+          (account) =>
+              account.address != address ||
+              !_connectionsStorageService.checkIsCurrentWorkchain(
+                account.workchain,
+              ),
+        );
 
     // key changed
     // for init method this will be called anyway.
     if (keyChanged) {
       final account =
-          list.displayAccounts.firstOrNull ?? list.allAccounts.firstOrNull;
+          list.displayAccounts.firstWhereOrNull(
+            (account) => _connectionsStorageService.checkIsCurrentWorkchain(
+              account.workchain,
+            ),
+          ) ??
+          list.allAccounts.firstWhereOrNull(
+            (account) => _connectionsStorageService.checkIsCurrentWorkchain(
+              account.workchain,
+            ),
+          );
 
       if (account != null) {
         updateCurrentActiveAccount(account.address);
@@ -185,6 +211,7 @@ class CurrentAccountsService {
     }
 
     final key = list.findSeedKey(currentKey);
+
     _tryUpdatingCurrentActiveAccount(key?.accountList);
 
     if (key == null) {
