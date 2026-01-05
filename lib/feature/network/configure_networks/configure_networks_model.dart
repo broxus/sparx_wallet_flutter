@@ -9,6 +9,5 @@ class ConfigureNetworksModel extends ElementaryModel {
 
   final ConnectionsStorageService _storageService;
 
-  Stream<List<ConnectionData>> get connections =>
-      _storageService.connectionsStream;
+  Stream<List<Connection>> get connections => _storageService.connectionsStream;
 }

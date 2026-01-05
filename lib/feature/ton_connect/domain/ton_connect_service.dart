@@ -246,7 +246,8 @@ class TonConnectService {
     features: const [
       'SendTransaction',
       Feature.sendTransaction(maxMessages: 4),
-      Feature.signData(types: ['text', 'binary']), // 'text' | 'binary' | 'cell'
+      Feature.signData(types: ['text', 'binary']),
+      // 'text' | 'binary' | 'cell'
     ],
   );
 
@@ -286,21 +287,30 @@ class TonConnectService {
         (network != null && network.toInt() != transport.transport.networkId)) {
       final completer = Completer<TransportStrategy?>();
 
-      final connections = network == null
-          ? _connectionsStorageService.connections.where(
-              (connection) => connection.networkType.isTon,
-            )
-          : await _connectionsStorageService.getConnectionsByNetworkId(
-              networkId: network.toInt(),
-              getNetworkId: _connectionService.getNetworkId,
-            );
+      final connectionsMap = <String, Connection>{};
 
-      if (connections.isNotEmpty) {
+      if (network == null) {
+        final connections = _connectionsStorageService.connections;
+
+        for (final c in connections) {
+          for (final w in c.workchains) {
+            if (!w.networkType.isTon) continue;
+            connectionsMap[c.id] = c;
+          }
+        }
+      } else {
+        await _connectionsStorageService.getWorkchainsByNetworkId(
+          networkId: network.toInt(),
+          getNetworkId: _connectionService.getNetworkId,
+        );
+      }
+
+      if (connectionsMap.isNotEmpty) {
         _uiEvents.add(
           TonConnectUiEvent.changeNetwork(
             origin: manifest.url,
             networkId: network?.toInt() ?? TonNetwork.mainnet.toInt(),
-            connections: connections.toList(),
+            conncetions: connectionsMap.values.toList(),
             completer: completer,
           ),
         );

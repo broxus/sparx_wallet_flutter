@@ -372,7 +372,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
   Future<void> changeNetwork({
     required Uri origin,
     required int networkId,
-    required List<ConnectionData> connections,
+    required List<Connection> connections,
     required Completer<TransportStrategy?> completer,
   }) async {
     try {

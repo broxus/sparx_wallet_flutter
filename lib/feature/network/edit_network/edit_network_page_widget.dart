@@ -14,7 +14,8 @@ class EditNetworkPageWidget
   Widget build(EditNetworkWidgetModel wm) {
     return Scaffold(
       appBar: DefaultAppBar(
-        titleText: wm.connection?.name ?? LocaleKeys.addCustomNetwork.tr(),
+        titleText:
+            wm.connection?.networkName ?? LocaleKeys.addCustomNetwork.tr(),
         onClosePressed: wm.onBack,
       ),
       body: Stack(

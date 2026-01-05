@@ -125,7 +125,7 @@ class _RootViewState extends State<RootView> {
       TonConnectUiEventChangeNetwork(
         :final origin,
         :final networkId,
-        :final connections,
+        :final conncetions,
         :final completer,
       ) =>
         completer.completeSafe(
@@ -134,7 +134,7 @@ class _RootViewState extends State<RootView> {
             context: context,
             origin: origin,
             networkId: networkId,
-            connections: connections,
+            connections: conncetions,
           ),
         ),
     };
