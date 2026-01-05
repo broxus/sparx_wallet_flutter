@@ -22,6 +22,7 @@ ImportLedgerWidgetModel defaultImportLedgerWidgetModelFactory(
     inject(),
     inject(),
     inject(),
+    inject(),
   ),
 );
 

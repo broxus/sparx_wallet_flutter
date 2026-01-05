@@ -1,4 +1,4 @@
-import 'package:app/app/service/connection/connection_service.dart';
+import 'package:app/app/service/service.dart';
 
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
