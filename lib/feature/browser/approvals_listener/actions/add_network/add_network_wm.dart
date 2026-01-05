@@ -55,11 +55,11 @@ class AddNetworkWidgetModel
   Future<void> onConfirm() async {
     _loadingState.value = true;
     try {
-      final connection = _networkState.value.getConnection();
-      final network = await model.addConnection(connection);
+      final n = _networkState.value.getConnection();
+      final network = await model.addNetwork(n);
 
       if (_switchNetworkState.value) {
-        await model.changeNetwork(connection.id);
+        await model.changeNetwork(n.id);
       }
 
       if (contextSafe != null) {

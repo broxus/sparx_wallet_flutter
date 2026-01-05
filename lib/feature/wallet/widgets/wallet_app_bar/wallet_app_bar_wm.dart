@@ -1,5 +1,5 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/network/bottom_sheets/bottom_sheets.dart';
 import 'package:app/feature/qr_scanner/qr_scanner.dart';
@@ -30,7 +30,7 @@ class WalletAppBarWidgetModel
 
   ListenableState<TonWalletState?> get walletState => _walletState;
 
-  ListenableState<ConnectionData?> get connectionState => _connectionState;
+  ListenableState<Connection?> get connectionState => _connectionState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 

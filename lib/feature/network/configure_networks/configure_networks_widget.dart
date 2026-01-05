@@ -24,7 +24,7 @@ class ConfigureNetworksWidget
               itemBuilder: (_, index) {
                 final item = connections?[index];
                 return item?.let(
-                  (data) => NetworkItem(
+                  (data) => NetworkItem.formConnection(
                     padding: const EdgeInsets.symmetric(
                       vertical: DimensSize.d8,
                     ),
