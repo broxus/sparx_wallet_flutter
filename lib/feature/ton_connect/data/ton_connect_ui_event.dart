@@ -36,7 +36,7 @@ sealed class TonConnectUiEvent with _$TonConnectUiEvent {
   factory TonConnectUiEvent.changeNetwork({
     required Uri origin,
     required int networkId,
-    required List<ConnectionData> connections,
+    required List<Connection> conncetions,
     required Completer<TransportStrategy?> completer,
   }) = TonConnectUiEventChangeNetwork;
 }
