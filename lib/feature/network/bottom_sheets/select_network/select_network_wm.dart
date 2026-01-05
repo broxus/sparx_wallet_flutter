@@ -1,5 +1,5 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/network/bottom_sheets/select_network/select_network_model.dart';
 import 'package:app/feature/network/bottom_sheets/select_network/select_network_widget.dart';
@@ -23,11 +23,10 @@ class SelectNetworkWidgetModel
   );
   late final _connectionsState = createNotifierFromStream(model.connections);
 
-  ListenableState<String> get currentConnectionIdState =>
+  ListenableState<(String, int)?> get currentConnectionIdState =>
       _currentConnectionIdState;
 
-  ListenableState<List<ConnectionData>> get connectionsState =>
-      _connectionsState;
+  ListenableState<List<Connection>> get connectionsState => _connectionsState;
 
   bool get _needPopAfterAction => wmParams.value;
 
@@ -36,8 +35,8 @@ class SelectNetworkWidgetModel
     context.compassContinue(const ConfigureNetworksRouteData());
   }
 
-  void onItemTap(ConnectionData data) {
-    if (_needPopAfterAction) Navigator.of(context).pop(data.id);
-    model.changeCurrentConnection(data.id);
+  void onItemTap(Connection connection) {
+    if (_needPopAfterAction) Navigator.of(context).pop(connection.id);
+    model.changeCurrentConnection(connection.id);
   }
 }
