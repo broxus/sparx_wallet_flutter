@@ -26,7 +26,10 @@ class NetworkDropItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          NetworkIcon(group: data.group, itemSize: DimensSize.d28),
+          NetworkIcon(
+            group: data.defaultWorkchain.networkGroup,
+            itemSize: DimensSize.d28,
+          ),
           const SizedBox(width: DimensSize.d4),
           const Icon(LucideIcons.chevronDown, size: DimensSize.d20),
         ],

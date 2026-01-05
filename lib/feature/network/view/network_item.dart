@@ -5,13 +5,14 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 class NetworkItem extends StatelessWidget {
   const NetworkItem({
-    required this.data,
-    this.padding = const EdgeInsets.symmetric(vertical: DimensSize.d12),
+    required this.networkGroup,
+    required this.title,
+    EdgeInsets? padding,
     this.trailing,
     this.onTap,
     super.key,
   }) : padding =
-           padding ?? const EdgeInsets.symmetric(vertical: DimensSizeV2.d12);
+           padding ?? const EdgeInsets.symmetric(vertical: DimensSize.d12);
 
   NetworkItem.formConnection({
     required Connection data,
@@ -60,10 +61,10 @@ class NetworkItem extends StatelessWidget {
         padding: padding,
         child: SeparatedRow(
           children: [
-            NetworkIcon(group: data.group),
+            NetworkIcon(group: networkGroup),
             Expanded(
               child: Text(
-                data.name,
+                title,
                 style: theme.textStyles.labelMedium.copyWith(
                   color: theme.colors.content0,
                 ),
