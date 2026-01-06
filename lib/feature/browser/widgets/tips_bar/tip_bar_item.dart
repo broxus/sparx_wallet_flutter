@@ -15,9 +15,9 @@ class HistoryTip extends StatelessWidget {
 
     return _Body(
       backgroundColor: theme.colors.background2,
-      borderRadius: BorderRadius.circular(DimensSizeV2.d12),
+      borderRadius: BorderRadius.circular(DimensSize.d12),
       onPressed: onPressed,
-      icon: const Icon(LucideIcons.history, size: DimensSizeV2.d20),
+      icon: const Icon(LucideIcons.history, size: DimensSize.d20),
       description: Text(
         title,
         style: theme.textStyles.paragraphXMedium,
@@ -45,18 +45,18 @@ class BookmarkTip extends StatelessWidget {
 
     return _Body(
       backgroundColor: theme.colors.background1,
-      borderRadius: BorderRadius.circular(DimensSizeV2.d16),
+      borderRadius: BorderRadius.circular(DimensSize.d16),
       crossAxisAlignment: CrossAxisAlignment.start,
       onPressed: onPressed,
       icon: FaviconView(
         uri: uri,
-        height: DimensSizeV2.d40,
-        width: DimensSizeV2.d40,
+        height: DimensSize.d40,
+        width: DimensSize.d40,
       ),
       description: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: DimensSizeV2.d4,
+        spacing: DimensSize.d4,
         children: [
           Text(
             title,
@@ -96,7 +96,7 @@ class _Body extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Padding(
-        padding: const EdgeInsets.only(top: DimensSizeV2.d8),
+        padding: const EdgeInsets.only(top: DimensSize.d8),
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: backgroundColor,
@@ -104,8 +104,8 @@ class _Body extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: DimensSizeV2.d12,
-              horizontal: DimensSizeV2.d16,
+              vertical: DimensSize.d12,
+              horizontal: DimensSize.d16,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -114,14 +114,14 @@ class _Body extends StatelessWidget {
                 Flexible(
                   child: Row(
                     crossAxisAlignment: crossAxisAlignment,
-                    spacing: DimensSizeV2.d8,
+                    spacing: DimensSize.d8,
                     children: [
                       icon,
                       Flexible(child: description),
                     ],
                   ),
                 ),
-                const Icon(LucideIcons.chevronRight, size: DimensSizeV2.d20),
+                const Icon(LucideIcons.chevronRight, size: DimensSize.d20),
               ],
             ),
           ),

@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class NftPrepareTransfer
     extends
@@ -29,7 +28,7 @@ class NftPrepareTransfer
         listenableEntityState: wm.dataState,
         loadingBuilder: (_, __) => const Center(
           child: Padding(
-            padding: EdgeInsets.all(DimensSizeV2.d16),
+            padding: EdgeInsets.all(DimensSize.d16),
             child: CommonCircularProgressIndicator(
               size: CircularIndicatorSize.large,
             ),
@@ -44,7 +43,7 @@ class NftPrepareTransfer
           final theme = wm.theme;
 
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+            padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
             child: Form(
               key: wm.formKey,
               child: Column(
@@ -91,7 +90,7 @@ class NftPrepareTransfer
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
-                              spacing: DimensSizeV2.d6,
+                              spacing: DimensSize.d6,
                               children: [
                                 PrimaryTextField(
                                   labelText: LocaleKeys.amountInputLabel.tr(),
@@ -148,7 +147,7 @@ class _TokenFlag extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d4),
+      padding: const EdgeInsets.symmetric(vertical: DimensSize.d4),
       child: Text(
         LocaleKeys.nftTransferDescription.tr(),
         style: theme.textStyles.paragraphMedium.copyWith(
@@ -247,21 +246,21 @@ class _Item extends StatelessWidget {
       color: theme.colors.background1,
       margin: EdgeInsets.zero,
       padding: const EdgeInsets.symmetric(
-        horizontal: DimensSizeV2.d16,
-        vertical: DimensSizeV2.d8,
+        horizontal: DimensSize.d16,
+        vertical: DimensSize.d8,
       ),
       children: [
         SizedBox(
-          width: DimensSizeV2.d40,
-          height: DimensSizeV2.d40,
+          width: DimensSize.d40,
+          height: DimensSize.d40,
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(DimensRadiusV2.radius20),
+            borderRadius: BorderRadius.circular(DimensRadius.radius20),
             child: NftImage(imageUrl: item.nft.previewUrl),
           ),
         ),
         Expanded(
           child: Column(
-            spacing: DimensSizeV2.d4,
+            spacing: DimensSize.d4,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -284,11 +283,11 @@ class _Item extends StatelessWidget {
         if (balance != null && supply != null)
           PrimaryCard(
             padding: const EdgeInsets.symmetric(
-              horizontal: DimensSizeV2.d4,
-              vertical: DimensSizeV2.d2,
+              horizontal: DimensSize.d4,
+              vertical: DimensSize.d2,
             ),
             color: theme.colors.background2,
-            borderRadius: BorderRadius.circular(DimensRadiusV2.radius6),
+            borderRadius: BorderRadius.circular(DimensRadius.radius6),
             child: Text(
               '$balance/$supply',
               style: theme.textStyles.labelXSmall,

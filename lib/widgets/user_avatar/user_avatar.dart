@@ -20,8 +20,8 @@ class UserAvatar
   @override
   Widget build(UserAvatarWidgetModel wm) {
     return SizedBox(
-      width: size ?? DimensSizeV2.d40,
-      height: size ?? DimensSizeV2.d40,
+      width: size ?? DimensSize.d40,
+      height: size ?? DimensSize.d40,
       child: StateNotifierBuilder<AvatarData?>(
         listenableState: wm.avatarState,
         builder: (_, data) {
@@ -39,7 +39,7 @@ class UserAvatar
             ),
             AvatarType.raw => ClipRRect(
               borderRadius: BorderRadius.circular(
-                borderRadius ?? DimensRadiusV2.radius12,
+                borderRadius ?? DimensRadius.radius12,
               ),
               child: SvgPicture.string(
                 data.path,

@@ -1,7 +1,7 @@
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class BrowserStartView extends StatelessWidget {
   const BrowserStartView({super.key});
@@ -21,14 +21,14 @@ class BrowserStartView extends StatelessWidget {
           children: [
             Assets.images.bgNetwork.image(width: double.infinity),
             Positioned(
-              bottom: DimensSizeV2.d4,
+              bottom: DimensSize.d4,
               left: 0,
               right: 0,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom: DimensSizeV2.d8),
+                    padding: const EdgeInsets.only(bottom: DimensSize.d8),
                     child: Text(
                       LocaleKeys.browserStartTitle.tr(),
                       textAlign: TextAlign.center,
@@ -36,7 +36,7 @@ class BrowserStartView extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: DimensSizeV2.d24),
+                    padding: const EdgeInsets.only(bottom: DimensSize.d24),
                     child: Text(
                       LocaleKeys.browserStartDescription.tr(),
                       textAlign: TextAlign.center,
@@ -45,7 +45,7 @@ class BrowserStartView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Icon(LucideIcons.arrowDown, size: DimensSizeV2.d40),
+                  const Icon(LucideIcons.arrowDown, size: DimensSize.d40),
                 ],
               ),
             ),

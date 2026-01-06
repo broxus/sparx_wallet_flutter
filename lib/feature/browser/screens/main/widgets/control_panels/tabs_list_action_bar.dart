@@ -3,7 +3,7 @@ import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class BrowserTabsListActionBar extends StatelessWidget {
   const BrowserTabsListActionBar({
@@ -23,7 +23,7 @@ class BrowserTabsListActionBar extends StatelessWidget {
   final VoidCallback onPlusPressed;
   final VoidCallback onDonePressed;
 
-  static const height = DimensSizeV2.d48;
+  static const height = DimensSize.d48;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class BrowserTabsListActionBar extends StatelessWidget {
       child: ColoredBox(
         color: colors.background1,
         child: SizedBox(
-          height: DimensSizeV2.d48,
+          height: DimensSize.d48,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -53,24 +53,24 @@ class BrowserTabsListActionBar extends StatelessWidget {
                 behavior: HitTestBehavior.opaque,
                 onTap: onGroupsMenuPressed,
                 child: SizedBox(
-                  width: DimensSizeV2.d32,
+                  width: DimensSize.d32,
                   height: double.infinity,
                   child: Icon(
                     LucideIcons.menu,
-                    size: DimensSizeV2.d20,
+                    size: DimensSize.d20,
                     color: colors.content3,
                   ),
                 ),
               ),
               SizedBox(
-                width: DimensSizeV2.d32,
+                width: DimensSize.d32,
                 height: double.infinity,
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: onPlusPressed,
                   child: Icon(
                     LucideIcons.plus,
-                    size: DimensSizeV2.d20,
+                    size: DimensSize.d20,
                     color: colors.content3,
                   ),
                 ),

@@ -4,7 +4,6 @@ import 'package:app/generated/generated.dart';
 import 'package:app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class AddExternalAccountWidget
     extends InjectedElementaryWidget<AddExternalAccountWidgetModel> {
@@ -15,7 +14,7 @@ class AddExternalAccountWidget
     return Scaffold(
       appBar: DefaultAppBar(titleText: LocaleKeys.addExternalAccount.tr()),
       body: Padding(
-        padding: const EdgeInsets.all(DimensSizeV2.d16),
+        padding: const EdgeInsets.all(DimensSize.d16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -23,13 +22,13 @@ class AddExternalAccountWidget
               LocaleKeys.addExistingAccountDescription.tr(),
               style: wm.theme.textStyles.paragraphMedium,
             ),
-            const SizedBox(height: DimensSizeV2.d24),
+            const SizedBox(height: DimensSize.d24),
             PrimaryTextField(
               textEditingController: wm.nameController,
               hintText: LocaleKeys.nameWord.tr(),
               onSubmit: (_) => wm.focusNode.requestFocus(),
             ),
-            const SizedBox(height: DimensSizeV2.d12),
+            const SizedBox(height: DimensSize.d12),
             PrimaryTextField(
               textEditingController: wm.addressController,
               focusNode: wm.focusNode,
@@ -53,7 +52,7 @@ class AddExternalAccountWidget
                 onPressed: wm.onSubmit,
               ),
             ),
-            const SizedBox(height: DimensSizeV2.d12),
+            const SizedBox(height: DimensSize.d12),
           ],
         ),
       ),

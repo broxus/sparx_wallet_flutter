@@ -60,21 +60,21 @@ class _CallContractMethod extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return SeparatedColumn(
-      spacing: DimensSizeV2.d12,
+      spacing: DimensSize.d12,
       children: [
         Expanded(
           child: SingleChildScrollView(
             controller: scrollController,
             child: SeparatedColumn(
-              spacing: DimensSizeV2.d12,
+              spacing: DimensSize.d12,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 AccountInfoWidget(account: account),
                 WebsiteInfoWidget(uri: origin),
                 ExpandableCard(
-                  collapsedHeight: DimensSizeV2.d256,
+                  collapsedHeight: DimensSize.d256,
                   child: SeparatedColumn(
-                    spacing: DimensSizeV2.d16,
+                    spacing: DimensSize.d16,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(

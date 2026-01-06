@@ -9,7 +9,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 class CancelUnstakingPageWidget
     extends
@@ -57,20 +56,20 @@ class CancelUnstakingPageWidget
       body: Stack(
         children: [
           Positioned.fill(
-            bottom: DimensSizeV2.d90,
+            bottom: DimensSize.d90,
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(
-                horizontal: DimensSizeV2.d16,
-                vertical: DimensSizeV2.d8,
+                horizontal: DimensSize.d16,
+                vertical: DimensSize.d8,
               ),
               child: PrimaryCard(
                 padding: const EdgeInsets.symmetric(
                   horizontal: DimensSize.d16,
                   vertical: DimensSize.d8,
                 ),
-                borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+                borderRadius: BorderRadius.circular(DimensRadius.radius12),
                 child: SeparatedColumn(
-                  spacing: DimensSizeV2.d16,
+                  spacing: DimensSize.d16,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const SizedBox.shrink(),
@@ -140,11 +139,11 @@ class CancelUnstakingPageWidget
             ),
           ),
           Positioned(
-            bottom: DimensSizeV2.d0,
-            left: DimensSizeV2.d0,
-            right: DimensSizeV2.d0,
+            bottom: DimensSize.d0,
+            left: DimensSize.d0,
+            right: DimensSize.d0,
             child: Padding(
-              padding: const EdgeInsets.all(DimensSizeV2.d16),
+              padding: const EdgeInsets.all(DimensSize.d16),
               child: DestructiveButton(
                 buttonShape: ButtonShape.pill,
                 title: LocaleKeys.cancelUnstaking.tr(),

@@ -30,17 +30,17 @@ class AccountInfo extends StatelessWidget {
 
     return ShapedContainerRow(
       color: color ?? theme.colors.background1,
-      squircleRadius: DimensSizeV2.d16,
+      squircleRadius: DimensSize.d16,
       margin: EdgeInsets.zero,
       padding: const EdgeInsets.symmetric(
-        horizontal: DimensSizeV2.d16,
-        vertical: DimensSizeV2.d12,
+        horizontal: DimensSize.d16,
+        vertical: DimensSize.d12,
       ),
       children: [
         UserAvatar(address: account.address.address),
         Flexible(
           child: SeparatedColumn(
-            spacing: DimensSizeV2.d4,
+            spacing: DimensSize.d4,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(

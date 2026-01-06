@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
-
 /// Item of dropdown that allows displaying elements in UI.
 class CommonSheetDropdownItem<T> {
   CommonSheetDropdownItem({
@@ -59,23 +57,23 @@ class CommonSelectDropdown<T> extends StatelessWidget {
     return PressScaleWidget(
       onPressed: values.length == 1 ? null : () => _openSelectSheet(context),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+        borderRadius: BorderRadius.circular(DimensRadius.radius16),
         child: Container(
           padding: const EdgeInsets.only(
-            left: DimensSizeV2.d16,
-            right: DimensSizeV2.d8,
-            bottom: DimensSizeV2.d8,
-            top: DimensSizeV2.d8,
+            left: DimensSize.d16,
+            right: DimensSize.d8,
+            bottom: DimensSize.d8,
+            top: DimensSize.d8,
           ),
           decoration: BoxDecoration(
             color: theme.colors.background1,
             border: SquircleBoxBorder(
-              squircleRadius: DimensRadiusV2.radius16,
+              squircleRadius: DimensRadius.radius16,
               borderSide: BorderSide(color: theme.colors.border0),
             ),
           ),
           child: SeparatedRow(
-            spacing: DimensSizeV2.d4,
+            spacing: DimensSize.d4,
             children: [
               if (titleText != null)
                 Text(
@@ -125,11 +123,11 @@ class CommonSelectDropdown<T> extends StatelessWidget {
           controller: scrollController,
           padding: const EdgeInsets.only(top: DimensSize.d16),
           child: Container(
-            padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d18),
-            margin: const EdgeInsets.only(bottom: DimensSizeV2.d12),
+            padding: const EdgeInsets.symmetric(vertical: DimensSize.d18),
+            margin: const EdgeInsets.only(bottom: DimensSize.d12),
             decoration: BoxDecoration(
               color: theme.colors.background2,
-              borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+              borderRadius: BorderRadius.circular(DimensRadius.radius16),
             ),
             child: SeparatedColumn(
               separator: const Padding(
@@ -145,7 +143,7 @@ class CommonSelectDropdown<T> extends StatelessWidget {
                     },
                     child: Row(
                       children: [
-                        const SizedBox(width: DimensSizeV2.d24),
+                        const SizedBox(width: DimensSize.d24),
                         Expanded(
                           child: Text(
                             e.title,
@@ -154,7 +152,7 @@ class CommonSelectDropdown<T> extends StatelessWidget {
                           ),
                         ),
                         if (currentValue == e.value)
-                          const Icon(LucideIcons.check, size: DimensSizeV2.d20),
+                          const Icon(LucideIcons.check, size: DimensSize.d20),
                         const SizedBox(width: DimensSize.d24),
                       ],
                     ),

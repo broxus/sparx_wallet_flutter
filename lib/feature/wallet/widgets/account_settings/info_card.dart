@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 class AccountSettingsInfoCard extends StatelessWidget {
   const AccountSettingsInfoCard({
@@ -26,22 +25,22 @@ class AccountSettingsInfoCard extends StatelessWidget {
 
     return PrimaryCard(
       color: theme.colors.background2,
-      borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+      borderRadius: BorderRadius.circular(DimensRadius.radius16),
       padding: EdgeInsets.zero,
       child: Row(
         children: [
           Padding(
-            padding: const EdgeInsets.all(DimensSizeV2.d12),
+            padding: const EdgeInsets.all(DimensSize.d12),
             child: Center(
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(DimensSizeV2.d8),
+                  borderRadius: BorderRadius.circular(DimensSize.d8),
                   color: Colors.white,
                 ),
-                padding: const EdgeInsets.all(DimensSizeV2.d8),
+                padding: const EdgeInsets.all(DimensSize.d8),
                 child: BarcodeWidget(
-                  width: DimensSizeV2.d72,
-                  height: DimensSizeV2.d72,
+                  width: DimensSize.d72,
+                  height: DimensSize.d72,
                   data: account.address.address,
                   barcode: Barcode.qrCode(),
                   backgroundColor: Colors.white,
@@ -142,9 +141,9 @@ class _Item extends StatelessWidget {
       onTap: onPressed,
       behavior: HitTestBehavior.opaque,
       child: Padding(
-        padding: const EdgeInsets.all(DimensSizeV2.d12),
+        padding: const EdgeInsets.all(DimensSize.d12),
         child: SeparatedColumn(
-          spacing: DimensSizeV2.d4,
+          spacing: DimensSize.d4,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -155,7 +154,7 @@ class _Item extends StatelessWidget {
               ),
             ),
             SeparatedRow(
-              spacing: DimensSizeV2.d16,
+              spacing: DimensSize.d16,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
@@ -166,7 +165,7 @@ class _Item extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Icon(LucideIcons.copy, size: DimensSizeV2.d20),
+                const Icon(LucideIcons.copy, size: DimensSize.d20),
               ],
             ),
           ],

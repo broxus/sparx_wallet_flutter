@@ -16,7 +16,7 @@ class _ConfigureNetworksPageState extends State<ConfigureNetworksPage> {
     return Scaffold(
       appBar: DefaultAppBar(titleText: LocaleKeys.networksWord.tr()),
       body: const Padding(
-        padding: EdgeInsets.all(DimensSizeV2.d16),
+        padding: EdgeInsets.all(DimensSize.d16),
         child: ConfigureNetworksWidget(),
       ),
     );

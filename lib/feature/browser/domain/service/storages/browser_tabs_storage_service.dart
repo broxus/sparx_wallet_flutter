@@ -4,7 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 
 const _browserTabsDomain = 'browser_tabs';
-const _browserTabsActiveTabIdKey = 'browser_tabs_active_tab_id_key';
+const browserTabsActiveTabIdKey = 'browser_tabs_active_tab_id_key';
 
 /// This is a wrapper-class above [GetStorage] that provides methods
 /// to interact with all browser tabs - related data.
@@ -18,7 +18,7 @@ class BrowserTabsStorageService extends AbstractStorageService {
   final GetStorage _storage;
 
   /// Read active tab from storage
-  String? getActiveTabId() => _storage.read(_browserTabsActiveTabIdKey);
+  String? getActiveTabId() => _storage.read(browserTabsActiveTabIdKey);
 
   /// Read list of browser tabs from storage
   List<BrowserTab> getTabs() {
@@ -35,7 +35,7 @@ class BrowserTabsStorageService extends AbstractStorageService {
 
   /// Save active tab id to storage
   void saveBrowserActiveTabId(String? id) {
-    _storage.write(_browserTabsActiveTabIdKey, id);
+    _storage.write(browserTabsActiveTabIdKey, id);
   }
 
   /// Save list of browser tabs to storage

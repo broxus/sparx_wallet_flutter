@@ -14,7 +14,7 @@ Future<void> showBrowserMainMenu(
   return showPrimaryBottomSheet(
     context: context,
     barrierColor: Colors.black.withValues(alpha: .8),
-    padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d21),
+    padding: const EdgeInsets.symmetric(horizontal: DimensSize.d21),
     content: BrowserMainMenu(
       groupId: groupId,
       onPressedCreateTab: onPressedCreateTab,
@@ -57,7 +57,7 @@ class BrowserMainMenu
             _Item(BrowserMainMenuData.addBookmark, onPressed: wm.onPressedItem),
           ],
         ),
-        const SizedBox(height: DimensSizeV2.d16),
+        const SizedBox(height: DimensSize.d16),
         PrimaryShapedContainerColumn(
           children: [
             _Item(

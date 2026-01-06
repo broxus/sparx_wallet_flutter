@@ -6,7 +6,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/components/button/app_bar_back_button.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Helper function to show [ChangeColorBottomSheet].
 Future<void> showChangeColorBottomSheet({
@@ -42,16 +41,16 @@ class ChangeColorBottomSheet
               LocaleKeys.changeAvatarColor.tr(),
               style: wm.textStyle.headingMedium,
             ),
-            const SizedBox(width: DimensSizeV2.d48),
+            const SizedBox(width: DimensSize.d48),
           ],
         ),
-        const SizedBox(height: DimensSizeV2.d28),
+        const SizedBox(height: DimensSize.d28),
         Flexible(
           child: StateNotifierBuilder<IdentifyIconData?>(
             listenableState: wm.selectedColorState,
             builder: (_, IdentifyIconData? selectedColor) {
               return SizedBox(
-                height: DimensSizeV2.d64,
+                height: DimensSize.d64,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -69,7 +68,7 @@ class ChangeColorBottomSheet
             },
           ),
         ),
-        const SizedBox(height: DimensSizeV2.d16),
+        const SizedBox(height: DimensSize.d16),
         PrimaryButton(
           buttonShape: ButtonShape.pill,
           title: LocaleKeys.save.tr(),
@@ -118,8 +117,8 @@ class _Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: DimensSizeV2.d64,
-      width: DimensSizeV2.d64,
+      height: DimensSize.d64,
+      width: DimensSize.d64,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
@@ -131,7 +130,7 @@ class _Wrapper extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(DimensSizeV2.d3),
+          padding: const EdgeInsets.all(DimensSize.d3),
           child: child,
         ),
       ),
