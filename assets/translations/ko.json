@@ -109,7 +109,7 @@
   "myAccounts": "My accounts",
   "externalAccounts": "External accounts",
   "externalLink": "External link",
-  "openExternalLink": "Open external link {}",
+  "openExternalLink": "This link comes from another app. Do you want to open {}",
   "publicKey": "Public key",
   "selectWord": "Select",
   "selectKeysYouNeed": "Select keys you need",
