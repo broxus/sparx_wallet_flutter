@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 
 import 'package:app/app/service/app_lifecycle_service.dart';
 import 'package:app/core/app_build_type.dart';
+import 'package:fraud_protection/fraud_protection.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:mutex/mutex.dart';
@@ -38,6 +40,7 @@ class ProtectedContentService {
     try {
       _counter++;
       await _disableScreenshot();
+      await _setHideOverlayWindows(true);
     } finally {
       _mutex.release();
     }
@@ -51,6 +54,7 @@ class ProtectedContentService {
       _counter = max(_counter - 1, 0);
       if (_counter == 0) {
         await _enableScreenshot();
+        await _setHideOverlayWindows(false);
       }
     } finally {
       _mutex.release();
@@ -88,6 +92,17 @@ class ProtectedContentService {
       }
     } finally {
       _mutex.release();
+    }
+  }
+
+  // ignore: avoid_positional_boolean_parameters
+  Future<void> _setHideOverlayWindows(bool shouldHideOverlayWindows) async {
+    if (!Platform.isAndroid) return;
+
+    try {
+      await FraudProtection.setHideOverlayWindows(shouldHideOverlayWindows);
+    } catch (e, st) {
+      _logger.warning('Failed to set hide overlay windows', e, st);
     }
   }
 }
