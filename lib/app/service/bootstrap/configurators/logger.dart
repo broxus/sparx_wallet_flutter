@@ -7,33 +7,38 @@ import 'package:the_logger/the_logger.dart';
 
 @injectable
 class LoggerConfigurator {
-  LoggerConfigurator(this._appVersionService, this._nekotonRepository);
+  LoggerConfigurator(
+    this._appVersionService,
+    this._nekotonRepository,
+    this._appBuildType,
+  );
 
   static const _devLogsRetainSessionCount = 100;
   static const _prodLogsRetainSessionCount = 50;
 
   final AppVersionService _appVersionService;
   final NekotonRepository _nekotonRepository;
+  final AppBuildType _appBuildType;
 
-  Future<void> configure(AppBuildType appBuildType) async {
+  /// Log levels depending on build type
+  Map<Level, int> get retainStrategy => switch (_appBuildType) {
+    AppBuildType.development => {
+      Level.ALL: _devLogsRetainSessionCount,
+      Level.SEVERE: _devLogsRetainSessionCount,
+    },
+    AppBuildType.staging => {
+      Level.ALL: _devLogsRetainSessionCount,
+      Level.SEVERE: _devLogsRetainSessionCount,
+    },
+    AppBuildType.production => {
+      Level.ALL: _prodLogsRetainSessionCount,
+      Level.SEVERE: _prodLogsRetainSessionCount,
+    },
+  };
+
+  Future<void> configure() async {
     /// This enables direct mobile logger (adb logcat / oslog)
     const mobileLogger = false;
-
-    // /// Log levels depending on build type
-    final retainStrategy = switch (appBuildType) {
-      AppBuildType.development => {
-        Level.ALL: _devLogsRetainSessionCount,
-        Level.SEVERE: _devLogsRetainSessionCount,
-      },
-      AppBuildType.staging => {
-        Level.ALL: _devLogsRetainSessionCount,
-        Level.SEVERE: _devLogsRetainSessionCount,
-      },
-      AppBuildType.production => {
-        Level.ALL: _prodLogsRetainSessionCount,
-        Level.SEVERE: _prodLogsRetainSessionCount,
-      },
-    };
 
     final appVersion = await _appVersionService.appVersion();
     final buildNumber = await _appVersionService.buildNumber();

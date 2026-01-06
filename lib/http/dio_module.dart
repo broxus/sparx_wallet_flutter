@@ -2,7 +2,6 @@
 
 import 'package:app/core/app_build_type.dart';
 import 'package:app/http/interceptors/app_lifecycle_interceptor.dart';
-import 'package:app/runner.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
@@ -12,7 +11,10 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 @module
 abstract class DioModule {
   @lazySingleton
-  Dio getDio(AppLifecycleInterceptor appLifecycleInterceptor) {
+  Dio getDio(
+    AppLifecycleInterceptor appLifecycleInterceptor,
+    AppBuildType appBuildType,
+  ) {
     final dio = Dio()
       ..options.connectTimeout = const Duration(seconds: 10)
       ..options.sendTimeout = const Duration(seconds: 30)
@@ -33,7 +35,7 @@ abstract class DioModule {
       ])
       ..httpClientAdapter = NativeAdapter(
         createCronetEngine: () {
-          final isTestingBuild = currentAppBuildType != AppBuildType.production;
+          final isTestingBuild = appBuildType != AppBuildType.production;
 
           return CronetEngine.build(
             enablePublicKeyPinningBypassForLocalTrustAnchors: isTestingBuild,
