@@ -77,7 +77,7 @@ void main() {
     test('Remove permission for origin', () {
       const origin = 'https://example.com';
 
-      when(() => storage.deletePermissionsForOrigin(origin)).thenReturn(null);
+      when(() => storage.deletePermissionsForOrigin(origin)).thenReturn(true);
 
       when(() => storage.getPermissions()).thenReturn({});
 
