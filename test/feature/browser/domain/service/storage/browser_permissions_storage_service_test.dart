@@ -78,6 +78,7 @@ void main() {
       const origin = 'https://to-remove.io';
 
       when(() => storage.remove(origin)).thenAnswer((_) async {});
+      when(() => storage.hasData(origin)).thenReturn(true);
 
       service.deletePermissionsForOrigin(origin);
 
