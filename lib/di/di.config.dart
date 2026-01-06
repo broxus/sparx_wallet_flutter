@@ -2151,14 +2151,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i438.SentryWorker>(),
       ),
     );
-    gh.factory<_i88.TCConnectModel>(
-      () => _i88.TCConnectModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i128.NtpService>(),
-      ),
-    );
     gh.factory<_i312.TokenWalletSendWidgetModel>(
       () => _i312.TokenWalletSendWidgetModel(gh<_i523.TokenWalletSendModel>()),
     );
@@ -2199,9 +2191,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i634.StorageConfigurator>(
       () => _i634.StorageConfigurator(gh<_i128.StorageManagerService>()),
-    );
-    gh.factory<_i522.TCConnectWidgetModel>(
-      () => _i522.TCConnectWidgetModel(gh<_i625.TCConnectModel>()),
     );
     gh.factory<_i1055.ConfigureNetworksWidgetModel>(
       () => _i1055.ConfigureNetworksWidgetModel(
@@ -2317,6 +2306,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i83.ErrorHandler>(),
         gh<_i771.NekotonRepository>(),
         gh<_i128.AssetsService>(),
+      ),
+    );
+    gh.factory<_i88.TCConnectModel>(
+      () => _i88.TCConnectModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i128.NtpService>(),
+        gh<_i553.MessengerService>(),
       ),
     );
     gh.factory<_i1005.WorkchainSelectorWidgetModel>(
@@ -2475,6 +2473,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i865.LedgerService>(),
         gh<_i865.BleAvailabilityModelDelegate>(),
       ),
+    );
+    gh.factory<_i522.TCConnectWidgetModel>(
+      () => _i522.TCConnectWidgetModel(gh<_i625.TCConnectModel>()),
     );
     gh.singleton<_i637.BalanceService>(
       () => _i637.BalanceService(
