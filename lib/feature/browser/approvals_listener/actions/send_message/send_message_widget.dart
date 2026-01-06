@@ -10,7 +10,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class SendMessageWidget
     extends
@@ -51,7 +50,7 @@ class SendMessageWidget
     final theme = wm.theme;
 
     return SeparatedColumn(
-      spacing: DimensSizeV2.d12,
+      spacing: DimensSize.d12,
       children: [
         Expanded(
           child: SingleChildScrollView(
@@ -76,7 +75,7 @@ class SendMessageWidget
                       ),
                     ),
                   ),
-                const SizedBox(height: DimensSizeV2.d12),
+                const SizedBox(height: DimensSize.d12),
                 ValueListenableBuilder(
                   valueListenable: wm.originState,
                   builder: (_, origin, __) {
@@ -90,7 +89,7 @@ class SendMessageWidget
                       custodians == null || custodians.length < 2
                       ? const SizedBox.shrink()
                       : Padding(
-                          padding: const EdgeInsets.only(top: DimensSizeV2.d12),
+                          padding: const EdgeInsets.only(top: DimensSize.d12),
                           child: CommonSelectDropdown<PublicKey>(
                             values: [
                               for (final c in custodians)
@@ -106,7 +105,7 @@ class SendMessageWidget
                           ),
                         ),
                 ),
-                const SizedBox(height: DimensSizeV2.d12),
+                const SizedBox(height: DimensSize.d12),
                 MultiListenerRebuilder(
                   listenableList: [wm.dataState, wm.recipientState],
                   builder: (_) {
@@ -135,11 +134,11 @@ class SendMessageWidget
                     if (payload == null) return const SizedBox.shrink();
 
                     return Padding(
-                      padding: const EdgeInsets.only(top: DimensSizeV2.d12),
+                      padding: const EdgeInsets.only(top: DimensSize.d12),
                       child: ExpandableCard(
-                        collapsedHeight: DimensSizeV2.d256,
+                        collapsedHeight: DimensSize.d256,
                         child: SeparatedColumn(
-                          spacing: DimensSizeV2.d16,
+                          spacing: DimensSize.d16,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(

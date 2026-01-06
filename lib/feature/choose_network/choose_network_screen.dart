@@ -11,7 +11,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/components/button/app_bar_back_button.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 const chooseNetworkScreenNextStepQuery = 'chooseNetworkNextStep';
 
@@ -37,16 +36,16 @@ class ChooseNetworkScreen
         controller: wm.scrollController,
         thumbVisibility: true,
         thumbColor: theme.colors.border1,
-        thickness: DimensSizeV2.d3,
-        minThumbLength: DimensSizeV2.d60,
-        radius: const Radius.circular(DimensSizeV2.d3),
+        thickness: DimensSize.d3,
+        minThumbLength: DimensSize.d60,
+        radius: const Radius.circular(DimensSize.d3),
         // Emulate scrollbar over networks list
         padding: EdgeInsets.only(
           top:
               expandedHeight +
               SearchBarHeaderDelegate.headerHeight +
-              DimensSizeV2.d16,
-          right: DimensSizeV2.d4,
+              DimensSize.d16,
+          right: DimensSize.d4,
         ),
         child: CustomScrollView(
           controller: wm.scrollController,
@@ -90,7 +89,7 @@ class _SearchBar extends StatelessWidget {
       builder: (context, showSearchBar) {
         if (!(showSearchBar ?? false)) {
           return const SliverToBoxAdapter(
-            child: SizedBox(height: DimensSizeV2.d8),
+            child: SizedBox(height: DimensSize.d8),
           );
         }
 
@@ -217,18 +216,18 @@ class _NetworksListContent extends StatelessWidget {
         return SliverList.separated(
           itemCount: items.length,
           separatorBuilder: (context, _) {
-            return const SizedBox(height: DimensSizeV2.d8);
+            return const SizedBox(height: DimensSize.d8);
           },
           itemBuilder: (context, index) {
             final item = items[index];
 
             return Padding(
               padding: EdgeInsets.only(
-                left: DimensSizeV2.d16,
-                right: DimensSizeV2.d16,
+                left: DimensSize.d16,
+                right: DimensSize.d16,
                 bottom: (index == items.length - 1)
-                    ? DimensSizeV2.d32
-                    : DimensSizeV2.d0,
+                    ? DimensSize.d32
+                    : DimensSize.d0,
               ),
               child: ChooseNetworkItem(
                 item,

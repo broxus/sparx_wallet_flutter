@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Widget that allows user select asset(contract) from list of loaded assets.
 class SelectNewAssetSelectTab extends StatefulWidget {
@@ -56,7 +55,7 @@ class _SelectNewAssetSelectTabState extends State<SelectNewAssetSelectTab> {
 
         return SingleChildScrollView(
           child: SeparatedColumn(
-            spacing: DimensSizeV2.d16,
+            spacing: DimensSize.d16,
             children: [
               PrimaryTextField(
                 hintText: LocaleKeys.enterAssetName.tr(),
@@ -64,12 +63,12 @@ class _SelectNewAssetSelectTabState extends State<SelectNewAssetSelectTab> {
                 suffixes: [
                   if (value.text.isEmpty)
                     const Padding(
-                      padding: EdgeInsets.only(right: DimensSizeV2.d20),
-                      child: Icon(LucideIcons.search, size: DimensSizeV2.d16),
+                      padding: EdgeInsets.only(right: DimensSize.d20),
+                      child: Icon(LucideIcons.search, size: DimensSize.d16),
                     ),
                   if (value.text.isNotEmpty)
                     Padding(
-                      padding: const EdgeInsets.only(right: DimensSizeV2.d8),
+                      padding: const EdgeInsets.only(right: DimensSize.d8),
                       child: FloatButton(
                         buttonShape: ButtonShape.square,
                         buttonSize: ButtonSize.small,
@@ -84,7 +83,7 @@ class _SelectNewAssetSelectTabState extends State<SelectNewAssetSelectTab> {
               else
                 SeparatedColumn(
                   mainAxisSize: MainAxisSize.min,
-                  spacing: DimensSizeV2.d12,
+                  spacing: DimensSize.d12,
                   children: found.toList(),
                 ),
             ],
@@ -100,9 +99,9 @@ class _SelectNewAssetSelectTabState extends State<SelectNewAssetSelectTab> {
         final theme = context.themeStyleV2;
 
         return Padding(
-          padding: const EdgeInsets.all(DimensSizeV2.d20),
+          padding: const EdgeInsets.all(DimensSize.d20),
           child: SeparatedColumn(
-            spacing: DimensSizeV2.d12,
+            spacing: DimensSize.d12,
             children: [
               SvgPicture.asset(Assets.images.searchEmpty.path),
               Text(
@@ -155,7 +154,7 @@ class SelectNewAssetItem extends StatelessWidget {
         }
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d8),
+        padding: const EdgeInsets.symmetric(vertical: DimensSize.d8),
         child: SeparatedRow(
           children: [
             TokenWalletIconWidget(
@@ -165,7 +164,7 @@ class SelectNewAssetItem extends StatelessWidget {
             ),
             Expanded(
               child: SeparatedColumn(
-                spacing: DimensSizeV2.d4,
+                spacing: DimensSize.d4,
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

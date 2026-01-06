@@ -15,14 +15,14 @@ class StakingService {
     this._nekotonRepository,
     this._dio,
     this._abiProvider,
-    this._gasPriceService,
+    this._blockchainConfigService,
     this._ntpService,
   );
 
   final NekotonRepository _nekotonRepository;
   final Dio _dio;
   final StakingAbiProvider _abiProvider;
-  final GasPriceService _gasPriceService;
+  final BlockchainConfigService _blockchainConfigService;
   final NtpService _ntpService;
   final _cachedContractStateProvider = CachedContractStateProvider();
 
@@ -259,18 +259,19 @@ class StakingService {
     if (info == null) return StakingFees.empty();
 
     if (_networkType.isTycho) {
-      final price = await _gasPriceService.getGasPriceParams();
+      final price = await _blockchainConfigService.getGasPriceParams();
 
       return StakingFees(
-        depositAttachedFee: await _gasPriceService.computeGas(
+        depositAttachedFee: await _blockchainConfigService.computeGas(
           dynamicGas: info.stakeDepositAttachedFee,
           params: price,
         ),
-        removePendingWithdrawAttachedFee: await _gasPriceService.computeGas(
-          dynamicGas: info.stakeRemovePendingWithdrawAttachedFee,
-          params: price,
-        ),
-        withdrawAttachedFee: await _gasPriceService.computeGas(
+        removePendingWithdrawAttachedFee: await _blockchainConfigService
+            .computeGas(
+              dynamicGas: info.stakeRemovePendingWithdrawAttachedFee,
+              params: price,
+            ),
+        withdrawAttachedFee: await _blockchainConfigService.computeGas(
           dynamicGas: info.stakeWithdrawAttachedFee,
           params: price,
         ),

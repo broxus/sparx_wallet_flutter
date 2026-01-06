@@ -134,7 +134,7 @@ class CurrenciesService {
         return currency;
       }
     } catch (e, st) {
-      _logger.severe('getCurrencyForContract', e, st);
+      _logger.warning('getCurrencyForContract', e, st);
     }
 
     return null;

@@ -14,10 +14,10 @@ class NothingFound extends StatelessWidget {
       children: [
         CommonIconWidget.svg(
           svg: Assets.images.searchEmpty.path,
-          width: DimensSizeV2.d56,
+          width: DimensSize.d56,
           height: DimensSize.d56,
         ),
-        const SizedBox(height: DimensSizeV2.d12),
+        const SizedBox(height: DimensSize.d12),
         Text(
           LocaleKeys.nothingFound.tr(),
           style: theme.textStyles.paragraphSmall.copyWith(

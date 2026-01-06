@@ -7,7 +7,7 @@ import 'package:app/generated/generated.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 abstract interface class BrowserServiceBookmarks {
   Stream<List<BrowserBookmarkItem>> get browserBookmarksStream;
@@ -101,7 +101,7 @@ class BrowserServiceBookmarksDelegate
           message: LocaleKeys.browserBookmarkAdded.tr(),
           actionText: LocaleKeys.undo.tr(),
           onAction: () => removeBrowserBookmarkItem(item.id, needUndo: false),
-          topMargin: DimensSizeV2.d72,
+          topMargin: DimensSize.d72,
         ),
       );
     }
@@ -153,7 +153,7 @@ class BrowserServiceBookmarksDelegate
             bookmarks.insert(index, item);
             saveBrowserBookmarks(bookmarks);
           },
-          topMargin: DimensSizeV2.d72,
+          topMargin: DimensSize.d72,
         ),
       );
     }
@@ -177,7 +177,7 @@ class BrowserServiceBookmarksDelegate
           message: LocaleKeys.browserBookmarksDeleted.tr(),
           actionText: LocaleKeys.undo.tr(),
           onAction: () => saveBrowserBookmarks(savedBrowserBookmarks),
-          topMargin: DimensSizeV2.d72,
+          topMargin: DimensSize.d72,
         ),
       );
     }

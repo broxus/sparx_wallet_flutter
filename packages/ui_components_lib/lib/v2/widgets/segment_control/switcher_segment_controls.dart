@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 class SwitcherSegmentControls<T> extends StatelessWidget {
   const SwitcherSegmentControls({
@@ -22,9 +21,9 @@ class SwitcherSegmentControls<T> extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: theme.colors.background1,
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+        borderRadius: BorderRadius.circular(DimensRadius.radius12),
       ),
-      padding: const EdgeInsets.all(DimensSizeV2.d4),
+      padding: const EdgeInsets.all(DimensSize.d4),
       child: Row(
         mainAxisSize: fullWidth ? MainAxisSize.max : MainAxisSize.min,
         children: [

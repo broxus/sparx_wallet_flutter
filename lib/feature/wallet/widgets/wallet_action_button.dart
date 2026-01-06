@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class WalletActionButton extends StatelessWidget {
   const WalletActionButton({
@@ -28,8 +28,8 @@ class WalletActionButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: const EdgeInsets.all(DimensSizeV2.d18),
-              child: Icon(icon, size: DimensSizeV2.d20),
+              padding: const EdgeInsets.all(DimensSize.d18),
+              child: Icon(icon, size: DimensSize.d20),
             ),
             Text(
               label,

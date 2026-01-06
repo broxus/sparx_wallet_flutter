@@ -23,7 +23,7 @@ class SelectAddSeedTypeSheet extends StatelessWidget {
     final colors = context.themeStyleV2.colors;
 
     return ShapedContainerColumn(
-      squircleRadius: DimensRadiusV2.radius24,
+      squircleRadius: DimensRadius.radius24,
       color: colors.background2,
       margin: EdgeInsets.zero,
       mainAxisSize: MainAxisSize.min,

@@ -6,7 +6,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Tab from <WalletBottomPanel> that allows display list of transactions
 /// related to TonWallet for [account].
@@ -38,21 +37,21 @@ class AccountTransactionsTab
         return switch (state) {
           AccountTransactionsUiLoading() => SliverToBoxAdapter(
             child: ProgressIndicatorWidget(
-              size: DimensSizeV2.d32,
+              size: DimensSize.d32,
               color: theme.colors.content0,
             ),
           ),
           AccountTransactionsUiEmpty() => SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
+              padding: const EdgeInsets.symmetric(vertical: DimensSize.d24),
               child: SeparatedColumn(
-                spacing: DimensSizeV2.d12,
+                spacing: DimensSize.d12,
                 children: [
                   SvgPicture.asset(
                     Assets.images.lightning.path,
                     colorFilter: theme.colors.content3.colorFilter,
-                    width: DimensSizeV2.d56,
-                    height: DimensSizeV2.d56,
+                    width: DimensSize.d56,
+                    height: DimensSize.d56,
                   ),
                   Text(
                     LocaleKeys.emptyHistoryTitle.tr(),

@@ -4,7 +4,6 @@ import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 class EnterSeedPhraseWidget
     extends
@@ -35,26 +34,26 @@ class EnterSeedPhraseWidget
         resizeToAvoidBottomInset: false,
         appBar: const DefaultAppBar(),
         body: SafeArea(
-          minimum: const EdgeInsets.only(bottom: DimensSizeV2.d16),
+          minimum: const EdgeInsets.only(bottom: DimensSize.d16),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+            padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
             child: Column(
               children: [
                 Image.asset(
                   Assets.images.seedPhraseIcon.path,
-                  width: DimensSizeV2.d56,
-                  height: DimensSizeV2.d56,
+                  width: DimensSize.d56,
+                  height: DimensSize.d56,
                 ),
-                const SizedBox(height: DimensSizeV2.d16),
+                const SizedBox(height: DimensSize.d16),
                 Text(
                   LocaleKeys.enterSeedPhrase.tr(),
                   style: theme.textStyles.headingLarge,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                    top: DimensSizeV2.d8,
-                    left: DimensSizeV2.d16,
-                    right: DimensSizeV2.d16,
+                    top: DimensSize.d8,
+                    left: DimensSize.d16,
+                    right: DimensSize.d16,
                   ),
                   child: PrimaryText(LocaleKeys.pasteSeedIntoFirstBox.tr()),
                 ),

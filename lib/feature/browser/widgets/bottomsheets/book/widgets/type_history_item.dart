@@ -25,28 +25,28 @@ class TypeHistoryItem extends StatelessWidget {
       onTap: () => onChanged(!isSelected),
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: DimensSizeV2.d16,
-          vertical: DimensSizeV2.d12,
+          horizontal: DimensSize.d16,
+          vertical: DimensSize.d12,
         ),
         child: Row(
           children: [
             Container(
-              width: DimensSizeV2.d40,
-              height: DimensSizeV2.d40,
+              width: DimensSize.d40,
+              height: DimensSize.d40,
               decoration: BoxDecoration(
                 color: theme.colors.backgroundAlpha,
-                borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+                borderRadius: BorderRadius.circular(DimensRadius.radius12),
               ),
               child: Center(
                 child: SvgPicture.asset(
                   icon,
                   colorFilter: theme.colors.content0.colorFilter,
-                  width: DimensSizeV2.d20,
-                  height: DimensSizeV2.d20,
+                  width: DimensSize.d20,
+                  height: DimensSize.d20,
                 ),
               ),
             ),
-            const SizedBox(width: DimensSizeV2.d8),
+            const SizedBox(width: DimensSize.d8),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -56,7 +56,7 @@ class TypeHistoryItem extends StatelessWidget {
                     color: theme.colors.content0,
                   ),
                 ),
-                const SizedBox(height: DimensSizeV2.d4),
+                const SizedBox(height: DimensSize.d4),
                 Text(
                   description,
                   style: theme.textStyles.labelXSmall.copyWith(

@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:app/app/service/app_lifecycle_service.dart';
 import 'package:fraud_protection/fraud_protection.dart';
+import 'package:app/core/app_build_type.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:mutex/mutex.dart';
@@ -12,17 +13,20 @@ import 'package:no_screenshot/no_screenshot.dart';
 
 @singleton
 class ProtectedContentService {
-  ProtectedContentService(this._appLifecycleService) {
+  ProtectedContentService(this._appLifecycleService, this._appBuildType) {
     _lifecycleSubscription = _appLifecycleService.appLifecycleStateStream
         .listen(_handleAppLifecycle);
   }
 
   final AppLifecycleService _appLifecycleService;
+  final AppBuildType _appBuildType;
 
   final _logger = Logger('ProtectedContentService');
   final _mutex = Mutex();
   int _counter = 0;
   StreamSubscription<AppLifecycleState>? _lifecycleSubscription;
+
+  bool get _isEnabled => _appBuildType == AppBuildType.production;
 
   @disposeMethod
   void dispose() {
@@ -30,6 +34,8 @@ class ProtectedContentService {
   }
 
   Future<void> enableProtectedContent() async {
+    if (!_isEnabled) return;
+
     await _mutex.acquire();
     try {
       _counter++;
@@ -41,6 +47,8 @@ class ProtectedContentService {
   }
 
   Future<void> disableProtectedContent() async {
+    if (!_isEnabled) return;
+
     await _mutex.acquire();
     try {
       _counter = max(_counter - 1, 0);

@@ -8,7 +8,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class TCConnectWidget
     extends
@@ -56,11 +55,11 @@ class _SelectAccountWidget extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return SeparatedColumn(
-      spacing: DimensSizeV2.d12,
+      spacing: DimensSize.d12,
       children: [
         Expanded(
           child: SeparatedColumn(
-            spacing: DimensSizeV2.d12,
+            spacing: DimensSize.d12,
             children: [
               WebsiteInfoWidget(
                 uri: wm.manifest.url,
@@ -78,9 +77,7 @@ class _SelectAccountWidget extends StatelessWidget {
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                     border: Border.all(color: theme.colors.border1),
-                    borderRadius: BorderRadius.circular(
-                      DimensRadiusV2.radius12,
-                    ),
+                    borderRadius: BorderRadius.circular(DimensRadius.radius12),
                     color: theme.colors.background1,
                   ),
                   child: DoubleSourceBuilder(
@@ -139,7 +136,7 @@ class _SelectAccountWidget extends StatelessWidget {
 
       if (index != -1) {
         scrollController.animateTo(
-          index * DimensSizeV2.d72,
+          index * DimensSize.d72,
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
         );
@@ -160,13 +157,13 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
     final account = wm.selectedState.value!;
 
     return SeparatedColumn(
-      spacing: DimensSizeV2.d12,
+      spacing: DimensSize.d12,
       children: [
         Expanded(
           child: SingleChildScrollView(
             controller: scrollController,
             child: SeparatedColumn(
-              spacing: DimensSizeV2.d12,
+              spacing: DimensSize.d12,
               children: [
                 AccountInfo(account: account, color: theme.colors.background2),
                 WebsiteInfoWidget(
