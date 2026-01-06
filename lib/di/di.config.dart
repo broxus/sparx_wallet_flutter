@@ -60,8 +60,8 @@ import '../app/service/database/database_service.dart' as _i940;
 import '../app/service/identify/i_identify_icons_service.dart' as _i958;
 import '../app/service/identify/identify_icons_service.dart' as _i316;
 import '../app/service/navigation_service.dart' as _i275;
+import '../app/service/nekoton_related/blockchain_config_service.dart' as _i264;
 import '../app/service/nekoton_related/current_key_service.dart' as _i272;
-import '../app/service/nekoton_related/gas_price_service.dart' as _i818;
 import '../app/service/nekoton_related/nekoton_related.dart' as _i403;
 import '../app/service/network_connection/network_connection_service.dart'
     as _i33;
@@ -1212,8 +1212,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i74.BasicTokenTransferDelegate>(
       () => _i74.BasicTokenTransferDelegate(gh<_i771.NekotonRepository>()),
     );
-    gh.singleton<_i818.GasPriceService>(
-      () => _i818.GasPriceService(gh<_i771.NekotonRepository>()),
+    gh.singleton<_i264.BlockchainConfigService>(
+      () => _i264.BlockchainConfigService(gh<_i771.NekotonRepository>()),
     );
     gh.singleton<_i386.NekotonRepositoryStorageService>(
       () =>
@@ -1514,6 +1514,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i771.NekotonRepository>(),
       ),
     );
+    gh.singleton<_i811.StakingService>(
+      () => _i811.StakingService(
+        gh<_i771.NekotonRepository>(),
+        gh<_i361.Dio>(),
+        gh<_i948.StakingAbiProvider>(),
+        gh<_i128.BlockchainConfigService>(),
+        gh<_i128.NtpService>(),
+      ),
+    );
     gh.factory<_i504.TonWalletPendingTransactionWidgetWidgetModel>(
       () => _i504.TonWalletPendingTransactionWidgetWidgetModel(
         gh<_i205.TonWalletPendingTransactionWidgetModel>(),
@@ -1688,15 +1697,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i495.TonRepository>(
       () => _i495.TonRepository(gh<_i162.TonApi>()),
-    );
-    gh.singleton<_i811.StakingService>(
-      () => _i811.StakingService(
-        gh<_i771.NekotonRepository>(),
-        gh<_i361.Dio>(),
-        gh<_i948.StakingAbiProvider>(),
-        gh<_i128.GasPriceService>(),
-        gh<_i128.NtpService>(),
-      ),
     );
     gh.factory<_i915.ContactSupportModel>(
       () => _i915.ContactSupportModel(
@@ -2091,6 +2091,13 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'AddExistingWalletRoute',
     );
+    gh.factory<_i1042.WorkchainSelectorModel>(
+      () => _i1042.WorkchainSelectorModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i32.AppBuildType>(),
+      ),
+    );
     gh.factory<_i955.SeedSettingsModel>(
       () => _i955.SeedSettingsModel(
         gh<_i83.ErrorHandler>(),
@@ -2123,12 +2130,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i385.ConfigureNetworksModel>(
       () => _i385.ConfigureNetworksModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.ConnectionsStorageService>(),
-      ),
-    );
-    gh.factory<_i1042.WorkchainSelectorModel>(
-      () => _i1042.WorkchainSelectorModel(
         gh<_i83.ErrorHandler>(),
         gh<_i128.ConnectionsStorageService>(),
       ),
@@ -2297,6 +2298,18 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.AssetsService>(),
       ),
     );
+    gh.factory<_i149.WalletPrepareTransferPageModel>(
+      () => _i149.WalletPrepareTransferPageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.AssetsService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i632.MessengerService>(),
+        gh<_i128.CurrenciesService>(),
+        gh<_i201.TokenTransferDelegateProvider>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i128.BlockchainConfigService>(),
+      ),
+    );
     gh.factory<_i88.TCConnectModel>(
       () => _i88.TCConnectModel(
         gh<_i83.ErrorHandler>(),
@@ -2371,6 +2384,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.CurrentAccountsService>(),
         gh<_i128.ConnectionsStorageService>(),
         gh<_i128.BalanceStorageService>(),
+      ),
+    );
+    gh.factory<_i236.WalletPrepareTransferPageWidgetModel>(
+      () => _i236.WalletPrepareTransferPageWidgetModel(
+        gh<_i149.WalletPrepareTransferPageModel>(),
       ),
     );
     gh.factory<_i833.NftTransferInfoWidgetModel>(
@@ -2498,17 +2516,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i0.CancelUnstakingPageModel>(),
       ),
     );
-    gh.factory<_i149.WalletPrepareTransferPageModel>(
-      () => _i149.WalletPrepareTransferPageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.AssetsService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i632.MessengerService>(),
-        gh<_i128.CurrenciesService>(),
-        gh<_i201.TokenTransferDelegateProvider>(),
-        gh<_i128.ConnectionsStorageService>(),
-      ),
-    );
     gh.factory<_i57.AddAccountResultWidgetModel>(
       () => _i57.AddAccountResultWidgetModel(gh<_i459.AddAccountResultModel>()),
     );
@@ -2614,11 +2621,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i679.SecureStorageService>(),
         gh<_i958.IIdentifyIconsService>(),
         gh<_i544.BrowserService>(),
-      ),
-    );
-    gh.factory<_i236.WalletPrepareTransferPageWidgetModel>(
-      () => _i236.WalletPrepareTransferPageWidgetModel(
-        gh<_i149.WalletPrepareTransferPageModel>(),
       ),
     );
     gh.factory<_i11.DeleteAccountSheetWidgetModel>(
