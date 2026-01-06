@@ -135,6 +135,7 @@ abstract class LocaleKeys {
   static const networkWord = 'networkWord';
   static const networksWord = 'networksWord';
   static const selectNetwork = 'selectNetwork';
+  static const selectWorkchain = 'selectWorkchain';
   static const configureNetworks = 'configureNetworks';
   static const addCustomNetwork = 'addCustomNetwork';
   static const networkType = 'networkType';
@@ -642,11 +643,13 @@ abstract class LocaleKeys {
   static const deprecatedTypesHint = 'deprecatedTypesHint';
   static const newAccount = 'newAccount';
   static const createAccountError = 'createAccountError';
+  static const addAccountError = 'addAccountError';
   static const accountAddedSheetTitle = 'accountAddedSheetTitle';
   static const accountAddedSheetSubtitle = 'accountAddedSheetSubtitle';
   static const accountAddedSheetSwitch = 'accountAddedSheetSwitch';
   static const accountAddedSheetContinue = 'accountAddedSheetContinue';
   static const invalidReceiverAddress = 'invalidReceiverAddress';
+  static const invalidWorkchainAddress = 'invalidWorkchainAddress';
   static const deleteBookmarksQuestion = 'deleteBookmarksQuestion';
   static const deleteBookmarksDescription = 'deleteBookmarksDescription';
   static const save = 'save';
@@ -799,6 +802,7 @@ abstract class LocaleKeys {
   static const ledgerVerifyCancelled = 'ledgerVerifyCancelled';
   static const ledgerVerifyWaiting = 'ledgerVerifyWaiting';
   static const importFromLedger = 'importFromLedger';
+  static const ledgerImportError = 'ledgerImportError';
   static const settings = 'settings';
   static const faq = 'faq';
   static const legal = 'legal';

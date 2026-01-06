@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.config.dart';
 import 'package:app/feature/browser/domain/service/storages/browser_bookmarks_storage_service.dart';
