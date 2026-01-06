@@ -11,8 +11,8 @@ class PastGoButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
     return SizedBox(
-      width: DimensSizeV2.d151,
-      height: DimensSizeV2.d54,
+      width: DimensSize.d151,
+      height: DimensSize.d54,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: onPressed,
@@ -23,7 +23,7 @@ class PastGoButton extends StatelessWidget {
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: DimensSizeV2.d10),
+                  padding: const EdgeInsets.only(top: DimensSize.d10),
                   child: Text(
                     LocaleKeys.pasteAndGo.tr(),
                     style: theme.textStyles.paragraphMedium.copyWith(

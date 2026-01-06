@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:ui_components_lib/v2/dimens_v2.dart';
+import 'package:ui_components_lib/dimens.dart';
 
 class TonWalletMultisigPendingTransactionWidget
     extends
@@ -45,7 +45,7 @@ class TonWalletMultisigPendingTransactionWidget
       transactionDateTime: wm.transaction.date,
       transactionValue: wm.transactionValue,
       additionalInformation: Padding(
-        padding: const EdgeInsets.only(bottom: DimensSizeV2.d3),
+        padding: const EdgeInsets.only(bottom: DimensSize.d3),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.end,

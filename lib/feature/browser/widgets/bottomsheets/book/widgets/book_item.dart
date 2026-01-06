@@ -36,7 +36,7 @@ class BookmarkListItem extends StatelessWidget {
           subTitle: subTitle,
           uri: uri,
           prefix: Padding(
-            padding: const EdgeInsets.only(right: DimensSizeV2.d16),
+            padding: const EdgeInsets.only(right: DimensSize.d16),
             child: _CrossAnimation(
               first: _RemoveLabel(onPressed: onPressedRemove),
               second: const SizedBox.shrink(),
@@ -44,7 +44,7 @@ class BookmarkListItem extends StatelessWidget {
             ),
           ),
           suffix: Padding(
-            padding: const EdgeInsets.only(left: DimensSizeV2.d16),
+            padding: const EdgeInsets.only(left: DimensSize.d16),
             child: _CrossAnimation(
               first: ReorderableDragStartListener(
                 index: index,
@@ -91,14 +91,14 @@ class HistoryListItem extends StatelessWidget {
           subTitle: subTitle,
           uri: uri,
           prefix: Padding(
-            padding: const EdgeInsets.only(right: DimensSizeV2.d16),
+            padding: const EdgeInsets.only(right: DimensSize.d16),
             child: _CrossAnimation(
               first: _RemoveLabel(onPressed: onPressedRemove),
               second: const SizedBox.shrink(),
               isShowFirst: isEdit,
             ),
           ),
-          suffix: const SizedBox(width: DimensSizeV2.d16),
+          suffix: const SizedBox(width: DimensSize.d16),
           onPressed: isEdit ? null : onPressed,
         );
       },
@@ -134,17 +134,17 @@ class _Content extends StatelessWidget {
       onTap: onPressed,
       child: Padding(
         padding: const EdgeInsets.only(
-          left: DimensSizeV2.d24,
-          right: DimensSizeV2.d24,
-          bottom: DimensSizeV2.d8,
+          left: DimensSize.d24,
+          right: DimensSize.d24,
+          bottom: DimensSize.d8,
         ),
         child: SizedBox(
           width: double.infinity,
-          height: DimensSizeV2.d58,
+          height: DimensSize.d58,
           child: DecoratedBox(
             decoration: BoxDecoration(
               color: colors.background2,
-              borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+              borderRadius: BorderRadius.circular(DimensRadius.radius16),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -155,7 +155,7 @@ class _Content extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(right: DimensSizeV2.d8),
+                        padding: const EdgeInsets.only(right: DimensSize.d8),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(DimensSize.d32),
                           child: FaviconView(
@@ -173,7 +173,7 @@ class _Content extends StatelessWidget {
                             Flexible(
                               child: Padding(
                                 padding: const EdgeInsets.only(
-                                  bottom: DimensSizeV2.d4,
+                                  bottom: DimensSize.d4,
                                 ),
                                 child: Text(
                                   title ?? '',
@@ -195,10 +195,10 @@ class _Content extends StatelessWidget {
                         ),
                       ),
                       const Padding(
-                        padding: EdgeInsets.only(left: DimensSizeV2.d20),
+                        padding: EdgeInsets.only(left: DimensSize.d20),
                         child: Icon(
                           LucideIcons.chevronRight,
-                          weight: DimensSizeV2.d20,
+                          weight: DimensSize.d20,
                         ),
                       ),
                     ],
@@ -225,7 +225,7 @@ class _RemoveLabel extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onPressed,
       child: SizedBox(
-        width: DimensSizeV2.d64,
+        width: DimensSize.d64,
         child: DecoratedBox(
           decoration: BoxDecoration(
             border: Border(
@@ -239,7 +239,7 @@ class _RemoveLabel extends StatelessWidget {
           child: const Center(
             child: Icon(
               LucideIcons.trash2,
-              size: DimensSizeV2.d16,
+              size: DimensSize.d16,
               color: ColorsResV2.vibrantStrawberry,
             ),
           ),
@@ -255,7 +255,7 @@ class _DragLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: DimensSizeV2.d64,
+      width: DimensSize.d64,
       child: DecoratedBox(
         decoration: BoxDecoration(
           border: Border(
@@ -265,7 +265,7 @@ class _DragLabel extends StatelessWidget {
           ),
         ),
         child: const Center(
-          child: Icon(LucideIcons.equal, size: DimensSizeV2.d16),
+          child: Icon(LucideIcons.equal, size: DimensSize.d16),
         ),
       ),
     );

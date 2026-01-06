@@ -10,7 +10,7 @@ class CustomBottomNavigationBar
     extends InjectedElementaryWidget<CustomBottomNavigationBarWidgetModel> {
   const CustomBottomNavigationBar({super.key});
 
-  static const height = DimensSizeV2.d48;
+  static const height = DimensSize.d48;
   static const animateDuration = Duration(milliseconds: 150);
 
   @override
@@ -45,14 +45,14 @@ class CustomBottomNavigationBar
                       builder: (_, RootTab? tab) {
                         return Container(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: DimensSizeV2.d48,
+                            horizontal: DimensSize.d48,
                           ),
                           decoration: BoxDecoration(
                             color: wm.colors.background1,
                             borderRadius: switch (tab) {
                               RootTab.browser => null,
                               _ => const BorderRadius.vertical(
-                                top: Radius.circular(DimensSizeV2.d16),
+                                top: Radius.circular(DimensSize.d16),
                               ),
                             },
                             border: Border(
@@ -69,7 +69,7 @@ class CustomBottomNavigationBar
                                 BottomNavigationBarLandscapeLayout.centered,
                             showSelectedLabels: false,
                             showUnselectedLabels: false,
-                            elevation: DimensSizeV2.d0,
+                            elevation: DimensSize.d0,
                             type: BottomNavigationBarType.fixed,
                             backgroundColor: wm.colors.background1,
                             selectedItemColor: wm.colors.content0,

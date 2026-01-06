@@ -58,15 +58,15 @@ class BrowserGroupHeaderItem extends StatelessWidget {
                 }
 
                 return Padding(
-                  padding: const EdgeInsets.only(left: DimensSizeV2.d4),
+                  padding: const EdgeInsets.only(left: DimensSize.d4),
                   child: DecoratedBox(
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: ColorsResV2.midnightBlue,
                     ),
                     child: SizedBox(
-                      width: DimensSizeV2.d20,
-                      height: DimensSizeV2.d20,
+                      width: DimensSize.d20,
+                      height: DimensSize.d20,
                       child: Center(
                         child: AutoSizeText(
                           group.tabsCountText,

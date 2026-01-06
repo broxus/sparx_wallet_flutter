@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final _supportLink = Uri.parse('https://t.me/broxus_chat');
@@ -36,10 +35,10 @@ class TxTreeSimulationErrorWidget extends StatelessWidget {
 
     return PrimaryCard(
       color: theme.colors.backgroundNegative,
-      borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
-      padding: const EdgeInsets.all(DimensSizeV2.d16),
+      borderRadius: BorderRadius.circular(DimensRadius.radius12),
+      padding: const EdgeInsets.all(DimensSize.d16),
       child: SeparatedColumn(
-        spacing: DimensSizeV2.d16,
+        spacing: DimensSize.d16,
         mainAxisSize: MainAxisSize.min,
         children: [
           SeparatedRow(
@@ -47,7 +46,7 @@ class TxTreeSimulationErrorWidget extends StatelessWidget {
             children: [
               Icon(
                 LucideIcons.triangleAlert,
-                size: DimensSizeV2.d20,
+                size: DimensSize.d20,
                 color: theme.colors.contentNegative,
               ),
               Expanded(
@@ -61,9 +60,9 @@ class TxTreeSimulationErrorWidget extends StatelessWidget {
                         color: theme.colors.contentNegative,
                       ),
                     ),
-                    const SizedBox(height: DimensSizeV2.d8),
+                    const SizedBox(height: DimensSize.d8),
                     for (final item in txErrors) _ErrorMessage(item: item),
-                    const SizedBox(height: DimensSizeV2.d8),
+                    const SizedBox(height: DimensSize.d8),
                     RichText(
                       text: TextSpan(
                         style: theme.textStyles.paragraphSmall.copyWith(
@@ -144,10 +143,10 @@ class _ErrorMessageState extends State<_ErrorMessage> {
       children: [
         WidgetSpan(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d4),
+            padding: const EdgeInsets.symmetric(horizontal: DimensSize.d4),
             child: Icon(
               LucideIcons.copy,
-              size: DimensSizeV2.d16,
+              size: DimensSize.d16,
               color: theme.colors.contentNegative1,
             ),
           ),

@@ -63,14 +63,14 @@ class TokenWalletSendWidget
             child: WalletSubscribeErrorWidget(error: error),
           ),
           TokenWalletSendStateSending(:final canClose) => Padding(
-            padding: const EdgeInsets.all(DimensSizeV2.d16),
+            padding: const EdgeInsets.all(DimensSize.d16),
             child: TransactionSendingWidget(
               canClose: canClose,
               popOnComplete: false,
             ),
           ),
           TokenWalletSendStateReady() => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+            padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
             child: TokenWalletSendConfirmView(
               recipient: wm.destination,
               rootTokenContract: wm.rootTokenContract,

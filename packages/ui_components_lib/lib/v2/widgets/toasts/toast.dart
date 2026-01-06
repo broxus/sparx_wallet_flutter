@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class Toast extends StatelessWidget {
   const Toast({
@@ -36,12 +35,12 @@ class Toast extends StatelessWidget {
           ? EdgeInsets.only(top: topMargin!)
           : EdgeInsets.zero,
       padding: const EdgeInsets.symmetric(
-        horizontal: DimensSizeV2.d16,
-        vertical: DimensSizeV2.d12,
+        horizontal: DimensSize.d16,
+        vertical: DimensSize.d12,
       ),
       decoration: BoxDecoration(
         color: toastStyle.backgroundColor,
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+        borderRadius: BorderRadius.circular(DimensRadius.radius12),
         border: Border.all(color: toastStyle.borderColor),
       ),
       child: Column(
@@ -85,7 +84,7 @@ class Toast extends StatelessWidget {
           ),
           if (actions?.isNotEmpty ?? false)
             Padding(
-              padding: const EdgeInsets.only(top: DimensSizeV2.d16),
+              padding: const EdgeInsets.only(top: DimensSize.d16),
               child: Row(
                 children: [
                   for (final action in actions!) Expanded(child: action),

@@ -8,7 +8,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class ImportWalletScreen
     extends InjectedElementaryWidget<ImportWalletScreenWidgetModel> {
@@ -40,21 +39,21 @@ class ImportWalletScreen
                       children: [
                         Image.asset(
                           Assets.images.seedPhraseIcon.path,
-                          width: DimensSizeV2.d56,
-                          height: DimensSizeV2.d56,
+                          width: DimensSize.d56,
+                          height: DimensSize.d56,
                         ),
-                        const SizedBox(height: DimensSizeV2.d16),
+                        const SizedBox(height: DimensSize.d16),
                         Text(
                           LocaleKeys.importWalletScreenTitle.tr(),
                           style: theme.textStyles.headingLarge,
                         ),
-                        const SizedBox(height: DimensSizeV2.d8),
+                        const SizedBox(height: DimensSize.d8),
                         PrimaryText(LocaleKeys.importWalletScreenSubtitle.tr()),
-                        const SizedBox(height: DimensSizeV2.d24),
+                        const SizedBox(height: DimensSize.d24),
                         if ((data?.allowedData?.length ?? 0) > 1)
                           Padding(
                             padding: const EdgeInsets.only(
-                              bottom: DimensSizeV2.d12,
+                              bottom: DimensSize.d12,
                             ),
                             child: SwitcherSegmentControls<int>(
                               currentValue: data?.selectedValue ?? 0,
@@ -77,10 +76,10 @@ class ImportWalletScreen
                               decoration: BoxDecoration(
                                 color: theme.colors.background1,
                                 borderRadius: BorderRadius.circular(
-                                  DimensRadiusV2.radius16,
+                                  DimensRadius.radius16,
                                 ),
                               ),
-                              padding: const EdgeInsets.all(DimensSizeV2.d32),
+                              padding: const EdgeInsets.all(DimensSize.d32),
                               width: double.infinity,
                               child: _ListWords(
                                 theme: theme,
@@ -96,8 +95,8 @@ class ImportWalletScreen
                                 right: 1,
                                 child: Padding(
                                   padding: const EdgeInsets.only(
-                                    bottom: DimensSizeV2.d8,
-                                    right: DimensSizeV2.d8,
+                                    bottom: DimensSize.d8,
+                                    right: DimensSize.d8,
                                   ),
                                   child: FloatButton(
                                     buttonShape: ButtonShape.circle,
@@ -119,7 +118,7 @@ class ImportWalletScreen
                               ),
                           ],
                         ),
-                        const SizedBox(height: DimensSizeV2.d24),
+                        const SizedBox(height: DimensSize.d24),
                         GhostButton(
                           buttonShape: ButtonShape.pill,
                           title: LocaleKeys.importWalletManuallyButtonText.tr(),
@@ -132,7 +131,7 @@ class ImportWalletScreen
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: DimensSizeV2.d16,
+                    horizontal: DimensSize.d16,
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -201,7 +200,7 @@ class _ListWords extends StatelessWidget {
                 Padding(
                   //add padding between rows
                   padding: index != firstColumnWords.length - 1
-                      ? const EdgeInsets.only(bottom: DimensSizeV2.d12)
+                      ? const EdgeInsets.only(bottom: DimensSize.d12)
                       : EdgeInsets.zero,
                   child: _WordWithIndex(
                     theme: theme,
@@ -220,7 +219,7 @@ class _ListWords extends StatelessWidget {
               for (int index = 0; index < secondColumnWords.length; index++)
                 Padding(
                   padding: index != secondColumnWords.length - 1
-                      ? const EdgeInsets.only(bottom: DimensSizeV2.d12)
+                      ? const EdgeInsets.only(bottom: DimensSize.d12)
                       : EdgeInsets.zero,
                   child: _WordWithIndex(
                     theme: theme,
@@ -260,7 +259,7 @@ class _WordWithIndex extends StatelessWidget {
             color: theme.colors.content3,
           ),
         ),
-        const SizedBox(width: DimensSizeV2.d8),
+        const SizedBox(width: DimensSize.d8),
         Text(
           word,
           style: theme.textStyles.labelSmall.copyWith(

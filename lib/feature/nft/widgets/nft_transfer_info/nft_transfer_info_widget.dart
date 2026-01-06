@@ -9,9 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-const _indicator = ProgressIndicatorWidget(size: DimensSizeV2.d20);
+const _indicator = ProgressIndicatorWidget(size: DimensSize.d20);
 
 class NftTransferInfoWidget
     extends InjectedElementaryWidget<NftTransferInfoWidgetModel> {
@@ -42,8 +41,8 @@ class NftTransferInfoWidget
     );
 
     return PrimaryCard(
-      padding: const EdgeInsets.all(DimensSizeV2.d16),
-      borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+      padding: const EdgeInsets.all(DimensSize.d16),
+      borderRadius: BorderRadius.circular(DimensRadius.radius16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -53,14 +52,14 @@ class NftTransferInfoWidget
             secondSource: collectionState,
             builder: (_, item, collection) {
               if (item == null || collection == null) {
-                return const ProgressIndicatorWidget(size: DimensSizeV2.d44);
+                return const ProgressIndicatorWidget(size: DimensSize.d44);
               }
 
               return _Item(item: item, collection: collection);
             },
           ),
           const Padding(
-            padding: EdgeInsets.symmetric(vertical: DimensSizeV2.d16),
+            padding: EdgeInsets.symmetric(vertical: DimensSize.d16),
             child: CommonDivider(),
           ),
           if (amount != null)
@@ -82,7 +81,7 @@ class NftTransferInfoWidget
               );
 
               return _InfoRow(
-                margin: const EdgeInsets.only(top: DimensSizeV2.d16),
+                margin: const EdgeInsets.only(top: DimensSize.d16),
                 label: LocaleKeys.attachedAmount.tr(),
                 child: SeparatedColumn(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -92,7 +91,7 @@ class NftTransferInfoWidget
                             amount: value,
                             icon: TonWalletIconWidget(
                               path: wm.nativeTokenIcon,
-                              size: DimensSizeV2.d20,
+                              size: DimensSize.d20,
                             ),
                             includeSymbol: false,
                           ),
@@ -106,7 +105,7 @@ class NftTransferInfoWidget
                         }
 
                         return Padding(
-                          padding: const EdgeInsets.only(top: DimensSizeV2.d4),
+                          padding: const EdgeInsets.only(top: DimensSize.d4),
                           child: AmountWidget.dollars(
                             amount: amount.exchangeToUSD(nativeUSDPrice),
                             style: theme.textStyles.labelXSmall.copyWith(
@@ -122,7 +121,7 @@ class NftTransferInfoWidget
             },
           ),
           Padding(
-            padding: const EdgeInsets.only(top: DimensSizeV2.d16),
+            padding: const EdgeInsets.only(top: DimensSize.d16),
             child: SeparatedColumn(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -165,7 +164,7 @@ class NftTransferInfoWidget
                     if (feeError == null) return const SizedBox.shrink();
 
                     return Padding(
-                      padding: const EdgeInsets.only(top: DimensSizeV2.d4),
+                      padding: const EdgeInsets.only(top: DimensSize.d4),
                       child: Text(
                         feeError,
                         style: theme.textStyles.labelSmall.copyWith(
@@ -179,9 +178,9 @@ class NftTransferInfoWidget
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: DimensSizeV2.d16),
+            padding: const EdgeInsets.only(top: DimensSize.d16),
             child: SeparatedColumn(
-              spacing: DimensSizeV2.d2,
+              spacing: DimensSize.d2,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(LocaleKeys.recipientWord.tr(), style: labelSmallContent3),
@@ -189,14 +188,14 @@ class NftTransferInfoWidget
               ],
             ),
           ),
-          const SizedBox(height: DimensSizeV2.d16),
+          const SizedBox(height: DimensSize.d16),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: DimensSizeV2.d8,
+            spacing: DimensSize.d8,
             children: [
               const Icon(
                 LucideIcons.octagonAlert,
-                size: DimensSizeV2.d20,
+                size: DimensSize.d20,
                 color: ColorsResV2.p75,
               ),
               Expanded(
@@ -235,7 +234,7 @@ class _InfoRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: DimensSizeV2.d8,
+        spacing: DimensSize.d8,
         children: [
           Text(
             label,
@@ -261,19 +260,19 @@ class _Item extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return Row(
-      spacing: DimensSizeV2.d8,
+      spacing: DimensSize.d8,
       children: [
         SizedBox(
-          width: DimensSizeV2.d40,
-          height: DimensSizeV2.d40,
+          width: DimensSize.d40,
+          height: DimensSize.d40,
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(DimensRadiusV2.radius20),
+            borderRadius: BorderRadius.circular(DimensRadius.radius20),
             child: NftImage(imageUrl: item.nft.previewUrl),
           ),
         ),
         Expanded(
           child: Column(
-            spacing: DimensSizeV2.d4,
+            spacing: DimensSize.d4,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [

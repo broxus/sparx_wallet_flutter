@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class AccountSettingsWidget
     extends
@@ -32,7 +31,7 @@ class AccountSettingsWidget
       mainAxisSize: MainAxisSize.min,
       children: [
         AccountSettingsInfoCard(account: account),
-        const SizedBox(height: DimensSizeV2.d16),
+        const SizedBox(height: DimensSize.d16),
         DoubleSourceBuilder(
           firstSource: wm.displayAccountsState,
           secondSource: wm.custodiansState,
@@ -80,7 +79,7 @@ class _ButtonsCard extends StatelessWidget {
 
     return PrimaryCard(
       color: theme.colors.background2,
-      borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+      borderRadius: BorderRadius.circular(DimensRadius.radius16),
       padding: EdgeInsets.zero,
       child: SeparatedColumn(
         mainAxisSize: MainAxisSize.min,
@@ -105,8 +104,8 @@ class _ButtonsCard extends StatelessWidget {
             AccountSettingsButton(
               label: LocaleKeys.verifyOnLedger.tr(),
               iconWidget: Assets.images.ledger.svg(
-                width: DimensSizeV2.d20,
-                height: DimensSizeV2.d20,
+                width: DimensSize.d20,
+                height: DimensSize.d20,
               ),
               onTap: onVerify!,
             ),

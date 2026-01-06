@@ -13,7 +13,4 @@ export 'predefined_theme.dart';
 export 'styles.dart';
 export 'theme_style.dart';
 export 'utils/utils.dart';
-export 'v2/colors_v2.dart';
-export 'v2/dimens_v2.dart';
-export 'v2/extensions/extensions.dart';
-export 'v2/theme_style_v2.dart';
+export 'v2/ui_components_lib_v2.dart';
