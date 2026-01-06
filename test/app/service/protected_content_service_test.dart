@@ -1,5 +1,6 @@
 import 'package:app/app/service/app_lifecycle_service.dart';
 import 'package:app/app/service/protected_content_service.dart';
+import 'package:app/core/core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -60,7 +61,10 @@ void main() {
         });
 
     lifecycleService = AppLifecycleService();
-    service = ProtectedContentService(lifecycleService);
+    service = ProtectedContentService(
+      lifecycleService,
+      AppBuildType.production,
+    );
   });
 
   tearDown(() {

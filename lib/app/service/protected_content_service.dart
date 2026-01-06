@@ -4,8 +4,8 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:app/app/service/app_lifecycle_service.dart';
-import 'package:fraud_protection/fraud_protection.dart';
 import 'package:app/core/app_build_type.dart';
+import 'package:fraud_protection/fraud_protection.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:mutex/mutex.dart';
