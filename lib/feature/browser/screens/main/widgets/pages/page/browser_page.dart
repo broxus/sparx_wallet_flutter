@@ -20,6 +20,7 @@ class BrowserPage
     required ValueChanged<int> onWebPageScrollChanged,
     required VoidCallback onDispose,
     required ValueChanged<int> onLoadingProgressChanged,
+    required ValueChanged<Uri> onLoadingError,
     required this.width,
     required NotNullListenableState<BrowserTab> tabState,
     super.key,
@@ -30,6 +31,7 @@ class BrowserPage
            onWebPageScrollChanged: onWebPageScrollChanged,
            onDispose: onDispose,
            onLoadingProgressChanged: onLoadingProgressChanged,
+           onLoadingError: onLoadingError,
          ),
        );
 
