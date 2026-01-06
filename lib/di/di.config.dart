@@ -2091,6 +2091,13 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'AddExistingWalletRoute',
     );
+    gh.factory<_i1042.WorkchainSelectorModel>(
+      () => _i1042.WorkchainSelectorModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i32.AppBuildType>(),
+      ),
+    );
     gh.factory<_i955.SeedSettingsModel>(
       () => _i955.SeedSettingsModel(
         gh<_i83.ErrorHandler>(),
@@ -2123,12 +2130,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i385.ConfigureNetworksModel>(
       () => _i385.ConfigureNetworksModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.ConnectionsStorageService>(),
-      ),
-    );
-    gh.factory<_i1042.WorkchainSelectorModel>(
-      () => _i1042.WorkchainSelectorModel(
         gh<_i83.ErrorHandler>(),
         gh<_i128.ConnectionsStorageService>(),
       ),
