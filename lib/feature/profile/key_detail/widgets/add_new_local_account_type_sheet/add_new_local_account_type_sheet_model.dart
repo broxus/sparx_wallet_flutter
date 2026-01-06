@@ -1,5 +1,7 @@
+import 'package:app/app/service/storage_service/connections_storage/connections_storage_service.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
@@ -10,10 +12,12 @@ class AddNewLocalAccountTypeSheetModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._messengerService,
+    this._connectionsStorageService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
+  final ConnectionsStorageService _connectionsStorageService;
 
   SeedKey? findSeedKey(PublicKey publicKey) =>
       _nekotonRepository.seedList.findSeedKey(publicKey);
@@ -31,13 +35,20 @@ class AddNewLocalAccountTypeSheetModel extends ElementaryModel {
   Future<Address> addAccount({
     required SeedKey key,
     required WalletType walletType,
-    required int workchain,
     String? name,
-  }) => key.accountList.addAccount(
-    walletType: walletType,
-    workchain: workchain,
-    name: name,
-  );
+  }) {
+    final currentWorkchainId = _connectionsStorageService.currentWorkchainId;
+
+    if (currentWorkchainId == null) {
+      throw Exception(LocaleKeys.addAccountError.tr());
+    }
+
+    return key.accountList.addAccount(
+      walletType: walletType,
+      workchain: currentWorkchainId,
+      name: name,
+    );
+  }
 
   void showMessage(Message message) => _messengerService.show(message);
 
