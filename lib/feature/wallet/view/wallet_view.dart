@@ -67,7 +67,7 @@ class _Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: -DimensSizeV2.d36,
+      top: -DimensSize.d36,
       left: 0,
       right: 0,
       child: Image.asset(

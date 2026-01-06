@@ -147,7 +147,7 @@ class ConfirmMultisigTransactionWidgetModel
 
       final wallet = walletState.wallet!;
       final balance = wallet.contractState.balance;
-      final isPossibleToSendMessage = balance > (fees + wmParams.value.amount);
+      final isPossibleToSendMessage = balance >= (fees + wmParams.value.amount);
 
       if (!isPossibleToSendMessage) {
         _feesState.error(

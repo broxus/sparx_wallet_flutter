@@ -24,8 +24,8 @@ class CommonListTile extends StatelessWidget {
     this.trailing,
     this.height = DimensSize.d56,
     this.backgroundColor,
-    this.squircleRadius = DimensRadiusV2.radius16,
-    this.padding = const EdgeInsets.symmetric(horizontal: DimensSizeV2.d8),
+    this.squircleRadius = DimensRadius.radius16,
+    this.padding = const EdgeInsets.symmetric(horizontal: DimensSize.d8),
     this.contentColor,
     this.invertTitleSubtitleStyles = false,
     this.subtitleMaxLines = _defaultSubtitleMaxLines,
@@ -64,7 +64,7 @@ class CommonListTile extends StatelessWidget {
   /// Radius of squircle shape if [backgroundColor] is not null.
   final double squircleRadius;
 
-  /// Padding of content inside tile, default is horizontal: DimensSizeV2.d8.
+  /// Padding of content inside tile, default is horizontal: DimensSize.d8.
   final EdgeInsets padding;
 
   /// Color of text and icons inside tile
@@ -143,7 +143,7 @@ class CommonListTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
-                spacing: DimensSizeV2.d4,
+                spacing: DimensSize.d4,
                 children: [
                   if (title != null) title,
                   if (subtitle != null) subtitle,

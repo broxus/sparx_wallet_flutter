@@ -33,7 +33,7 @@ class BrowserTabsListItem
   @override
   Widget build(BrowserTabsListItemWidgetModel wm) {
     return SizedBox(
-      height: DimensSizeV2.d200,
+      height: DimensSize.d200,
       child: RenderMetricsObject(
         id: wm.tabNotifier.value.id,
         manager: tabsRenderManager,
@@ -71,14 +71,14 @@ class _Menu extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onPressed,
       child: Padding(
-        padding: const EdgeInsets.all(DimensSizeV2.d8),
+        padding: const EdgeInsets.all(DimensSize.d8),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(DimensRadiusV2.radius8),
+            borderRadius: BorderRadius.circular(DimensRadius.radius8),
             color: ColorsResV2.midnightBlue,
           ),
           child: Padding(
-            padding: const EdgeInsets.all(DimensSizeV2.d4),
+            padding: const EdgeInsets.all(DimensSize.d4),
             child: Center(
               child: Icon(LucideIcons.ellipsis, color: colors.primaryA),
             ),

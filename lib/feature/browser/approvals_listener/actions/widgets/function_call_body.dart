@@ -2,7 +2,6 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class FunctionCallBody extends StatelessWidget {
   const FunctionCallBody({required this.payload, this.contract, super.key});
@@ -45,7 +44,7 @@ class _Param extends StatelessWidget {
 
     return PrimaryCard(
       color: theme.colors.background3,
-      borderRadius: BorderRadius.circular(DimensRadiusV2.radius8),
+      borderRadius: BorderRadius.circular(DimensRadius.radius8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

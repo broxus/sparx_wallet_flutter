@@ -1,7 +1,7 @@
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class UnsupportedWalletTypeAlert extends StatelessWidget {
   const UnsupportedWalletTypeAlert({required this.onSwitchAccount, super.key});
@@ -13,14 +13,14 @@ class UnsupportedWalletTypeAlert extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return Container(
-      height: DimensSizeV2.d124,
-      padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+      height: DimensSize.d124,
+      padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
       decoration: BoxDecoration(
         color: ColorsResV2.e15,
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+        borderRadius: BorderRadius.circular(DimensRadius.radius16),
       ),
       child: Row(
-        spacing: DimensSizeV2.d14,
+        spacing: DimensSize.d14,
         children: [
           Expanded(
             child: Column(
@@ -37,7 +37,7 @@ class UnsupportedWalletTypeAlert extends StatelessWidget {
                     color: ColorsResV2.n80.withAlpha(128),
                   ),
                 ),
-                const SizedBox(height: DimensSizeV2.d8),
+                const SizedBox(height: DimensSize.d8),
                 TransparentButton(
                   isFullWidth: false,
                   title: LocaleKeys.unsupportedWalletTypeAlertButtonLabel.tr(),
@@ -64,22 +64,22 @@ class _AlertIconBlock extends StatelessWidget {
     final color = theme.colors.borderNegative.withAlpha(51);
 
     return Container(
-      width: DimensSizeV2.d92,
-      height: DimensSizeV2.d92,
+      width: DimensSize.d92,
+      height: DimensSize.d92,
       decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       child: Padding(
-        padding: const EdgeInsets.all(DimensSizeV2.d7),
+        padding: const EdgeInsets.all(DimensSize.d7),
         child: Container(
           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
           child: Padding(
-            padding: const EdgeInsets.all(DimensSizeV2.d7),
+            padding: const EdgeInsets.all(DimensSize.d7),
             child: Container(
               decoration: BoxDecoration(color: color, shape: BoxShape.circle),
               child: Center(
                 child: Icon(
                   LucideIcons.triangleAlert,
                   color: theme.colors.borderNegative,
-                  size: DimensSizeV2.d38,
+                  size: DimensSize.d38,
                 ),
               ),
             ),

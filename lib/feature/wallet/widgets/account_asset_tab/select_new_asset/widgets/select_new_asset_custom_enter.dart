@@ -6,7 +6,6 @@ import 'package:app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Widget that allows user to enter address of root token contract to add
 /// it to account.
@@ -49,7 +48,7 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
         Expanded(
           child: SingleChildScrollView(
             child: SeparatedColumn(
-              spacing: DimensSizeV2.d16,
+              spacing: DimensSize.d16,
               children: [
                 PrimaryTextField(
                   hintText: LocaleKeys.rootTokenContract.tr(),
@@ -65,7 +64,7 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
                   ],
                 ),
                 SeparatedColumn(
-                  spacing: DimensSizeV2.d12,
+                  spacing: DimensSize.d12,
                   children: [
                     ...widget.contracts.map(
                       (pair) => SelectNewAssetItem(
@@ -84,9 +83,9 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
         ValueListenableBuilder<TextEditingValue>(
           valueListenable: addressController,
           builder: (_, value, __) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d12),
+            padding: const EdgeInsets.symmetric(vertical: DimensSize.d12),
             child: Padding(
-              padding: const EdgeInsets.only(bottom: DimensSizeV2.d8),
+              padding: const EdgeInsets.only(bottom: DimensSize.d8),
               child: AccentButton(
                 buttonShape: ButtonShape.pill,
                 title: LocaleKeys.proceedWord.tr(),

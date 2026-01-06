@@ -22,7 +22,7 @@ class WalletDeployStatusScreen
       onPop: wm.navigateToWallet,
       child: const Scaffold(
         body: Padding(
-          padding: EdgeInsets.all(DimensSizeV2.d16),
+          padding: EdgeInsets.all(DimensSize.d16),
           child: TransactionSendingWidget(
             canClose: true,
             popOnComplete: false,
