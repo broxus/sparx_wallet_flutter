@@ -4,6 +4,7 @@ import 'package:app/data/models/stever/stever_withdraw_request.dart';
 import 'package:app/feature/wallet/staking/view/cancel_unstaking_page/route.dart';
 import 'package:app/feature/wallet/staking/widgets/staking_in_progress/staking_in_progress.dart';
 import 'package:app/feature/wallet/staking/widgets/staking_in_progress/staking_in_progress_model.dart';
+import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:money2/money2.dart';
@@ -34,7 +35,7 @@ class StakingInProgressWidgetModel
           withdrawHours: wmParams.value.withdrawHours,
           stakeCurrency: wmParams.value.stakeCurrency,
           attachedFee: wmParams.value.attachedFee,
-          tokenPrice: Fixed.tryParse(wmParams.value.tokenPrice),
+          tokenPrice: wmParams.value.tokenPrice?.let(Fixed.tryParse),
         ),
       );
 }
@@ -57,6 +58,6 @@ class StakingInProgressParams {
   final int withdrawHours;
   final Currency stakeCurrency;
   final BigInt attachedFee;
-  final String tokenPrice;
+  final String? tokenPrice;
   final String everPrice;
 }
