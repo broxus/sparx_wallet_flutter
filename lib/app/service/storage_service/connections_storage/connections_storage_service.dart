@@ -27,7 +27,6 @@ class ConnectionsStorageService extends AbstractStorageService {
     @Named(container) this._storage,
     this._presetsConnectionService,
     this._messengerService,
-    this._nekotonRepository,
   );
 
   final _log = Logger('ConnectionsStorageService');
@@ -37,7 +36,6 @@ class ConnectionsStorageService extends AbstractStorageService {
   final GetStorage _storage;
   final PresetsConnectionService _presetsConnectionService;
   final MessengerService _messengerService;
-  final NekotonRepository _nekotonRepository;
 
   /// Subject of [Connection] items
   final _connectionsSubject = BehaviorSubject<List<Connection>>.seeded([]);
@@ -258,10 +256,10 @@ class ConnectionsStorageService extends AbstractStorageService {
   }
 
   /// Save current connection id to storage
-  Future<void> saveCurrentConnectionId({
+  void saveCurrentConnectionId({
     required String connectionId,
     int? workchainId,
-  }) async {
+  }) {
     final connection = connections.firstWhereOrNull(
       (n) => n.id == connectionId,
     );
@@ -290,8 +288,7 @@ class ConnectionsStorageService extends AbstractStorageService {
                 connection.defaultWorkchainId;
     }
 
-    unawaited(_storage.write(_currentConnectionIdKey, savedConnectionId));
-    await _fetchAccountsForWorkchain(savedWorkchainId);
+    _storage.write(_currentConnectionIdKey, savedConnectionId);
     _currentConnectionIdSubject.add((savedConnectionId, savedWorkchainId));
   }
 
@@ -427,41 +424,6 @@ class ConnectionsStorageService extends AbstractStorageService {
       );
     } catch (_) {
       return (currentWorkchainId, null, false);
-    }
-  }
-
-  Future<void> fetchAccountsForCurrentWorkchain() async {
-    if (currentWorkchainId == null) {
-      return;
-    }
-    return _fetchAccountsForWorkchain(currentWorkchainId!);
-  }
-
-  Future<void> _fetchAccountsForWorkchain(int workchainId) async {
-    final publicKeys = _nekotonRepository.keyStore.keys
-        .map((e) => e.publicKey)
-        .toList();
-
-    await _nekotonRepository.triggerAddingAccounts(
-      publicKeys: publicKeys,
-      workchainId: workchainId,
-    );
-
-    final hasAny = _nekotonRepository.accountsStorage.accounts.any(
-      (a) => a.address.workchain == workchainId,
-    );
-
-    if (hasAny) return;
-
-    for (final key in publicKeys) {
-      try {
-        await _nekotonRepository.addDefaultAccount(
-          publicKey: key,
-          workchainId: workchainId,
-        );
-      } catch (e, s) {
-        _log.severe('fetchAccountsForWorkchain', e, s);
-      }
     }
   }
 
