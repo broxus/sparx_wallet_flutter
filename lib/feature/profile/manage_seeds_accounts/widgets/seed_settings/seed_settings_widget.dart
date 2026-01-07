@@ -58,7 +58,7 @@ class SeedSettingsWidget
               titleText: LocaleKeys.scanSeed.tr(),
               trailing: Icon(
                 LucideIcons.searchCheck,
-                size: DimensSizeV2.d20,
+                size: DimensSize.d20,
                 color: colors.content0,
               ),
               onPressed: wm.onScan,

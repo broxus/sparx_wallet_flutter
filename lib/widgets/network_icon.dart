@@ -1,10 +1,9 @@
-import 'package:app/app/service/connection/group.dart';
-import 'package:app/app/service/presets_connection/presets_connection_service.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/widgets/cached_svg.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class NetworkIcon extends StatefulWidget {
   const NetworkIcon({required this.group, this.itemSize, super.key});
@@ -22,27 +21,29 @@ class _NetworkIconState extends State<NetworkIcon> {
   String get _group => widget.group;
 
   String? get _path {
-    return _presetsConnectionService.getTransportIconsByNetwork(_group).network;
+    return _presetsConnectionService
+        .getTransportIconsByNetworkGroup(_group)
+        .network;
   }
 
   @override
   Widget build(BuildContext context) => ClipOval(
     child: _path == null
         ? Assets.images.networkDefault.svg(
-            width: widget.itemSize ?? DimensSizeV2.d40,
-            height: widget.itemSize ?? DimensSizeV2.d40,
+            width: widget.itemSize ?? DimensSize.d40,
+            height: widget.itemSize ?? DimensSize.d40,
           )
         : CachedSvg(
             _path!,
-            width: widget.itemSize ?? DimensSizeV2.d40,
-            height: widget.itemSize ?? DimensSizeV2.d40,
+            width: widget.itemSize ?? DimensSize.d40,
+            height: widget.itemSize ?? DimensSize.d40,
             errorWidget: Container(
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: ColorsResV2.electricIndigo,
               ),
-              width: widget.itemSize ?? DimensSizeV2.d40,
-              height: widget.itemSize ?? DimensSizeV2.d40,
+              width: widget.itemSize ?? DimensSize.d40,
+              height: widget.itemSize ?? DimensSize.d40,
             ),
           ),
   );

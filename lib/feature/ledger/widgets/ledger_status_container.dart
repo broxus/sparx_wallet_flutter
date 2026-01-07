@@ -27,12 +27,12 @@ class LedgerStatusContainer extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       color: theme.colors.background2,
       margin: EdgeInsets.zero,
-      padding: const EdgeInsets.all(DimensSizeV2.d16),
+      padding: const EdgeInsets.all(DimensSize.d16),
       children: [
         for (final step in steps)
           CommonListTile(
             padding: EdgeInsets.zero,
-            height: DimensSizeV2.d40,
+            height: DimensSize.d40,
             leading: CommonBackgroundedIconWidget.icon(
               icon: switch (step.state) {
                 LedgerInteractionStepState.initial => LucideIcons.arrowRight,

@@ -32,7 +32,7 @@ class BrowserHeaderTextButton extends StatelessWidget {
         child: Align(
           alignment: alignment,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+            padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
             child: Center(
               child: Text(
                 text,

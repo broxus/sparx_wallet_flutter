@@ -250,10 +250,13 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     final activeGroupId = model.activeGroupIdState.value;
     final activeTabId = model.activeTabId;
 
+    final isRemoveTab =
+        _tabsPrevCount != null &&
+        _tabsCount != null &&
+        _tabsPrevCount! > _tabsCount!;
+
     if (checkIsVisiblePages()) {
-      if (_tabsPrevCount != null &&
-          _tabsCount != null &&
-          _tabsPrevCount! < _tabsCount!) {
+      if (!isRemoveTab) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           onUpdateActiveTab(true);
         });
@@ -263,24 +266,26 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
 
       _viewTabsState.accept(model.getGroupTabs(activeGroupId));
 
-      final data = tabsRenderManager.getRenderData(activeTabId);
-
       WidgetsBinding.instance.addPostFrameCallback((_) {
         onUpdateActiveTab(false);
       });
 
-      var xLeft = data?.xLeft;
-      var yTop = data?.yTop;
+      if (!isRemoveTab) {
+        final data = tabsRenderManager.getRenderData(activeTabId);
 
-      if (data == null && (_tabsCount ?? 0) > (_tabsPrevCount ?? 0)) {
-        final position = _calculatePosition();
-        xLeft = position.$1;
-        yTop = position.$2;
+        var xLeft = data?.xLeft;
+        var yTop = data?.yTop;
+
+        if (data == null && (_tabsCount ?? 0) > (_tabsPrevCount ?? 0)) {
+          final position = _calculatePosition();
+          xLeft = position.$1;
+          yTop = position.$2;
+        }
+
+        _tabAnimationTypeState.accept(
+          ShowViewAnimationType(tabX: xLeft, tabY: yTop),
+        );
       }
-
-      _tabAnimationTypeState.accept(
-        ShowViewAnimationType(tabX: xLeft, tabY: yTop),
-      );
     }
 
     if (_tabsCount != null &&

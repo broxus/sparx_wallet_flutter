@@ -29,6 +29,7 @@ void main() {
     );
 
     test(
+      // ignore: lines_longer_than_80_chars
       'startSession marks crash when previous session was active and tracking enabled',
       () async {
         // Arrange

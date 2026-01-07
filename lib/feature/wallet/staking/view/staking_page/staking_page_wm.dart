@@ -206,7 +206,7 @@ class StakingPageWidgetModel
           wallet: ever.wallet!,
           tokenWallet: token.wallet!,
           currency: currency!,
-          tokenCurrency: tokenCurrency!,
+          tokenCurrency: tokenCurrency,
           details: details,
           apy: apyValue,
           withdrawHours: 0 <= time && time <= 24 ? time + 36 : time + 18,

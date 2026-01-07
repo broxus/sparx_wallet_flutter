@@ -6,7 +6,6 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Helper method that displays [DeriveKeysSheet] sheet.
 /// Showing this sheet means, that [password] is correct for [publicKey].
@@ -27,10 +26,10 @@ ModalRoute<void> deriveKeysSheet(
   );
 }
 
-const _itemHeight = DimensSizeV2.d56;
+const _itemHeight = DimensSize.d56;
 const _containerHeight =
     _itemHeight * derivedKeysPerPage +
-    (DimensSizeV2.d4 * 2 + CommonDivider.size) * (derivedKeysPerPage - 1);
+    (DimensSize.d4 * 2 + CommonDivider.size) * (derivedKeysPerPage - 1);
 
 /// Widget that shows keys that could be derived from publicKey of seed.
 class DeriveKeysSheet
@@ -73,22 +72,18 @@ class DeriveKeysSheet
             Flexible(
               child: SingleChildScrollView(
                 controller: controller,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: DimensSizeV2.d16,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
                 child: SizedBox(
                   height: _containerHeight,
                   child: s.displayDerivedKeys.isEmpty && s.isLoading
                       ? const Center(
-                          child: ProgressIndicatorWidget(
-                            size: DimensSizeV2.d40,
-                          ),
+                          child: ProgressIndicatorWidget(size: DimensSize.d40),
                         )
                       : SeparatedColumn(
                           mainAxisSize: MainAxisSize.min,
                           separator: const Padding(
                             padding: EdgeInsets.symmetric(
-                              vertical: DimensSizeV2.d4,
+                              vertical: DimensSize.d4,
                             ),
                             child: CommonDivider(),
                           ),
@@ -121,11 +116,11 @@ class DeriveKeysSheet
                   onPage: (i) => wm.selectPage(i),
                 ),
                 const CommonDivider(),
-                const SizedBox(height: DimensSizeV2.d8),
+                const SizedBox(height: DimensSize.d8),
               ],
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+              padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
               child: PrimaryButton(
                 isLoading: s.isLoading,
                 title: LocaleKeys.selectWord.tr(),
@@ -162,7 +157,7 @@ class _Pages extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+      padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
       color: theme.colors.background1,
       child: SeparatedRow(
         children: [
@@ -179,7 +174,7 @@ class _Pages extends StatelessWidget {
                 // to 50% of this variable on the left side and
                 // up to 50% on the right side (we are trying to
                 // put current page in center if possible)
-                var maxCount = constraints.maxWidth ~/ DimensSizeV2.d40;
+                var maxCount = constraints.maxWidth ~/ DimensSize.d40;
                 maxCount = math.min(maxCount, derivePageCount);
 
                 // do not subtract 1 here trying to compensate
@@ -215,8 +210,8 @@ class _Pages extends StatelessWidget {
                     return PressScaleWidget(
                       onPressed: () => onPage(index),
                       child: Container(
-                        height: DimensSizeV2.d40,
-                        width: DimensSizeV2.d40,
+                        height: DimensSize.d40,
+                        width: DimensSize.d40,
                         alignment: Alignment.center,
                         child: Text(
                           '${index + 1}',

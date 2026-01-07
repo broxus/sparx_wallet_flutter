@@ -2,7 +2,6 @@ import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Widget that displays error that arrived when wallet subscription failed
 class WalletSubscribeErrorWidget extends StatelessWidget {

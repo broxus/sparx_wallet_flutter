@@ -59,9 +59,9 @@ class _TonWalletConfirmTransactionConfirmViewState
         children: [
           Padding(
             padding: const EdgeInsets.only(
-              top: DimensSizeV2.d8,
-              left: DimensSizeV2.d16,
-              right: DimensSizeV2.d16,
+              top: DimensSize.d8,
+              left: DimensSize.d16,
+              right: DimensSize.d16,
               bottom: DimensSize.d16,
             ),
             child: MultiListenerRebuilder(
@@ -72,7 +72,7 @@ class _TonWalletConfirmTransactionConfirmViewState
                 final fees = widget.fees.value;
 
                 return Column(
-                  spacing: DimensSizeV2.d8,
+                  spacing: DimensSize.d8,
                   children: [
                     if (txErrors != null && txErrors.isNotEmpty)
                       TxTreeSimulationErrorWidget(
@@ -100,7 +100,7 @@ class _TonWalletConfirmTransactionConfirmViewState
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.only(top: DimensSizeV2.d12),
+        padding: const EdgeInsets.only(top: DimensSize.d12),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,16 +108,16 @@ class _TonWalletConfirmTransactionConfirmViewState
             if (widget.account != null)
               Padding(
                 padding: const EdgeInsets.only(
-                  left: DimensSizeV2.d16,
-                  right: DimensSizeV2.d16,
-                  bottom: DimensSizeV2.d16,
+                  left: DimensSize.d16,
+                  right: DimensSize.d16,
+                  bottom: DimensSize.d16,
                 ),
                 child: AccountInfo(account: widget.account!),
               ),
             TokenTransferInfoWidget(
               margin: const EdgeInsets.only(
-                left: DimensSizeV2.d16,
-                right: DimensSizeV2.d16,
+                left: DimensSize.d16,
+                right: DimensSize.d16,
               ),
               amount: widget.amount,
               recipient: widget.recipient,

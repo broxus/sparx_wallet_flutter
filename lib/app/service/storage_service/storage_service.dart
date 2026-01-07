@@ -2,7 +2,7 @@ export 'abstract_storage_service.dart';
 export 'account_seed_storage_service.dart';
 export 'app_storage_service.dart';
 export 'balance_storage_service.dart';
-export 'connections_storage_service.dart';
+export 'connections_storage/connections_storage_service.dart';
 export 'general_storage_service.dart';
 export 'migrations/migrations.dart';
 export 'nekoton_repository_service.dart';

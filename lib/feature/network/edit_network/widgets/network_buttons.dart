@@ -1,8 +1,7 @@
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class NetworkButtons extends StatelessWidget {
   const NetworkButtons({
@@ -16,7 +15,7 @@ class NetworkButtons extends StatelessWidget {
 
   final bool saveEnabled;
   final bool deleteEnabled;
-  final ConnectionData? connection;
+  final Connection? connection;
   final VoidCallback onSave;
   final VoidCallback onDelete;
 

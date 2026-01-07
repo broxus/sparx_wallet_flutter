@@ -1,4 +1,5 @@
 import 'package:app/feature/wallet/wallet.dart';
+import 'package:app/feature/wallet/widgets/wallet_app_bar/widgets/workchain_selector/workchain_selector.dart';
 import 'package:app/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -35,6 +36,7 @@ class WalletView extends StatelessWidget {
             controller: scrollController,
             slivers: [
               const SliverToBoxAdapter(child: WalletAppBarWidget()),
+              const SliverToBoxAdapter(child: WorkchainSelector()),
               WalletAccountBodyWidget(
                 key: ValueKey(currentAccount),
                 account: currentAccount,
@@ -65,7 +67,7 @@ class _Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: -DimensSizeV2.d36,
+      top: -DimensSize.d36,
       left: 0,
       right: 0,
       child: Image.asset(

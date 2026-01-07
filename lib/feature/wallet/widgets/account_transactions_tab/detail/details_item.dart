@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Widget that displays title and content of transaction information.
 class TonWalletTransactionDetailsItem extends StatelessWidget {
@@ -65,7 +64,7 @@ class TonWalletTransactionDetailsItem extends StatelessWidget {
             if (titleTrailingChild != null) titleTrailingChild!,
           ],
         ),
-        if (titleTrailingChild != null) const SizedBox(height: DimensSizeV2.d8),
+        if (titleTrailingChild != null) const SizedBox(height: DimensSize.d8),
         Row(
           children: [
             if (content != null)
@@ -80,7 +79,7 @@ class TonWalletTransactionDetailsItem extends StatelessWidget {
             if (contentChild != null) Expanded(child: contentChild!),
             if (canCopy)
               Padding(
-                padding: const EdgeInsets.only(left: DimensSizeV2.d16),
+                padding: const EdgeInsets.only(left: DimensSize.d16),
                 child: GhostButton(
                   buttonShape: ButtonShape.square,
                   onPressed: () => _copy(context, copyValue!, copyMessage!),
@@ -148,7 +147,7 @@ class WalletTransactionDetailsItem extends StatelessWidget {
                     color: theme.colors.content3,
                   ),
                 ),
-                const SizedBox(height: DimensSizeV2.d2),
+                const SizedBox(height: DimensSize.d2),
                 if (subtitle != null)
                   Row(
                     children: [
@@ -167,7 +166,7 @@ class WalletTransactionDetailsItem extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: DimensSizeV2.d8),
+          const SizedBox(width: DimensSize.d8),
           if (icon != null)
             FloatButton(
               buttonShape: ButtonShape.square,
@@ -186,11 +185,9 @@ class WalletTransactionDetailsItem extends StatelessWidget {
                     children: [
                       if (walletAsset != null)
                         Padding(
-                          padding: const EdgeInsets.only(
-                            right: DimensSizeV2.d8,
-                          ),
+                          padding: const EdgeInsets.only(right: DimensSize.d8),
                           child: TokenWalletIconWidget(
-                            size: DimensSizeV2.d20,
+                            size: DimensSize.d20,
                             address: walletAsset!.rootTokenContract,
                             logoURI: walletAsset!.logoURI,
                             version:
@@ -199,12 +196,10 @@ class WalletTransactionDetailsItem extends StatelessWidget {
                         ),
                       if (iconPath != null)
                         Padding(
-                          padding: const EdgeInsets.only(
-                            right: DimensSizeV2.d8,
-                          ),
+                          padding: const EdgeInsets.only(right: DimensSize.d8),
                           child: TonWalletIconWidget(
                             path: iconPath!,
-                            size: DimensSizeV2.d20,
+                            size: DimensSize.d20,
                           ),
                         ),
                       if (value != null)
@@ -221,7 +216,7 @@ class WalletTransactionDetailsItem extends StatelessWidget {
                     ],
                   ),
                   if (convertedValueWidget != null) ...[
-                    const SizedBox(height: DimensSizeV2.d4),
+                    const SizedBox(height: DimensSize.d4),
                     convertedValueWidget!,
                   ],
                 ],

@@ -6,7 +6,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Entry point to screen where user can add new asset(contract) to account with
 /// [Address].
@@ -33,9 +32,9 @@ class SelectNewAssetPage
             final list = contracts ?? [];
             return Padding(
               padding: const EdgeInsets.only(
-                top: DimensSizeV2.d16,
-                left: DimensSizeV2.d16,
-                right: DimensSizeV2.d16,
+                top: DimensSize.d16,
+                left: DimensSize.d16,
+                right: DimensSize.d16,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -67,7 +66,7 @@ class SelectNewAssetPage
                       );
                     },
                   ),
-                  const SizedBox(height: DimensSizeV2.d16),
+                  const SizedBox(height: DimensSize.d16),
                   Expanded(
                     child: switch (tab) {
                       SelectNewAssetTabs.custom => SelectNewAssetCustomEnter(
@@ -92,7 +91,7 @@ class SelectNewAssetPage
                       duration: defaultAnimationDuration,
                       child: Container(
                         padding: const EdgeInsets.only(bottom: DimensSize.d16),
-                        height: (showButton ?? false) ? DimensSizeV2.d90 : 0.0,
+                        height: (showButton ?? false) ? DimensSize.d90 : 0.0,
                         child: Center(
                           child: StateNotifierBuilder(
                             listenableState: wm.isLoadingState,

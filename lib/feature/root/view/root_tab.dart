@@ -31,7 +31,7 @@ enum RootTab {
   };
 
   BottomNavigationBarItem item() => BottomNavigationBarItem(
-    icon: Icon(icon, size: DimensSizeV2.d24),
+    icon: Icon(icon, size: DimensSize.d24),
     label: title,
     tooltip: title,
   );

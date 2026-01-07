@@ -4,7 +4,6 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class AddExistingWalletWidget
     extends ElementaryWidget<AddExistingWalletWidgetModel> {
@@ -26,7 +25,7 @@ class AddExistingWalletWidget
               LocaleKeys.addExistingWalletTitle.tr(),
               style: wm.theme.textStyles.headingLarge,
             ),
-            const SizedBox(height: DimensSizeV2.d8),
+            const SizedBox(height: DimensSize.d8),
             PrimaryText(LocaleKeys.addExistingWalletSubtitle.tr()),
             const Spacer(),
             _Button(
@@ -35,7 +34,7 @@ class AddExistingWalletWidget
               subtitle: LocaleKeys.importWalletButtonSubtitle.tr(),
               onPressed: wm.onImport,
             ),
-            const SizedBox(height: DimensSizeV2.d12),
+            const SizedBox(height: DimensSize.d12),
             _Button(
               icon: LucideIcons.bluetooth,
               title: LocaleKeys.pairLedgerButtonTitle.tr(),
@@ -69,10 +68,10 @@ class _Button extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: PrimaryCard(
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
-        padding: const EdgeInsets.all(DimensSizeV2.d16),
+        borderRadius: BorderRadius.circular(DimensRadius.radius16),
+        padding: const EdgeInsets.all(DimensSize.d16),
         child: Row(
-          spacing: DimensSizeV2.d8,
+          spacing: DimensSize.d8,
           children: [
             CommonBackgroundedIconWidget.icon(
               icon: icon,
@@ -83,7 +82,7 @@ class _Button extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: DimensSizeV2.d4,
+                spacing: DimensSize.d4,
                 children: [
                   Text(title, style: theme.textStyles.button),
                   Text(
@@ -97,7 +96,7 @@ class _Button extends StatelessWidget {
             ),
             Icon(
               LucideIcons.chevronRight,
-              size: DimensSizeV2.d20,
+              size: DimensSize.d20,
               color: context.themeStyleV2.colors.primaryA,
             ),
           ],

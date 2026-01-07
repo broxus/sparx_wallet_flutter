@@ -40,14 +40,14 @@ class TonWalletSendWidget
             child: WalletSubscribeErrorWidget(error: error),
           ),
           TonWalletSendStateSending(:final canClose) => Padding(
-            padding: const EdgeInsets.all(DimensSizeV2.d16),
+            padding: const EdgeInsets.all(DimensSize.d16),
             child: TransactionSendingWidget(
               canClose: canClose,
               popOnComplete: wm.popOnComplete,
             ),
           ),
           TonWalletSendStateReady() => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+            padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
             child: TonWalletSendConfirmView(
               recipient: wm.destination,
               attachedAmount: wm.attachedAmount,

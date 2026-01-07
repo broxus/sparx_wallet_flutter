@@ -4,7 +4,7 @@ import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/widget/toast_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:in_app_notification/in_app_notification.dart';
-import 'package:ui_components_lib/v2/dimens_v2.dart';
+import 'package:ui_components_lib/dimens.dart';
 
 class MessageViewer {
   MessageViewer({
@@ -56,7 +56,7 @@ class MessageViewer {
       InAppNotification.show(
         child: ToastMessage.fromMessage(
           message,
-          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
           onPressedAction: () {
             message.onAction?.call();
             _dismiss();

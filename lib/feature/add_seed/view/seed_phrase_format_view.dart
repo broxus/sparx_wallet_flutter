@@ -31,22 +31,22 @@ class SeedPhraseFormatView extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: DimensSizeV2.d16),
+      padding: const EdgeInsets.only(bottom: DimensSize.d16),
       child: Container(
-        padding: const EdgeInsets.all(DimensSizeV2.d16),
+        padding: const EdgeInsets.all(DimensSize.d16),
         decoration: BoxDecoration(
           border: SquircleBoxBorder(
-            squircleRadius: DimensRadiusV2.radius12,
+            squircleRadius: DimensRadius.radius12,
             borderSide: BorderSide(color: theme.colors.border0),
           ),
         ),
         child: SeparatedColumn(
           crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: DimensSizeV2.d12,
+          spacing: DimensSize.d12,
           children: [
             Text(_getLabel(), style: theme.textStyles.labelSmall),
             SeparatedRow(
-              spacing: DimensSizeV2.d16,
+              spacing: DimensSize.d16,
               children: [
                 CommonRadioInput(
                   value: SeedPhraseFormat.standard,

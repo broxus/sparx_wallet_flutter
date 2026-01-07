@@ -3,7 +3,7 @@ import 'package:app/utils/common_utils.dart';
 import 'package:app/widgets/network_vector_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class ChooseNetworkItem extends StatelessWidget {
   const ChooseNetworkItem(
@@ -24,7 +24,7 @@ class ChooseNetworkItem extends StatelessWidget {
     return GestureDetector(
       onTap: _onNetworkPressed.takeIf((_) => !isDisabled),
       child: PrimaryCard(
-        borderRadius: BorderRadius.circular(DimensSizeV2.d12),
+        borderRadius: BorderRadius.circular(DimensSize.d12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -33,7 +33,7 @@ class ChooseNetworkItem extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(right: DimensSizeV2.d12),
+                    padding: const EdgeInsets.only(right: DimensSize.d12),
                     child: _Icon(data.icon),
                   ),
                   Flexible(child: _Name(data.title)),
@@ -41,15 +41,15 @@ class ChooseNetworkItem extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: DimensSizeV2.d24),
+              padding: const EdgeInsets.only(left: DimensSize.d24),
               child: isLoading
                   ? ProgressIndicatorWidget(
-                      size: DimensSizeV2.d20,
+                      size: DimensSize.d20,
                       color: context.themeStyleV2.colors.primaryA,
                     )
                   : Icon(
                       LucideIcons.chevronRight,
-                      size: DimensSizeV2.d20,
+                      size: DimensSize.d20,
                       color: context.themeStyleV2.colors.primaryA,
                     ),
             ),
@@ -74,7 +74,7 @@ class _Icon extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.themeStyleV2.colors.background2,
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius32),
+        borderRadius: BorderRadius.circular(DimensRadius.radius32),
       ),
       child: NetworkVectorIcon(icon),
     );

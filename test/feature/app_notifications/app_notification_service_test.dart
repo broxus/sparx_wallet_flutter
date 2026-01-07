@@ -43,8 +43,7 @@ void main() {
       'showBrowserUrlAlert returns false when events stream is closed',
       () async {
         // Arrange
-        final service = AppNotificationService();
-        service.dispose();
+        final service = AppNotificationService()..dispose();
 
         // Act
         final result = await service.showBrowserUrlAlert('https://example.com');

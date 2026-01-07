@@ -6,7 +6,7 @@ import 'package:app/feature/wallet/custodians_settings/rename_custodian_modal.da
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
 class CustodianSettingsWidgetModel

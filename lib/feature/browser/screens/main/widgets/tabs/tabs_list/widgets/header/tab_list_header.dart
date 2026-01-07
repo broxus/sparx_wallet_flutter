@@ -6,7 +6,7 @@ import 'package:app/feature/browser/screens/main/widgets/tabs/tabs_list/widgets/
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/dimens_v2.dart';
+import 'package:ui_components_lib/dimens.dart';
 
 class TabListHeader
     extends
@@ -33,7 +33,7 @@ class TabListHeader
         wm.updateItemWidth(itemWidth);
 
         return SizedBox(
-          height: DimensSizeV2.d41,
+          height: DimensSize.d41,
           child: StateNotifierBuilder(
             listenableState: wm.uiState,
             builder: (_, List<TabListHeaderUiModel>? uiModels) {

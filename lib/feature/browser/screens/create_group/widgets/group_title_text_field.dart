@@ -76,7 +76,7 @@ class _GroupTitleTextFieldState extends State<GroupTitleTextField> {
         decoration: _decoration,
         style: _textStyles.headingMedium,
         cursorColor: _cursorColor,
-        cursorWidth: DimensSizeV2.d3,
+        cursorWidth: DimensSize.d3,
         cursorRadius: Radius.zero,
         autofocus: true,
         controller: _controller,

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/connection/transport_strategies/common_transport_strategy.dart';
-import 'package:app/app/service/nekoton_related/gas_price_service.dart';
+import 'package:app/app/service/nekoton_related/nekoton_related.dart';
 import 'package:app/app/service/ntp_service.dart';
 import 'package:app/data/models/gas_price_params.dart';
 import 'package:app/data/models/models.dart';
@@ -20,7 +20,7 @@ class _MockTransport extends Mock implements Transport {}
 
 class _MockStakingAbiProvider extends Mock implements StakingAbiProvider {}
 
-class _MockGasPriceService extends Mock implements GasPriceService {}
+class _MockGasPriceService extends Mock implements BlockchainConfigService {}
 
 class _MockNtpService extends Mock implements NtpService {}
 

@@ -8,9 +8,7 @@ import 'package:app/app/service/bootstrap/configurators/nekoton.dart';
 import 'package:app/app/service/bootstrap/configurators/ntp.dart';
 import 'package:app/app/service/bootstrap/configurators/storage_services.dart';
 import 'package:app/app/service/presets_connection/presets_connection_service.dart';
-import 'package:app/core/app_build_type.dart';
 import 'package:app/core/sentry.dart';
-
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
@@ -55,9 +53,9 @@ class BootstrapService {
 
   bool get isConfigured => bootstrapStep == BootstrapSteps.completed;
 
-  Future<bool> init(AppBuildType appBuildType) async {
+  Future<bool> init() async {
     try {
-      await _coreStep(appBuildType);
+      await _coreStep();
 
       _bootstrapStepSubject.add(BootstrapSteps.remoteNetworks);
       await _remoteNetworksStep();
@@ -119,7 +117,7 @@ class BootstrapService {
 
   /// This step can not be failed during initialization, so we do not let
   /// it to be re-runed (if failed - that's gg).
-  Future<void> _coreStep(AppBuildType appBuildType) async {
+  Future<void> _coreStep() async {
     await _encryptedStorageConfigurator.configure();
   }
 

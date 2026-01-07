@@ -2,7 +2,6 @@ import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 // TODO(komarov): Common confirmation sheet?
 Future<bool?> showDappDisconnectConfirmationSheet({
@@ -36,12 +35,12 @@ class _DappDisconnectConfirmationSheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(height: DimensSizeV2.d24),
+          const SizedBox(height: DimensSize.d24),
           Assets.images.exclamationMarkAlert.image(
-            width: DimensSizeV2.d56,
-            height: DimensSizeV2.d56,
+            width: DimensSize.d56,
+            height: DimensSize.d56,
           ),
-          const SizedBox(height: DimensSizeV2.d16),
+          const SizedBox(height: DimensSize.d16),
           Text(
             connection == null
                 ? LocaleKeys.disconnectAllText.tr()
@@ -49,7 +48,7 @@ class _DappDisconnectConfirmationSheet extends StatelessWidget {
             style: theme.textStyles.headingLarge,
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: DimensSizeV2.d24),
+          const SizedBox(height: DimensSize.d24),
           DestructiveButton(
             buttonShape: ButtonShape.pill,
             title: connection == null
@@ -57,7 +56,7 @@ class _DappDisconnectConfirmationSheet extends StatelessWidget {
                 : LocaleKeys.disconnectDapp.tr(),
             onPressed: () => Navigator.of(context).pop(true),
           ),
-          const SizedBox(height: DimensSizeV2.d8),
+          const SizedBox(height: DimensSize.d8),
           PrimaryButton(
             buttonShape: ButtonShape.pill,
             title: LocaleKeys.backWord.tr(),

@@ -1,4 +1,4 @@
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser/approvals_listener/actions/change_network/change_network_wm.dart';
 import 'package:app/feature/browser/approvals_listener/actions/widgets/widgets.dart';
@@ -6,7 +6,6 @@ import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class ChangeNetworkWidget
     extends
@@ -17,7 +16,7 @@ class ChangeNetworkWidget
   ChangeNetworkWidget({
     required Uri origin,
     required int networkId,
-    required List<ConnectionData> connections,
+    required List<Connection> connections,
     required this.scrollController,
     super.key,
   }) : super(
@@ -35,13 +34,13 @@ class ChangeNetworkWidget
     final theme = wm.theme;
 
     return SeparatedColumn(
-      spacing: DimensSizeV2.d12,
+      spacing: DimensSize.d12,
       children: [
         Expanded(
           child: SingleChildScrollView(
             controller: scrollController,
             child: SeparatedColumn(
-              spacing: DimensSizeV2.d12,
+              spacing: DimensSize.d12,
               children: [
                 ValueListenableBuilder(
                   valueListenable: wm.originState,
@@ -57,12 +56,12 @@ class ChangeNetworkWidget
 
                     if (connections.length < 2) return const SizedBox.shrink();
 
-                    return CommonSelectDropdown<ConnectionData>(
+                    return CommonSelectDropdown<Connection>(
                       values: [
                         for (final connection in connections)
-                          CommonSheetDropdownItem<ConnectionData>(
+                          CommonSheetDropdownItem<Connection>(
                             value: connection,
-                            title: connection.name,
+                            title: connection.networkName,
                           ),
                       ],
                       titleText: LocaleKeys.networkWord.tr(),
@@ -75,15 +74,13 @@ class ChangeNetworkWidget
                   valueListenable: wm.connectionState,
                   builder: (_, connection, __) => PrimaryCard(
                     color: theme.colors.background2,
-                    borderRadius: BorderRadius.circular(
-                      DimensRadiusV2.radius12,
-                    ),
+                    borderRadius: BorderRadius.circular(DimensRadius.radius12),
                     padding: const EdgeInsets.symmetric(
-                      vertical: DimensSizeV2.d24,
-                      horizontal: DimensSizeV2.d16,
+                      vertical: DimensSize.d24,
+                      horizontal: DimensSize.d16,
                     ),
                     child: SeparatedColumn(
-                      spacing: DimensSizeV2.d16,
+                      spacing: DimensSize.d16,
                       children: [
                         _Param(
                           label: LocaleKeys.networkId.tr(),
@@ -91,11 +88,11 @@ class ChangeNetworkWidget
                         ),
                         _Param(
                           label: LocaleKeys.networkName.tr(),
-                          value: connection.name,
+                          value: connection.networkName,
                         ),
                         _Param(
                           label: LocaleKeys.networkType.tr(),
-                          value: connection.networkType.name,
+                          value: connection.defaultWorkchain.networkType.name,
                         ),
                       ],
                     ),

@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_webview/nekoton_webview.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class AddNetworkWmParams {
   const AddNetworkWmParams({
@@ -55,11 +55,11 @@ class AddNetworkWidgetModel
   Future<void> onConfirm() async {
     _loadingState.value = true;
     try {
-      final connection = _networkState.value.getConnection();
-      final network = await model.addConnection(connection);
+      final n = _networkState.value.getConnection();
+      final network = await model.addNetwork(n);
 
       if (_switchNetworkState.value) {
-        await model.changeNetwork(connection.id);
+        await model.changeNetwork(n.id);
       }
 
       if (contextSafe != null) {

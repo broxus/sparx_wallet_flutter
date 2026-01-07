@@ -137,6 +137,22 @@ class TonWalletSendWidgetModel
   Future<void> _init() async {
     UnsignedMessage? unsignedMessage;
     try {
+      final (from, to, isAccess) = model.checkIsValidWorkchain(
+        wmParams.value.destination.address,
+      );
+
+      if (!isAccess) {
+        _feesState.error(
+          UiException(
+            LocaleKeys.invalidWorkchainAddress.tr(
+              args: [from?.toString() ?? '', to?.toString() ?? ''],
+            ),
+          ),
+          _feesState.value.data,
+        );
+        return;
+      }
+
       _isLoadingState.accept(true);
 
       final data = wmParams.value;
@@ -172,7 +188,7 @@ class TonWalletSendWidgetModel
 
       final wallet = walletState.wallet!;
       final balance = wallet.contractState.balance;
-      final isPossibleToSendMessage = balance > (fees + totalAmount);
+      final isPossibleToSendMessage = balance >= (fees + totalAmount);
 
       if (!isPossibleToSendMessage) {
         _feesState.error(

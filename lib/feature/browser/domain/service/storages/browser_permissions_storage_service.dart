@@ -36,8 +36,12 @@ class BrowserPermissionsStorageService extends AbstractStorageService {
   }
 
   /// Delete permissions for specified url
-  void deletePermissionsForOrigin(String origin) {
-    _storage.remove(origin);
+  bool deletePermissionsForOrigin(String origin) {
+    final hasData = _storage.hasData(origin);
+    if (hasData) {
+      _storage.remove(origin);
+    }
+    return hasData;
   }
 
   /// Clear information about permissions
