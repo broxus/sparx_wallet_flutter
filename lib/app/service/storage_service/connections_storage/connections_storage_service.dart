@@ -207,13 +207,19 @@ class ConnectionsStorageService extends AbstractStorageService {
 
     if (list != null) {
       final customConnections = list
-          .map(
-            (entry) => Connection.fromJson(
-              json: entry as Map<String, dynamic>,
-              commonWalletDefaultAccountNames:
-                  _presetsConnectionService.defaultSettings?.toJson() ?? {},
-            ),
-          )
+          .map((entry) {
+            try {
+              return Connection.fromJson(
+                json: entry as Map<String, dynamic>,
+                commonWalletDefaultAccountNames:
+                    _presetsConnectionService.defaultSettings?.toJson() ?? {},
+              );
+            } catch (e) {
+              _log.warning('Unable to parse connection from json: $entry', e);
+              return null;
+            }
+          })
+          .nonNulls
           .toList();
 
       if (customConnections.isNotEmpty) {
