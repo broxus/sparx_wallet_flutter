@@ -29,10 +29,7 @@ class TokenWalletIconWidget extends StatelessWidget {
           ClipOval(
             child: logoURI != null && logoURI!.isNotEmpty
                 ? TonWalletIconWidget(path: logoURI!, size: size)
-                : SvgPicture.asset(
-                    Assets.images.tokenDefaultIcon.path,
-                    width: size,
-                  ),
+                : Assets.images.tokenDefaultIcon.svg(width: size),
           ),
           if (version == TokenWalletVersion.oldTip3v4)
             const Positioned(right: 0, bottom: 0, child: TokenAssetOldLabel()),

@@ -46,8 +46,7 @@ class TokenWalletTransactionsWidget
               child: SeparatedColumn(
                 spacing: DimensSize.d12,
                 children: [
-                  SvgPicture.asset(
-                    Assets.images.lightning.path,
+                  Assets.images.lightning.svg(
                     colorFilter: theme.colors.content3.colorFilter,
                     width: DimensSize.d56,
                     height: DimensSize.d56,
