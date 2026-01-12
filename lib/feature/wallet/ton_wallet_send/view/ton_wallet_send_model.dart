@@ -15,13 +15,11 @@ class TonWalletSendModel extends ElementaryModel
     this._nekotonRepository,
     this._ledgerService,
     this._delegate,
-    this._connectionsStorageService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final LedgerService _ledgerService;
   final BleAvailabilityModelDelegate _delegate;
-  final ConnectionsStorageService _connectionsStorageService;
 
   @override
   BleAvailabilityModelDelegate get delegate => _delegate;
@@ -36,9 +34,12 @@ class TonWalletSendModel extends ElementaryModel
     super.dispose();
   }
 
-  (int?, int?, bool) checkIsValidWorkchain(String address) {
-    return _connectionsStorageService.checkIsRightWorkchainByAddress(address);
-  }
+  CrosschainTransferValidationResult validateCrosschainTransfer(
+    Address address,
+  ) => CrosschainTransferValidator.validateByAddress(
+    fromWorkchain: transport.workchainId,
+    toAddress: address,
+  );
 
   KeyAccount? getAccount(Address address) =>
       _nekotonRepository.seedList.findAccountByAddress(address);
