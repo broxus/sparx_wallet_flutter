@@ -314,9 +314,9 @@ melos:
         --build-number $BUILD_NUMBER \
         --upload true
 
-    fetch:connections_config:
+    fetch:configs:
       description: Fetch connections config
-      run: bash scripts/fetch-connections-config.sh
+      run: bash scripts/fetch-configs.sh
 
   command:
     clean:
