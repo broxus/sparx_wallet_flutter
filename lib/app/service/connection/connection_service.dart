@@ -160,10 +160,10 @@ class ConnectionService {
           _storageService.saveCurrentConnectionId(connectionId: base.id);
           return;
         }
-
-        // allow level above to track fail
-        rethrow;
       }
+
+      // allow level above to track fail
+      rethrow;
     }
   }
 }
