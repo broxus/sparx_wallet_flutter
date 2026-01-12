@@ -205,7 +205,7 @@ class StakingPageWidgetModel
         StakingInfo(
           wallet: ever.wallet!,
           tokenWallet: token.wallet!,
-          currency: currency!,
+          currency: currency,
           tokenCurrency: tokenCurrency,
           details: details,
           apy: apyValue,

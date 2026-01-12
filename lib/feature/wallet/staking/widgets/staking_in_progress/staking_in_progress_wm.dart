@@ -59,5 +59,5 @@ class StakingInProgressParams {
   final Currency stakeCurrency;
   final BigInt attachedFee;
   final String? tokenPrice;
-  final String everPrice;
+  final String? everPrice;
 }
