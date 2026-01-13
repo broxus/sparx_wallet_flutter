@@ -358,3 +358,65 @@ jobs:
         run: |-
           rm -rf .dart_tool/
           rm -rf $HOME/.pub-cache/
+
+  youtrack-deploy-comment:
+    needs: [setup, ios-deploy, android-deploy]
+    if: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/dev' && github.ref != 'refs/heads/predev' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Extract issue keys from branch
+        id: issue
+        run: |
+          BRANCH="${GITHUB_REF_NAME}"
+          echo "Branch: $BRANCH"
+
+          ISSUE_KEYS=$(echo "$BRANCH" | grep -oE 'EWM-[0-9]+' | sort -u | tr '\n' ' ' | xargs)
+
+          if [ -z "$ISSUE_KEYS" ]; then
+            echo "No issue keys (EWM-XXX) found in branch. Skipping YouTrack update."
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "Found issue keys: $ISSUE_KEYS"
+          echo "issue_keys=$ISSUE_KEYS" >> $GITHUB_OUTPUT
+          echo "skip=false" >> $GITHUB_OUTPUT
+
+      - name: Extract app version from pubspec.yaml
+        id: version
+        if: steps.issue.outputs.skip != 'true'
+        env:
+          BUILD_NUMBER: ${{ needs.setup.outputs.build_number }}
+        run: |
+          VERSION_LINE=$(grep '^version:' pubspec.yaml | head -n 1 | awk '{print $2}')
+          echo "Raw version: $VERSION_LINE"
+
+          APP_VERSION=${VERSION_LINE%%+*}
+
+          echo "app_version=$APP_VERSION" >> $GITHUB_OUTPUT
+          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
+
+      - name: Add build comment to YouTrack
+        if: steps.issue.outputs.skip != 'true'
+        env:
+          YOUTRACK_BASE_URL: ${{ secrets.YOUTRACK_BASE_URL }}
+          YOUTRACK_TOKEN: ${{ secrets.YOUTRACK_TOKEN }}
+          ISSUE_KEYS: ${{ steps.issue.outputs.issue_keys }}
+          APP_VERSION: ${{ steps.version.outputs.app_version }}
+          BUILD_NUMBER: ${{ steps.version.outputs.build_number }}
+        run: |
+          COMMENT_PAYLOAD="${APP_VERSION} (${BUILD_NUMBER})"
+          for ISSUE_KEY in $ISSUE_KEYS; do
+            echo "Adding build comment to $ISSUE_KEY"
+            BODY=$(jq -n --arg text "$COMMENT_PAYLOAD" '{text: $text}')
+            curl -sS -X POST \
+              "$YOUTRACK_BASE_URL/api/issues/$ISSUE_KEY/comments?fields=id,text" \
+              -H "Authorization: Bearer $YOUTRACK_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d "$BODY"
+          done
