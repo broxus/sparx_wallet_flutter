@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/widgets/change_seed_password/change_seed_password.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/widgets/export_seed_sheet/export_seed_save_phrase.dart';
 import 'package:app/feature/wallet/new_account/add_account_confirm/add_account_confirm_model.dart';

@@ -4,8 +4,11 @@ import 'dart:convert';
 
 import 'package:app/feature/nft/domain/nft_api_data_provider.dart';
 import 'package:dio/dio.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:test/test.dart';
+
+class _MockBridge extends Mock implements NekotonBridgeApi {}
 
 class _RecordingAdapter implements HttpClientAdapter {
   _RecordingAdapter(this.responseBody);
@@ -50,6 +53,18 @@ class _RecordingAdapter implements HttpClientAdapter {
 
 void main() {
   group('NftApiDataProvider', () {
+    final bridge = _MockBridge();
+
+    setUpAll(() {
+      NekotonBridge.initMock(api: bridge);
+
+      when(
+        () => bridge.crateApiMergedNtValidateAddress(
+          address: any(named: 'address'),
+        ),
+      ).thenReturn(false);
+    });
+
     test('getNftList maps dto to domain and builds continuation', () async {
       // Arrange
       final adapter = _RecordingAdapter({

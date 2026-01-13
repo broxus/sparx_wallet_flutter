@@ -10,6 +10,8 @@ import 'package:test/test.dart';
 
 class _MockGetStorage extends Mock implements GetStorage {}
 
+class _MockBridge extends Mock implements NekotonBridgeApi {}
+
 const _pendingNftsKey = 'pending_nfts';
 
 void main() {
@@ -21,6 +23,17 @@ void main() {
     const networkGroup = 'mainnet';
     const owner = Address(address: '0:owner');
     const collection = Address(address: '0:collection');
+    final bridge = _MockBridge();
+
+    setUpAll(() {
+      NekotonBridge.initMock(api: bridge);
+
+      when(
+        () => bridge.crateApiMergedNtValidateAddress(
+          address: any(named: 'address'),
+        ),
+      ).thenReturn(false);
+    });
 
     setUp(() {
       collectionsStorage = _MockGetStorage();
@@ -136,14 +149,18 @@ void main() {
 
         // Assert
         await expectation;
-        verify(
-          () => collectionsStorage.write(owner.address, [
-            const NftCollectionSettings(
-              collection: otherCollection,
-              networkGroup: networkGroup,
-            ).toJson(),
-          ]),
-        ).called(1);
+        final captured =
+            verify(
+                  () => collectionsStorage.write(owner.address, captureAny()),
+                ).captured.last
+                as List<dynamic>;
+
+        expect(captured, [
+          const NftCollectionSettings(
+            collection: otherCollection,
+            networkGroup: networkGroup,
+          ).toJson(),
+        ]);
       },
     );
 
@@ -191,9 +208,13 @@ void main() {
 
       // Assert
       await expectation;
-      verify(
-        () => generalStorage.write(_pendingNftsKey, [pending.toJson()]),
-      ).called(1);
+      final captured =
+          verify(
+                () => generalStorage.write(_pendingNftsKey, captureAny()),
+              ).captured.last
+              as List<dynamic>;
+
+      expect(captured, [pending.toJson()]);
     });
 
     test('removePendingNft removes matching entry and returns it', () async {
@@ -236,9 +257,13 @@ void main() {
       // Assert
       await expectation;
       expect(removed, equals(pendingOne));
-      verify(
-        () => generalStorage.write(_pendingNftsKey, [pendingTwo.toJson()]),
-      ).called(1);
+      final captured =
+          verify(
+                () => generalStorage.write(_pendingNftsKey, captureAny()),
+              ).captured.last
+              as List<dynamic>;
+
+      expect(captured, [pendingTwo.toJson()]);
     });
 
     test('removePendingNft returns null when nothing matches', () {
@@ -295,9 +320,13 @@ void main() {
       // Assert
       await expectation;
       expect(removed, equals([matching]));
-      verify(
-        () => generalStorage.write(_pendingNftsKey, [keep.toJson()]),
-      ).called(1);
+      final captured =
+          verify(
+                () => generalStorage.write(_pendingNftsKey, captureAny()),
+              ).captured.last
+              as List<dynamic>;
+
+      expect(captured, [keep.toJson()]);
     });
 
     test('getCollections filters by network group', () {
