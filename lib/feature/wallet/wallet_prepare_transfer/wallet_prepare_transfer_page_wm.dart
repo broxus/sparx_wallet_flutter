@@ -142,26 +142,22 @@ class WalletPrepareTransferPageWidgetModel
       return;
     }
 
-    final addr = Address(address: receiverController.text.trim());
+    final address = Address(address: receiverController.text.trim());
 
-    final result = model.checkIsValidWorkchain(addr.address);
-
-    if (!result.$3) {
-      return;
-    }
-
-    if (!addr.isValid) {
+    if (!address.isValid) {
       model.showError(LocaleKeys.addressIsWrong.tr());
-
       return;
     }
+
+    final result = model.validateCrosschainTransfer(address);
+    if (!result.isValid) return;
 
     final amnt = Fixed.parse(
       amountController.text.trim().replaceAll(',', '.'),
       decimalDigits: _selectedAsset?.balance.decimalDigits,
     );
 
-    _goNext(addr, amnt);
+    _goNext(address, amnt);
   }
 
   Future<void> setMaxBalance() async {
@@ -239,18 +235,20 @@ class WalletPrepareTransferPageWidgetModel
       return LocaleKeys.addressIsEmpty.tr();
     }
 
-    final (from, to, isAccess) = model.checkIsValidWorkchain(value);
-
-    if (!isAccess) {
-      return LocaleKeys.invalidWorkchainAddress.tr(
-        args: [from?.toString() ?? '', to?.toString() ?? value],
-      );
+    final address = Address(address: value.trim());
+    if (!address.isValid) {
+      return LocaleKeys.invalidAddressFormat.tr();
     }
 
-    if (_selectedAsset?.isNative != true &&
-        addressState.value.address == value) {
+    if (_selectedAsset?.isNative != true && addressState.value == address) {
       return LocaleKeys.invalidReceiverAddress.tr();
     }
+
+    final result = model.validateCrosschainTransfer(address);
+    if (result.errorMessage case final String message) {
+      return message;
+    }
+
     return null;
   }
 

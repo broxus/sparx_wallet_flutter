@@ -299,6 +299,12 @@ class BrowserMainScreenWidgetModel
     _tabsDelegate.createGroup(context);
   }
 
+  void onLoadingError(Uri uri) {
+    if (uri.scheme == 'http') {
+      _progressIndicatorDelegate.reset();
+    }
+  }
+
   void _initOverlay() {
     _overlayDelegate.init(
       context,

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DefaultActiveAsset {
 
-@AddressStringConverter() Address get address;
+ Address get address;
 /// Create a copy of DefaultActiveAsset
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $DefaultActiveAssetCopyWith<$Res>  {
   factory $DefaultActiveAssetCopyWith(DefaultActiveAsset value, $Res Function(DefaultActiveAsset) _then) = _$DefaultActiveAssetCopyWithImpl;
 @useResult
 $Res call({
-@AddressStringConverter() Address address
+ Address address
 });
 
 
@@ -162,7 +162,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@AddressStringConverter()  Address address)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Address address)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DefaultActiveAsset() when $default != null:
 return $default(_that.address);case _:
@@ -183,7 +183,7 @@ return $default(_that.address);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@AddressStringConverter()  Address address)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Address address)  $default,) {final _that = this;
 switch (_that) {
 case _DefaultActiveAsset():
 return $default(_that.address);case _:
@@ -203,7 +203,7 @@ return $default(_that.address);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@AddressStringConverter()  Address address)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Address address)?  $default,) {final _that = this;
 switch (_that) {
 case _DefaultActiveAsset() when $default != null:
 return $default(_that.address);case _:
@@ -218,10 +218,10 @@ return $default(_that.address);case _:
 @JsonSerializable()
 
 class _DefaultActiveAsset implements DefaultActiveAsset {
-   _DefaultActiveAsset({@AddressStringConverter() required this.address});
+   _DefaultActiveAsset({required this.address});
   factory _DefaultActiveAsset.fromJson(Map<String, dynamic> json) => _$DefaultActiveAssetFromJson(json);
 
-@override@AddressStringConverter() final  Address address;
+@override final  Address address;
 
 /// Create a copy of DefaultActiveAsset
 /// with the given fields replaced by the non-null parameter values.
@@ -256,7 +256,7 @@ abstract mixin class _$DefaultActiveAssetCopyWith<$Res> implements $DefaultActiv
   factory _$DefaultActiveAssetCopyWith(_DefaultActiveAsset value, $Res Function(_DefaultActiveAsset) _then) = __$DefaultActiveAssetCopyWithImpl;
 @override @useResult
 $Res call({
-@AddressStringConverter() Address address
+ Address address
 });
 
 

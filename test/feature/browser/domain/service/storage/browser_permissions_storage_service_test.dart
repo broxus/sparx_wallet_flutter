@@ -3,16 +3,25 @@ import 'package:app/feature/browser/domain/service/storages/browser_permissions_
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 
 class MockGetStorage extends Mock implements GetStorage {}
+
+class MockBridge extends Mock implements NekotonBridgeApi {}
 
 void main() {
   late MockGetStorage storage;
   late BrowserPermissionsStorageService service;
 
+  final bridge = MockBridge();
+
   setUp(() {
     storage = MockGetStorage();
     service = BrowserPermissionsStorageService(storage);
+  });
+
+  setUpAll(() {
+    NekotonBridge.initMock(api: bridge);
   });
 
   group('permissions', () {
@@ -48,6 +57,12 @@ void main() {
       when(
         () => storage.getValues<Iterable<dynamic>>(),
       ).thenReturn([permissionsJson]);
+
+      when(
+        () => bridge.crateApiMergedNtValidateAddress(
+          address: any(named: 'address'),
+        ),
+      ).thenReturn(false);
 
       final result = service.getPermissions();
 

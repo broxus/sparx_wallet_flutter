@@ -26,7 +26,7 @@ class StakingInProgress
     required Currency stakeCurrency,
     required BigInt attachedFee,
     required String? tokenPrice,
-    required String everPrice,
+    required String? everPrice,
     super.key,
   }) : super(
          wmFactoryParam: StakingInProgressParams(

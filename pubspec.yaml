@@ -48,6 +48,7 @@ dependencies:
   flutter_secure_storage: ^10.0.0-beta.4
   flutter_slidable: ^4.0.1
   flutter_svg: ^2.2.3
+  fraud_protection: ^1.3.0
   freezed_annotation: ^3.1.0
   get_it: ^9.0.5
   get_storage: 2.1.1
@@ -70,7 +71,7 @@ dependencies:
   money2: ^6.0.0
   mutex: ^3.1.0
   native_dio_adapter: ^1.5.0
-  nekoton_repository: ^3.2.0
+  nekoton_repository: ^3.2.1
   nekoton_webview: ^0.2.0
   no_screenshot: ^0.3.1
   ntp: 2.0.0
@@ -313,9 +314,9 @@ melos:
         --build-number $BUILD_NUMBER \
         --upload true
 
-    fetch:connections_config:
+    fetch:configs:
       description: Fetch connections config
-      run: bash scripts/fetch-connections-config.sh
+      run: bash scripts/fetch-configs.sh
 
   command:
     clean:

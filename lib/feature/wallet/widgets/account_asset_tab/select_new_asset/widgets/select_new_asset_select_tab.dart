@@ -103,7 +103,7 @@ class _SelectNewAssetSelectTabState extends State<SelectNewAssetSelectTab> {
           child: SeparatedColumn(
             spacing: DimensSize.d12,
             children: [
-              SvgPicture.asset(Assets.images.searchEmpty.path),
+              Assets.images.searchEmpty.svg(),
               Text(
                 LocaleKeys.sorryNoAssetsFound.tr(),
                 style: theme.textStyles.paragraphSmall.copyWith(

@@ -95,7 +95,7 @@ class StakingView extends StatelessWidget {
               stakeCurrency: data.receiveCurrency,
               attachedFee: data.attachedAmount.minorUnits,
               withdrawHours: info.withdrawHours,
-              everPrice: info.currency.price,
+              everPrice: info.currency?.price,
               tokenPrice: info.tokenCurrency?.price,
             ),
           ),

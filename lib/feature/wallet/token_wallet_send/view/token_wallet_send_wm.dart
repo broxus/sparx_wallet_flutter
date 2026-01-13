@@ -158,19 +158,11 @@ class TokenWalletSendWidgetModel
 
   Future<void> _init() async {
     try {
-      final (from, to, isAccess) = model.checkIsValidWorkchain(
-        wmParams.value.destination.address,
+      final result = model.validateCrosschainTransfer(
+        wmParams.value.destination,
       );
-
-      if (!isAccess) {
-        _feesState.error(
-          UiException(
-            LocaleKeys.invalidWorkchainAddress.tr(
-              args: [from?.toString() ?? '', to?.toString() ?? ''],
-            ),
-          ),
-          _feesState.value.data,
-        );
+      if (result.errorMessage case final String message) {
+        _feesState.error(UiException(message), _feesState.value.data);
         return;
       }
 

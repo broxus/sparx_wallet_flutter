@@ -42,9 +42,7 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
 
   Future<bool> selectType(String id) async {
     try {
-      await _connectionsStorageService.saveCurrentConnectionId(
-        connectionId: id,
-      );
+      _connectionsStorageService.saveCurrentConnectionId(connectionId: id);
       await _nekotonRepository.currentTransportStream.firstWhere(
         (e) => e.connectionId == id,
       );

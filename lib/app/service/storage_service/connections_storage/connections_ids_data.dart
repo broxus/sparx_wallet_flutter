@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'connections_ids_data.freezed.dart';
-
 part 'connections_ids_data.g.dart';
 
 @freezed
@@ -14,8 +13,8 @@ abstract class ConnectionIdsData with _$ConnectionIdsData {
 
   factory ConnectionIdsData.fromJson(Map<String, dynamic> json) =>
       _$ConnectionIdsDataFromJson(json);
-}
 
-extension ConnectionIdsDataExt on ConnectionIdsData {
+  const ConnectionIdsData._();
+
   String get fullId => '$connectionId$workchainId';
 }
