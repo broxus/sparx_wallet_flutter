@@ -46,7 +46,7 @@ class AddNetworkModel extends ElementaryModel {
   Future<void> changeNetwork(String id) async {
     _connectionsStorageService.saveCurrentConnectionId(connectionId: id);
     await _nekotonRepository.currentTransportStream
-        .firstWhere((strategy) => strategy.connection?.id == id)
+        .firstWhere((strategy) => strategy.connectionId == id)
         .timeout(_timeLimit);
   }
 
