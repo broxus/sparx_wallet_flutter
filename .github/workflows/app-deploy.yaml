@@ -359,16 +359,21 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Extract issue keys from branch
+      - name: Extract issue keys
         id: issue
         run: |
           BRANCH="${GITHUB_REF_NAME}"
+          COMMIT_MSG="$(git log -1 --pretty=%B)"
           echo "Branch: $BRANCH"
+          echo "Commit message: $COMMIT_MSG"
 
-          ISSUE_KEYS=$(echo "$BRANCH" | grep -oE 'EWM-[0-9]+' | sort -u | tr '\n' ' ' | xargs)
+          BRANCH_KEYS=$(echo "$BRANCH" | grep -oE 'EWM-[0-9]+' | sort -u | tr '\n' ' ' | xargs)
+          COMMIT_KEYS=$(echo "$COMMIT_MSG" | grep -oE 'EWM-[0-9]+' | sort -u | tr '\n' ' ' | xargs)
+
+          ISSUE_KEYS=$(printf "%s\n%s\n" "$BRANCH_KEYS" "$COMMIT_KEYS" | tr ' ' '\n' | sort -u | tr '\n' ' ' | xargs)
 
           if [ -z "$ISSUE_KEYS" ]; then
-            echo "No issue keys (EWM-XXX) found in branch. Skipping YouTrack update."
+            echo "No issue keys (EWM-XXX) found in branch or latest commit. Skipping YouTrack update."
             echo "skip=true" >> $GITHUB_OUTPUT
             exit 0
           fi
