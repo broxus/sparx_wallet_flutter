@@ -44,7 +44,6 @@ dependencies:
   flutter_blue_plus: ^2.0.2
   flutter_email_sender: ^8.0.0
   flutter_inappwebview: 6.1.5
-  flutter_jailbreak_detection: 1.10.0
   flutter_screenutil: 5.9.3
   flutter_secure_storage: ^10.0.0-beta.4
   flutter_slidable: ^4.0.1
@@ -90,6 +89,7 @@ dependencies:
       ref: optional-render-manager
   retrofit: 4.7.3
   rive: ^0.14.0-dev.13
+  root_checker_plus: 1.0.0
   rxdart: 0.28.0
   sensitive_clipboard: ^1.1.0
   sentry_flutter: ^9.6.0
