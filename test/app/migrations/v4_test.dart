@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/presets_connection/presets_connection_service.dart';
 import 'package:app/app/service/storage_service/balance_storage_service.dart';
 import 'package:app/app/service/storage_service/general_storage_service.dart';
@@ -44,9 +45,10 @@ void main() {
 
   setUp(() async {
     presetsConnectionService = _MockPresetsConnectionService();
-    migration = StorageMigrationV4(presetsConnectionService);
 
-    when(() => presetsConnectionService.networks).thenReturn([]);
+    when(() => presetsConnectionService.connections).thenReturn(<Connection>[]);
+
+    migration = StorageMigrationV4(presetsConnectionService);
 
     for (final c in currencyContainers) {
       await GetStorage.init(c);
@@ -109,8 +111,6 @@ void main() {
     }
   });
   test('Update networkGroup', () async {
-    when(() => presetsConnectionService.networks).thenReturn([]);
-
     for (final container in currencyContainers) {
       final storage = GetStorage(container);
 
