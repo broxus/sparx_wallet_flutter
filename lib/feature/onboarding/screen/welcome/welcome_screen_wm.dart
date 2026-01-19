@@ -6,7 +6,7 @@ import 'package:app/feature/onboarding/screen/welcome/welcome_screen.dart';
 import 'package:app/feature/onboarding/screen/welcome/welcome_screen_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 /// [WidgetModel] для [WelcomeScreen]

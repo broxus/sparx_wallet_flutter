@@ -15,7 +15,7 @@ class CustodiansSettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: DefaultAppBar(titleText: LocaleKeys.custodiansWord.tr()),
       body: Padding(
-        padding: const EdgeInsets.all(DimensSizeV2.d16),
+        padding: const EdgeInsets.all(DimensSize.d16),
         child: CustodiansSettingsView(address: address),
       ),
     );

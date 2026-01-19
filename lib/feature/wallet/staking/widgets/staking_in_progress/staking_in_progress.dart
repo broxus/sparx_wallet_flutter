@@ -25,7 +25,7 @@ class StakingInProgress
     required int withdrawHours,
     required Currency stakeCurrency,
     required BigInt attachedFee,
-    required String tokenPrice,
+    required String? tokenPrice,
     required String everPrice,
     super.key,
   }) : super(

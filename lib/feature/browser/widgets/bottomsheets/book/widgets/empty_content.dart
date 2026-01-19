@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class BookEmpty extends StatelessWidget {
   const BookEmpty({required this.title, required this.description, super.key});
@@ -14,7 +14,7 @@ class BookEmpty extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: DimensSizeV2.d8),
+          padding: const EdgeInsets.only(bottom: DimensSize.d8),
           child: Text(title, style: theme.textStyles.headingLarge),
         ),
         Text(

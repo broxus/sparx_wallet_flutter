@@ -5,7 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Body of wallet, that displays information about account
 class WalletAccountBodyWidget
@@ -21,13 +21,13 @@ class WalletAccountBodyWidget
   Widget build(WalletAccountBodyWidgetModel wm) {
     return SliverToBoxAdapter(
       child: Column(
-        spacing: DimensSizeV2.d16,
+        spacing: DimensSize.d16,
         children: [
           Padding(
             padding: const EdgeInsets.only(
-              top: DimensSizeV2.d24,
-              left: DimensSizeV2.d16,
-              right: DimensSizeV2.d16,
+              top: DimensSize.d24,
+              left: DimensSize.d16,
+              right: DimensSize.d16,
             ),
             child: ValueListenableBuilder(
               valueListenable: wm.currentAccountState,
@@ -46,7 +46,7 @@ class WalletAccountBodyWidget
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: DimensSizeV2.d16,
+                      horizontal: DimensSize.d16,
                     ),
                     child: WalletAccountActions(
                       account: currentAccount,
@@ -57,7 +57,7 @@ class WalletAccountBodyWidget
                   ),
                   if (notifications.isNotEmpty)
                     Column(
-                      spacing: DimensSizeV2.d8,
+                      spacing: DimensSize.d8,
                       children: [
                         _Carousel(
                           items: notifications,
@@ -106,7 +106,7 @@ class _Carousel extends StatelessWidget {
   Widget build(BuildContext context) {
     return CarouselSlider.builder(
       options: CarouselOptions(
-        height: DimensSizeV2.d124,
+        height: DimensSize.d124,
         viewportFraction: 1,
         enableInfiniteScroll: items.length > 1,
         onPageChanged: onPageChanged,
@@ -124,7 +124,7 @@ class _Carousel extends StatelessWidget {
         };
 
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
           child: child,
         );
       },
@@ -146,15 +146,15 @@ class _CarouselIndicator extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d8),
+      padding: const EdgeInsets.symmetric(vertical: DimensSize.d8),
       child: SizedBox(
-        height: DimensSizeV2.d8,
+        height: DimensSize.d8,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          spacing: DimensSizeV2.d8,
+          spacing: DimensSize.d8,
           children: List.generate(itemCount, (index) {
             final isActive = index == currentPage;
-            final size = isActive ? DimensSizeV2.d8 : DimensSizeV2.d6;
+            final size = isActive ? DimensSize.d8 : DimensSize.d6;
             final color = isActive
                 ? theme.colors.content0
                 : theme.colors.background3;

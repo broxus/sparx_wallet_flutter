@@ -3,7 +3,7 @@ import 'package:app/feature/profile/widgets/switch_to_seed_sheet/switch_to_seed_
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class SwitchToSeedWidget
     extends
@@ -21,19 +21,19 @@ class SwitchToSeedWidget
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const SizedBox(height: DimensSizeV2.d24),
+        const SizedBox(height: DimensSize.d24),
         Image.asset(
           Assets.images.checkCircleFill.checkCircleFill.path,
-          height: DimensSizeV2.d56,
-          width: DimensSizeV2.d56,
+          height: DimensSize.d56,
+          width: DimensSize.d56,
         ),
-        const SizedBox(height: DimensSizeV2.d16),
+        const SizedBox(height: DimensSize.d16),
         Text(
           LocaleKeys.newSeedPhraseSwitchTitle.tr(),
           style: theme.textStyles.headingLarge,
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: DimensSizeV2.d8),
+        const SizedBox(height: DimensSize.d8),
         Text(
           LocaleKeys.newSeedPhraseSwitchSubtitle.tr(),
           style: theme.textStyles.paragraphMedium.copyWith(
@@ -41,13 +41,13 @@ class SwitchToSeedWidget
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: DimensSizeV2.d24),
+        const SizedBox(height: DimensSize.d24),
         AccentButton(
           buttonShape: ButtonShape.pill,
           title: LocaleKeys.newSeedPhraseSwitchButton.tr(),
           onPressed: wm.onSwitch,
         ),
-        const SizedBox(height: DimensSizeV2.d8),
+        const SizedBox(height: DimensSize.d8),
         PrimaryButton(
           buttonShape: ButtonShape.pill,
           title: LocaleKeys.accountAddedSheetContinue.tr(),

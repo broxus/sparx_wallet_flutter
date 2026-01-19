@@ -12,7 +12,7 @@ class NetworkItem extends StatelessWidget {
     this.onTap,
     super.key,
   }) : padding =
-           padding ?? const EdgeInsets.symmetric(vertical: DimensSizeV2.d12);
+           padding ?? const EdgeInsets.symmetric(vertical: DimensSize.d12);
 
   NetworkItem.formConnection({
     required Connection data,

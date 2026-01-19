@@ -188,7 +188,7 @@ class TonWalletSendWidgetModel
 
       final wallet = walletState.wallet!;
       final balance = wallet.contractState.balance;
-      final isPossibleToSendMessage = balance > (fees + totalAmount);
+      final isPossibleToSendMessage = balance >= (fees + totalAmount);
 
       if (!isPossibleToSendMessage) {
         _feesState.error(

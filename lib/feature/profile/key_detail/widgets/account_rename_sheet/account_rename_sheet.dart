@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Helper function to show [AccountRenameSheet].
 ModalRoute<void> getRenameAccountSheet(BuildContext context, Address address) {
@@ -42,7 +41,7 @@ class AccountRenameSheet
               valueListenable: wm.nameController,
               builder: (_, value, __) => value.text.isNotEmpty
                   ? Padding(
-                      padding: const EdgeInsets.only(right: DimensSizeV2.d8),
+                      padding: const EdgeInsets.only(right: DimensSize.d8),
                       child: PrimaryButton(
                         icon: LucideIcons.x,
                         buttonShape: ButtonShape.square,

@@ -6,7 +6,6 @@ import 'package:app/widgets/amount_input/amount_input.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Main view that displays content of staking
 class StakingView extends StatelessWidget {
@@ -34,7 +33,7 @@ class StakingView extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return SeparatedColumn(
-      spacing: DimensSizeV2.d16,
+      spacing: DimensSize.d16,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SingleChildScrollView(
@@ -62,15 +61,13 @@ class StakingView extends StatelessWidget {
                     titleSpan: TextSpan(
                       children: [
                         TextSpan(text: StakingTab.inProgress.title),
-                        const WidgetSpan(
-                          child: SizedBox(width: DimensSizeV2.d8),
-                        ),
+                        const WidgetSpan(child: SizedBox(width: DimensSize.d8)),
                         TextSpan(
                           text: requests.length.toString(),
                           style: TextStyle(
                             color: Colors.white,
                             background: Paint()
-                              ..strokeWidth = DimensSizeV2.d8
+                              ..strokeWidth = DimensSize.d8
                               ..color = theme.colors.backgroundAccent
                               ..style = PaintingStyle.stroke
                               ..strokeJoin = StrokeJoin.round,
@@ -99,7 +96,7 @@ class StakingView extends StatelessWidget {
               attachedFee: data.attachedAmount.minorUnits,
               withdrawHours: info.withdrawHours,
               everPrice: info.currency.price,
-              tokenPrice: info.tokenCurrency.price,
+              tokenPrice: info.tokenCurrency?.price,
             ),
           ),
         },
@@ -112,7 +109,7 @@ class StakingView extends StatelessWidget {
 
     return SeparatedColumn(
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: DimensSizeV2.d4,
+      spacing: DimensSize.d4,
       children: [
         AmountInput(
           controller: inputController,
@@ -120,7 +117,7 @@ class StakingView extends StatelessWidget {
           onMaxAmount: onMaxAmount,
           onSubmitted: (value) => inputController.text = value,
         ),
-        const SizedBox(height: DimensSizeV2.d12),
+        const SizedBox(height: DimensSize.d12),
         _InfoField(
           currentCurrency: data.asset!.balance.currency,
           receiveCurrency: data.receiveCurrency,
@@ -131,10 +128,10 @@ class StakingView extends StatelessWidget {
         ),
         if (data.tab == StakingTab.unstake)
           Padding(
-            padding: const EdgeInsets.only(top: DimensSizeV2.d8),
+            padding: const EdgeInsets.only(top: DimensSize.d8),
             child: PrimaryCard(
-              padding: const EdgeInsets.all(DimensSizeV2.d16),
-              borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+              padding: const EdgeInsets.all(DimensSize.d16),
+              borderRadius: BorderRadius.circular(DimensRadius.radius16),
               color: theme.colors.backgroundWarning,
               child: Text(
                 LocaleKeys.withdrawHoursHint.tr(
@@ -173,11 +170,11 @@ class _InfoField extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return PrimaryCard(
-      padding: const EdgeInsets.all(DimensSizeV2.d16),
-      borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+      padding: const EdgeInsets.all(DimensSize.d16),
+      borderRadius: BorderRadius.circular(DimensRadius.radius16),
       // color: color,
       child: SeparatedColumn(
-        spacing: DimensSizeV2.d16,
+        spacing: DimensSize.d16,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _InfoRow(

@@ -36,7 +36,7 @@ class BrowserGroupMenuItem extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onPressed,
       child: SizedBox(
-        height: DimensSizeV2.d44,
+        height: DimensSize.d44,
         child: Stack(
           children: [
             _Content(
@@ -116,10 +116,10 @@ class _Content extends StatelessWidget {
         children: [
           Flexible(
             child: Padding(
-              padding: const EdgeInsets.only(left: DimensSizeV2.d16),
+              padding: const EdgeInsets.only(left: DimensSize.d16),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                spacing: DimensSizeV2.d8,
+                spacing: DimensSize.d8,
                 children: [
                   DoubleSourceBuilder<BrowserGroup?, String?>(
                     firstSource: listenable,
@@ -141,8 +141,8 @@ class _Content extends StatelessWidget {
                       color: ColorsResV2.midnightBlue,
                     ),
                     child: SizedBox(
-                      width: DimensSizeV2.d20,
-                      height: DimensSizeV2.d20,
+                      width: DimensSize.d20,
+                      height: DimensSize.d20,
                       child: Center(
                         child: StateNotifierBuilder(
                           listenableState: listenable,
@@ -176,8 +176,8 @@ class _Content extends StatelessWidget {
                     );
                   } else if (activeGroupId == listenable.value.id) {
                     return const Padding(
-                      padding: EdgeInsets.only(right: DimensSizeV2.d16),
-                      child: Icon(LucideIcons.check, size: DimensSizeV2.d16),
+                      padding: EdgeInsets.only(right: DimensSize.d16),
+                      child: Icon(LucideIcons.check, size: DimensSize.d16),
                     );
                   }
 
@@ -235,13 +235,13 @@ class _MenuButton extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onPressed,
       child: SizedBox(
-        width: DimensSizeV2.d40,
+        width: DimensSize.d40,
         height: double.infinity,
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: context.themeStyleV2.colors.background2,
           ),
-          child: Icon(icon, color: color, size: DimensSizeV2.d16),
+          child: Icon(icon, color: color, size: DimensSize.d16),
         ),
       ),
     );

@@ -32,10 +32,10 @@ class TipsBar
         return ListView.builder(
           reverse: true,
           padding: const EdgeInsets.only(
-            top: DimensSizeV2.d200,
-            bottom: DimensSizeV2.d16,
-            left: DimensSizeV2.d16,
-            right: DimensSizeV2.d16,
+            top: DimensSize.d200,
+            bottom: DimensSize.d16,
+            left: DimensSize.d16,
+            right: DimensSize.d16,
           ),
           itemCount: uiModels.length,
           itemBuilder: (_, int index) {

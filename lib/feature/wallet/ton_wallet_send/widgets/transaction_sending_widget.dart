@@ -4,7 +4,7 @@ import 'package:app/feature/wallet/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Widget that allows display process of sending transaction to blockchain.
 /// If [canClose] is true, then 'Okay' button will be visible and user will be
@@ -58,7 +58,7 @@ class TransactionSendingWidget extends StatelessWidget {
                   ),
                 ),
                 Column(
-                  spacing: DimensSizeV2.d32,
+                  spacing: DimensSize.d32,
                   children: [
                     Text(
                       isDeploying
@@ -76,8 +76,8 @@ class TransactionSendingWidget extends StatelessWidget {
         if (canClose)
           Padding(
             padding: const EdgeInsets.only(
-              top: DimensSizeV2.d8,
-              bottom: DimensSizeV2.d24,
+              top: DimensSize.d8,
+              bottom: DimensSize.d24,
             ),
             child: AccentButton(
               buttonShape: ButtonShape.pill,

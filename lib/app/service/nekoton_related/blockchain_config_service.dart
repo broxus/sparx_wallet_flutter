@@ -5,27 +5,37 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @singleton
-class GasPriceService {
-  GasPriceService(this._nekotonRepository);
+class BlockchainConfigService {
+  BlockchainConfigService(this._nekotonRepository);
 
   final NekotonRepository _nekotonRepository;
 
   Transport get _transport => _nekotonRepository.currentTransport.transport;
 
+  Future<Set<Address>> getFundamentalAddresses() async {
+    BlockchainConfigParams? params;
+    try {
+      params = BlockchainConfigParams(paramsRoot: await _getParamsRoot());
+
+      return params
+          .fundamentalSmcAddr()
+          .map((address) => Address(address: address))
+          .toSet();
+    } finally {
+      params?.inner.dispose();
+    }
+  }
+
   Future<GasPriceParams?> getGasPriceParams([
     GasPriceType type = GasPriceType.workchainGasLimitsAndPrices,
   ]) async {
     try {
-      final (fields, state) = await _transport.getContractFields(
-        address: _address,
-        contractAbi: _configAbi,
-      );
       final (nonEmptyMap, hash) = packIntoCell(
         params: const [
           AbiParam(name: 'flag', type: 'bool'),
           AbiParam(name: 'root', type: 'cell'),
         ],
-        tokens: {'flag': true, 'root': fields!['paramsRoot']},
+        tokens: {'flag': true, 'root': await _getParamsRoot()},
       );
       final rawParams = unpackFromCell(
         params: const [AbiParam(name: 'params', type: 'map(uint32,cell)')],
@@ -62,6 +72,14 @@ class GasPriceService {
     );
 
     return dynamicGas * gasPrice + (fixedGas ?? BigInt.zero);
+  }
+
+  Future<String> _getParamsRoot() async {
+    final (fields, state) = await _transport.getContractFields(
+      address: _address,
+      contractAbi: _configAbi,
+    );
+    return fields!['paramsRoot'] as String;
   }
 }
 

@@ -3,11 +3,11 @@ import 'dart:convert';
 
 import 'package:app/app/service/resources_service.dart';
 import 'package:app/app/service/storage_service/secure_storage_service.dart';
+import 'package:app/core/app_build_type.dart';
 import 'package:app/core/sentry.dart';
 import 'package:app/feature/presets_config/data/preset_config_type.dart';
 import 'package:app/feature/presets_config/data/presets_config_exceptions.dart';
 import 'package:app/http/api/presets/presets_api.dart';
-import 'package:app/runner.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -34,6 +34,7 @@ class PresetsConfigReader {
     this._presetsApi,
     this._secureStorage,
     this._resourcesService,
+    this._appBuildType,
   );
 
   static final _logger = Logger('PresetsConfigReader');
@@ -41,6 +42,7 @@ class PresetsConfigReader {
   final PresetsApi _presetsApi;
   final SecureStorageService _secureStorage;
   final ResourcesService _resourcesService;
+  final AppBuildType _appBuildType;
   final _sentry = SentryWorker.instance;
 
   final Map<PresetConfigType<dynamic>, Future<void>> _pendingCacheUpdates = {};
@@ -137,7 +139,7 @@ class PresetsConfigReader {
   }
 
   Future<String?> _fetchRemoteData<T>(PresetConfigType<T> configType) async {
-    final fileName = configType.getFileName(currentAppBuildType);
+    final fileName = configType.getFileName(_appBuildType);
     final response = await _presetsApi.getPresetConfig(fileName);
     return response.data;
   }

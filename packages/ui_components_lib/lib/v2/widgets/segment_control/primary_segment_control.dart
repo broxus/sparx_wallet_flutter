@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/segment_control/segment_control.dart';
 
 //if you need to select segment, pass SegmentControlState.selected
 //example state : user.id == client.id ? SegmentControlState.selected :
@@ -33,13 +32,13 @@ class PrimarySegmentControl<T> extends StatelessWidget {
   double get _iconSize {
     switch (size) {
       case SegmentControlSize.large:
-        return DimensSizeV2.d20;
+        return DimensSize.d20;
       case SegmentControlSize.medium:
-        return DimensSizeV2.d16;
+        return DimensSize.d16;
       case SegmentControlSize.small:
-        return DimensSizeV2.d16;
+        return DimensSize.d16;
       case SegmentControlSize.xsmall:
-        return DimensSizeV2.d16;
+        return DimensSize.d16;
     }
   }
 
@@ -47,23 +46,23 @@ class PrimarySegmentControl<T> extends StatelessWidget {
     switch (size) {
       case SegmentControlSize.large:
         return const EdgeInsets.symmetric(
-          vertical: DimensSizeV2.d16,
-          horizontal: DimensSizeV2.d32,
+          vertical: DimensSize.d16,
+          horizontal: DimensSize.d32,
         );
       case SegmentControlSize.medium:
         return const EdgeInsets.symmetric(
-          vertical: DimensSizeV2.d16,
-          horizontal: DimensSizeV2.d24,
+          vertical: DimensSize.d16,
+          horizontal: DimensSize.d24,
         );
       case SegmentControlSize.small:
         return const EdgeInsets.symmetric(
-          vertical: DimensSizeV2.d16,
-          horizontal: DimensSizeV2.d16,
+          vertical: DimensSize.d16,
+          horizontal: DimensSize.d16,
         );
       case SegmentControlSize.xsmall:
         return const EdgeInsets.symmetric(
-          vertical: DimensSizeV2.d12,
-          horizontal: DimensSizeV2.d12,
+          vertical: DimensSize.d12,
+          horizontal: DimensSize.d12,
         );
     }
   }
@@ -71,12 +70,12 @@ class PrimarySegmentControl<T> extends StatelessWidget {
   double get _borderRadius {
     switch (size) {
       case SegmentControlSize.large:
-        return DimensRadiusV2.radius16;
+        return DimensRadius.radius16;
       case SegmentControlSize.medium:
-        return DimensRadiusV2.radius12;
+        return DimensRadius.radius12;
       case SegmentControlSize.small:
       case SegmentControlSize.xsmall:
-        return DimensRadiusV2.radius8;
+        return DimensRadius.radius8;
     }
   }
 
