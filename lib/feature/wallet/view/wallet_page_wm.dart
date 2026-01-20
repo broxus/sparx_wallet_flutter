@@ -82,23 +82,7 @@ class WalletPageWidgetModel
   }
 
   void _checkBadge(KeyAccount account) {
-    // TODO(komarov): move to service layer
-    final isNewUser = model.isNewUser();
-
-    if (isNewUser == null) {
-      _isShowingNewTokensState.accept(
-        model.isShowingNewTokens(account) ?? true,
-      );
-      return;
-    }
-
-    _isShowingNewTokensState.accept(true);
-
-    if (!isNewUser) {
-      model.hideShowingBadge(account);
-    }
-
-    model.resetValueNewUser();
+    _isShowingNewTokensState.accept(model.handleUser(account));
   }
 
   Future<void> _subscribeWallet(KeyAccount account) async {
