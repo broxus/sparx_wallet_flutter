@@ -29,7 +29,7 @@ jobs:
           echo "$ISSUE_KEYS"
           echo "skip=false" >> $GITHUB_OUTPUT
           {
-            echo "issue_keys<<'EOF'"
+            echo "issue_keys<<EOF"
             echo "$ISSUE_KEYS"
             echo "EOF"
           } >> $GITHUB_OUTPUT
