@@ -63,7 +63,7 @@ class _EncryptData extends StatelessWidget {
           ),
         ),
       ),
-      // TODO(komarov): encrypt/decrypt is not supported by Ledger
+      // Ledger limitation: encrypt/decrypt is not supported
       EnterPasswordWidget.auth(
         publicKey: publicKey,
         title: LocaleKeys.encrypt.tr(),
