@@ -35,7 +35,6 @@ class BrowserTabsList
   final RenderManager<String> tabsRenderManager;
   final ValueChanged<String> onPressedTab;
 
-  // TODO(nesquikm): We should calculate this value based on the screen size
   static const _cardAspectRatio = 0.9;
 
   static const padding = EdgeInsets.only(
