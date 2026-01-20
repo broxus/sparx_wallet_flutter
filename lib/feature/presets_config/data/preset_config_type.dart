@@ -46,7 +46,6 @@ enum PresetConfigType<T> {
       AppBuildType.production => 'prod',
       _ => 'dev',
     };
-    // TODO(knightforce): remove _v2
     return '${name}_${suffix}_v2.json';
   }
 
