@@ -2047,7 +2047,7 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i771.NekotonRepository>(),
         gh<_i865.LedgerService>(),
         gh<_i865.BleAvailabilityModelDelegate>(),
-        gh<_i284.ConnectionsStorageService>(),
+        gh<_i128.ConnectionsStorageService>(),
       ),
     );
     gh.factory<_i173.ChooseNetworkScreenModel>(
@@ -2131,7 +2131,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1042.WorkchainSelectorModel>(
       () => _i1042.WorkchainSelectorModel(
         gh<_i83.ErrorHandler>(),
-        gh<_i284.ConnectionsStorageService>(),
+        gh<_i128.ConnectionsStorageService>(),
       ),
     );
     gh.singleton<_i82.CompassBaseRoute>(
@@ -2404,7 +2404,7 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i159.ConnectionConfigurator>(
       () => _i159.ConnectionConfigurator(
-        gh<_i754.ConnectionService>(),
+        gh<_i128.ConnectionService>(),
         gh<_i771.NekotonRepository>(),
       ),
     );
@@ -2809,17 +2809,17 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i451.BrowserPageModel(
         gh<_i83.ErrorHandler>(),
         gh<_i544.BrowserService>(),
-        gh<_i654.BrowserApprovalsService>(),
-        gh<_i473.PermissionsService>(),
+        gh<_i128.BrowserApprovalsService>(),
+        gh<_i128.PermissionsService>(),
         gh<_i771.NekotonRepository>(),
         gh<_i632.MessengerService>(),
-        gh<_i964.AssetsService>(),
-        gh<_i284.ConnectionsStorageService>(),
-        gh<_i754.ConnectionService>(),
+        gh<_i128.AssetsService>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i128.ConnectionService>(),
         gh<_i625.TonConnectJsBridge>(),
         gh<_i865.LedgerService>(),
-        gh<_i1070.AppPermissionsService>(),
-        gh<_i68.NtpService>(),
+        gh<_i128.AppPermissionsService>(),
+        gh<_i128.NtpService>(),
       ),
     );
     gh.factory<_i368.ToolbarWidgetModel>(
