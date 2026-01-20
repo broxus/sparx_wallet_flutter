@@ -16,8 +16,6 @@ class ConnectionConfigurator {
   Future<void> configure() async {
     _log.finest('ConnectionService initializating...');
 
-    // TODO(nesquikm): Theoretically, this should be called every time after app
-
     await _connectionService.setUp();
 
     _log.finest('NekotonRepository start SeedList listening');
