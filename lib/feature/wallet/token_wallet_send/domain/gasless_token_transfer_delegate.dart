@@ -125,7 +125,9 @@ final class GaslessTokenTransferDelegate extends TokenTransferDelegate {
       base64Signature: signature,
     );
 
-    final walletState = await _nekotonRepository.getWallet(transfer.owner);
+    final walletState = await _nekotonRepository.getWalletByAddress(
+      transfer.owner,
+    );
     String? stateInit;
 
     if (walletState.wallet != null) {
@@ -186,7 +188,7 @@ final class GaslessTokenTransferDelegate extends TokenTransferDelegate {
     PublicKey? publicKey,
     bool isInternalFlow = false,
   }) async {
-    final walletState = await _nekotonRepository.getWallet(address);
+    final walletState = await _nekotonRepository.getWalletByAddress(address);
     final wallet = walletState.wallet;
 
     if (wallet == null) {

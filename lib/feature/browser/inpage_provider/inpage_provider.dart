@@ -1850,14 +1850,13 @@ class InpageProvider extends ProviderApi {
         shouldUnsubscribe = true;
       }
 
-      final walletState = await nekotonRepository.getWallet(address);
       final transport = nekotonRepository.currentTransport;
 
       return nr.SignInputAuthLedger(
-        wallet: walletState.wallet!.walletType,
+        wallet: wallet.wallet!.walletType,
         context: ledgerService.prepareSignatureContext(
           PrepareSignatureContext.transfer(
-            wallet: walletState.wallet!,
+            wallet: wallet.wallet!,
             asset: transport.nativeTokenTicker,
             decimals: transport.defaultNativeCurrencyDecimal,
             custodian: custodian,

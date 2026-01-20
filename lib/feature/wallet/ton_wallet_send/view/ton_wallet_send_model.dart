@@ -122,7 +122,7 @@ class TonWalletSendModel extends ElementaryModel
     required Address address,
     required PublicKey custodian,
   }) async {
-    final walletState = await _nekotonRepository.getWallet(address);
+    final walletState = await _nekotonRepository.getWalletByAddress(address);
 
     return SignInputAuthLedger(
       wallet: walletState.wallet!.walletType,
