@@ -116,11 +116,19 @@ class _BrowserSearchBarInputState extends State<BrowserSearchBarInput> {
                     top: 0,
                     bottom: 0,
                     right: 0,
-                    child: _ShareButton(
-                      svgUri: widget.shareSvg,
+                    child: CommonIconButton(
+                      svg: widget.shareSvg,
+                      icon: widget.shareSvg == null ? Icons.share : null,
+                      buttonType: EverButtonType.ghost,
                       onPressed: _isEmpty || widget.onShared == null
                           ? null
                           : () => widget.onShared?.call(widget.uri),
+                      width: DimensSizeV2.d20,
+                      height: DimensSizeV2.d20,
+                      padding: const EdgeInsets.only(
+                        left: DimensSizeV2.d10,
+                        right: DimensSizeV2.d22,
+                      ),
                     ),
                   ),
               ],
@@ -239,32 +247,6 @@ class _Container extends StatelessWidget {
             child: child,
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _ShareButton extends StatelessWidget {
-  const _ShareButton({this.svgUri, this.onPressed});
-
-  final String? svgUri;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO(Odrin): we should add all the icons in the ui kit library
-    // and get rid of this method
-
-    return CommonIconButton(
-      svg: svgUri,
-      icon: svgUri == null ? Icons.share : null,
-      buttonType: EverButtonType.ghost,
-      onPressed: onPressed,
-      width: DimensSizeV2.d20,
-      height: DimensSizeV2.d20,
-      padding: const EdgeInsets.only(
-        left: DimensSizeV2.d10,
-        right: DimensSizeV2.d22,
       ),
     );
   }
