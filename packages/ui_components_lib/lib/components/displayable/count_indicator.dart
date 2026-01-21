@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-// TODO(Odrin): I have no idea which button it is, so I created a new one
+// Odrin: I have no idea which button it is, so I created a new one
 class CountIndicator extends StatelessWidget {
   const CountIndicator({required this.count, super.key, this.onPressed});
 
@@ -31,7 +31,6 @@ class CountIndicator extends StatelessWidget {
             child: Center(
               child: Text(
                 count.toString(),
-                // TODO(MolochkoAndrew): ceck design
                 style: styles.headingXSmall.copyWith(
                   fontWeight: FontWeight.w600,
                   height: 1,
