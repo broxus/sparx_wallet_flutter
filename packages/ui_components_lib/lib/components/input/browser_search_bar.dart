@@ -193,44 +193,25 @@ class _BrowserSearchBarInputState extends State<BrowserSearchBarInput> {
     }
 
     if (_isEmpty) {
-      return _getIcon(
-        widget.searchSvg,
-        Icons.search,
-        const EdgeInsets.only(left: DimensSizeV2.d12),
+      return _IconButton(
+        svg: widget.searchSvg,
+        iconData: Icons.search,
+        padding: const EdgeInsets.only(left: DimensSizeV2.d12),
       );
     }
 
     if (_isSecure) {
-      return _getIcon(
-        widget.secureSvg,
-        Icons.lock,
-        const EdgeInsets.only(left: DimensSizeV2.d12, right: DimensSizeV2.d7),
+      return _IconButton(
+        svg: widget.secureSvg,
+        iconData: Icons.lock,
+        padding: const EdgeInsets.only(
+          left: DimensSizeV2.d12,
+          right: DimensSizeV2.d7,
+        ),
       );
     }
 
     return null;
-  }
-
-  // TODO(Odrin): we should add all the icons in the ui kit library
-  // and get rid of this method
-  Widget? _getIcon(String? svg, IconData iconData, EdgeInsets padding) {
-    final colors = context.themeStyleV2.colors;
-    return Padding(
-      padding: padding,
-      child: svg != null
-          ? CommonIconWidget.svg(
-              svg: svg,
-              color: colors.content3,
-              width: DimensSize.d14,
-              height: DimensSize.d14,
-            )
-          : CommonIconWidget.icon(
-              icon: iconData,
-              color: colors.content3,
-              width: DimensSize.d14,
-              height: DimensSize.d14,
-            ),
-    );
   }
 }
 
@@ -285,6 +266,35 @@ class _ShareButton extends StatelessWidget {
         left: DimensSizeV2.d10,
         right: DimensSizeV2.d22,
       ),
+    );
+  }
+}
+
+class _IconButton extends StatelessWidget {
+  const _IconButton({required this.iconData, required this.padding, this.svg});
+
+  final String? svg;
+  final IconData iconData;
+  final EdgeInsets padding;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.themeStyleV2.colors;
+    return Padding(
+      padding: padding,
+      child: svg != null
+          ? CommonIconWidget.svg(
+              svg: svg!,
+              color: colors.content3,
+              width: DimensSize.d14,
+              height: DimensSize.d14,
+            )
+          : CommonIconWidget.icon(
+              icon: iconData,
+              color: colors.content3,
+              width: DimensSize.d14,
+              height: DimensSize.d14,
+            ),
     );
   }
 }
