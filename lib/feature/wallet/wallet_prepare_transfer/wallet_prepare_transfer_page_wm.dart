@@ -14,6 +14,7 @@ import 'package:app/feature/wallet/ton_wallet_send/route.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_balance_data.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_asset.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_data.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/delegates/comment_ui_delegate.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/delegates/recipient_ui_delegate.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page_model.dart';
@@ -59,16 +60,12 @@ class WalletPrepareTransferPageWidgetModel
   late final screenState = createEntityNotifier<WalletPrepareTransferData?>()
     ..loading(WalletPrepareTransferData());
 
-  late final commentState = createNotifier(false);
   late final _isInitialDataLoadedState = createNotifier(false);
 
   final formKey = GlobalKey<FormState>();
 
   late final amountController = createTextEditingController();
   late final amountFocus = createFocusNode();
-
-  late final commentController = createTextEditingController();
-  late final commentFocus = createFocusNode();
 
   final _assets = <(Address, String), WalletPrepareTransferAsset>{};
   late final _assetsState = createValueNotifier(_assets.values.toList());
@@ -81,7 +78,11 @@ class WalletPrepareTransferPageWidgetModel
     checkIsValidAddress: _checkIsValidAddress,
   );
 
-  RecipientUi get recipientDelegate => _recipientDelegate;
+  late final _commentDelegate = CommentUiDelegate();
+
+  RecipientUi get recipientUi => _recipientDelegate;
+
+  CommentUi get commentUi => _commentDelegate;
 
   WalletPrepareTransferData? get _data => screenState.value.data;
 
@@ -110,6 +111,7 @@ class WalletPrepareTransferPageWidgetModel
   @override
   void dispose() {
     _recipientDelegate.dispose();
+    _commentDelegate.dispose();
     super.dispose();
   }
 
@@ -221,10 +223,10 @@ class WalletPrepareTransferPageWidgetModel
 
   void onSubmittedReceiverAddress(_) => amountFocus.requestFocus();
 
-  void onSubmittedAmountWord(_) => commentFocus.requestFocus();
+  void onSubmittedAmountWord(_) => _commentDelegate.requestFocus();
 
   void onPressedCleanComment() {
-    commentController.clear();
+    _commentDelegate.clearComment();
   }
 
   Future<void> _init() async {
@@ -299,7 +301,7 @@ class WalletPrepareTransferPageWidgetModel
       return;
     }
 
-    final comment = commentController.text.trim();
+    final comment = _commentDelegate.text.trim();
 
     final CompassRouteData routeData;
 
