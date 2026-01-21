@@ -3,8 +3,6 @@ import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
-const _walletV5R1 = WalletType.walletV5R1();
-
 @injectable
 class WalletAccountBodyModel extends ElementaryModel {
   WalletAccountBodyModel(
@@ -28,12 +26,22 @@ class WalletAccountBodyModel extends ElementaryModel {
           )
           .map((isShowingBackup) => isShowingBackup ?? true);
 
-  Stream<bool> getIsUnsupportedWalletTypeStram(KeyAccount account) =>
+  Stream<bool> getIsUnsupportedWalletTypeStream(KeyAccount account) =>
       transport.map(
         (transport) =>
             (transport.isEverscale || transport.isVenom) &&
-            account.account.tonWallet.contract == _walletV5R1,
+            account.account.tonWallet.contract is WalletTypeWalletV5R1,
       );
+
+  /// Returns true if current public key is not a custodian of the external
+  /// wallet (invalid external account)
+  Stream<bool> getIsInvalidExternalAccountStream(KeyAccount account) =>
+      !account.isExternal
+      ? Stream.value(false)
+      : _getWalletStream(account.address).map((state) {
+          final custodians = state?.wallet?.custodians ?? [];
+          return !custodians.contains(account.publicKey);
+        });
 
   PublicKey getMasterPublicKey(KeyAccount account) {
     final masterPublicKey = _nekotonRepository.seedList
@@ -65,4 +73,9 @@ class WalletAccountBodyModel extends ElementaryModel {
       !isCompleted,
     );
   }
+
+  Stream<TonWalletState?> _getWalletStream(Address address) =>
+      _nekotonRepository.walletsMapStream
+          .map((wallets) => wallets[address])
+          .distinct();
 }

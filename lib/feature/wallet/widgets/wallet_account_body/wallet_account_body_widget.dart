@@ -41,6 +41,11 @@ class WalletAccountBodyWidget
             builder: (_) {
               final currentAccount = wm.currentAccountState.value;
               final notifications = wm.notificationsState.value ?? [];
+              final disableSensetiveActions = notifications.any(
+                (e) =>
+                    e == NotificationType.unsupportedWalletType ||
+                    e == NotificationType.invalidExternalAccount,
+              );
 
               return Column(
                 children: [
@@ -50,9 +55,7 @@ class WalletAccountBodyWidget
                     ),
                     child: WalletAccountActions(
                       account: currentAccount,
-                      disableSensetiveActions: notifications.contains(
-                        NotificationType.unsupportedWalletType,
-                      ),
+                      disableSensetiveActions: disableSensetiveActions,
                     ),
                   ),
                   if (notifications.isNotEmpty)
@@ -99,8 +102,7 @@ class _Carousel extends StatelessWidget {
   final KeyAccount account;
   final ValueChanged<bool> onFinishedBackup;
   final VoidCallback onSwitchAccount;
-  final void Function(int index, CarouselPageChangedReason reason)
-  onPageChanged;
+  final void Function(int, CarouselPageChangedReason) onPageChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -114,11 +116,14 @@ class _Carousel extends StatelessWidget {
       itemCount: items.length,
       itemBuilder: (_, i, __) {
         final child = switch (items[i]) {
-          NotificationType.backup => BackUpBadge(
+          .backup => BackUpBadge(
             currentAccount: account,
             finishedBackupCallback: onFinishedBackup,
           ),
-          NotificationType.unsupportedWalletType => UnsupportedWalletTypeAlert(
+          .unsupportedWalletType => UnsupportedWalletTypeAlert(
+            onSwitchAccount: onSwitchAccount,
+          ),
+          .invalidExternalAccount => InvalidExternalAccountAlert(
             onSwitchAccount: onSwitchAccount,
           ),
         };
@@ -150,7 +155,7 @@ class _CarouselIndicator extends StatelessWidget {
       child: SizedBox(
         height: DimensSize.d8,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: .center,
           spacing: DimensSize.d8,
           children: List.generate(itemCount, (index) {
             final isActive = index == currentPage;
@@ -163,7 +168,7 @@ class _CarouselIndicator extends StatelessWidget {
               duration: const Duration(milliseconds: 100),
               width: size,
               height: size,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: color),
+              decoration: BoxDecoration(shape: .circle, color: color),
             );
           }),
         ),
