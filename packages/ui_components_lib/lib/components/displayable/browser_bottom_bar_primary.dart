@@ -97,7 +97,6 @@ class BrowserBottomBarPrimary extends StatelessWidget {
   }
 }
 
-// TODO(Odrin): we should add all the icons in the ui kit library
 class _IconButton extends StatelessWidget {
   const _IconButton({
     required this.svg,
