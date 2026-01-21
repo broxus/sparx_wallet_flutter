@@ -43,8 +43,6 @@ class _CommonCheckboxInputState extends State<CommonCheckboxInput> {
   }
 
   Widget _onBuild(FormFieldState<bool> state) {
-    // TODO(knightforce): check if it is necessary to use
-    // final colors = context.themeStyle.colors;
     field = state;
 
     return GestureDetector(
@@ -52,17 +50,7 @@ class _CommonCheckboxInputState extends State<CommonCheckboxInput> {
         _handleDidChange(!widget.checked);
         widget.onChanged?.call(!widget.checked);
       },
-      child: CommonCheckbox(
-        checked: widget.checked,
-        // TODO(knightforce): check if it is necessary to use
-        // color: field?.hasError ?? false
-        //     ? colors.alert
-        //     : widget.onChanged == null
-        //         ? colors.textSecondary
-        //         : widget.checked
-        //             ? colors.textPrimary
-        //             : colors.strokePrimary,
-      ),
+      child: CommonCheckbox(checked: widget.checked),
     );
   }
 
