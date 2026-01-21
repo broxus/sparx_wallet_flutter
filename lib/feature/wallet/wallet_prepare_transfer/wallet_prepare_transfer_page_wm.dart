@@ -5,7 +5,6 @@ import 'dart:math';
 
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/currency_convert_service.dart';
 import 'package:app/core/sentry.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/token_contract/token_contract_asset.dart';
@@ -14,6 +13,7 @@ import 'package:app/feature/wallet/ton_wallet_send/route.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_balance_data.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_asset.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_data.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/delegates/amount_ui_delegate.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/delegates/comment_ui_delegate.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/delegates/recipient_ui_delegate.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page.dart';
@@ -64,13 +64,14 @@ class WalletPrepareTransferPageWidgetModel
 
   final formKey = GlobalKey<FormState>();
 
-  late final amountController = createTextEditingController();
-  late final amountFocus = createFocusNode();
-
   final _assets = <(Address, String), WalletPrepareTransferAsset>{};
   late final _assetsState = createValueNotifier(_assets.values.toList());
 
   late final _sentry = SentryWorker.instance;
+
+  late final _amountUiDelegate = AmountUiDelegate();
+
+  late final _commentDelegate = CommentUiDelegate();
 
   late final _recipientDelegate = RecipientUiDelegate(
     context,
@@ -78,11 +79,11 @@ class WalletPrepareTransferPageWidgetModel
     checkIsValidAddress: _checkIsValidAddress,
   );
 
-  late final _commentDelegate = CommentUiDelegate();
-
-  RecipientUi get recipientUi => _recipientDelegate;
+  AmountUi get amountUi => _amountUiDelegate;
 
   CommentUi get commentUi => _commentDelegate;
+
+  RecipientUi get recipientUi => _recipientDelegate;
 
   WalletPrepareTransferData? get _data => screenState.value.data;
 
@@ -110,8 +111,9 @@ class WalletPrepareTransferPageWidgetModel
 
   @override
   void dispose() {
-    _recipientDelegate.dispose();
+    _amountUiDelegate.dispose();
     _commentDelegate.dispose();
+    _recipientDelegate.dispose();
     super.dispose();
   }
 
@@ -164,7 +166,7 @@ class WalletPrepareTransferPageWidgetModel
     }
 
     final amnt = Fixed.parse(
-      amountController.text.trim().replaceAll(',', '.'),
+      _amountUiDelegate.amountText.trim().replaceAll(',', '.'),
       decimalDigits: _selectedAsset?.balance.decimalDigits,
     );
 
@@ -218,10 +220,10 @@ class WalletPrepareTransferPageWidgetModel
       }
     }
 
-    amountController.text = available.formatImproved();
+    _amountUiDelegate.amountController.text = available.formatImproved();
   }
 
-  void onSubmittedReceiverAddress(_) => amountFocus.requestFocus();
+  void onSubmittedReceiverAddress(_) => _amountUiDelegate.resetFocus();
 
   void onSubmittedAmountWord(_) => _commentDelegate.requestFocus();
 
@@ -277,7 +279,7 @@ class WalletPrepareTransferPageWidgetModel
     screenState.addListener(() {
       if (prevSelectedAsset?.rootTokenContract !=
           _selectedAsset?.rootTokenContract) {
-        amountController.clear();
+        _amountUiDelegate.amountController.clear();
       }
       prevSelectedAsset = _selectedAsset;
     });
@@ -335,7 +337,7 @@ class WalletPrepareTransferPageWidgetModel
 
     final balance =
         await model.getBalance(asset: asset, address: addressState.value) ??
-        _zeroBalance(asset.tokenSymbol);
+        _amountUiDelegate.getZeroBalance(asset.tokenSymbol);
 
     final updatedAsset = asset.copyWith(currency: currency, balance: balance);
 
@@ -353,7 +355,7 @@ class WalletPrepareTransferPageWidgetModel
     final selectedAsset = WalletPrepareTransferAsset(
       rootTokenContract: root,
       isNative: true,
-      balance: _zeroBalance(transport.nativeTokenTicker),
+      balance: _amountUiDelegate.getZeroBalance(transport.nativeTokenTicker),
       tokenSymbol: transport.nativeTokenTicker,
       logoURI: transport.nativeTokenIcon,
       title: transport.nativeTokenTicker,
@@ -381,7 +383,7 @@ class WalletPrepareTransferPageWidgetModel
     final selectedAsset = WalletPrepareTransferAsset(
       rootTokenContract: contract.address,
       isNative: false,
-      balance: _zeroBalance(contract.symbol),
+      balance: _amountUiDelegate.getZeroBalance(contract.symbol),
       logoURI: contract.logoURI,
       tokenSymbol: contract.symbol,
       title: contract.name,
@@ -457,7 +459,7 @@ class WalletPrepareTransferPageWidgetModel
       (e) => WalletPrepareTransferAsset(
         rootTokenContract: e.address,
         isNative: false,
-        balance: _zeroBalance(e.symbol),
+        balance: _amountUiDelegate.getZeroBalance(e.symbol),
         tokenSymbol: e.symbol,
         logoURI: e.logoURI,
         title: e.name,
@@ -481,14 +483,6 @@ class WalletPrepareTransferPageWidgetModel
   ) {
     updater(_assets);
     _assetsState.value = _assets.values.toList();
-  }
-
-  Money _zeroBalance(String symbol) {
-    return Money.fromBigIntWithCurrency(
-      BigInt.zero,
-      Currencies()[symbol] ??
-          Currency.create(symbol, 0, symbol: symbol, pattern: moneyPattern(0)),
-    );
   }
 
   bool _checkIsValidAddress(String? value) {

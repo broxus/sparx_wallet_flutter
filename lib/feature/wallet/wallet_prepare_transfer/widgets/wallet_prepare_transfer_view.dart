@@ -81,8 +81,8 @@ class WalletPrepareTransferView extends StatelessWidget {
                     ],
                   ),
                   AmountInput(
-                    controller: _wm.amountController,
-                    focusNode: _wm.amountFocus,
+                    controller: _wm.amountUi.amountController,
+                    focusNode: _wm.amountUi.amountFocus,
                     assets: _wm.assetsState,
                     selectedAsset: selectedAsset,
                     onSelectedAssetChanged: _wm.onChangeAsset,
