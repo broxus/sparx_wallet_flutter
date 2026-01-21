@@ -9,6 +9,8 @@ abstract interface class CommentUi {
   abstract final ListenableState<bool> commentState;
 
   void onPlusPressed();
+
+  void onPressedCleanComment();
 }
 
 class CommentUiDelegate implements CommentUi {
@@ -26,14 +28,15 @@ class CommentUiDelegate implements CommentUi {
     commentFocus.requestFocus();
   }
 
-  void clearComment() {
-    commentController.clear();
-  }
-
   @override
   void onPlusPressed() {
     commentState.accept(true);
     commentFocus.requestFocus();
+  }
+
+  @override
+  void onPressedCleanComment() {
+    commentController.clear();
   }
 
   void dispose() {

@@ -227,10 +227,6 @@ class WalletPrepareTransferPageWidgetModel
 
   void onSubmittedAmountWord(_) => _commentDelegate.requestFocus();
 
-  void onPressedCleanComment() {
-    _commentDelegate.clearComment();
-  }
-
   Future<void> _init() async {
     final acc = model.findAccountByAddress(addressState.value);
     if (acc == null) {

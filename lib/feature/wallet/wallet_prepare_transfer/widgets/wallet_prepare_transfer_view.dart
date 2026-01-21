@@ -137,7 +137,7 @@ class WalletPrepareTransferView extends StatelessWidget {
                           buttonShape: ButtonShape.square,
                           buttonSize: ButtonSize.small,
                           icon: LucideIcons.x,
-                          onPressed: _wm.onPressedCleanComment,
+                          onPressed: _wm.commentUi.onPressedCleanComment,
                         ),
                       );
                     },
