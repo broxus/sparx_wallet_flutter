@@ -9,12 +9,12 @@ import 'package:app/app/service/currency_convert_service.dart';
 import 'package:app/core/sentry.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/token_contract/token_contract_asset.dart';
-import 'package:app/feature/qr_scanner/qr_scanner.dart';
 import 'package:app/feature/wallet/token_wallet_send/route.dart';
 import 'package:app/feature/wallet/ton_wallet_send/route.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_balance_data.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_asset.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_data.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/delegates/recipient_ui_delegate.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page_model.dart';
 import 'package:app/generated/generated.dart';
@@ -22,7 +22,6 @@ import 'package:app/widgets/amount_input/amount_input_asset.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -65,25 +64,24 @@ class WalletPrepareTransferPageWidgetModel
 
   final formKey = GlobalKey<FormState>();
 
-  late final receiverController = createTextEditingController(
-    wmParams.value.destination?.address,
-  );
-  late final receiverFocus = createFocusNode();
-
   late final amountController = createTextEditingController();
   late final amountFocus = createFocusNode();
 
   late final commentController = createTextEditingController();
   late final commentFocus = createFocusNode();
 
-  final addressFilterFormatter = FilteringTextInputFormatter.deny(
-    RegExp(r'\s'),
-  );
-
   final _assets = <(Address, String), WalletPrepareTransferAsset>{};
   late final _assetsState = createValueNotifier(_assets.values.toList());
 
   late final _sentry = SentryWorker.instance;
+
+  late final _recipientDelegate = RecipientUiDelegate(
+    context,
+    model,
+    checkIsValidAddress: _checkIsValidAddress,
+  );
+
+  RecipientUi get recipientDelegate => _recipientDelegate;
 
   WalletPrepareTransferData? get _data => screenState.value.data;
 
@@ -104,8 +102,15 @@ class WalletPrepareTransferPageWidgetModel
   @override
   void initWidgetModel() {
     super.initWidgetModel();
+    _recipientDelegate.init(address: wmParams.value.destination?.address);
     _init();
     _initListeners();
+  }
+
+  @override
+  void dispose() {
+    _recipientDelegate.dispose();
+    super.dispose();
   }
 
   String? getSeedName(PublicKey custodian) => model.getSeedName(custodian);
@@ -142,7 +147,7 @@ class WalletPrepareTransferPageWidgetModel
       return;
     }
 
-    final addr = Address(address: receiverController.text.trim());
+    final addr = _recipientDelegate.address;
 
     final result = model.checkIsValidWorkchain(addr.address);
 
@@ -185,7 +190,7 @@ class WalletPrepareTransferPageWidgetModel
     } else {
       final keyAccount = _data?.account;
       final publicKey = _data?.selectedCustodian;
-      final address = Address(address: receiverController.text.trim());
+      final address = _recipientDelegate.address;
 
       comission = keyAccount != null && publicKey != null
           ? await model.estimateGaslessCommission(
@@ -214,58 +219,9 @@ class WalletPrepareTransferPageWidgetModel
     amountController.text = available.formatImproved();
   }
 
-  void onPressedReceiverClear() => receiverController.clear();
-
-  void onPressedPasteAddress(String text) {
-    if (text.isEmpty) {
-      model.showError(LocaleKeys.addressIsWrong.tr());
-      return;
-    }
-
-    if (Address(address: text).isValid) {
-      receiverController.text = text;
-      receiverFocus.unfocus();
-    } else {
-      model.showError(LocaleKeys.addressIsWrong.tr());
-    }
-  }
-
-  Future<void> onPressedScan() async {
-    final result = await showQrScanner(context, types: [QrScanType.address]);
-
-    if (!context.mounted) return;
-
-    if (result case QrScanResultAddress(:final value)) {
-      receiverController.text = value.address;
-      receiverFocus.unfocus();
-    } else if (result is QrScanResultInvalid) {
-      model.showError(LocaleKeys.qrScannerError.tr());
-    }
-  }
-
   void onSubmittedReceiverAddress(_) => amountFocus.requestFocus();
 
   void onSubmittedAmountWord(_) => commentFocus.requestFocus();
-
-  String? validateAddressField(String? value) {
-    if (value == null || value.isEmpty) {
-      return LocaleKeys.addressIsEmpty.tr();
-    }
-
-    final (from, to, isAccess) = model.checkIsValidWorkchain(value);
-
-    if (!isAccess) {
-      return LocaleKeys.invalidWorkchainAddress.tr(
-        args: [from?.toString() ?? '', to?.toString() ?? value],
-      );
-    }
-
-    if (_selectedAsset?.isNative != true &&
-        addressState.value.address == value) {
-      return LocaleKeys.invalidReceiverAddress.tr();
-    }
-    return null;
-  }
 
   void onPressedCleanComment() {
     commentController.clear();
@@ -531,5 +487,14 @@ class WalletPrepareTransferPageWidgetModel
       Currencies()[symbol] ??
           Currency.create(symbol, 0, symbol: symbol, pattern: moneyPattern(0)),
     );
+  }
+
+  bool _checkIsValidAddress(String? value) {
+    if (_selectedAsset?.isNative != true &&
+        addressState.value.address == value) {
+      return false;
+    }
+
+    return true;
   }
 }
