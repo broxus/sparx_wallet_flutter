@@ -14,12 +14,10 @@ class AccountAssetsTabParams {
   AccountAssetsTabParams({
     required this.account,
     required this.isShowingNewTokens,
-    required this.manifestUrl,
   });
 
   final KeyAccount account;
   final bool isShowingNewTokens;
-  final String manifestUrl;
 }
 
 @injectable

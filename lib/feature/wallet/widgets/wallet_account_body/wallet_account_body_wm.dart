@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-enum NotificationType { backup, unsupportedWalletType }
+enum NotificationType { backup, unsupportedWalletType, invalidExternalAccount }
 
 @injectable
 class WalletAccountBodyWidgetModel
@@ -34,14 +34,19 @@ class WalletAccountBodyWidgetModel
   ValueListenable<int> get carouselPageState => _carouselPageState;
 
   Stream<List<NotificationType>> get _notificationsStream {
-    return Rx.combineLatest2(
-      model.getIsUnsupportedWalletTypeStram(wmParams.value),
+    return Rx.combineLatest3(
+      model.getIsUnsupportedWalletTypeStream(wmParams.value),
       model.getShowingManualBackupBadgeStream(wmParams.value),
-      (bool isUnsupportedWalletType, bool isShowingBackup) =>
-          <NotificationType>[
-            if (isUnsupportedWalletType) NotificationType.unsupportedWalletType,
-            if (isShowingBackup) NotificationType.backup,
-          ],
+      model.getIsInvalidExternalAccountStream(wmParams.value),
+      (
+        bool isUnsupportedWalletType,
+        bool isShowingBackup,
+        bool isInvalidExternalAccount,
+      ) => <NotificationType>[
+        if (isInvalidExternalAccount) .invalidExternalAccount,
+        if (isUnsupportedWalletType) .unsupportedWalletType,
+        if (isShowingBackup) .backup,
+      ],
     );
   }
 

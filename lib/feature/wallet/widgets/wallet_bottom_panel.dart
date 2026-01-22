@@ -19,7 +19,6 @@ class WalletBottomPanel extends StatefulWidget {
     required this.isShowingNewTokens,
     required this.hasUnconfirmedTransactions,
     required this.confirmImportCallback,
-    required this.manifestUrl,
     super.key,
   });
 
@@ -28,16 +27,13 @@ class WalletBottomPanel extends StatefulWidget {
   final bool isShowingNewTokens;
   final bool hasUnconfirmedTransactions;
   final VoidCallback confirmImportCallback;
-  final String manifestUrl;
 
   @override
   State<WalletBottomPanel> createState() => _WalletBottomPanelState();
 }
 
 class _WalletBottomPanelState extends State<WalletBottomPanel> {
-  final currentTabNotifier = ValueNotifier<WalletBottomPanelTab>(
-    WalletBottomPanelTab.asset,
-  );
+  final currentTabNotifier = ValueNotifier<WalletBottomPanelTab>(.asset);
 
   @override
   Widget build(BuildContext context) {
@@ -69,16 +65,16 @@ class _WalletBottomPanelState extends State<WalletBottomPanel> {
                       currentValue: value,
                       values: [
                         PrimarySegmentControl(
-                          state: SegmentControlState.normal,
+                          state: .normal,
                           title: LocaleKeys.assetsWord.tr(),
                           value: WalletBottomPanelTab.asset,
-                          size: SegmentControlSize.xsmall,
+                          size: .xsmall,
                         ),
                         PrimarySegmentControl(
-                          state: SegmentControlState.normal,
+                          state: .normal,
                           title: LocaleKeys.transactionsWord.tr(),
                           value: WalletBottomPanelTab.transactions,
-                          size: SegmentControlSize.xsmall,
+                          size: .xsmall,
                           postfixIcon: widget.hasUnconfirmedTransactions
                               ? LucideIcons.timer
                               : null,
@@ -90,13 +86,12 @@ class _WalletBottomPanelState extends State<WalletBottomPanel> {
                   ),
                 ),
                 switch (value) {
-                  WalletBottomPanelTab.asset => AccountAssetsTab(
+                  .asset => AccountAssetsTab(
                     account: widget.currentAccount,
                     isShowingNewTokens: widget.isShowingNewTokens,
                     confirmImportCallback: widget.confirmImportCallback,
-                    manifestUrl: widget.manifestUrl,
                   ),
-                  WalletBottomPanelTab.transactions => AccountTransactionsTab(
+                  .transactions => AccountTransactionsTab(
                     account: widget.currentAccount,
                     scrollController: widget.scrollController,
                   ),
