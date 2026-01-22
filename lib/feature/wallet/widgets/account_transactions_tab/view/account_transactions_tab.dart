@@ -37,9 +37,12 @@ class AccountTransactionsTab
 
         return switch (state) {
           AccountTransactionsUiLoading() => SliverToBoxAdapter(
-            child: ProgressIndicatorWidget(
-              size: DimensSizeV2.d32,
-              color: theme.colors.content0,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: ProgressIndicatorWidget(
+                size: DimensSizeV2.d32,
+                color: theme.colors.content0,
+              ),
             ),
           ),
           AccountTransactionsUiEmpty() => SliverToBoxAdapter(
