@@ -95,13 +95,20 @@ class EditNetworkPageWidget
               ],
             ),
           ),
-          NetworkButtons(
-            saveEnabled: wm.isSaveEnabled,
-            deleteEnabled: wm.isDeleteEnabled,
-            connection: wm.connection,
-            onSave: wm.onSave,
-            onDelete: wm.onDelete,
-          ),
+          if (wm.isSaveEnabled || wm.isDeleteEnabled)
+            ColoredBox(
+              color: wm.theme.colors.background0,
+              child: Padding(
+                padding: const EdgeInsets.all(DimensSize.d16),
+                child: NetworkButtons(
+                  saveEnabled: wm.isSaveEnabled,
+                  deleteEnabled: wm.isDeleteEnabled,
+                  connection: wm.connection,
+                  onSave: wm.onSave,
+                  onDelete: wm.onDelete,
+                ),
+              ),
+            ),
         ],
       ),
     );
