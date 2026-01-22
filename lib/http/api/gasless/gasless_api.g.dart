@@ -40,7 +40,7 @@ class _GaslessApi implements GaslessApi {
     try {
       _value = GaslessConfigDto.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, _result);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -71,7 +71,7 @@ class _GaslessApi implements GaslessApi {
     try {
       _value = GaslessEstimateResponseDto.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, _result);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -99,7 +99,7 @@ class _GaslessApi implements GaslessApi {
     try {
       _value = GaslessSendResponseDto.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, _result);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
