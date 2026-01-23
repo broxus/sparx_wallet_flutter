@@ -1,6 +1,7 @@
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/constants.dart';
+import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -13,9 +14,6 @@ Future<void> showAddNewLocalAccountSheet({
 }) {
   return showCommonBottomSheet(
     context: context,
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
-    title: LocaleKeys.newAccountName.tr(),
-    subtitle: LocaleKeys.newAccountNameDescription.tr(),
     body: (_, scrollController) => AddNewLocalAccountSheet(
       publicKey: publicKey,
       controller: scrollController,
@@ -55,16 +53,29 @@ class _AddNewLocalAccountSheetState extends State<AddNewLocalAccountSheet> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       controller: widget.controller,
-      child: SeparatedColumn(
+      child: Column(
         mainAxisSize: MainAxisSize.min,
-        spacing: DimensSizeV2.d24,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            LocaleKeys.newAccountName.tr(),
+            style: context.themeStyleV2.textStyles.headingLarge,
+          ),
+          const SizedBox(height: DimensSizeV2.d8),
+          Text(
+            LocaleKeys.newAccountNameDescription.tr(),
+            style: context.themeStyleV2.textStyles.paragraphMedium.copyWith(
+              color: context.themeStyleV2.colors.content1,
+            ),
+          ),
+          const SizedBox(height: DimensSizeV2.d24),
           PrimaryTextField(
             maxLength: maxLengthForMainEntities,
             hintText: LocaleKeys.nameWord.tr(),
             textEditingController: nameController,
             onSubmit: (_) => _goNext(context),
           ),
+          const SizedBox(height: DimensSizeV2.d24),
           PrimaryButton(
             buttonShape: ButtonShape.pill,
             title: LocaleKeys.continueWord.tr(),
