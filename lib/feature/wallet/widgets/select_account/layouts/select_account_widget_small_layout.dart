@@ -36,6 +36,7 @@ class SelectAccountWidgetSmallLayout extends StatelessWidget {
               child: Text(
                 LocaleKeys.myAccounts.tr(),
                 style: _wm.theme.textStyles.headingMedium,
+                textAlign: TextAlign.center,
               ),
             ),
           ),

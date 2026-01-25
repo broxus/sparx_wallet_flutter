@@ -28,6 +28,14 @@ class SelectAccountWidgetDefaultLayout extends StatelessWidget {
       onTapDown: _wm.onTapDown,
       child: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: DimensSize.d24),
+            child: Text(
+              LocaleKeys.myAccounts.tr(),
+              style: _wm.theme.textStyles.headingMedium,
+              textAlign: TextAlign.center,
+            ),
+          ),
           PrimaryTextField(
             textEditingController: _wm.searchController,
             hintText: LocaleKeys.searchWord.tr(),

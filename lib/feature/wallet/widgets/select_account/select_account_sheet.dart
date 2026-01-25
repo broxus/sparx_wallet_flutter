@@ -7,8 +7,6 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 Future<KeyAccount?> showSelectAccountSheet(BuildContext context) {
   return showCommonBottomSheet<KeyAccount>(
     context: context,
-    title: LocaleKeys.myAccounts.tr(),
-    centerTitle: true,
     expand: true,
     body: (_, scrollController) =>
         SelectAccountWidget(scrollController: scrollController),
