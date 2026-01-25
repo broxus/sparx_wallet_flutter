@@ -13,11 +13,13 @@ final initialScreenSize = _physicalSize / _devicePixelRatio;
 final initialScreenWidth = initialScreenSize.width;
 final initialScreenHeight = initialScreenSize.height;
 
+const double minTabletWidth = 660;
+const double maxPhoneWidth = 915;
+
 Size get currentScreenSize => _physicalSize / _devicePixelRatio;
 
 double get currentScreenWidth => currentScreenSize.width;
 
 double get currentScreenHeight => currentScreenSize.height;
 
-const double minTabletWidth = 660;
-const double maxPhoneWidth = 915;
+bool get isSmallScreenHeight => currentScreenHeight < 800;
