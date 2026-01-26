@@ -29,7 +29,7 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
     this._messengerService,
     this._currenciesService,
     this._tokenTransferDelegateProvider,
-    this._connectionsStorageService,
+    this._blockchainConfigService,
   ) : super(errorHandler: errorHandler);
 
   final AssetsService _assetsService;
@@ -37,7 +37,7 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
   final MessengerService _messengerService;
   final CurrenciesService _currenciesService;
   final TokenTransferDelegateProvider _tokenTransferDelegateProvider;
-  final ConnectionsStorageService _connectionsStorageService;
+  final BlockchainConfigService _blockchainConfigService;
 
   final _balanceDataSc = StreamController<WalletPrepareBalanceData>();
 
@@ -75,6 +75,9 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
         .getFeeFactors(isMasterchain: true);
     return feeFactors.gasFeeFactor;
   }
+
+  Future<Set<Address>> getFundamentalAddresses() =>
+      _blockchainConfigService.getFundamentalAddresses();
 
   KeyAccount? findAccountByAddress(Address address) {
     return _nekotonRepository.seedList.findAccountByAddress(address);
@@ -207,9 +210,12 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
     return fee.amount * 1.2;
   }
 
-  (int?, int?, bool) checkIsValidWorkchain(String address) {
-    return _connectionsStorageService.checkIsRightWorkchainByAddress(address);
-  }
+  CrosschainTransferValidationResult validateCrosschainTransfer(
+    Address address,
+  ) => CrosschainTransferValidator.validateByAddress(
+    fromWorkchain: currentTransport.workchainId,
+    toAddress: address,
+  );
 
   /// Subscription for native token to find balance
   void _subscribeNativeBalance({

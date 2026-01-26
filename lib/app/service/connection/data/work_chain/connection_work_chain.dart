@@ -1,5 +1,5 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/generated/assets.gen.dart';
+import 'package:app/generated/generated.dart';
 import 'package:app/utils/json/json.dart';
 import 'package:app/utils/map_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -7,7 +7,6 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:uuid/uuid.dart';
 
 part 'connection_work_chain.freezed.dart';
-
 part 'connection_work_chain.g.dart';
 
 @freezed
@@ -23,7 +22,7 @@ abstract class ConnectionWorkchain with _$ConnectionWorkchain {
     required TransportIcons icons,
     @WalletTypeListConverter() required List<WalletType> availableWalletTypes,
     @WalletTypeConverter() required WalletType defaultWalletType,
-    @AddressStringConverter() required Address nativeTokenAddress,
+    required Address nativeTokenAddress,
     required List<int> seedPhraseWordsCount,
     required GenericTokenType genericTokenType,
     required AccountExplorerLinkType accountExplorerLinkType,
@@ -152,8 +151,8 @@ abstract class ConnectionWorkchain with _$ConnectionWorkchain {
         ..['walletDefaultAccountNames'] = resultWalletDefaultAccountNames,
     );
   }
-}
 
-extension ConnectionWorkchainExt on ConnectionWorkchain {
+  const ConnectionWorkchain._();
+
   String get fullId => '$parentConnectionId-$id';
 }

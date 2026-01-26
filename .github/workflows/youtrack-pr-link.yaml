@@ -1,0 +1,56 @@
+name: Link PR to YouTrack issue
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  youtrack-pr-comment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Extract issue key from PR title or branch
+        id: vars
+        run: |
+          TITLE="${{ github.event.pull_request.title }}"
+          BRANCH="${{ github.head_ref }}"
+          echo "PR title: $TITLE"
+          echo "Branch: $BRANCH"
+
+          ISSUE_KEYS=$(echo "$TITLE $BRANCH" | grep -oE 'EWM-[0-9]+' | sort -u || true)
+
+          if [ -z "$ISSUE_KEYS" ]; then
+            echo "No issue key (EWM-XXX) found in title or branch. Skipping."
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "Found issue keys:"
+          echo "$ISSUE_KEYS"
+          echo "skip=false" >> $GITHUB_OUTPUT
+          {
+            echo "issue_keys<<EOF"
+            echo "$ISSUE_KEYS"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
+      - name: Post PR link to YouTrack
+        if: steps.vars.outputs.skip != 'true'
+        env:
+          YOUTRACK_BASE_URL: ${{ secrets.YOUTRACK_BASE_URL }}
+          YOUTRACK_TOKEN: ${{ secrets.YOUTRACK_TOKEN }}
+        run: |
+          PR_URL="${{ github.event.pull_request.html_url }}"
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          COMMENT_TEXT="PR: [${PR_TITLE}](${PR_URL})"
+          BODY=$(jq -n --arg text "$COMMENT_TEXT" '{text: $text}')
+
+          echo "${{ steps.vars.outputs.issue_keys }}" | while read -r ISSUE_KEY; do
+            [ -z "$ISSUE_KEY" ] && continue
+            echo "Posting comment to $ISSUE_KEY"
+            curl -sS -X POST \
+              "$YOUTRACK_BASE_URL/api/issues/$ISSUE_KEY/comments?fields=id,text" \
+              -H "Authorization: Bearer $YOUTRACK_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d "$BODY"
+          done

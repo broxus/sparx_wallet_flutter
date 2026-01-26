@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 //It's base class for button, in this button we handle all parameters like
 //shape, styles, size
@@ -41,15 +40,15 @@ abstract class BaseButton extends StatelessWidget {
   EdgeInsetsGeometry get _paddingByButtonSize {
     return padding ??
         switch (buttonSize) {
-          ButtonSize.large => const EdgeInsets.all(DimensSizeV2.d18),
-          ButtonSize.medium => const EdgeInsets.all(DimensSizeV2.d16),
+          ButtonSize.large => const EdgeInsets.all(DimensSize.d18),
+          ButtonSize.medium => const EdgeInsets.all(DimensSize.d16),
           ButtonSize.small => const EdgeInsets.symmetric(
-            horizontal: DimensSizeV2.d24,
-            vertical: DimensSizeV2.d8,
+            horizontal: DimensSize.d24,
+            vertical: DimensSize.d8,
           ),
           ButtonSize.mini => const EdgeInsets.symmetric(
-            horizontal: DimensSizeV2.d12,
-            vertical: DimensSizeV2.d6,
+            horizontal: DimensSize.d12,
+            vertical: DimensSize.d6,
           ),
         };
   }
@@ -57,26 +56,26 @@ abstract class BaseButton extends StatelessWidget {
   double get _iconSize {
     switch (buttonSize) {
       case ButtonSize.large:
-        return DimensSizeV2.d20;
+        return DimensSize.d20;
       case ButtonSize.medium:
-        return DimensSizeV2.d16;
+        return DimensSize.d16;
       case ButtonSize.small:
-        return DimensSizeV2.d16;
+        return DimensSize.d16;
       case ButtonSize.mini:
-        return DimensSizeV2.d16;
+        return DimensSize.d16;
     }
   }
 
   double get _fabSize {
     switch (buttonSize) {
       case ButtonSize.large:
-        return DimensSizeV2.d56;
+        return DimensSize.d56;
       case ButtonSize.medium:
-        return DimensSizeV2.d48;
+        return DimensSize.d48;
       case ButtonSize.small:
-        return DimensSizeV2.d40;
+        return DimensSize.d40;
       case ButtonSize.mini:
-        return DimensSizeV2.d28;
+        return DimensSize.d28;
     }
   }
 
@@ -85,16 +84,16 @@ abstract class BaseButton extends StatelessWidget {
         buttonShape == ButtonShape.square) {
       switch (buttonSize) {
         case ButtonSize.large:
-          return DimensRadiusV2.radius16;
+          return DimensRadius.radius16;
         case ButtonSize.medium:
-          return DimensRadiusV2.radius12;
+          return DimensRadius.radius12;
         case ButtonSize.small:
-          return DimensRadiusV2.radius8;
+          return DimensRadius.radius8;
         case ButtonSize.mini:
-          return DimensRadiusV2.radius24;
+          return DimensRadius.radius24;
       }
     } else {
-      return DimensRadiusV2.theBiggest;
+      return DimensRadius.theBiggest;
     }
   }
 
@@ -137,16 +136,14 @@ abstract class BaseButton extends StatelessWidget {
                         if (icon != null)
                           Padding(
                             padding: const EdgeInsets.only(
-                              right: DimensSizeV2.d8,
+                              right: DimensSize.d8,
                             ),
                             child: Icon(icon, size: _iconSize),
                           ),
                         child,
                         if (postfixIcon != null)
                           Padding(
-                            padding: const EdgeInsets.only(
-                              left: DimensSizeV2.d8,
-                            ),
+                            padding: const EdgeInsets.only(left: DimensSize.d8),
                             child: Icon(postfixIcon, size: _iconSize),
                           ),
                       ],
@@ -270,7 +267,7 @@ abstract class BaseButton extends StatelessWidget {
         color: states.contains(MaterialState.focused)
             ? style.borderColor
             : Colors.transparent,
-        width: DimensSizeV2.d2,
+        width: DimensSize.d2,
       ),
       borderRadius: BorderRadius.circular(_borderRadius),
     );

@@ -25,9 +25,6 @@ class WalletPageModel extends ElementaryModel {
   Stream<KeyAccount?> get currentAccount =>
       _currentAccountsService.currentActiveAccountStream;
 
-  Stream<TransportStrategy> get transportStrategy =>
-      _nekotonRepository.currentTransportStream;
-
   Stream<RootTab> get shouldScrollTopStream => _rootTabRepository
       .scrollTabToTopSubject
       .where((tab) => tab == RootTab.wallet);

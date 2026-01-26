@@ -9,7 +9,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:string_extensions/string_extensions.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class AmountInput extends StatefulWidget {
   const AmountInput({
@@ -76,22 +75,22 @@ class _AmountInputState extends State<AmountInput> {
       width: double.maxFinite,
       decoration: BoxDecoration(
         border: Border.all(color: theme.colors.border0),
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+        borderRadius: BorderRadius.circular(DimensRadius.radius16),
         color: theme.colors.background1,
       ),
       child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: DimensSizeV2.d16,
-              vertical: DimensSizeV2.d12,
+              horizontal: DimensSize.d16,
+              vertical: DimensSize.d12,
             ),
             child: SeparatedRow(
-              spacing: DimensSizeV2.d4,
+              spacing: DimensSize.d4,
               children: [
                 Expanded(
                   child: SeparatedColumn(
-                    spacing: DimensSizeV2.d4,
+                    spacing: DimensSize.d4,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AmountInputAssetSelect(
@@ -124,8 +123,8 @@ class _AmountInputState extends State<AmountInput> {
           CommonDivider(color: theme.colors.border0),
           Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: DimensSizeV2.d16,
-              vertical: DimensSizeV2.d12,
+              horizontal: DimensSize.d16,
+              vertical: DimensSize.d12,
             ),
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,

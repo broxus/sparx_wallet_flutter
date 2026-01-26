@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:ui_components_lib/components/button/app_bar_back_button.dart';
 import 'package:ui_components_lib/components/common/default_app_bar.dart';
-import 'package:ui_components_lib/v2/dimens_v2.dart';
+import 'package:ui_components_lib/dimens.dart';
 import 'package:ui_components_lib/v2/theme_style_v2.dart';
 
 typedef IsColapsed = bool Function(SliverConstraints);
@@ -41,15 +41,15 @@ class DefaultSliverAppBar extends StatelessWidget {
           surfaceTintColor: Colors.transparent,
           leading: Container(
             margin: const EdgeInsets.only(
-              left: DimensSizeV2.d16,
-              top: DimensSizeV2.d12,
-              bottom: DimensSizeV2.d12,
+              left: DimensSize.d16,
+              top: DimensSize.d12,
+              bottom: DimensSize.d12,
             ),
             child: AppBarBackButton(
               onPressed: () => Navigator.of(context).maybePop(),
             ),
           ),
-          leadingWidth: DimensSizeV2.d64,
+          leadingWidth: DimensSize.d64,
           title: AnimatedOpacity(
             opacity: isCollapsed ? 1.0 : 0.0,
             duration: const Duration(milliseconds: 200),

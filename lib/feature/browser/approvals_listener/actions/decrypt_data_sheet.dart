@@ -4,7 +4,6 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Helper function that shows sheet to decrypt data.
 ///
@@ -51,21 +50,21 @@ class _DecryptData extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return SeparatedColumn(
-      spacing: DimensSizeV2.d12,
+      spacing: DimensSize.d12,
       children: [
         Expanded(
           child: SingleChildScrollView(
             controller: scrollController,
             child: SeparatedColumn(
-              spacing: DimensSizeV2.d12,
+              spacing: DimensSize.d12,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 AccountInfoWidget(account: account),
                 WebsiteInfoWidget(uri: origin),
                 PrimaryCard(
                   color: theme.colors.background2,
-                  borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
-                  padding: const EdgeInsets.all(DimensSizeV2.d16),
+                  borderRadius: BorderRadius.circular(DimensRadius.radius12),
+                  padding: const EdgeInsets.all(DimensSize.d16),
                   child: SeparatedColumn(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

@@ -1,6 +1,6 @@
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_status_body.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class TransactionIcon extends StatelessWidget {
   const TransactionIcon({
@@ -20,8 +20,8 @@ class TransactionIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
     return Container(
-      height: size ?? DimensSizeV2.d40,
-      width: size ?? DimensSizeV2.d40,
+      height: size ?? DimensSize.d40,
+      width: size ?? DimensSize.d40,
       decoration: BoxDecoration(
         color: theme.colors.backgroundAlpha,
         shape: BoxShape.circle,
@@ -29,7 +29,7 @@ class TransactionIcon extends StatelessWidget {
       child: Center(
         child: Icon(
           icon,
-          size: DimensSizeV2.d20,
+          size: DimensSize.d20,
           color: _getColor(theme, status, isIncoming),
         ),
       ),

@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 /// Body of transaction for Ton/Token Wallets that contains main information
 /// about transaction (date, hash, value, fee, sender/recipient).
@@ -208,7 +207,7 @@ class _WalletTransactionDetailsDefaultBodyState
                   widget.status.chipByStatus,
                 ],
               ),
-              const SizedBox(height: DimensSizeV2.d4),
+              const SizedBox(height: DimensSize.d4),
               Text(
                 formatter.format(widget.date),
                 style: theme.textStyles.labelXSmall.copyWith(
@@ -217,7 +216,7 @@ class _WalletTransactionDetailsDefaultBodyState
                 textAlign: TextAlign.right,
               ),
               if (widget.expiresAt != null)
-                const SizedBox(height: DimensSizeV2.d4),
+                const SizedBox(height: DimensSize.d4),
               if (widget.expiresAt != null)
                 Text(
                   DateTimeUtils.formatExpirationDate(widget.expiresAt!),

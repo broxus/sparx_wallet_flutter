@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class SelectAccountWidget
     extends InjectedElementaryWidget<SelectAccountWidgetModel> {
@@ -28,7 +27,7 @@ class SelectAccountWidget
           onChanged: (_) => wm.onSearch(),
           onSubmit: (_) => wm.onSearch(),
         ),
-        const SizedBox(height: DimensSizeV2.d24),
+        const SizedBox(height: DimensSize.d24),
         Expanded(
           child: DoubleSourceBuilder(
             firstSource: wm.listState,
@@ -63,7 +62,7 @@ class SelectAccountWidget
             },
           ),
         ),
-        const SizedBox(height: DimensSizeV2.d16),
+        const SizedBox(height: DimensSize.d16),
         SeparatedColumn(
           children: [
             AccentButton(
@@ -79,7 +78,7 @@ class SelectAccountWidget
             ),
           ],
         ),
-        const SizedBox(height: DimensSizeV2.d8),
+        const SizedBox(height: DimensSize.d8),
       ],
     );
   }
@@ -118,10 +117,10 @@ class _SeedItemStickyDelegate extends SliverPersistentHeaderDelegate {
       child: Container(
         decoration: BoxDecoration(
           color: theme.colors.background2,
-          borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+          borderRadius: BorderRadius.circular(DimensRadius.radius12),
         ),
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d16),
+          padding: const EdgeInsets.symmetric(vertical: DimensSize.d16),
           child: SeedPhraseItemWidget(
             name: data.name,
             isExpanded: isExpanded,
@@ -224,15 +223,15 @@ class _SeedItemSliverSectionState extends State<_SeedItemSliverSection>
   Widget _getExpandedContent(BuildContext context) {
     _cachedExpandedContent ??= Container(
       margin: const EdgeInsets.only(
-        bottom: DimensSizeV2.d8,
-        left: DimensSizeV2.d8,
-        right: DimensSizeV2.d8,
+        bottom: DimensSize.d8,
+        left: DimensSize.d8,
+        right: DimensSize.d8,
       ),
       decoration: BoxDecoration(
         color: context.themeStyleV2.colors.background2,
         borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(DimensRadiusV2.radius12),
-          bottomRight: Radius.circular(DimensRadiusV2.radius12),
+          bottomLeft: Radius.circular(DimensRadius.radius12),
+          bottomRight: Radius.circular(DimensRadius.radius12),
         ),
       ),
       child: Column(

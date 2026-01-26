@@ -25,8 +25,8 @@ class CreateBrowserGroupScreen
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: DimensSizeV2.d12,
-            horizontal: DimensSizeV2.d16,
+            vertical: DimensSize.d12,
+            horizontal: DimensSize.d16,
           ),
           child: SizedBox(
             height: wm.screenHeight,
@@ -44,7 +44,7 @@ class CreateBrowserGroupScreen
                           Flexible(
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: DimensSizeV2.d10,
+                                horizontal: DimensSize.d10,
                               ),
                               child: GroupTitleTextField(
                                 onChangeText: wm.onChangeText,
@@ -54,7 +54,7 @@ class CreateBrowserGroupScreen
                               ),
                             ),
                           ),
-                          const SizedBox(width: DimensSizeV2.d48),
+                          const SizedBox(width: DimensSize.d48),
                         ],
                       ),
                     ),
@@ -62,10 +62,10 @@ class CreateBrowserGroupScreen
                       Align(
                         alignment: Alignment.topLeft,
                         child: Padding(
-                          padding: const EdgeInsets.only(top: DimensSizeV2.d28),
+                          padding: const EdgeInsets.only(top: DimensSize.d28),
                           child: SizedBox(
-                            width: DimensSizeV2.d168,
-                            height: DimensSizeV2.d200,
+                            width: DimensSize.d168,
+                            height: DimensSize.d200,
                             child: BrowserTabsListItemBody(
                               tabNotifier: wm.tabNotifier!,
                               screenShotState: wm.screenShotState,
@@ -113,20 +113,20 @@ class _Error extends StatelessWidget {
 
     return SizedBox(
       width: double.infinity,
-      height: DimensSizeV2.d48,
+      height: DimensSize.d48,
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: ColorsResV2.e15,
-          borderRadius: BorderRadius.circular(DimensRadiusV2.radius8),
+          borderRadius: BorderRadius.circular(DimensRadius.radius8),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
           child: Row(
-            spacing: DimensSizeV2.d12,
+            spacing: DimensSize.d12,
             children: [
               const Icon(
                 LucideIcons.circleCheck,
-                size: DimensSizeV2.d24,
+                size: DimensSize.d24,
                 color: ColorsResV2.e50,
               ),
               Text(

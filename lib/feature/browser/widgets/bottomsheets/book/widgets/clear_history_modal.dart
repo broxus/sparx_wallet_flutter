@@ -4,7 +4,6 @@ import 'package:app/feature/browser/widgets/bottomsheets/book/widgets/type_histo
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 
 typedef ClearHistoryType = (TimePeriod, Set<TypeHistory>);
@@ -35,13 +34,13 @@ class _ClearHistoryModalContentState extends State<ClearHistoryModalContent> {
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d8),
+      padding: const EdgeInsets.symmetric(horizontal: DimensSize.d8),
       child: Column(
         children: [
           // TODO(knightforce): come back after refactor
           // DecoratedBox(
           //   decoration: BoxDecoration(
-          //     borderRadius: BorderRadius.circular(DimensSizeV2.d16),
+          //     borderRadius: BorderRadius.circular(DimensSize.d16),
           //     color: theme.colors.background2,
           //   ),
           //   child: ListView.separated(
@@ -64,10 +63,10 @@ class _ClearHistoryModalContentState extends State<ClearHistoryModalContent> {
           //     },
           //   ),
           // ),
-          // const SizedBox(height: DimensSizeV2.d16),
+          // const SizedBox(height: DimensSize.d16),
           DecoratedBox(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(DimensSizeV2.d16),
+              borderRadius: BorderRadius.circular(DimensSize.d16),
               color: theme.colors.background2,
             ),
             child: ListView.separated(
@@ -95,7 +94,7 @@ class _ClearHistoryModalContentState extends State<ClearHistoryModalContent> {
               },
             ),
           ),
-          const SizedBox(height: DimensSizeV2.d16),
+          const SizedBox(height: DimensSize.d16),
           CustomButton(
             //D92346
             buttonShape: ButtonShape.rectangle,

@@ -515,7 +515,7 @@ class _CommonInputState extends State<CommonInput> {
                 type: MaterialType.card,
                 shape: SquircleShapeBorder(
                   cornerRadius: widget.v2Style != null
-                      ? DimensSizeV2.d12
+                      ? DimensSize.d12
                       : DimensRadius.medium,
                 ),
                 color:

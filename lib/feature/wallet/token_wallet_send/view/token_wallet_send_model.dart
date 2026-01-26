@@ -1,7 +1,8 @@
-import 'package:app/app/service/storage_service/connections_storage/connections_storage_service.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/wallet/wallet.dart';
+import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:money2/money2.dart';
@@ -17,15 +18,12 @@ class TokenWalletSendModel extends ElementaryModel
     this._ledgerService,
     this._bleDelegate,
     this._tokenTransferDelegateProvider,
-    this._connectionsStorageService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final LedgerService _ledgerService;
   final BleAvailabilityModelDelegate _bleDelegate;
   final TokenTransferDelegateProvider _tokenTransferDelegateProvider;
-
-  final ConnectionsStorageService _connectionsStorageService;
 
   TokenTransferDelegate? _tokenTransferDelegate;
 
@@ -49,9 +47,12 @@ class TokenWalletSendModel extends ElementaryModel
     );
   }
 
-  (int?, int?, bool) checkIsValidWorkchain(String address) {
-    return _connectionsStorageService.checkIsRightWorkchainByAddress(address);
-  }
+  CrosschainTransferValidationResult validateCrosschainTransfer(
+    Address address,
+  ) => CrosschainTransferValidator.validateByAddress(
+    fromWorkchain: transport.workchainId,
+    toAddress: address,
+  );
 
   KeyAccount? getAccount(Address address) =>
       _nekotonRepository.seedList.findAccountByAddress(address);

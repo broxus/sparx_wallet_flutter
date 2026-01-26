@@ -11,7 +11,6 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:string_extensions/string_extensions.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 final _alphanumeric = RegExp(r'^[a-zA-Z0-9]+$');
 
@@ -178,7 +177,7 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const SizedBox(height: DimensSizeV2.d8),
+                                const SizedBox(height: DimensSize.d8),
                                 SeparatedRow(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -200,7 +199,7 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                        top: DimensSizeV2.d18,
+                                        top: DimensSize.d18,
                                       ),
                                       child: Text(
                                         LocaleKeys.outOfNumber.tr(
@@ -222,7 +221,7 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
                     ),
                     if (widget.isWaitingTimeSelectionEnabled)
                       Padding(
-                        padding: const EdgeInsets.only(top: DimensSizeV2.d8),
+                        padding: const EdgeInsets.only(top: DimensSize.d8),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -231,7 +230,7 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
                               LocaleKeys.deployWalletWaitingTime.tr(),
                               style: textStyles.labelSmall,
                             ),
-                            const SizedBox(height: DimensSizeV2.d8),
+                            const SizedBox(height: DimensSize.d8),
                             PrimaryTextField(
                               focusNode: waitingTimeNode,
                               textEditingController: waitingTimeController,
@@ -264,13 +263,13 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
                           ],
                         ),
                       ),
-                    const SizedBox(height: DimensSizeV2.d12),
+                    const SizedBox(height: DimensSize.d12),
                     Text(
                       LocaleKeys.custodiansWord.tr(),
                       style: textStyles.labelSmall,
                     ),
                     ...custodianControllers.mapIndexed(_custodianItem),
-                    const SizedBox(height: DimensSizeV2.d8),
+                    const SizedBox(height: DimensSize.d8),
                     if (custodianControllers.length < 32)
                       GhostButton(
                         icon: LucideIcons.plus,
@@ -288,7 +287,7 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
             left: DimensSize.d16,
             right: DimensSize.d16,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: DimensSizeV2.d8),
+              padding: const EdgeInsets.only(bottom: DimensSize.d8),
               child: AccentButton(
                 buttonShape: ButtonShape.pill,
                 title: LocaleKeys.nextWord.tr(),
@@ -313,13 +312,13 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
         });
       },
       child: Container(
-        margin: const EdgeInsets.only(right: DimensSizeV2.d4),
+        margin: const EdgeInsets.only(right: DimensSize.d4),
         padding: const EdgeInsets.symmetric(
-          horizontal: DimensSizeV2.d12,
-          vertical: DimensSizeV2.d6,
+          horizontal: DimensSize.d12,
+          vertical: DimensSize.d6,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+          borderRadius: BorderRadius.circular(DimensRadius.radius16),
           border: Border.all(
             color: isSelected ? theme.colors.accent : theme.colors.border0,
           ),
@@ -339,7 +338,7 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
 
   Widget _custodianItem(int index, TextEditingController controller) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: DimensSizeV2.d4),
+      padding: const EdgeInsets.only(bottom: DimensSize.d4),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -380,8 +379,8 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
           if (index >= minConfirmationsCount)
             Padding(
               padding: const EdgeInsets.only(
-                left: DimensSizeV2.d8,
-                top: DimensSizeV2.d4,
+                left: DimensSize.d8,
+                top: DimensSize.d4,
               ),
               child: DestructiveButton(
                 buttonShape: ButtonShape.circle,

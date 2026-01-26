@@ -49,5 +49,14 @@ class ProfilePageModel extends ElementaryModel {
     );
   }
 
+  Future<bool> checkBiometryPermission() =>
+      _biometryService.checkBiometryPermission();
+
+  Future<void> setKeyPassword({
+    required PublicKey publicKey,
+    required String password,
+  }) =>
+      _biometryService.setKeyPassword(publicKey: publicKey, password: password);
+
   void openBrowserUrl(String url) => _browserLauncher.openBrowserByString(url);
 }

@@ -1,12 +1,12 @@
 ---
 name: app
 description: SparX Wallet Flutter app
-version: 2.0.0
+version: 2.1.0
 publish_to: none
 
 environment:
-  sdk: '>=3.9.0 <4.0.0'
-  flutter: '>=3.35.5'
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: '>=3.38.0'
 
 workspace:
   - packages/ui_components_lib
@@ -14,14 +14,14 @@ workspace:
   - packages/wm_state_properties_lint
 
 dependencies:
-  app_links: ^6.4.1
+  app_links: ^7.0.0
   async: ^2.12.0
   auto_size_text: 3.0.0
   auto_size_text_field: 2.2.4
   barcode_widget: 2.0.4
   buffer: ^1.2.3
   cached_network_image: 3.4.1
-  cached_network_svg_image: 1.2.0
+  cached_network_svg_image: ^2.0.0
   carousel_slider: ^5.1.1
   clock: 1.1.2
   collection: 1.19.1
@@ -36,7 +36,7 @@ dependencies:
   elementary: ^3.2.1
   elementary_helper: ^1.0.3
   encrypt: ^5.0.3
-  encrypted_storage:  0.1.4-dev.1
+  encrypted_storage:  0.1.5
   equatable: 2.0.7
   favicon: 1.1.2
   flutter:
@@ -45,13 +45,14 @@ dependencies:
   flutter_email_sender: ^8.0.0
   flutter_inappwebview: 6.1.5
   flutter_screenutil: 5.9.3
-  flutter_secure_storage: ^10.0.0-beta.4
+  flutter_secure_storage: ^10.0.0
   flutter_slidable: ^4.0.1
   flutter_svg: ^2.2.3
+  fraud_protection: ^1.3.0
   freezed_annotation: ^3.1.0
   get_it: ^9.0.5
   get_storage: 2.1.1
-  go_router: ^16.3.0
+  go_router: ^17.0.0
   hex: 0.2.0
   image_picker: ^1.2.1
   image_picker_android: ^0.8.13+4
@@ -70,8 +71,8 @@ dependencies:
   money2: ^6.0.0
   mutex: ^3.1.0
   native_dio_adapter: ^1.5.0
-  nekoton_repository: 2.2.0
-  nekoton_webview: ^0.1.12
+  nekoton_repository: ^3.3.1
+  nekoton_webview: ^0.2.0
   no_screenshot: ^0.3.1
   ntp: 2.0.0
   open_settings_plus: 0.4.0
@@ -87,16 +88,16 @@ dependencies:
     git:
       url: https://github.com/knightsforce/flutter-render-metrics
       ref: optional-render-manager
-  retrofit: 4.7.3
-  rive: ^0.14.0-dev.13
+  retrofit: ^4.9.1
+  rive: ^0.14.0
   rxdart: 0.28.0
   sensitive_clipboard: ^1.1.0
   sentry_flutter: ^9.6.0
   share_plus: ^12.0.0
-  shared_preferences: 2.5.3
+  shared_preferences: ^2.5.4
   sqlite3: ^2.9.4
   sqlite3_flutter_libs: ^0.5.0
-  string_extensions: ^0.7.4
+  string_extensions: ^0.8.0
   the_logger: 0.0.18
   ui_components_lib:
     path: packages/ui_components_lib
@@ -313,9 +314,9 @@ melos:
         --build-number $BUILD_NUMBER \
         --upload true
 
-    fetch:connections_config:
+    fetch:configs:
       description: Fetch connections config
-      run: bash scripts/fetch-connections-config.sh
+      run: bash scripts/fetch-configs.sh
 
   command:
     clean:
