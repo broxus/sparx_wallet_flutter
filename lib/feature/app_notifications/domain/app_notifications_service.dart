@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:app/app/service/app_notifications/domain/events/events.dart';
 import 'package:app/extensions/completer_extension.dart';
+import 'package:app/feature/app_notifications/domain/events.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';

@@ -1,6 +1,4 @@
-import 'package:app/app/service/app_notifications/domain/events/events.dart';
-import 'package:app/app/service/app_notifications/domain/service/app_notifications_service.dart';
-import 'package:app/app/service/app_notifications/widget/app_notifications_widget.dart';
+import 'package:app/feature/app_notifications/app_notifications.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 

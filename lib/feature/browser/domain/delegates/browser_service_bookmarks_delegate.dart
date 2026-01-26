@@ -1,8 +1,7 @@
 import 'package:app/data/models/browser_bookmark_item.dart';
 import 'package:app/feature/browser/domain/delegates/browser_base_delegate.dart';
 import 'package:app/feature/browser/domain/service/storages/browser_bookmarks_storage_service.dart';
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';

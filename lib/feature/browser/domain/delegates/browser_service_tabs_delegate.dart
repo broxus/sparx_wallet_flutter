@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:app/app/service/app_notifications/domain/service/app_notifications_service.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
+import 'package:app/feature/app_notifications/app_notifications.dart';
 import 'package:app/feature/browser/browser_collection.dart';
 import 'package:app/feature/browser/custom_web_controller.dart';
 import 'package:app/feature/browser/data/browser_uri.dart';

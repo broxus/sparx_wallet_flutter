@@ -1,11 +1,8 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/app_notifications/domain/events/events.dart';
-import 'package:app/app/service/app_notifications/widget/app_notifications_widget.dart';
-import 'package:app/app/service/app_notifications/widget/app_notifications_widget_model.dart';
-import 'package:app/app/service/app_notifications/widget/url_alert.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/app_notifications/app_notifications.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';

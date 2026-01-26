@@ -1,5 +1,5 @@
-import 'package:app/app/service/app_notifications/widget/app_notifications_widget_wm.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/app_notifications/app_notifications.dart';
 import 'package:flutter/material.dart';
 
 class AppNotificationsWidget
