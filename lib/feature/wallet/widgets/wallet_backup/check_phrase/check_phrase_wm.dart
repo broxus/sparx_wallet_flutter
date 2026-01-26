@@ -141,7 +141,10 @@ class CheckPhraseWidgetModel
     }
   }
 
-  void _showDialog() => showGoodJobDialog(context);
+  void _showDialog() {
+    final ctx = contextSafe;
+    if (ctx != null) showGoodJobDialog(ctx);
+  }
 
   void _goNext(int nextIndex) {
     currentCheckIndex = nextIndex;
