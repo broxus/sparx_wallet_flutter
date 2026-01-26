@@ -31,13 +31,13 @@ class SignDataWidget extends ElementaryWidget<SignDataWidgetModel> {
   @override
   Widget build(SignDataWidgetModel wm) {
     return SeparatedColumn(
-      spacing: DimensSizeV2.d12,
+      spacing: DimensSize.d12,
       children: [
         Expanded(
           child: SingleChildScrollView(
             controller: scrollController,
             child: SeparatedColumn(
-              spacing: DimensSizeV2.d12,
+              spacing: DimensSize.d12,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 AccountInfoWidget(account: account),

@@ -19,11 +19,7 @@ import 'package:rive/rive.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-late AppBuildType currentAppBuildType;
-
 Future<void> run(AppBuildType appBuildType) async {
-  currentAppBuildType = appBuildType;
-
   Logger? log;
 
   void severe(String? msg, Object? e, StackTrace? s) {
@@ -41,9 +37,9 @@ Future<void> run(AppBuildType appBuildType) async {
       await NekotonBridge.init();
       await RiveNative.init();
 
-      await configureDi();
+      await configureDi(appBuildType: appBuildType);
 
-      await inject<LoggerConfigurator>().configure(appBuildType);
+      await inject<LoggerConfigurator>().configure();
 
       log = Logger('bootstrap');
 

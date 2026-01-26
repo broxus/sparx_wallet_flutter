@@ -3,7 +3,6 @@ import 'package:app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class EndpointItem extends StatelessWidget {
   const EndpointItem({
@@ -38,7 +37,7 @@ class EndpointItem extends StatelessWidget {
         ),
         if (index > 0 && isEditable)
           Padding(
-            padding: const EdgeInsets.only(right: DimensSizeV2.d8),
+            padding: const EdgeInsets.only(right: DimensSize.d8),
             child: PrimaryButton(
               buttonShape: ButtonShape.square,
               buttonSize: ButtonSize.small,

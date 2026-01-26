@@ -747,6 +747,10 @@ abstract class LocaleKeys {
       'unsupportedWalletTypeAlertDescription';
   static const unsupportedWalletTypeAlertButtonLabel =
       'unsupportedWalletTypeAlertButtonLabel';
+  static const invalidExternalAccountAlertTitle =
+      'invalidExternalAccountAlertTitle';
+  static const invalidExternalAccountAlertDescription =
+      'invalidExternalAccountAlertDescription';
   static const scanSeedLoaderTitle = 'scanSeedLoaderTitle';
   static const scanningCompleted = 'scanningCompleted';
   static const scanSeed = 'scanSeed';
@@ -821,4 +825,5 @@ abstract class LocaleKeys {
   static const passwordLockedUntil = 'passwordLockedUntil';
   static const invalidPayloadError = 'invalidPayloadError';
   static const invalidStateInitError = 'invalidStateInitError';
+  static const unsupportedWalletTypeError = 'unsupportedWalletTypeError';
 }

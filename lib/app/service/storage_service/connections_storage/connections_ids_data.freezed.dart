@@ -210,8 +210,8 @@ return $default(_that.connectionId,_that.workchainId,_that.networkId);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _ConnectionIdsData implements ConnectionIdsData {
-   _ConnectionIdsData({required this.connectionId, required this.workchainId, required this.networkId});
+class _ConnectionIdsData extends ConnectionIdsData {
+   _ConnectionIdsData({required this.connectionId, required this.workchainId, required this.networkId}): super._();
   factory _ConnectionIdsData.fromJson(Map<String, dynamic> json) => _$ConnectionIdsDataFromJson(json);
 
 @override final  String connectionId;

@@ -4,7 +4,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Callback that calls if user taps skip checking or check phrase.
 typedef CreateSeedCompleteCallback = ValueChanged<SeedPhraseModel>;
@@ -48,21 +47,21 @@ class CreateSeedView extends StatelessWidget {
                       LocaleKeys.saveSeedPhrase.tr(),
                       style: theme.textStyles.headingXLarge,
                     ),
-                    const SizedBox(height: DimensSizeV2.d12),
+                    const SizedBox(height: DimensSize.d12),
                     Text(
                       LocaleKeys.saveSeedWarning.tr(),
                       style: theme.textStyles.paragraphMedium,
                     ),
-                    const SizedBox(height: DimensSizeV2.d24),
+                    const SizedBox(height: DimensSize.d24),
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         _WordsField(seed: seed),
-                        const SizedBox(height: DimensSizeV2.d4),
+                        const SizedBox(height: DimensSize.d4),
                         _CopyButton(copied: isCopied, onCopy: onCopy),
                       ],
                     ),
-                    const SizedBox(height: DimensSizeV2.d8),
+                    const SizedBox(height: DimensSize.d8),
                   ],
                 ),
               ),
@@ -74,13 +73,13 @@ class CreateSeedView extends StatelessWidget {
                   title: LocaleKeys.checkSeedPhrase.tr(),
                   onPressed: () => onCheck(seed),
                 ),
-                const SizedBox(height: DimensSizeV2.d8),
+                const SizedBox(height: DimensSize.d8),
                 PrimaryButton(
                   buttonShape: ButtonShape.pill,
                   title: LocaleKeys.skipTakeRisk.tr(),
                   onPressed: () => onSkip(seed),
                 ),
-                const SizedBox(height: DimensSizeV2.d12),
+                const SizedBox(height: DimensSize.d12),
               ],
             ),
           ],

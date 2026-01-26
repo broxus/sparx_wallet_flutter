@@ -23,7 +23,7 @@ class WalletAccountActions
     bool allowStake = true,
     bool sendSpecified = false,
     bool disableSensetiveActions = false,
-    this.padding = const EdgeInsets.symmetric(vertical: DimensSizeV2.d32),
+    this.padding = const EdgeInsets.symmetric(vertical: DimensSize.d32),
     super.key,
   }) : super(
          wmFactoryParam: WalletAccountActionsWmParams(
@@ -120,7 +120,7 @@ class _ActionList extends StatelessWidget {
     return Padding(
       padding: padding,
       child: SizedBox(
-        height: DimensSizeV2.d74,
+        height: DimensSize.d74,
         child: SeparatedRow(
           separator: VerticalDivider(
             width: DimensStroke.small,
@@ -132,7 +132,7 @@ class _ActionList extends StatelessWidget {
           children: [
             Flexible(
               child: SizedBox(
-                width: DimensSizeV2.d90,
+                width: DimensSize.d90,
                 child: WalletActionButton(
                   label: LocaleKeys.receiveWord.tr(),
                   icon: LucideIcons.arrowDown,
@@ -142,7 +142,7 @@ class _ActionList extends StatelessWidget {
             ),
             Flexible(
               child: SizedBox(
-                width: DimensSizeV2.d90,
+                width: DimensSize.d90,
                 child: WalletActionButton(
                   label: _actionTitle,
                   icon: _actionIcon,
@@ -155,7 +155,7 @@ class _ActionList extends StatelessWidget {
             if (hasStake)
               Flexible(
                 child: SizedBox(
-                  width: DimensSizeV2.d90,
+                  width: DimensSize.d90,
                   child: WalletActionButton(
                     label: LocaleKeys.stakeWord.tr(),
                     icon: LucideIcons.layers2,
@@ -169,7 +169,7 @@ class _ActionList extends StatelessWidget {
             if (!sendSpecified)
               Flexible(
                 child: SizedBox(
-                  width: DimensSizeV2.d90,
+                  width: DimensSize.d90,
                   child: WalletActionButton(
                     label: LocaleKeys.info.tr(),
                     icon: LucideIcons.ellipsis,

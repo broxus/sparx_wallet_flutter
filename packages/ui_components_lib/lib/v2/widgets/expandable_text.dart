@@ -65,7 +65,7 @@ class _ExpandableTextState extends State<ExpandableText> {
               GestureDetector(
                 onTap: () => setState(() => _expanded = true),
                 child: Padding(
-                  padding: const EdgeInsets.only(top: DimensSizeV2.d8),
+                  padding: const EdgeInsets.only(top: DimensSize.d8),
                   child: Text(widget.expandText, style: widget.expandTextStyle),
                 ),
               ),

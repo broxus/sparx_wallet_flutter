@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class DataCard extends StatefulWidget {
   const DataCard({required this.data, super.key});
@@ -27,8 +27,8 @@ class _DataCardState extends State<DataCard> {
 
     return PrimaryCard(
       color: theme.colors.background2,
-      borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
-      padding: const EdgeInsets.all(DimensSizeV2.d16),
+      borderRadius: BorderRadius.circular(DimensRadius.radius12),
+      padding: const EdgeInsets.all(DimensSize.d16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -38,14 +38,14 @@ class _DataCardState extends State<DataCard> {
               color: theme.colors.content3,
             ),
           ),
-          const SizedBox(height: DimensSizeV2.d4),
+          const SizedBox(height: DimensSize.d4),
           Text(
             data,
             style: theme.textStyles.labelSmall.copyWith(
               color: theme.colors.content0,
             ),
           ),
-          const SizedBox(height: DimensSizeV2.d24),
+          const SizedBox(height: DimensSize.d24),
           SwitcherSegmentControls<_DisplayType>(
             currentValue: _displayType,
             values: [

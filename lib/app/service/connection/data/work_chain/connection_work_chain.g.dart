@@ -28,9 +28,7 @@ _ConnectionWorkchain _$ConnectionWorkchainFromJson(
   defaultWalletType: const WalletTypeConverter().fromJson(
     json['defaultWalletType'] as Map<String, dynamic>,
   ),
-  nativeTokenAddress: const AddressStringConverter().fromJson(
-    json['nativeTokenAddress'] as String,
-  ),
+  nativeTokenAddress: Address.fromJson(json['nativeTokenAddress'] as String),
   seedPhraseWordsCount: (json['seedPhraseWordsCount'] as List<dynamic>)
       .map((e) => (e as num).toInt())
       .toList(),
@@ -102,9 +100,7 @@ Map<String, dynamic> _$ConnectionWorkchainToJson(
   'defaultWalletType': const WalletTypeConverter().toJson(
     instance.defaultWalletType,
   ),
-  'nativeTokenAddress': const AddressStringConverter().toJson(
-    instance.nativeTokenAddress,
-  ),
+  'nativeTokenAddress': instance.nativeTokenAddress.toJson(),
   'seedPhraseWordsCount': instance.seedPhraseWordsCount,
   'genericTokenType': _$GenericTokenTypeEnumMap[instance.genericTokenType]!,
   'accountExplorerLinkType':

@@ -9,7 +9,7 @@ import 'package:flutter/rendering.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-const _radius = Radius.circular(DimensRadiusV2.radius16);
+const _radius = Radius.circular(DimensRadius.radius16);
 
 class BrowserTabsListItemBody extends StatelessWidget {
   const BrowserTabsListItemBody({
@@ -78,14 +78,14 @@ class _Header extends StatelessWidget {
     final colors = context.themeStyleV2.colors;
 
     return SizedBox(
-      height: DimensSizeV2.d36,
+      height: DimensSize.d36,
       child: DecoratedBox(
         decoration: BoxDecoration(color: colors.background2),
         child: Row(
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(left: DimensSizeV2.d12),
+                padding: const EdgeInsets.only(left: DimensSize.d12),
                 child: StateNotifierBuilder<BrowserTab>(
                   listenableState: tabNotifier,
                   builder: (_, BrowserTab? tab) {
@@ -106,11 +106,11 @@ class _Header extends StatelessWidget {
                 behavior: HitTestBehavior.opaque,
                 onTap: onPressedClose,
                 child: SizedBox(
-                  width: DimensSizeV2.d36,
+                  width: DimensSize.d36,
                   height: double.infinity,
                   child: Icon(
                     LucideIcons.circleX,
-                    size: DimensSizeV2.d20,
+                    size: DimensSize.d20,
                     color: colors.content3,
                   ),
                 ),
@@ -205,7 +205,7 @@ class _ReactiveShapeRenderBox extends RenderProxyBox {
     final canvas = context.canvas;
     final isActive = activeState?.value ?? false;
 
-    final borderWidth = isActive ? DimensSizeV2.d4 : DimensSizeV2.d2;
+    final borderWidth = isActive ? DimensSize.d4 : DimensSize.d2;
     final rect = offset & size;
     final rRect = RRect.fromRectAndRadius(offset & size, _radius);
 
