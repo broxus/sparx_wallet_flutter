@@ -519,7 +519,7 @@ extension CompassNavigationContextExtension on BuildContext {
 
     for (var i = 0; i < count; i++) {
       await router.compassBack(i == count - 1 ? result : null);
-      await Future<void>.delayed(const Duration(milliseconds: 50));
+      await Future<void>.microtask(() {});
     }
   }
 }
