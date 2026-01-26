@@ -503,4 +503,15 @@ extension CompassNavigationContextExtension on BuildContext {
   Future<void> compassBack<T extends Object?>([T? result]) {
     return _compassRouter().compassBack(result);
   }
+
+  Future<void> compassBackCount(int count, {Object? result}) async {
+    if (count <= 0) return;
+
+    final router = _compassRouter();
+
+    for (var i = 0; i < count; i++) {
+      await router.compassBack(i == count - 1 ? result : null);
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+    }
+  }
 }

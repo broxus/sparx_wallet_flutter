@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:app/app/router/router.dart';
@@ -77,7 +78,7 @@ class CheckPhraseWidgetModel
     }
   }
 
-  void clickSkip() {
+  Future<void> clickSkip() async {
     final params = wmParams.value;
     model.setShowingBackUpFlag(params.address, isSkipped: true);
 
@@ -85,9 +86,7 @@ class CheckPhraseWidgetModel
 
     params.finishedBackupCallback(false);
 
-    context
-      ..compassBack() //close manual backup dialog
-      ..compassBack(); //close current dialog
+    await context.compassBackCount(2);
   }
 
   void _init() {
@@ -120,7 +119,7 @@ class CheckPhraseWidgetModel
     }
   }
 
-  void _validate() {
+  Future<void> _validate() async {
     if (userAnswers == null) return;
     var hasError = false;
     for (var index = 0; index < _correctAnswers.length; index++) {
@@ -132,16 +131,13 @@ class CheckPhraseWidgetModel
     if (hasError) {
       model.showValidateError(LocaleKeys.seedIsMissing.tr());
     } else {
-      // TODO(malochka): think about get rid of compassBack method
       final params = wmParams.value;
 
       model.setShowingBackUpFlag(params.address, isSkipped: false);
       params.finishedBackupCallback(true);
 
-      context
-        ..compassBack() //close manual backup
-        ..compassBack(); //close check your seed phrase
-      showGoodJobDialog(context);
+      await context.compassBackCount(2);
+      unawaited(showGoodJobDialog(context));
     }
   }
 
