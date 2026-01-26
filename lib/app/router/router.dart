@@ -504,7 +504,15 @@ extension CompassNavigationContextExtension on BuildContext {
     return _compassRouter().compassBack(result);
   }
 
-  Future<void> compassBackCount(int count, {Object? result}) async {
+  /// Navigates back to n number of previous routes in the navigation stack.
+  ///
+  /// [result] Optional value to return to the previous screen.
+  ///
+  /// See [CompassRouter.compassBack] for more information.
+  Future<void> compassBackCount<T extends Object?>(
+    int count, {
+    T? result,
+  }) async {
     if (count <= 0) return;
 
     final router = _compassRouter();
