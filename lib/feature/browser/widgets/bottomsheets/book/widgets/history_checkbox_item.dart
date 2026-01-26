@@ -18,8 +18,8 @@ class HistoryCheckboxItem extends StatelessWidget {
     final theme = context.themeStyleV2;
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: DimensSizeV2.d16,
-        vertical: DimensSizeV2.d12,
+        horizontal: DimensSize.d16,
+        vertical: DimensSize.d12,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

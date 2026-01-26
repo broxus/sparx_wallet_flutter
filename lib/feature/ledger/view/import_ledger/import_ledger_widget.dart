@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class ImportLedgerWidget extends ElementaryWidget<ImportLedgerWidgetModel> {
   const ImportLedgerWidget({
@@ -66,7 +65,7 @@ class _BleList extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      spacing: DimensSizeV2.d16,
+      spacing: DimensSize.d16,
       children: [
         Text(
           LocaleKeys.availableDevices.tr(),
@@ -80,12 +79,10 @@ class _BleList extends StatelessWidget {
             if (isBluetoothEnabled == false) {
               return Center(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: DimensSizeV2.d16,
-                  ),
+                  padding: const EdgeInsets.symmetric(vertical: DimensSize.d16),
                   child: Icon(
                     LucideIcons.bluetoothOff,
-                    size: DimensSizeV2.d40,
+                    size: DimensSize.d40,
                     color: theme.colors.content0,
                   ),
                 ),
@@ -101,7 +98,7 @@ class _BleList extends StatelessWidget {
 
                   return CommonListTile(
                     padding: EdgeInsets.zero,
-                    height: DimensSizeV2.d40,
+                    height: DimensSize.d40,
                     leading: CommonBackgroundedIconWidget.icon(
                       icon: LucideIcons.bluetooth,
                       iconColor: theme.colors.content0,
@@ -109,7 +106,7 @@ class _BleList extends StatelessWidget {
                     ),
                     trailing: const Icon(
                       LucideIcons.chevronRight,
-                      size: DimensSizeV2.d20,
+                      size: DimensSize.d20,
                     ),
                     titleChild: Text(
                       name.isNotEmpty
@@ -126,16 +123,16 @@ class _BleList extends StatelessWidget {
 
             return ShapedContainerColumn(
               color: theme.colors.background2,
-              padding: const EdgeInsets.all(DimensSizeV2.d16),
+              padding: const EdgeInsets.all(DimensSize.d16),
               margin: EdgeInsets.zero,
               separator: const CommonDivider(
-                margin: EdgeInsets.symmetric(vertical: DimensSizeV2.d16),
+                margin: EdgeInsets.symmetric(vertical: DimensSize.d16),
               ),
               children: [
                 ...items,
                 if (items.isEmpty)
                   const Center(
-                    child: ProgressIndicatorWidget(size: DimensSizeV2.d40),
+                    child: ProgressIndicatorWidget(size: DimensSize.d40),
                   ),
               ],
             );
@@ -177,7 +174,7 @@ class _Connect extends StatelessWidget {
           LocaleKeys.connectLedger.tr(),
           style: theme.textStyles.headingMedium,
         ),
-        const SizedBox(height: DimensSizeV2.d16),
+        const SizedBox(height: DimensSize.d16),
         DoubleSourceBuilder(
           firstSource: isConnected,
           secondSource: isInitialized,
@@ -200,7 +197,7 @@ class _Connect extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: DimensSizeV2.d16),
+        const SizedBox(height: DimensSize.d16),
         DoubleSourceBuilder(
           firstSource: isInitialized,
           secondSource: isLoading,
@@ -211,7 +208,7 @@ class _Connect extends StatelessWidget {
             onPressed: (isInitialized ?? false) ? onContinue : null,
           ),
         ),
-        const SizedBox(height: DimensSizeV2.d8),
+        const SizedBox(height: DimensSize.d8),
         DestructiveButton(
           buttonShape: ButtonShape.pill,
           title: LocaleKeys.cancelWord.tr(),

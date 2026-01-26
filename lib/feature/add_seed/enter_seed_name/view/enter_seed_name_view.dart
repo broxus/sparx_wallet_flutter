@@ -4,7 +4,6 @@ import 'package:app/generated/generated.dart';
 import 'package:app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 /// Callback to make any action after user entered seed phrase name.
 typedef EnterSeedNameCompleteCallback = FutureOr<void> Function(String? name);
@@ -58,12 +57,12 @@ class _EnterSeedNameViewState extends State<EnterSeedNameView> {
                       LocaleKeys.enterSeedNameScreenTitle.tr(),
                       style: theme.textStyles.headingXLarge,
                     ),
-                    const SizedBox(height: DimensSizeV2.d12),
+                    const SizedBox(height: DimensSize.d12),
                     Text(
                       LocaleKeys.enterSeedNameScreenDescription.tr(),
                       style: theme.textStyles.paragraphMedium,
                     ),
-                    const SizedBox(height: DimensSizeV2.d24),
+                    const SizedBox(height: DimensSize.d24),
                     PrimaryTextField(
                       isAutofocus: true,
                       isEnabled: !widget.isLoading,
@@ -83,7 +82,7 @@ class _EnterSeedNameViewState extends State<EnterSeedNameView> {
               title: LocaleKeys.continueWord.tr(),
               onPressed: _nextAction,
             ),
-            const SizedBox(height: DimensSizeV2.d12),
+            const SizedBox(height: DimensSize.d12),
           ],
         ),
       ),

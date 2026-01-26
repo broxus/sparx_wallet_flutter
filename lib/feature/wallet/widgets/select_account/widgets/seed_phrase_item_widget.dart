@@ -1,7 +1,7 @@
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class SeedPhraseItemWidget extends StatelessWidget {
   const SeedPhraseItemWidget({
@@ -20,13 +20,13 @@ class SeedPhraseItemWidget extends StatelessWidget {
     final theme = context.themeStyleV2;
     return Row(
       children: [
-        const SizedBox(width: DimensSizeV2.d16),
+        const SizedBox(width: DimensSize.d16),
         Icon(
           LucideIcons.lockKeyhole,
           color: theme.colors.content0,
-          size: DimensSizeV2.d16,
+          size: DimensSize.d16,
         ),
-        const SizedBox(width: DimensSizeV2.d12),
+        const SizedBox(width: DimensSize.d12),
         Expanded(
           child: Text(
             name,
@@ -36,19 +36,19 @@ class SeedPhraseItemWidget extends StatelessWidget {
         ),
         if (isLedger)
           Padding(
-            padding: const EdgeInsets.only(left: DimensSizeV2.d12),
+            padding: const EdgeInsets.only(left: DimensSize.d12),
             child: Assets.images.ledger.svg(
-              width: DimensSizeV2.d20,
-              height: DimensSizeV2.d20,
+              width: DimensSize.d20,
+              height: DimensSize.d20,
             ),
           ),
-        const SizedBox(width: DimensSizeV2.d12),
+        const SizedBox(width: DimensSize.d12),
         Icon(
           isExpanded ? LucideIcons.chevronUp : LucideIcons.chevronDown,
           color: theme.colors.content0,
-          size: DimensSizeV2.d20,
+          size: DimensSize.d20,
         ),
-        const SizedBox(width: DimensSizeV2.d16),
+        const SizedBox(width: DimensSize.d16),
       ],
     );
   }

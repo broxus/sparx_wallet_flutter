@@ -11,6 +11,10 @@ abstract class ConnectRequest with _$ConnectRequest {
     required List<ConnectItem> items,
   }) = _ConnectRequest;
 
+  const ConnectRequest._();
+
   factory ConnectRequest.fromJson(Map<String, dynamic> json) =>
       _$ConnectRequestFromJson(json);
+
+  bool get hasTonProofItem => items.any((item) => item is TonProofItem);
 }

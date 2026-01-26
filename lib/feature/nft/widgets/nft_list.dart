@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class Nftist extends StatelessWidget {
   const Nftist({
@@ -41,8 +41,8 @@ class Nftist extends StatelessWidget {
       fetchNextPage: fetchNextPage,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: DimensSizeV2.d8,
-        crossAxisSpacing: DimensSizeV2.d8,
+        mainAxisSpacing: DimensSize.d8,
+        crossAxisSpacing: DimensSize.d8,
         childAspectRatio: 168 / 196,
       ),
       builderDelegate: PagedChildBuilderDelegate(
@@ -62,7 +62,7 @@ class Nftist extends StatelessWidget {
     return PagedListView<String, NftItem>.separated(
       state: state,
       fetchNextPage: fetchNextPage,
-      separatorBuilder: (_, index) => const SizedBox(height: DimensSizeV2.d8),
+      separatorBuilder: (_, index) => const SizedBox(height: DimensSize.d8),
       builderDelegate: PagedChildBuilderDelegate(
         invisibleItemsThreshold: 1,
         firstPageProgressIndicatorBuilder: (_) => const _Indicator(),
@@ -114,16 +114,16 @@ class _Item extends StatelessWidget {
       child: Stack(
         children: [
           PrimaryCard(
-            padding: const EdgeInsets.all(DimensSizeV2.d8),
+            padding: const EdgeInsets.all(DimensSize.d8),
             color: theme.colors.background1,
-            borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+            borderRadius: BorderRadius.circular(DimensRadius.radius12),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: DimensSizeV2.d8,
+              spacing: DimensSize.d8,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(DimensRadiusV2.radius8),
+                  borderRadius: BorderRadius.circular(DimensRadius.radius8),
                   child: AspectRatio(
                     aspectRatio: 1,
                     child: NftImage(imageUrl: _previewUrl),
@@ -141,18 +141,18 @@ class _Item extends StatelessWidget {
           ),
           if (item.wallet != null || isPending)
             Positioned(
-              top: DimensSizeV2.d0,
-              left: DimensSizeV2.d0,
-              right: DimensSizeV2.d0,
+              top: DimensSize.d0,
+              left: DimensSize.d0,
+              right: DimensSize.d0,
               child: Align(
                 alignment: Alignment.centerRight,
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(),
                   child: Padding(
-                    padding: const EdgeInsets.all(DimensSizeV2.d14),
+                    padding: const EdgeInsets.all(DimensSize.d14),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
-                      spacing: DimensSizeV2.d4,
+                      spacing: DimensSize.d4,
                       children: [
                         if (item.wallet != null)
                           Flexible(
@@ -163,8 +163,8 @@ class _Item extends StatelessWidget {
                           ),
                         if (isPending)
                           Container(
-                            width: DimensSizeV2.d10,
-                            height: DimensSizeV2.d10,
+                            width: DimensSize.d10,
+                            height: DimensSize.d10,
                             decoration: BoxDecoration(
                               color: theme.colors.backgroundAccent,
                               shape: BoxShape.circle,
@@ -188,19 +188,19 @@ class _Item extends StatelessWidget {
       onTap: onTap,
       child: PrimaryCard(
         padding: const EdgeInsets.symmetric(
-          horizontal: DimensSizeV2.d16,
-          vertical: DimensSizeV2.d8,
+          horizontal: DimensSize.d16,
+          vertical: DimensSize.d8,
         ),
         color: theme.colors.background1,
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+        borderRadius: BorderRadius.circular(DimensRadius.radius12),
         child: Row(
-          spacing: DimensSizeV2.d8,
+          spacing: DimensSize.d8,
           children: [
             SizedBox(
-              width: DimensSizeV2.d40,
-              height: DimensSizeV2.d40,
+              width: DimensSize.d40,
+              height: DimensSize.d40,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(DimensRadiusV2.radius20),
+                borderRadius: BorderRadius.circular(DimensRadius.radius20),
                 child: NftImage(imageUrl: item.nft.previewUrl),
               ),
             ),
@@ -220,8 +220,8 @@ class _Item extends StatelessWidget {
               ),
             if (isPending)
               Container(
-                width: DimensSizeV2.d10,
-                height: DimensSizeV2.d10,
+                width: DimensSize.d10,
+                height: DimensSize.d10,
                 decoration: BoxDecoration(
                   color: theme.colors.backgroundAccent,
                   shape: BoxShape.circle,
@@ -229,7 +229,7 @@ class _Item extends StatelessWidget {
               ),
             Icon(
               LucideIcons.chevronRight,
-              size: DimensSizeV2.d20,
+              size: DimensSize.d20,
               color: theme.colors.primaryA,
             ),
           ],
@@ -251,11 +251,11 @@ class _Badge extends StatelessWidget {
 
     return PrimaryCard(
       padding: const EdgeInsets.symmetric(
-        horizontal: DimensSizeV2.d4,
-        vertical: DimensSizeV2.d2,
+        horizontal: DimensSize.d4,
+        vertical: DimensSize.d2,
       ),
       color: theme.colors.background2,
-      borderRadius: BorderRadius.circular(DimensRadiusV2.radius6),
+      borderRadius: BorderRadius.circular(DimensRadius.radius6),
       child: Text(
         '$balance/$supply',
         style: theme.textStyles.labelXSmall,
@@ -272,6 +272,6 @@ class _Indicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: ProgressIndicatorWidget(size: DimensSizeV2.d24));
+    return const Center(child: ProgressIndicatorWidget(size: DimensSize.d24));
   }
 }

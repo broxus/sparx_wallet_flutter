@@ -4,7 +4,7 @@ import 'package:app/feature/browser/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class BrowserPagesView extends StatelessWidget {
   const BrowserPagesView({
@@ -16,6 +16,7 @@ class BrowserPagesView extends StatelessWidget {
     required this.tabsState,
     required this.onCreateWebViewController,
     required this.onWebPageScrollChanged,
+    required this.onLoadingError,
     required this.onDispose,
     super.key,
   });
@@ -29,6 +30,7 @@ class BrowserPagesView extends StatelessWidget {
   final void Function(String tabId, CustomWebViewController controller)
   onCreateWebViewController;
   final ValueChanged<int> onWebPageScrollChanged;
+  final ValueChanged<Uri> onLoadingError;
   final ValueChanged<String> onDispose;
 
   @override
@@ -79,6 +81,7 @@ class BrowserPagesView extends StatelessWidget {
                                         ),
                                     onWebPageScrollChanged:
                                         onWebPageScrollChanged,
+                                    onLoadingError: onLoadingError,
                                     onDispose: () =>
                                         onDispose(list[index].value.id),
                                   );

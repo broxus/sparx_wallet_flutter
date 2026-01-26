@@ -8,7 +8,7 @@ import 'package:app/feature/browser/screens/main/widgets/control_panels/toolbar/
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class BrowserPageControlPanel extends StatelessWidget {
   const BrowserPageControlPanel({
@@ -39,14 +39,14 @@ class BrowserPageControlPanel extends StatelessWidget {
   final ValueChanged<int> onPageChanged;
 
   static const minHeight =
-      BrowserNavigationPanel.height + Toolbar.height + DimensSizeV2.d8;
+      BrowserNavigationPanel.height + Toolbar.height + DimensSize.d8;
 
   @override
   Widget build(BuildContext context) {
     return BrowserMenuBackgroundBlur(
       blurHeight: minHeight,
       child: Padding(
-        padding: const EdgeInsets.only(top: DimensSizeV2.d8),
+        padding: const EdgeInsets.only(top: DimensSize.d8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -77,14 +77,14 @@ class _Space extends StatelessWidget {
   const _Space();
 
   static const _menuHeight =
-      BrowserNavigationPanel.height + Toolbar.height - DimensSizeV2.d8;
+      BrowserNavigationPanel.height + Toolbar.height - DimensSize.d8;
 
   @override
   Widget build(BuildContext context) {
     final bottom =
         MediaQuery.of(context).viewInsets.bottom -
         _menuHeight -
-        (Platform.isIOS ? DimensSizeV2.d32 : 0);
+        (Platform.isIOS ? DimensSize.d32 : 0);
 
     return SizedBox(width: double.infinity, height: bottom > 0 ? bottom : 0);
   }

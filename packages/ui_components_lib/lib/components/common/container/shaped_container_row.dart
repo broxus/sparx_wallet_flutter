@@ -11,11 +11,11 @@ class ShapedContainerRow extends StatelessWidget {
   const ShapedContainerRow({
     required this.children,
     this.color,
-    this.squircleRadius = DimensRadiusV2.radius12,
-    this.margin = const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
-    this.padding = const EdgeInsets.all(DimensSizeV2.d16),
+    this.squircleRadius = DimensRadius.radius12,
+    this.margin = const EdgeInsets.symmetric(horizontal: DimensSize.d16),
+    this.padding = const EdgeInsets.all(DimensSize.d16),
     super.key,
-    this.spacing = DimensSizeV2.d8,
+    this.spacing = DimensSize.d8,
     this.separator,
     this.mainAxisSize = MainAxisSize.max,
     this.crossAxisAlignment = CrossAxisAlignment.center,
@@ -30,14 +30,14 @@ class ShapedContainerRow extends StatelessWidget {
   /// [ColorsPalette.backgroundSecondary].
   final Color? color;
 
-  /// Radius of squircle shape, default is [DimensRadiusV2.radius12].
+  /// Radius of squircle shape, default is [DimensRadius.radius12].
   final double squircleRadius;
 
-  /// Outer padding of container, default is horizontal: DimensSizeV2.d16
+  /// Outer padding of container, default is horizontal: DimensSize.d16
   final EdgeInsets margin;
 
   /// Inner padding of container, around content
-  /// default is all: DimensSizeV2.d16
+  /// default is all: DimensSize.d16
   final EdgeInsets padding;
 
   /// See <ContainerColumn.spacing>
@@ -67,7 +67,7 @@ class ShapedContainerRow extends StatelessWidget {
       squircleRadius: squircleRadius,
       child: SeparatedColumn(
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: DimensSizeV2.d16,
+        spacing: DimensSize.d16,
         children: [
           if (titleText != null)
             Text(

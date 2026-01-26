@@ -3,7 +3,6 @@ import 'package:app/feature/wallet/widgets/widgets.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 /// Helper function that displays [StEverHowItWorksSheet]
 Future<void> showStEverHowItWorksSheet({
@@ -46,14 +45,14 @@ class StEverHowItWorksSheet extends StatelessWidget {
     return SeparatedColumn(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
-      spacing: DimensSizeV2.d16,
+      spacing: DimensSize.d16,
       children: [
         Flexible(
           child: SingleChildScrollView(
             controller: scrollController,
             child: PrimaryCard(
               padding: EdgeInsets.zero,
-              borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+              borderRadius: BorderRadius.circular(DimensRadius.radius12),
               child: SeparatedColumn(
                 mainAxisSize: MainAxisSize.min,
                 separator: const CommonDivider(),
@@ -82,8 +81,8 @@ class StEverHowItWorksSheet extends StatelessWidget {
                   ),
                   _step(
                     icon: Assets.images.stever.coins.svg(
-                      width: DimensSizeV2.d40,
-                      height: DimensSizeV2.d40,
+                      width: DimensSize.d40,
+                      height: DimensSize.d40,
                     ),
                     title: LocaleKeys.earnOnPriceIncreasesTitle.tr(),
                     subtitle: LocaleKeys.earnOnPriceIncreasesSubtitle.tr(
@@ -117,15 +116,15 @@ class StEverHowItWorksSheet extends StatelessWidget {
         final theme = context.themeStyleV2;
 
         return Padding(
-          padding: const EdgeInsets.all(DimensSizeV2.d16),
+          padding: const EdgeInsets.all(DimensSize.d16),
           child: SeparatedRow(
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: DimensSizeV2.d12,
+            spacing: DimensSize.d12,
             children: [
               icon,
               Expanded(
                 child: SeparatedColumn(
-                  spacing: DimensSizeV2.d4,
+                  spacing: DimensSize.d4,
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

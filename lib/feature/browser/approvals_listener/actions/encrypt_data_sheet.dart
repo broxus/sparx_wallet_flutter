@@ -47,13 +47,13 @@ class _EncryptData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SeparatedColumn(
-    spacing: DimensSizeV2.d12,
+    spacing: DimensSize.d12,
     children: [
       Expanded(
         child: SingleChildScrollView(
           controller: scrollController,
           child: SeparatedColumn(
-            spacing: DimensSizeV2.d12,
+            spacing: DimensSize.d12,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               AccountInfoWidget(account: account),

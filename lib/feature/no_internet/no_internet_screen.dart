@@ -2,8 +2,7 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/no_internet/no_internet_screen_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/dimens.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class NoInternetScreen
     extends InjectedElementaryWidget<NoInternetScreenWidgetModel> {
@@ -34,9 +33,9 @@ class NoInternetScreen
               ],
             ),
             Positioned(
-              bottom: DimensSizeV2.d34,
-              left: DimensSizeV2.d16,
-              right: DimensSizeV2.d16,
+              bottom: DimensSize.d34,
+              left: DimensSize.d16,
+              right: DimensSize.d16,
               child: PrimaryButton(
                 buttonShape: ButtonShape.pill,
                 title: LocaleKeys.tryAgain.tr(),

@@ -6,22 +6,15 @@ import 'package:nekoton_webview/nekoton_webview.dart';
 import 'package:uuid/uuid.dart';
 
 extension TransportExtension on TransportStrategy {
-  Connection? get connection => switch (this) {
-    CommonTransportStrategy(:final connection) => connection,
-    _ => null,
-  };
-
   Future<Network> toNetwork() async {
-    final data = connection;
-    final config = await transport.getBlockchainConfig();
-    final signatureId = await transport.getSignatureId();
-    final capabilities = config.capabilities.toRadixString(16);
-
-    if (data == null) {
+    if (this is! CommonTransportStrategy) {
       throw UnsupportedError('Unsupported type: $runtimeType');
     }
 
-    final workchain = data.defaultWorkchain;
+    final workchain = (this as CommonTransportStrategy).workchain;
+    final config = await transport.getBlockchainConfig();
+    final signatureId = await transport.getSignatureId();
+    final capabilities = config.capabilities.toRadixString(16);
 
     final connectionObject = switch (workchain.transportType) {
       WorkchainTransportType.gql =>
@@ -47,7 +40,7 @@ extension TransportExtension on TransportStrategy {
     };
 
     return Network(
-      data.networkName,
+      workchain.networkName,
       NetworkDescription(config.globalId, '0x$capabilities', signatureId),
       connectionObject,
       NetworkConfig(

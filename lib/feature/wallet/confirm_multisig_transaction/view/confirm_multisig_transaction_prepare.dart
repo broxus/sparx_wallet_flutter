@@ -2,8 +2,6 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/accent_button.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/button_shape.dart';
 
 /// Widget that allows select local custodians to confirm multisig transaction
 class TonWalletConfirmTransactionPrepare extends StatefulWidget {

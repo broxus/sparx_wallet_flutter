@@ -1,7 +1,7 @@
 import 'package:app/generated/generated.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class ExpandableCard extends StatefulWidget {
   const ExpandableCard({
@@ -23,20 +23,20 @@ class _ExpandableCardState extends State<ExpandableCard> {
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
-    const padding = DimensSizeV2.d16;
-    const btnSize = DimensSizeV2.d48;
+    const padding = DimensSize.d16;
+    const btnSize = DimensSize.d48;
 
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxHeight: expanded ? double.infinity : widget.collapsedHeight,
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+        borderRadius: BorderRadius.circular(DimensRadius.radius12),
         child: Stack(
           children: [
             PrimaryCard(
               color: theme.colors.background2,
-              borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+              borderRadius: BorderRadius.circular(DimensRadius.radius12),
               padding: const EdgeInsets.all(padding),
               child: Padding(
                 padding: expanded

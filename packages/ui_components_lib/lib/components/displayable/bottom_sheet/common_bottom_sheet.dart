@@ -23,7 +23,7 @@ Future<T?> showCommonBottomSheet<T>({
   required CommonSheetBodyBuilder body,
   String? title,
   String? subtitle,
-  EdgeInsets padding = const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+  EdgeInsets padding = const EdgeInsets.symmetric(horizontal: DimensSize.d16),
   EdgeInsets? titleMargin,
   EdgeInsets? subtitleMargin,
   bool expand = false,
@@ -83,7 +83,7 @@ ModalSheetRoute<T> commonBottomSheetRoute<T>({
   required CommonSheetBodyBuilder body,
   String? title,
   String? subtitle,
-  EdgeInsets padding = const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+  EdgeInsets padding = const EdgeInsets.symmetric(horizontal: DimensSize.d16),
   bool expand = false,
   bool dismissible = true,
   bool wrapIntoAnimatedSize = true,
@@ -175,7 +175,7 @@ class CommonBottomSheetWidget extends StatelessWidget {
             subtitleMargin: subtitleMargin,
           )
         else
-          const SizedBox(height: DimensSizeV2.d32),
+          const SizedBox(height: DimensSize.d32),
         Flexible(
           child: Padding(
             padding: padding,
@@ -191,7 +191,7 @@ class CommonBottomSheetWidget extends StatelessWidget {
           : theme.colors.background1,
       child: SafeArea(
         minimum: avoidBottomInsets
-            ? const EdgeInsets.only(bottom: DimensSizeV2.d24)
+            ? const EdgeInsets.only(bottom: DimensSize.d24)
             : EdgeInsets.zero,
         child: Padding(
           padding: avoidBottomInsets
@@ -208,8 +208,8 @@ class CommonBottomSheetWidget extends StatelessWidget {
                 left: 0,
                 right: 0,
                 child: SheetDraggableLine(
-                  height: DimensSizeV2.d4,
-                  verticalMargin: DimensSizeV2.d8,
+                  height: DimensSize.d4,
+                  verticalMargin: DimensSize.d8,
                 ),
               ),
             ],
@@ -235,7 +235,7 @@ class __ContainerWidgetState extends State<_ContainerWidget> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + DimensSizeV2.d24,
+        top: MediaQuery.of(context).padding.top + DimensSize.d24,
       ),
       clipBehavior: Clip.antiAlias,
       decoration: const BoxDecoration(
@@ -283,7 +283,7 @@ class _Header extends StatelessWidget {
   final EdgeInsetsGeometry? titleMargin;
   final EdgeInsetsGeometry? subtitleMargin;
 
-  static const _top = DimensSizeV2.d20 + DimensSizeV2.d4 + DimensSizeV2.d8 * 2;
+  static const _top = DimensSize.d20 + DimensSize.d4 + DimensSize.d8 * 2;
 
   @override
   Widget build(BuildContext context) {
@@ -300,11 +300,9 @@ class _Header extends StatelessWidget {
                 titleMargin ??
                 EdgeInsets.only(
                   top: _top,
-                  bottom: subtitle != null
-                      ? DimensSizeV2.d12
-                      : DimensSizeV2.d24,
-                  left: DimensSizeV2.d16,
-                  right: DimensSizeV2.d16,
+                  bottom: subtitle != null ? DimensSize.d12 : DimensSize.d24,
+                  left: DimensSize.d16,
+                  right: DimensSize.d16,
                 ),
             alignment: isCenterTitle ? Alignment.center : Alignment.centerLeft,
             child: Text(
@@ -319,9 +317,9 @@ class _Header extends StatelessWidget {
                 subtitleMargin ??
                 EdgeInsets.only(
                   top: title == null ? _top : 0,
-                  bottom: DimensSizeV2.d24,
-                  left: DimensSizeV2.d16,
-                  right: DimensSizeV2.d16,
+                  bottom: DimensSize.d24,
+                  left: DimensSize.d16,
+                  right: DimensSize.d16,
                 ),
             alignment: isCenterSubTitle
                 ? Alignment.center

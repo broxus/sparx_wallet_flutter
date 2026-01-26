@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' show Address;
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class NftCollectionPageWidget
     extends
@@ -38,10 +37,10 @@ class NftCollectionPageWidget
           ),
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+              padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: DimensSizeV2.d12,
+                spacing: DimensSize.d12,
                 children: [
                   if (collection.description != null)
                     ExpandableText(
@@ -56,7 +55,7 @@ class NftCollectionPageWidget
                     ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    spacing: DimensSizeV2.d8,
+                    spacing: DimensSize.d8,
                     children: [
                       Text(
                         LocaleKeys.nftMyNfts.tr(),

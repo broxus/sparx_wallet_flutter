@@ -6,7 +6,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 final _regexp = RegExp('https?://');
 
@@ -33,17 +32,17 @@ class TCManageDappsWidget
               LocaleKeys.connectedDappsSheetTitle.tr(),
               style: wm.theme.textStyles.headingMedium,
             ),
-            const SizedBox(height: DimensSizeV2.d24),
+            const SizedBox(height: DimensSize.d24),
             Flexible(
               child: SingleChildScrollView(
                 controller: scrollController,
                 child: ShapedContainerColumn(
                   color: wm.theme.colors.background2,
                   margin: EdgeInsets.zero,
-                  padding: const EdgeInsets.all(DimensSizeV2.d16),
-                  spacing: DimensSizeV2.d0,
+                  padding: const EdgeInsets.all(DimensSize.d16),
+                  spacing: DimensSize.d0,
                   separator: const CommonDivider(
-                    margin: EdgeInsets.symmetric(vertical: DimensSizeV2.d16),
+                    margin: EdgeInsets.symmetric(vertical: DimensSize.d16),
                   ),
                   children: [
                     for (final connection in connections)
@@ -56,7 +55,7 @@ class TCManageDappsWidget
                 ),
               ),
             ),
-            const SizedBox(height: DimensSizeV2.d24),
+            const SizedBox(height: DimensSize.d24),
             DestructiveButton(
               buttonShape: ButtonShape.pill,
               title: LocaleKeys.disconnectAll.tr(),
@@ -79,21 +78,21 @@ class _EmptyPlaceholder extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const SizedBox(height: DimensSizeV2.d24),
+        const SizedBox(height: DimensSize.d24),
         Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            spacing: DimensSizeV2.d24,
+            spacing: DimensSize.d24,
             children: [
               Container(
-                width: DimensSizeV2.d56,
-                height: DimensSizeV2.d56,
+                width: DimensSize.d56,
+                height: DimensSize.d56,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: theme.colors.background2,
                 ),
                 alignment: Alignment.center,
-                child: const Icon(LucideIcons.unplug, size: DimensSizeV2.d24),
+                child: const Icon(LucideIcons.unplug, size: DimensSize.d24),
               ),
               Text(
                 LocaleKeys.emptyConnectedDapps.tr(),
@@ -102,7 +101,7 @@ class _EmptyPlaceholder extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: DimensSizeV2.d24),
+        const SizedBox(height: DimensSize.d24),
         PrimaryButton(
           buttonShape: ButtonShape.pill,
           title: LocaleKeys.backWord.tr(),
@@ -126,13 +125,13 @@ class _Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      spacing: DimensSizeV2.d10,
+      spacing: DimensSize.d10,
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+          borderRadius: BorderRadius.circular(DimensRadius.radius16),
           child: CachedNetworkImage(
-            height: DimensSizeV2.d32,
-            width: DimensSizeV2.d32,
+            height: DimensSize.d32,
+            width: DimensSize.d32,
             imageUrl: connection.manifest.iconUrl,
             placeholder: (_, __) => const CommonCircularProgressIndicator(),
             errorWidget: (_, __, ___) =>
@@ -143,7 +142,7 @@ class _Item extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: DimensSizeV2.d4,
+            spacing: DimensSize.d4,
             children: [
               Text(
                 connection.manifest.name,

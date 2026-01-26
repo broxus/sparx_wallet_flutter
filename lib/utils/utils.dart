@@ -1,6 +1,7 @@
 export 'clipboard_utils.dart';
 export 'common_utils.dart';
 export 'constants.dart';
+export 'crosschain_transfer_validator.dart';
 export 'date_utils.dart';
 export 'define_env.dart';
 export 'exceptions.dart';

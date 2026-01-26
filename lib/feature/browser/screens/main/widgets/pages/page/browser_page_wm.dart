@@ -26,6 +26,7 @@ class BrowserPageWmParams {
     required this.onWebPageScrollChanged,
     required this.onDispose,
     required this.onLoadingProgressChanged,
+    required this.onLoadingError,
   });
 
   final NotNullListenableState<BrowserTab> tabState;
@@ -33,6 +34,7 @@ class BrowserPageWmParams {
   final ValueChanged<int> onWebPageScrollChanged;
   final VoidCallback onDispose;
   final ValueChanged<int> onLoadingProgressChanged;
+  final ValueChanged<Uri> onLoadingError;
 }
 
 /// [WidgetModel] для [BrowserPage]
@@ -47,15 +49,9 @@ class BrowserPageWidgetModel
     with AutomaticKeepAliveWidgetModelMixin {
   BrowserPageWidgetModel(super.model);
 
-  static const _allowSchemes = [
-    'http',
-    'https',
-    'file',
-    'chrome',
-    'data',
-    'javascript',
-    'about',
-  ];
+  static const _pageSchemes = ['https', 'about'];
+
+  static const _notPermittedSchemes = ['file', 'content', 'data', 'javascript'];
 
   static const _customAppLinks = ['metamask.app.link', 'app.tonkeeper.com'];
 
@@ -66,6 +62,15 @@ class BrowserPageWidgetModel
   final initialSettings = InAppWebViewSettings(
     applicationNameForUserAgent: 'SparXWalletBrowser',
     useShouldOverrideUrlLoading: true,
+    allowFileAccess: false,
+    allowContentAccess: false,
+    // ignore: avoid_redundant_argument_values
+    allowFileAccessFromFileURLs: false,
+    // ignore: avoid_redundant_argument_values
+    allowUniversalAccessFromFileURLs: false,
+    // ignore: avoid_redundant_argument_values
+    sharedCookiesEnabled: false,
+    mixedContentMode: MixedContentMode.MIXED_CONTENT_NEVER_ALLOW,
     isInspectable: kDebugMode,
   );
 
@@ -135,7 +140,14 @@ class BrowserPageWidgetModel
     }
     controller.addJavaScriptHandler(
       handlerName: 'phishClick',
-      callback: (args) => model.addUrlToWhiteList(args.first as String),
+      callback: (args) {
+        final url = args.first.toString();
+        if (!url.toLowerCase().startsWith('https:')) {
+          return;
+        }
+
+        model.addUrlToWhiteList(args.first as String);
+      },
     );
   }
 
@@ -180,9 +192,11 @@ class BrowserPageWidgetModel
   ) {
     _createScreenshot();
     pullToRefreshController.endRefreshing();
+
     _log.warning(
       'Failed to load ${request.url}: ${error.type} ${error.description}',
     );
+    wmParams.value.onLoadingError(request.url);
   }
 
   // The server responded with an HTTP error (4xx/5xx)
@@ -266,9 +280,11 @@ class BrowserPageWidgetModel
       return NavigationActionPolicy.CANCEL;
     }
 
-    final scheme = navigationAction.request.url?.scheme;
+    final scheme = navigationAction.request.url?.scheme.toLowerCase();
 
-    if (!_allowSchemes.contains(scheme) || _checkIsCustomAppLink(url)) {
+    if (_notPermittedSchemes.contains(scheme)) {
+      return NavigationActionPolicy.CANCEL;
+    } else if (!_pageSchemes.contains(scheme) || _checkIsCustomAppLink(url)) {
       try {
         await launchUrl(url);
       } catch (_) {}
