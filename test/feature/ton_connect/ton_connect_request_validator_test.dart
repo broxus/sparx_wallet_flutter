@@ -75,7 +75,7 @@ void main() {
         final walletState = _MockTonWalletState();
         when(() => walletState.wallet).thenReturn(null);
         when(
-          () => repository.getWallet(any()),
+          () => repository.getWalletByAddress(any()),
         ).thenAnswer((_) async => walletState);
 
         final payload = SignDataPayload.text(
@@ -102,7 +102,7 @@ void main() {
         when(() => wallet.address).thenReturn(walletAddress);
         when(() => walletState.wallet).thenReturn(wallet);
         when(
-          () => repository.getWallet(any()),
+          () => repository.getWalletByAddress(any()),
         ).thenAnswer((_) async => walletState);
 
         const payload = SignDataPayload.text(
@@ -128,7 +128,7 @@ void main() {
         when(() => wallet.address).thenReturn(walletAddress);
         when(() => walletState.wallet).thenReturn(wallet);
         when(
-          () => repository.getWallet(any()),
+          () => repository.getWalletByAddress(any()),
         ).thenAnswer((_) async => walletState);
 
         const payload = SignDataPayload.text(text: 'hello');
@@ -209,7 +209,7 @@ void main() {
         final walletState = _MockTonWalletState();
         when(() => walletState.wallet).thenReturn(null);
         when(
-          () => repository.getWallet(any()),
+          () => repository.getWalletByAddress(any()),
         ).thenAnswer((_) async => walletState);
 
         final payload = TransactionPayload(
