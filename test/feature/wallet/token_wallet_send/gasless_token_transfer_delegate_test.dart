@@ -197,7 +197,7 @@ void main() {
       );
 
       when(
-        () => repository.getWallet(owner),
+        () => repository.getWalletByAddress(owner),
       ).thenAnswer((_) async => TonWalletState.wallet(tonWallet));
       when(() => tonWallet.address).thenReturn(owner);
       when(() => tonWallet.transport).thenReturn(transportClient);
@@ -290,7 +290,7 @@ void main() {
       });
 
       when(
-        () => repository.getWallet(owner),
+        () => repository.getWalletByAddress(owner),
       ).thenAnswer((_) async => TonWalletState.wallet(tonWallet));
       when(() => tonWallet.transport).thenReturn(transportClient);
       when(() => transportClient.getContractState(owner)).thenAnswer(

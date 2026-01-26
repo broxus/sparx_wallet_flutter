@@ -43,7 +43,7 @@ class _TokenApi implements TokenApi {
     try {
       _value = GetTokenBalancesResponseDto.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, _result);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -73,7 +73,7 @@ class _TokenApi implements TokenApi {
     try {
       _value = SearchTokenBalancesResponseDto.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, _result);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;

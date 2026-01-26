@@ -42,7 +42,7 @@ class WalletDeployConfirmModel extends ElementaryModel
   }
 
   Future<TonWalletState> getWallet(Address address) {
-    return _nekotonRepository.getWallet(address);
+    return _nekotonRepository.getWalletByAddress(address);
   }
 
   KeyAccount? getAccountByAddress(Address address) {

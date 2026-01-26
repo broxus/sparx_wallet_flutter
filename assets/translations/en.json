@@ -715,6 +715,8 @@
   "unsupportedWalletTypeAlertTitle": "V5R1 wallet not supported",
   "unsupportedWalletTypeAlertDescription": "Unavailable in Ever/Venom networks.",
   "unsupportedWalletTypeAlertButtonLabel": "Switch Account",
+  "invalidExternalAccountAlertTitle": "Account network mismatch",
+  "invalidExternalAccountAlertDescription": "This external account is not available on the current network.",
   "scanSeedLoaderTitle": "Scanning and importing,\nplease wait…",
   "scanningCompleted": "Scanning completed",
   "scanSeed": "Scan seed",

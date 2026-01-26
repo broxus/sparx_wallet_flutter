@@ -22,13 +22,11 @@ class AccountAssetsTab
     required this.confirmImportCallback,
     required KeyAccount account,
     required bool isShowingNewTokens,
-    required String manifestUrl,
     super.key,
   }) : super(
          wmFactoryParam: AccountAssetsTabParams(
            account: account,
            isShowingNewTokens: isShowingNewTokens,
-           manifestUrl: manifestUrl,
          ),
        );
 

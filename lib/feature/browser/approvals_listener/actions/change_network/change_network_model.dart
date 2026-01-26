@@ -1,5 +1,4 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/browser/utils.dart';
 import 'package:app/feature/messenger/messenger.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +23,7 @@ class ChangeNetworkModel extends ElementaryModel {
   Future<TransportStrategy> changeConnection(String id) async {
     _connectionsStorageService.saveCurrentConnectionId(connectionId: id);
     return _nekotonRepository.currentTransportStream
-        .firstWhere((strategy) => strategy.connection?.id == id)
+        .firstWhere((strategy) => strategy.connectionId == id)
         .timeout(_timeLimit);
   }
 

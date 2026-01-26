@@ -43,7 +43,9 @@ class StorageMigrationV1 implements StorageMigration {
 
   @override
   Future<void> complete() async {
-    for (final entry in (await fss.readAll()).entries) {
+    final entries = {...(await fss.readAll()).entries};
+
+    for (final entry in entries) {
       if (entry.key.startsWith('sparx:')) {
         await fss.delete(key: entry.key);
       }

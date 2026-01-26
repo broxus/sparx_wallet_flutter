@@ -41,7 +41,7 @@ class _NftApi implements NftApi {
     try {
       _value = NftListResponseDto.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, _result);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;

@@ -236,9 +236,7 @@ class CurrentAccountsService {
       await _nekotonRepository.updateSubscriptions([]);
       await _nekotonRepository.updateTokenSubscriptions([]);
     } else {
-      await _nekotonRepository.updateSubscriptions([
-        (account.account.tonWallet, account.isExternal),
-      ]);
+      await _nekotonRepository.updateSubscriptions([account.account.tonWallet]);
       await _nekotonRepository.updateTokenSubscriptions([account.account]);
     }
   }

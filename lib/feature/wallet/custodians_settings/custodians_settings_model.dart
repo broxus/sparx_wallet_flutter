@@ -20,7 +20,7 @@ class CustodiansSettingsModel extends ElementaryModel {
   final NekotonRepository _nekotonRepository;
 
   Future<TonWalletState> getWallet(Address address) =>
-      _nekotonRepository.getWallet(address);
+      _nekotonRepository.getWalletByAddress(address);
 
   List<CustodianData> getCustodiansForAccount(TonWallet wallet) =>
       wallet.custodians
