@@ -137,9 +137,11 @@ class CheckPhraseWidgetModel
       params.finishedBackupCallback(true);
 
       await context.compassBackCount(2);
-      unawaited(showGoodJobDialog(context));
+      _showDialog();
     }
   }
+
+  void _showDialog() => showGoodJobDialog(context);
 
   void _goNext(int nextIndex) {
     currentCheckIndex = nextIndex;
