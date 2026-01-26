@@ -17,7 +17,10 @@ class AmountUiDelegate implements AmountUi {
 
   String get amountText => amountController.text;
 
-  void dispose() {}
+  void dispose() {
+    amountController.dispose();
+    amountFocus.dispose();
+  }
 
   void resetFocus() => amountFocus.requestFocus();
 
