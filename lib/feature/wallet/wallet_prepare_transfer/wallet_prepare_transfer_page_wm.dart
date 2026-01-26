@@ -5,6 +5,7 @@ import 'dart:math';
 
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/router/router.dart';
+import 'package:app/app/service/currency_convert_service.dart';
 import 'package:app/core/sentry.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/token_contract/token_contract_asset.dart';
@@ -151,26 +152,22 @@ class WalletPrepareTransferPageWidgetModel
       return;
     }
 
-    final addr = _recipientUiDelegate.address;
+    final address = _recipientUiDelegate.address;
 
-    final result = model.checkIsValidWorkchain(addr.address);
-
-    if (!result.$3) {
-      return;
-    }
-
-    if (!addr.isValid) {
+    if (!address.isValid) {
       model.showError(LocaleKeys.addressIsWrong.tr());
-
       return;
     }
+
+    final result = model.validateCrosschainTransfer(address);
+    if (!result.isValid) return;
 
     final amnt = Fixed.parse(
       _amountUiDelegate.amountText.trim().replaceAll(',', '.'),
       decimalDigits: _selectedAsset?.balance.decimalDigits,
     );
 
-    _goNext(addr, amnt);
+    _goNext(address, amnt);
   }
 
   Future<void> setMaxBalance() async {
@@ -183,27 +180,14 @@ class WalletPrepareTransferPageWidgetModel
     }
 
     if (asset.isNative) {
-      // subtract approximate comission
-      final gas = await model.getFeeFactor();
-      final valueComission = gas == null ? 0.01 : gas / pow(2, 16) * 0.01;
-
-      comission = Money.fromFixedWithCurrency(
-        Fixed.fromNum(valueComission),
-        available.currency,
+      comission = await _computeNativeComissionEstimate(
+        available: available,
+        sender: addressState.value,
       );
     } else {
-      final keyAccount = _data?.account;
-      final publicKey = _data?.selectedCustodian;
-      final address = _recipientUiDelegate.address;
-
-      comission = keyAccount != null && publicKey != null
-          ? await model.estimateGaslessCommission(
-              keyAccount: keyAccount,
-              rootTokenContract: asset.rootTokenContract,
-              publicKey: publicKey,
-              destination: address.isValid ? address : _zeroAddress,
-            )
-          : null;
+      comission = await _computeTokenComissionEstimate(
+        rootTokenContract: asset.rootTokenContract,
+      );
     }
 
     if (comission != null) {
@@ -226,6 +210,28 @@ class WalletPrepareTransferPageWidgetModel
   void onSubmittedReceiverAddress(_) => _amountUiDelegate.resetFocus();
 
   void onSubmittedAmountWord(_) => _commentUiDelegate.requestFocus();
+
+  String? validateAddressField(String? value) {
+    if (value == null || value.isEmpty) {
+      return LocaleKeys.addressIsEmpty.tr();
+    }
+
+    final address = Address(address: value.trim());
+    if (!address.isValid) {
+      return LocaleKeys.invalidAddressFormat.tr();
+    }
+
+    if (_selectedAsset?.isNative != true && addressState.value == address) {
+      return LocaleKeys.invalidReceiverAddress.tr();
+    }
+
+    final result = model.validateCrosschainTransfer(address);
+    if (result.errorMessage case final String message) {
+      return message;
+    }
+
+    return null;
+  }
 
   Future<void> _init() async {
     final acc = model.findAccountByAddress(addressState.value);
@@ -333,7 +339,7 @@ class WalletPrepareTransferPageWidgetModel
 
     final balance =
         await model.getBalance(asset: asset, address: addressState.value) ??
-        _amountUiDelegate.getZeroBalance(asset.tokenSymbol);
+        _getZeroBalance(asset.tokenSymbol);
 
     final updatedAsset = asset.copyWith(currency: currency, balance: balance);
 
@@ -351,7 +357,7 @@ class WalletPrepareTransferPageWidgetModel
     final selectedAsset = WalletPrepareTransferAsset(
       rootTokenContract: root,
       isNative: true,
-      balance: _amountUiDelegate.getZeroBalance(transport.nativeTokenTicker),
+      balance: _getZeroBalance(transport.nativeTokenTicker),
       tokenSymbol: transport.nativeTokenTicker,
       logoURI: transport.nativeTokenIcon,
       title: transport.nativeTokenTicker,
@@ -379,7 +385,7 @@ class WalletPrepareTransferPageWidgetModel
     final selectedAsset = WalletPrepareTransferAsset(
       rootTokenContract: contract.address,
       isNative: false,
-      balance: _amountUiDelegate.getZeroBalance(contract.symbol),
+      balance: _getZeroBalance(contract.symbol),
       logoURI: contract.logoURI,
       tokenSymbol: contract.symbol,
       title: contract.name,
@@ -455,7 +461,7 @@ class WalletPrepareTransferPageWidgetModel
       (e) => WalletPrepareTransferAsset(
         rootTokenContract: e.address,
         isNative: false,
-        balance: _amountUiDelegate.getZeroBalance(e.symbol),
+        balance: _getZeroBalance(e.symbol),
         tokenSymbol: e.symbol,
         logoURI: e.logoURI,
         title: e.name,
@@ -479,6 +485,53 @@ class WalletPrepareTransferPageWidgetModel
   ) {
     updater(_assets);
     _assetsState.value = _assets.values.toList();
+  }
+
+  Money _getZeroBalance(String symbol) {
+    return Money.fromBigIntWithCurrency(
+      BigInt.zero,
+      Currencies()[symbol] ??
+          Currency.create(symbol, 0, symbol: symbol, pattern: moneyPattern(0)),
+    );
+  }
+
+  Future<Money> _computeNativeComissionEstimate({
+    required Address sender,
+    required Money available,
+  }) async {
+    if (sender.workchain == -1) {
+      final fundamentals = await model.getFundamentalAddresses();
+
+      if (fundamentals.contains(sender)) {
+        return Money.fromFixedWithCurrency(Fixed.zero, available.currency);
+      }
+    }
+
+    // subtract approximate comission
+    final gas = await model.getFeeFactor();
+    final valueComission = gas == null ? 0.01 : gas / pow(2, 16) * 0.01;
+
+    return Money.fromFixedWithCurrency(
+      Fixed.fromNum(valueComission),
+      available.currency,
+    );
+  }
+
+  Future<Money?> _computeTokenComissionEstimate({
+    required Address rootTokenContract,
+  }) async {
+    final keyAccount = _data?.account;
+    final publicKey = _data?.selectedCustodian;
+    final address = _recipientUiDelegate.address;
+
+    return keyAccount != null && publicKey != null
+        ? await model.estimateGaslessCommission(
+            keyAccount: keyAccount,
+            rootTokenContract: rootTokenContract,
+            publicKey: publicKey,
+            destination: address.isValid ? address : _zeroAddress,
+          )
+        : null;
   }
 
   bool _checkIsValidAddress(String? value) {

@@ -66,7 +66,7 @@ class WalletPrepareTransferView extends StatelessWidget {
                     focusNode: _wm.recipientUi.focusNode,
                     onSubmit: _wm.onSubmittedReceiverAddress,
                     inputFormatters: _wm.recipientUi.addressFormatters,
-                    validator: _wm.recipientUi.validateAddressField,
+                    validator: _wm.validateAddressField,
                     suffixes: [
                       _ScanQRButton(
                         receiver: _wm.recipientUi.textController,

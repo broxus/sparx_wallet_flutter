@@ -12,8 +12,6 @@ abstract interface class RecipientUi {
   abstract final FocusNode focusNode;
   abstract final List<TextInputFormatter> addressFormatters;
 
-  String? validateAddressField(String? value);
-
   Future<void> onPressedScan();
 
   void onPressedPasteAddress(String text);
@@ -51,25 +49,6 @@ class RecipientUiDelegate implements RecipientUi {
   void dispose() {
     textController.dispose();
     focusNode.dispose();
-  }
-
-  @override
-  String? validateAddressField(String? value) {
-    if (value == null || value.isEmpty) {
-      return LocaleKeys.addressIsEmpty.tr();
-    }
-
-    final (from, to, isAccess) = _model.checkIsValidWorkchain(value);
-
-    if (!isAccess) {
-      return LocaleKeys.invalidWorkchainAddress.tr(
-        args: [from?.toString() ?? '', to?.toString() ?? value],
-      );
-    }
-
-    return checkIsValidAddress(value)
-        ? null
-        : LocaleKeys.invalidReceiverAddress.tr();
   }
 
   @override
