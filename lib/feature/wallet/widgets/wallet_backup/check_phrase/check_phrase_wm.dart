@@ -58,8 +58,8 @@ class CheckPhraseWidgetModel
     _init();
   }
 
-  void checkPhrase() {
-    _validate();
+  Future<void> checkPhrase() {
+    return _validate();
   }
 
   void answerQuestion(String answer) {
