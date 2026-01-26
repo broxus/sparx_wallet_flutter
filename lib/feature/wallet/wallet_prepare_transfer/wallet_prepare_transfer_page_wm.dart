@@ -71,9 +71,9 @@ class WalletPrepareTransferPageWidgetModel
 
   late final _amountUiDelegate = AmountUiDelegate();
 
-  late final _commentDelegate = CommentUiDelegate();
+  late final _commentUiDelegate = CommentUiDelegate();
 
-  late final _recipientDelegate = RecipientUiDelegate(
+  late final _recipientUiDelegate = RecipientUiDelegate(
     context,
     model,
     checkIsValidAddress: _checkIsValidAddress,
@@ -81,9 +81,9 @@ class WalletPrepareTransferPageWidgetModel
 
   AmountUi get amountUi => _amountUiDelegate;
 
-  CommentUi get commentUi => _commentDelegate;
+  CommentUi get commentUi => _commentUiDelegate;
 
-  RecipientUi get recipientUi => _recipientDelegate;
+  RecipientUi get recipientUi => _recipientUiDelegate;
 
   WalletPrepareTransferData? get _data => screenState.value.data;
 
@@ -104,7 +104,7 @@ class WalletPrepareTransferPageWidgetModel
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    _recipientDelegate.init(address: wmParams.value.destination?.address);
+    _recipientUiDelegate.init(address: wmParams.value.destination?.address);
     _init();
     _initListeners();
   }
@@ -112,8 +112,8 @@ class WalletPrepareTransferPageWidgetModel
   @override
   void dispose() {
     _amountUiDelegate.dispose();
-    _commentDelegate.dispose();
-    _recipientDelegate.dispose();
+    _commentUiDelegate.dispose();
+    _recipientUiDelegate.dispose();
     super.dispose();
   }
 
@@ -151,7 +151,7 @@ class WalletPrepareTransferPageWidgetModel
       return;
     }
 
-    final addr = _recipientDelegate.address;
+    final addr = _recipientUiDelegate.address;
 
     final result = model.checkIsValidWorkchain(addr.address);
 
@@ -194,7 +194,7 @@ class WalletPrepareTransferPageWidgetModel
     } else {
       final keyAccount = _data?.account;
       final publicKey = _data?.selectedCustodian;
-      final address = _recipientDelegate.address;
+      final address = _recipientUiDelegate.address;
 
       comission = keyAccount != null && publicKey != null
           ? await model.estimateGaslessCommission(
@@ -225,7 +225,7 @@ class WalletPrepareTransferPageWidgetModel
 
   void onSubmittedReceiverAddress(_) => _amountUiDelegate.resetFocus();
 
-  void onSubmittedAmountWord(_) => _commentDelegate.requestFocus();
+  void onSubmittedAmountWord(_) => _commentUiDelegate.requestFocus();
 
   Future<void> _init() async {
     final acc = model.findAccountByAddress(addressState.value);
@@ -299,7 +299,7 @@ class WalletPrepareTransferPageWidgetModel
       return;
     }
 
-    final comment = _commentDelegate.text.trim();
+    final comment = _commentUiDelegate.text.trim();
 
     final CompassRouteData routeData;
 
