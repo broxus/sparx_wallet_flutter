@@ -4,7 +4,6 @@ import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 enum LedgerInteractionState {
   connecting,
@@ -83,7 +82,7 @@ class _LedgerInteractionSheetState extends State<_LedgerInteractionSheet> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      spacing: DimensSizeV2.d16,
+      spacing: DimensSize.d16,
       children: [
         Text(
           LocaleKeys.confirmAction.tr(),

@@ -6,7 +6,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class ConfigureNetworksWidget
     extends InjectedElementaryWidget<ConfigureNetworksWidgetModel> {
@@ -15,7 +14,7 @@ class ConfigureNetworksWidget
   @override
   Widget build(ConfigureNetworksWidgetModel wm) {
     return SeparatedColumn(
-      spacing: DimensSizeV2.d16,
+      spacing: DimensSize.d16,
       children: [
         StateNotifierBuilder(
           listenableState: wm.connectionsState,
@@ -27,24 +26,24 @@ class ConfigureNetworksWidget
                 return item?.let(
                   (data) => NetworkItem.formConnection(
                     padding: const EdgeInsets.symmetric(
-                      vertical: DimensSizeV2.d8,
+                      vertical: DimensSize.d8,
                     ),
                     data: data,
                     trailing: const Icon(
                       LucideIcons.chevronRight,
-                      size: DimensSizeV2.d20,
+                      size: DimensSize.d20,
                     ),
                     onTap: () => wm.onItemTap(data),
                   ),
                 );
               },
               separatorBuilder: (_, __) =>
-                  const SizedBox(height: DimensSizeV2.d16),
+                  const SizedBox(height: DimensSize.d16),
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: DimensSizeV2.d12),
+          padding: const EdgeInsets.only(top: DimensSize.d12),
           child: AccentButton(
             buttonShape: ButtonShape.pill,
             title: LocaleKeys.addCustomNetwork.tr(),

@@ -34,7 +34,7 @@ class TCSignDataWidget
   @override
   Widget build(TCSignDataWidgetModel wm) {
     return SeparatedColumn(
-      spacing: DimensSizeV2.d12,
+      spacing: DimensSize.d12,
       children: [
         Expanded(
           child: SingleChildScrollView(
@@ -48,7 +48,7 @@ class TCSignDataWidget
                     return AccountInfoWidget(account: connection.walletAddress);
                   },
                 ),
-                const SizedBox(height: DimensSizeV2.d12),
+                const SizedBox(height: DimensSize.d12),
                 ValueListenableBuilder(
                   valueListenable: wm.connectionState,
                   builder: (_, connection, __) {
@@ -58,7 +58,7 @@ class TCSignDataWidget
                     );
                   },
                 ),
-                const SizedBox(height: DimensSizeV2.d12),
+                const SizedBox(height: DimensSize.d12),
                 ValueListenableBuilder(
                   valueListenable: wm.payloadState,
                   builder: (_, payload, __) {

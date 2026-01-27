@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 
 Future<void> showConfirmActionDialog(
@@ -56,7 +56,7 @@ class ContentConfirmAction
               LocaleKeys.confirmAction.tr(),
               style: theme.textStyles.headingMedium,
             ),
-            const SizedBox(height: DimensSizeV2.d24),
+            const SizedBox(height: DimensSize.d24),
             ValueListenableBuilder(
               valueListenable: wm.accountState,
               builder: (_, account, __) => account != null
@@ -66,14 +66,14 @@ class ContentConfirmAction
                     )
                   : const SizedBox.shrink(),
             ),
-            const SizedBox(height: DimensSizeV2.d16),
+            const SizedBox(height: DimensSize.d16),
             SecureTextField(
               textEditingController: wm.passwordController,
               validator: (_) => data?.error,
               isAutofocus: true,
               hintText: LocaleKeys.enterYourPassword.tr(),
             ),
-            const SizedBox(height: DimensSizeV2.d28),
+            const SizedBox(height: DimensSize.d28),
             StateNotifierBuilder(
               listenableState: wm.isPasswordLockedState,
               builder: (_, isLocked) => AccentButton(
@@ -89,7 +89,7 @@ class ContentConfirmAction
               builder: (_, value) {
                 if (value?.contains(BiometricType.face) ?? false) {
                   return Padding(
-                    padding: const EdgeInsets.only(top: DimensSizeV2.d8),
+                    padding: const EdgeInsets.only(top: DimensSize.d8),
                     child: PrimaryButton(
                       buttonShape: ButtonShape.pill,
                       title: LocaleKeys.useFaceID.tr(),
@@ -101,7 +101,7 @@ class ContentConfirmAction
 
                 if (value?.isNotEmpty ?? false) {
                   return Padding(
-                    padding: const EdgeInsets.only(top: DimensSizeV2.d8),
+                    padding: const EdgeInsets.only(top: DimensSize.d8),
                     child: PrimaryButton(
                       buttonShape: ButtonShape.pill,
                       title: LocaleKeys.useFingerprint.tr(),

@@ -1,11 +1,11 @@
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class HostPanel extends StatelessWidget {
   const HostPanel(this.uriState, {required this.onPressed, super.key});
 
-  static const height = DimensSizeV2.d62;
+  static const height = DimensSize.d62;
 
   final ListenableState<Uri?> uriState;
   final VoidCallback onPressed;
@@ -24,7 +24,7 @@ class HostPanel extends StatelessWidget {
           child: Align(
             alignment: Alignment.topCenter,
             child: Padding(
-              padding: const EdgeInsets.all(DimensSizeV2.d10),
+              padding: const EdgeInsets.all(DimensSize.d10),
               child: StateNotifierBuilder<Uri?>(
                 listenableState: uriState,
                 builder: (_, Uri? uri) {

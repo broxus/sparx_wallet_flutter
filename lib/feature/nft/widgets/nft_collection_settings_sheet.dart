@@ -41,7 +41,7 @@ class _NftCollectionSettingsSheet extends StatelessWidget {
           titleText: LocaleKeys.nftViewInExplorer.tr(),
           trailing: Icon(
             LucideIcons.globe,
-            size: DimensSizeV2.d20,
+            size: DimensSize.d20,
             color: theme.colors.content0,
           ),
           onPressed: () {
@@ -53,7 +53,7 @@ class _NftCollectionSettingsSheet extends StatelessWidget {
           titleText: LocaleKeys.nftHideCollection.tr(),
           trailing: Icon(
             LucideIcons.eyeOff,
-            size: DimensSizeV2.d20,
+            size: DimensSize.d20,
             color: theme.colors.negative,
           ),
           contentColor: theme.colors.negative,

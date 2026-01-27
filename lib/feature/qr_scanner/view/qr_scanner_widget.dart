@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class QrScannerWidget
     extends
@@ -46,14 +45,14 @@ class QrScannerWidget
                 left: scanWindow.left,
                 width: scanWindow.width,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: DimensSizeV2.d64),
+                  padding: const EdgeInsets.only(top: DimensSize.d64),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    spacing: DimensSizeV2.d64,
+                    spacing: DimensSize.d64,
                     children: [
                       Column(
                         mainAxisSize: MainAxisSize.min,
-                        spacing: DimensSizeV2.d8,
+                        spacing: DimensSize.d8,
                         children: [
                           FloatButton(
                             buttonShape: ButtonShape.circle,
@@ -68,7 +67,7 @@ class QrScannerWidget
                       ),
                       Column(
                         mainAxisSize: MainAxisSize.min,
-                        spacing: DimensSizeV2.d8,
+                        spacing: DimensSize.d8,
                         children: [
                           ValueListenableBuilder<MobileScannerState>(
                             valueListenable: wm.controller,

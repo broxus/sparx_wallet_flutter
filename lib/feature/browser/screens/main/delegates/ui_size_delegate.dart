@@ -8,7 +8,7 @@ class BrowserSizesUiDelegate {
 
   late final _screenSize = MediaQuery.of(_context).size;
 
-  late final urlWidth = screenWidth * .915 + DimensSizeV2.d16;
+  late final urlWidth = screenWidth * .915 + DimensSize.d16;
 
   late final screenHeight = _screenSize.height;
   late final screenWidth = _screenSize.width;

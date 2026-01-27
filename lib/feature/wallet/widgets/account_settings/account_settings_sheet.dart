@@ -12,8 +12,8 @@ Future<void> showAccountSettingsModal({
     context: context,
     title: LocaleKeys.accountSettings.tr(),
     titleMargin: const EdgeInsets.only(
-      top: DimensSizeV2.d52,
-      bottom: DimensSizeV2.d40,
+      top: DimensSize.d52,
+      bottom: DimensSize.d40,
     ),
     centerTitle: true,
     body: (_, scrollController) => AccountSettingsWidget(

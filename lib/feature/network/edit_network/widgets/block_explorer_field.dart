@@ -3,7 +3,6 @@ import 'package:app/generated/generated.dart';
 import 'package:app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 class BlockExplorerField extends StatelessWidget {
   const BlockExplorerField({

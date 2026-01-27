@@ -221,7 +221,9 @@ class NftService {
     }
 
     if (account != null) {
-      final wallet = await _nekotonRepository.getWallet(account.address);
+      final wallet = await _nekotonRepository.getWallet(
+        account.account.tonWallet,
+      );
 
       if (wallet.wallet != null) {
         final tracker = TonWalletLatestLtTracker(

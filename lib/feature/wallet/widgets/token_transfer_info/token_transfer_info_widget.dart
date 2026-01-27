@@ -8,7 +8,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class TokenTransferInfoWidget
     extends
@@ -54,9 +53,9 @@ class TokenTransferInfoWidget
     );
 
     return PrimaryCard(
-      padding: const EdgeInsets.all(DimensSizeV2.d16),
+      padding: const EdgeInsets.all(DimensSize.d16),
       margin: margin,
-      borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+      borderRadius: BorderRadius.circular(DimensRadius.radius16),
       color: color,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,18 +95,18 @@ class TokenTransferInfoWidget
                       address: asset.address,
                       logoURI: asset.logoURI,
                       version: asset.version,
-                      size: DimensSizeV2.d20,
+                      size: DimensSize.d20,
                     ),
                   ) ??
                   TonWalletIconWidget(
                     path: isNative
                         ? wm.nativeTokenIcon
                         : Assets.images.tokenDefaultIcon.path,
-                    size: DimensSizeV2.d20,
+                    size: DimensSize.d20,
                   );
 
               return _InfoRow(
-                margin: const EdgeInsets.only(top: DimensSizeV2.d16),
+                margin: const EdgeInsets.only(top: DimensSize.d16),
                 label: LocaleKeys.amountWord.tr(),
                 child: Column(
                   spacing: DimensSize.d4,
@@ -140,7 +139,7 @@ class TokenTransferInfoWidget
               if (attachedAmount == null) return const SizedBox.shrink();
 
               return _InfoRow(
-                margin: const EdgeInsets.only(top: DimensSizeV2.d16),
+                margin: const EdgeInsets.only(top: DimensSize.d16),
                 label: LocaleKeys.attachedAmount.tr(),
                 child: Column(
                   spacing: DimensSize.d4,
@@ -150,7 +149,7 @@ class TokenTransferInfoWidget
                       amount: attachedAmount,
                       icon: TonWalletIconWidget(
                         path: wm.nativeTokenIcon,
-                        size: DimensSizeV2.d20,
+                        size: DimensSize.d20,
                       ),
                       includeSymbol: false,
                     ),
@@ -185,10 +184,10 @@ class TokenTransferInfoWidget
               return ValueListenableBuilder(
                 valueListenable: fee,
                 builder: (_, fee, __) => Padding(
-                  padding: const EdgeInsets.only(top: DimensSizeV2.d16),
+                  padding: const EdgeInsets.only(top: DimensSize.d16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    spacing: DimensSizeV2.d4,
+                    spacing: DimensSize.d4,
                     children: [
                       _FeeItem(
                         fee: fee,
@@ -223,9 +222,9 @@ class TokenTransferInfoWidget
               if (recipient == null) return const SizedBox.shrink();
 
               return Padding(
-                padding: const EdgeInsets.only(top: DimensSizeV2.d16),
+                padding: const EdgeInsets.only(top: DimensSize.d16),
                 child: Column(
-                  spacing: DimensSizeV2.d2,
+                  spacing: DimensSize.d2,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -244,9 +243,9 @@ class TokenTransferInfoWidget
               if (transactionIdHash == null) return const SizedBox.shrink();
 
               return Padding(
-                padding: const EdgeInsets.only(top: DimensSizeV2.d16),
+                padding: const EdgeInsets.only(top: DimensSize.d16),
                 child: Column(
-                  spacing: DimensSizeV2.d2,
+                  spacing: DimensSize.d2,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -267,9 +266,9 @@ class TokenTransferInfoWidget
               }
 
               return Padding(
-                padding: const EdgeInsets.only(top: DimensSizeV2.d16),
+                padding: const EdgeInsets.only(top: DimensSize.d16),
                 child: Column(
-                  spacing: DimensSizeV2.d2,
+                  spacing: DimensSize.d2,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -290,9 +289,9 @@ class TokenTransferInfoWidget
               }
 
               return Padding(
-                padding: const EdgeInsets.only(top: DimensSizeV2.d16),
+                padding: const EdgeInsets.only(top: DimensSize.d16),
                 child: Column(
-                  spacing: DimensSizeV2.d2,
+                  spacing: DimensSize.d2,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -331,7 +330,7 @@ class _InfoRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: DimensSizeV2.d8,
+        spacing: DimensSize.d8,
         children: [
           Text(
             label,
@@ -367,7 +366,7 @@ class _FeeItem extends StatelessWidget {
       return _InfoRow(
         label: LocaleKeys.networkFee.tr(),
         child: ProgressIndicatorWidget(
-          size: DimensSizeV2.d20,
+          size: DimensSize.d20,
           color: theme.colors.content3,
         ),
       );
@@ -396,7 +395,7 @@ class _FeeItem extends StatelessWidget {
               amount: amount,
               icon: TonWalletIconWidget(
                 path: nativeTokenIcon,
-                size: DimensSizeV2.d20,
+                size: DimensSize.d20,
               ),
               sign: '~ ',
               includeSymbol: false,
@@ -420,12 +419,12 @@ class _FeeItem extends StatelessWidget {
                       address: asset.address,
                       logoURI: asset.logoURI,
                       version: asset.version,
-                      size: DimensSizeV2.d20,
+                      size: DimensSize.d20,
                     ),
                   ) ??
                   TonWalletIconWidget(
                     path: Assets.images.tokenDefaultIcon.path,
-                    size: DimensSizeV2.d20,
+                    size: DimensSize.d20,
                   ),
             ),
             if (priceWidget != null) priceWidget,

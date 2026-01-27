@@ -8,7 +8,8 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:logging/logging.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class ChangeNetworkWmParams {
   const ChangeNetworkWmParams({
@@ -42,6 +43,8 @@ class ChangeNetworkWidgetModel
     (it) => it.connections.first,
   );
 
+  final _logger = Logger('ChangeNetworkWidgetModel');
+
   ValueListenable<Uri> get originState => _originState;
 
   ValueListenable<int> get networkIdState => _networkIdState;
@@ -68,7 +71,9 @@ class ChangeNetworkWidgetModel
       if (contextSafe != null) {
         model.showError(contextSafe!, LocaleKeys.operationTimeout.tr());
       }
-    } catch (e) {
+    } catch (e, st) {
+      _logger.severe('Error changing network', e, st);
+
       if (contextSafe != null) {
         model.showError(contextSafe!, e.toString());
       }

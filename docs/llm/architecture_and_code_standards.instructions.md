@@ -323,10 +323,10 @@ Future<void> loadData() async {
 - **ALWAYS** use v2 theme system (`packages/ui_components_lib/v2/`) - NEVER v1 legacy system
 - **ALWAYS** access themes via `context.themeStyleV2` extension
 - **ALWAYS** use semantic color names (`colors.content0`, `colors.background2`) - NEVER hardcoded colors
-- **ALWAYS** use design tokens (`DimensSizeV2.d16`, `DimensRadiusV2.radius12`) - NEVER magic numbers
+- **ALWAYS** use design tokens (`DimensSize.d16`, `DimensRadius.radius12`) - NEVER magic numbers
 - **ALWAYS** use pre-built components (`PrimaryButton`, `PrimaryText`) when available
 - **ALWAYS** follow typography hierarchy (`textStyles.headingMedium`, `textStyles.paragraphSmall`)
-- Import pattern: `import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';`
+- Import pattern: `import 'package:ui_components_lib/ui_components_lib.dart';`
 
 ### Responsive Design
 

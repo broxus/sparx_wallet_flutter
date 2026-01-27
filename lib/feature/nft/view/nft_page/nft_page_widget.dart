@@ -4,7 +4,7 @@ import 'package:app/feature/wallet/widgets/wallet_app_bar/wallet_app_bar_widget.
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class NftPageWidget extends InjectedElementaryWidget<NftPageWidgetModel> {
   const NftPageWidget({super.key});
@@ -23,7 +23,7 @@ class NftPageWidget extends InjectedElementaryWidget<NftPageWidgetModel> {
                 builder: (_, isLoading, collections) {
                   if (isLoading ?? false) {
                     return const Center(
-                      child: ProgressIndicatorWidget(size: DimensSizeV2.d32),
+                      child: ProgressIndicatorWidget(size: DimensSize.d32),
                     );
                   }
 
@@ -39,18 +39,18 @@ class NftPageWidget extends InjectedElementaryWidget<NftPageWidgetModel> {
 
                   return Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: DimensSizeV2.d16,
+                      horizontal: DimensSize.d16,
                     ),
                     child: Column(
-                      spacing: DimensSizeV2.d12,
+                      spacing: DimensSize.d12,
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                            vertical: DimensSizeV2.d12,
+                            vertical: DimensSize.d12,
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            spacing: DimensSizeV2.d8,
+                            spacing: DimensSize.d8,
                             children: [
                               Text(
                                 LocaleKeys.nftMyCollections.tr(),
@@ -73,7 +73,7 @@ class NftPageWidget extends InjectedElementaryWidget<NftPageWidgetModel> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
-                            bottom: DimensSizeV2.d12,
+                            bottom: DimensSize.d12,
                           ),
                           child: AccentButton(
                             buttonShape: ButtonShape.pill,

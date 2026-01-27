@@ -11,7 +11,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class AccountAssetsTab
     extends
@@ -23,13 +22,11 @@ class AccountAssetsTab
     required this.confirmImportCallback,
     required KeyAccount account,
     required bool isShowingNewTokens,
-    required String manifestUrl,
     super.key,
   }) : super(
          wmFactoryParam: AccountAssetsTabParams(
            account: account,
            isShowingNewTokens: isShowingNewTokens,
-           manifestUrl: manifestUrl,
          ),
        );
 
@@ -43,8 +40,8 @@ class AccountAssetsTab
           decoration: BoxDecoration(
             color: wm.theme.colors.background1,
             borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(DimensRadiusV2.radius16),
-              bottom: Radius.circular(DimensRadiusV2.radius16),
+              top: Radius.circular(DimensRadius.radius16),
+              bottom: Radius.circular(DimensRadius.radius16),
             ),
           ),
           sliver: StateNotifierBuilder(
@@ -58,7 +55,7 @@ class AccountAssetsTab
                 itemCount: itemCount,
                 separatorBuilder: (_, index) {
                   if (index == lastIndex) {
-                    return const SizedBox(height: DimensSizeV2.d12);
+                    return const SizedBox(height: DimensSize.d12);
                   }
                   return Container(
                     height: DimensSize.d24,
@@ -79,17 +76,17 @@ class AccountAssetsTab
                       color: wm.theme.colors.background1,
                       borderRadius: BorderRadius.vertical(
                         top: index == 0
-                            ? const Radius.circular(DimensRadiusV2.radius16)
+                            ? const Radius.circular(DimensRadius.radius16)
                             : Radius.zero,
                         bottom: index == lastIndex
-                            ? const Radius.circular(DimensRadiusV2.radius16)
+                            ? const Radius.circular(DimensRadius.radius16)
                             : Radius.zero,
                       ),
                     ),
                     child: Padding(
                       padding: EdgeInsets.only(
-                        top: index == 0 ? DimensSizeV2.d16 : 0,
-                        bottom: index == lastIndex ? DimensSizeV2.d16 : 0,
+                        top: index == 0 ? DimensSize.d16 : 0,
+                        bottom: index == lastIndex ? DimensSize.d16 : 0,
                       ),
                       child: asset,
                     ),
@@ -134,12 +131,12 @@ class _FooterAssetsWidget extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const SizedBox(height: DimensSizeV2.d6),
+        const SizedBox(height: DimensSize.d6),
         if (isShowingNewTokens && numberNewTokens == null)
-          const ProgressIndicatorWidget(size: DimensSizeV2.d18),
+          const ProgressIndicatorWidget(size: DimensSize.d18),
         if (isShowingNewTokens && (numberNewTokens ?? 0) > 0)
           Padding(
-            padding: const EdgeInsets.only(top: DimensSizeV2.d6),
+            padding: const EdgeInsets.only(top: DimensSize.d6),
             child: RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
@@ -171,7 +168,7 @@ class _FooterAssetsWidget extends StatelessWidget {
           LocaleKeys.dontSeeYourToken.tr(),
           style: theme.textStyles.paragraphSmall,
         ),
-        const SizedBox(height: DimensSizeV2.d2),
+        const SizedBox(height: DimensSize.d2),
         SeparatedRow(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
