@@ -38,10 +38,10 @@ class BrowserTabsList
   static const _cardAspectRatio = 0.9;
 
   static const padding = EdgeInsets.only(
-    top: DimensSizeV2.d24,
-    bottom: DimensSizeV2.d16 + BrowserTabsListActionBar.height,
-    left: DimensSizeV2.d16,
-    right: DimensSizeV2.d16,
+    top: DimensSize.d24,
+    bottom: DimensSize.d16 + BrowserTabsListActionBar.height,
+    left: DimensSize.d16,
+    right: DimensSize.d16,
   );
 
   @override
@@ -73,8 +73,8 @@ class BrowserTabsList
                         controller: tabListScrollController,
                         padding: padding,
                         crossAxisCount: 2,
-                        crossAxisSpacing: DimensSizeV2.d8,
-                        mainAxisSpacing: DimensSizeV2.d8,
+                        crossAxisSpacing: DimensSize.d8,
+                        mainAxisSpacing: DimensSize.d8,
                         childAspectRatio: _cardAspectRatio,
                         children: [
                           for (final notifiers in tabsNotifiers)
@@ -104,7 +104,7 @@ class _Separator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Divider(
-      height: DimensSizeV2.d1,
+      height: DimensSize.d1,
       color: context.themeStyleV2.colors.primaryA.withAlpha(25),
     );
   }
@@ -117,9 +117,9 @@ class _Empty extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d24),
+      padding: const EdgeInsets.symmetric(horizontal: DimensSize.d24),
       child: Column(
-        spacing: DimensSizeV2.d8,
+        spacing: DimensSize.d8,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(

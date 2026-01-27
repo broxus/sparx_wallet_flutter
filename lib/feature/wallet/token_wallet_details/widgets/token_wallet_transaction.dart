@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Widget that displays single transaction for <TokenWallet>
 class TokenWalletTransactionWidget extends StatelessWidget {
@@ -59,8 +58,8 @@ class TokenWalletTransactionWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: theme.colors.background1,
           borderRadius: BorderRadius.vertical(
-            top: Radius.circular(isFirst ? DimensRadiusV2.radius16 : 0),
-            bottom: Radius.circular(isLast ? DimensRadiusV2.radius16 : 0),
+            top: Radius.circular(isFirst ? DimensRadius.radius16 : 0),
+            bottom: Radius.circular(isLast ? DimensRadius.radius16 : 0),
           ),
         ),
         child: _Body(
@@ -75,7 +74,7 @@ class TokenWalletTransactionWidget extends StatelessWidget {
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
-            spacing: DimensSizeV2.d8,
+            spacing: DimensSize.d8,
             children: [date, body],
           );
   }
@@ -118,7 +117,7 @@ class _Body extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(DimensSize.d16),
       child: Row(
-        spacing: DimensSizeV2.d8,
+        spacing: DimensSize.d8,
         children: [
           Expanded(
             child: Column(
@@ -134,7 +133,7 @@ class _Body extends StatelessWidget {
                           ? LucideIcons.arrowDownLeft
                           : LucideIcons.arrowUpRight,
                     ),
-                    const SizedBox(width: DimensSizeV2.d8),
+                    const SizedBox(width: DimensSize.d8),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -150,7 +149,7 @@ class _Body extends StatelessWidget {
                                 : theme.colors.content0,
                           ),
                         ),
-                        const SizedBox(height: DimensSizeV2.d4),
+                        const SizedBox(height: DimensSize.d4),
                         Text(
                           isIncoming
                               ? LocaleKeys.fromWord.tr(
@@ -167,14 +166,14 @@ class _Body extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: DimensSizeV2.d4),
+                const SizedBox(height: DimensSize.d4),
               ],
             ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              const SizedBox(height: DimensSizeV2.d14),
+              const SizedBox(height: DimensSize.d14),
               Text(
                 transactionTimeFormatter.format(transaction.date),
                 style: theme.textStyles.labelXSmall.copyWith(

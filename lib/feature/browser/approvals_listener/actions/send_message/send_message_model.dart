@@ -1,4 +1,4 @@
-import 'package:app/app/service/storage_service/connections_storage/connections_storage_service.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
@@ -15,13 +15,11 @@ class SendMessageModel extends ElementaryModel with BleAvailabilityModelMixin {
     this._nekotonRepository,
     this._ledgerService,
     this._delegate,
-    this._connectionsStorageService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final LedgerService _ledgerService;
   final BleAvailabilityModelDelegate _delegate;
-  final ConnectionsStorageService _connectionsStorageService;
 
   @override
   BleAvailabilityModelDelegate get delegate => _delegate;
@@ -133,7 +131,10 @@ class SendMessageModel extends ElementaryModel with BleAvailabilityModelMixin {
     );
   }
 
-  (int?, int?, bool) checkIsValidWorkchain(String address) {
-    return _connectionsStorageService.checkIsRightWorkchainByAddress(address);
-  }
+  CrosschainTransferValidationResult validateCrosschainTransfer(
+    Address address,
+  ) => CrosschainTransferValidator.validateByAddress(
+    fromWorkchain: transport.workchainId,
+    toAddress: address,
+  );
 }

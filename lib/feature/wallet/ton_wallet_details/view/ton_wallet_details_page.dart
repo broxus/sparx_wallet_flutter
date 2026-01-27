@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/components/common/default_sliver_app_bar.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Details page of the [TonWallet], that is used to look though transactions
 /// history and to send tokens.
@@ -94,7 +93,7 @@ class _Body extends StatelessWidget {
                           color: theme.colors.content3,
                         ),
                       ),
-                      const SizedBox(height: DimensSizeV2.d12),
+                      const SizedBox(height: DimensSize.d12),
                       StateNotifierBuilder(
                         listenableState: tokenBalanceState,
                         builder: (_, tokenBalance) {
@@ -108,7 +107,7 @@ class _Body extends StatelessWidget {
                           );
                         },
                       ),
-                      const SizedBox(height: DimensSizeV2.d4),
+                      const SizedBox(height: DimensSize.d4),
                       StateNotifierBuilder(
                         listenableState: fiatBalanceState,
                         builder: (_, fiatBalance) {
@@ -121,7 +120,7 @@ class _Body extends StatelessWidget {
                           );
                         },
                       ),
-                      const SizedBox(height: DimensSizeV2.d16),
+                      const SizedBox(height: DimensSize.d16),
                       if (error == null)
                         WalletAccountActions(
                           account: account,
@@ -129,7 +128,7 @@ class _Body extends StatelessWidget {
                           sendSpecified: true,
                           padding: EdgeInsets.zero,
                         ),
-                      const SizedBox(height: DimensSizeV2.d48),
+                      const SizedBox(height: DimensSize.d48),
                     ],
                   ),
                 ),
@@ -141,15 +140,15 @@ class _Body extends StatelessWidget {
           decoration: BoxDecoration(
             color: theme.colors.background0,
             borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(DimensRadiusV2.radius24),
+              top: Radius.circular(DimensRadius.radius24),
             ),
           ),
           sliver: SliverPadding(
             padding: EdgeInsets.only(
-              top: DimensSizeV2.d16,
-              bottom: bottomPadding + DimensSizeV2.d16,
-              left: DimensSizeV2.d16,
-              right: DimensSizeV2.d16,
+              top: DimensSize.d16,
+              bottom: bottomPadding + DimensSize.d16,
+              left: DimensSize.d16,
+              right: DimensSize.d16,
             ),
             sliver: error == null
                 ? AccountTransactionsTab(
@@ -163,7 +162,7 @@ class _Body extends StatelessWidget {
           hasScrollBody: false,
           child: Container(
             color: theme.colors.background0,
-            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+            padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
             child: error?.let(
               (error) => Center(
                 child: StateNotifierBuilder(
@@ -190,7 +189,7 @@ class _Background extends StatelessWidget {
   Widget build(BuildContext context) => Positioned.fill(
     child: SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d28),
+        padding: const EdgeInsets.symmetric(horizontal: DimensSize.d28),
         child: Image.asset(
           Assets.images.walletBg.walletBg.path,
           fit: BoxFit.cover,

@@ -23,7 +23,7 @@ class BrowserTextButton extends StatelessWidget {
       child: Align(
         alignment: alignment,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d32),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d32),
           child: Text(
             title,
             style: themeStyle.textStyles.labelSmallSemibold.copyWith(

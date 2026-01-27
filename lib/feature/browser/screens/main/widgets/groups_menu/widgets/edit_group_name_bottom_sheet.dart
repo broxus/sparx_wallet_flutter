@@ -1,7 +1,7 @@
 import 'package:app/core/wm/context_wm_mixin.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 Future<String?> showBrowserEditNameMenu(BuildContext context, String name) {
   return showModalBottomSheet(
@@ -39,13 +39,13 @@ class _EditGroupNameBottomSheetState extends State<EditGroupNameBottomSheet>
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
     return SizedBox(
-      height: DimensSizeV2.d530,
+      height: DimensSize.d530,
       child: PrimaryBottomSheetContainer(
         backgroundColor: ColorsResV2.n15,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d24),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d24),
           child: Column(
-            spacing: DimensSizeV2.d16,
+            spacing: DimensSize.d16,
             children: [
               Text(
                 LocaleKeys.editName.tr(),
@@ -59,12 +59,12 @@ class _EditGroupNameBottomSheetState extends State<EditGroupNameBottomSheet>
                   color: theme.colors.border2,
                 ),
                 cursorColor: theme.colors.border2,
-                cursorWidth: DimensSizeV2.d1,
-                cursorHeight: DimensSizeV2.d20,
+                cursorWidth: DimensSize.d1,
+                cursorHeight: DimensSize.d20,
               ),
               Flexible(
                 child: Row(
-                  spacing: DimensSizeV2.d8,
+                  spacing: DimensSize.d8,
                   children: [
                     Expanded(
                       child: CustomButton(

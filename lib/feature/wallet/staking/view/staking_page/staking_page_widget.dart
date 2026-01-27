@@ -6,7 +6,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 /// Page that allows user to stake his native token.
 class StakingPageWidget
@@ -26,15 +25,15 @@ class StakingPageWidget
         body: Stack(
           children: [
             Positioned.fill(
-              bottom: DimensSizeV2.d90,
+              bottom: DimensSize.d90,
               child: _StakingViewWidget(wm: wm),
             ),
             Positioned(
-              bottom: DimensSizeV2.d0,
-              right: DimensSizeV2.d0,
-              left: DimensSizeV2.d0,
+              bottom: DimensSize.d0,
+              right: DimensSize.d0,
+              left: DimensSize.d0,
               child: Container(
-                padding: const EdgeInsets.all(DimensSizeV2.d16),
+                padding: const EdgeInsets.all(DimensSize.d16),
                 color: theme.colors.background0,
                 child: _ButtonWidget(wm: wm),
               ),
@@ -57,8 +56,8 @@ class _StakingViewWidget extends StatelessWidget {
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(
-        horizontal: DimensSizeV2.d16,
-        vertical: DimensSizeV2.d8,
+        horizontal: DimensSize.d16,
+        vertical: DimensSize.d8,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,12 +66,12 @@ class _StakingViewWidget extends StatelessWidget {
             LocaleKeys.simpleLiquidStaking.tr(),
             style: theme.textStyles.headingXLarge,
           ),
-          const SizedBox(height: DimensSizeV2.d12),
+          const SizedBox(height: DimensSize.d12),
           EntityStateNotifierBuilder(
             listenableEntityState: wm.infoState,
             loadingBuilder: (_, __) => const Center(
               child: Padding(
-                padding: EdgeInsets.all(DimensSizeV2.d16),
+                padding: EdgeInsets.all(DimensSize.d16),
                 child: CommonCircularProgressIndicator(
                   size: CircularIndicatorSize.large,
                 ),
@@ -80,7 +79,7 @@ class _StakingViewWidget extends StatelessWidget {
             ),
             errorBuilder: (_, __, ___) => Center(
               child: Padding(
-                padding: const EdgeInsets.all(DimensSizeV2.d16),
+                padding: const EdgeInsets.all(DimensSize.d16),
                 child: Text(
                   LocaleKeys.stakingInitError.tr(),
                   style: theme.textStyles.paragraphMedium.copyWith(
@@ -107,7 +106,7 @@ class _StakingViewWidget extends StatelessWidget {
                           color: theme.colors.content3,
                         ),
                       ),
-                      const WidgetSpan(child: SizedBox(width: DimensSizeV2.d4)),
+                      const WidgetSpan(child: SizedBox(width: DimensSize.d4)),
                       TextSpan(
                         text: LocaleKeys.howItWorks.tr(),
                         style: theme.textStyles.paragraphMedium.copyWith(
@@ -119,7 +118,7 @@ class _StakingViewWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: DimensSizeV2.d24),
+                const SizedBox(height: DimensSize.d24),
                 StateNotifierBuilder(
                   listenableState: wm.dataState,
                   builder: (_, data) => StakingView(
@@ -194,10 +193,10 @@ class _InnerButtonWidget extends StatelessWidget {
       children: [
         if (validation?.message != null)
           Padding(
-            padding: const EdgeInsets.only(bottom: DimensSizeV2.d8),
+            padding: const EdgeInsets.only(bottom: DimensSize.d8),
             child: PrimaryCard(
-              padding: const EdgeInsets.all(DimensSizeV2.d16),
-              borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+              padding: const EdgeInsets.all(DimensSize.d16),
+              borderRadius: BorderRadius.circular(DimensRadius.radius16),
               color: theme.colors.backgroundNegative,
               child: Text(
                 validation!.message!,

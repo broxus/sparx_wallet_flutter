@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class SeedDetailPageWidget
     extends
@@ -41,11 +40,11 @@ class SeedDetailPageWidget
         secondSource: wm.currentSeedNotifier,
         thirdSource: wm.currentKeyNotifier,
         builder: (_, seed, currentSeed, currentKey) => ContainerColumn(
-          spacing: DimensSizeV2.d16,
-          padding: const EdgeInsets.all(DimensSizeV2.d16),
+          spacing: DimensSize.d16,
+          padding: const EdgeInsets.all(DimensSize.d16),
           children: [
             SeparatedColumn(
-              spacing: DimensSizeV2.d4,
+              spacing: DimensSize.d4,
               children: [
                 if (seed != null && seed == currentSeed)
                   Text(
@@ -156,7 +155,7 @@ class _KeyItem extends StatelessWidget {
           ),
           subtitleChild: isLoading
               ? ProgressIndicatorWidget(
-                  size: DimensSizeV2.d18,
+                  size: DimensSize.d18,
                   color: theme.colors.content3,
                 )
               : Text(

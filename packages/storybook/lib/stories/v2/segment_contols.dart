@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/segment_control/segment_control.dart';
 
 class SegmentControlsV2 extends StatelessWidget {
   const SegmentControlsV2({super.key});

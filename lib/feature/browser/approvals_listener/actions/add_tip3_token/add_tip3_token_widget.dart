@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class AddTip3TokenWidget
     extends
@@ -44,13 +43,13 @@ class AddTip3TokenWidget
     );
 
     return SeparatedColumn(
-      spacing: DimensSizeV2.d12,
+      spacing: DimensSize.d12,
       children: [
         Expanded(
           child: SingleChildScrollView(
             controller: scrollController,
             child: SeparatedColumn(
-              spacing: DimensSizeV2.d12,
+              spacing: DimensSize.d12,
               children: [
                 ValueListenableBuilder(
                   valueListenable: wm.accountState,
@@ -66,13 +65,13 @@ class AddTip3TokenWidget
                 ),
                 PrimaryCard(
                   color: theme.colors.background2,
-                  borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+                  borderRadius: BorderRadius.circular(DimensRadius.radius12),
                   padding: const EdgeInsets.symmetric(
-                    vertical: DimensSizeV2.d24,
-                    horizontal: DimensSizeV2.d16,
+                    vertical: DimensSize.d24,
+                    horizontal: DimensSize.d16,
                   ),
                   child: SeparatedColumn(
-                    spacing: DimensSizeV2.d16,
+                    spacing: DimensSize.d16,
                     children: [
                       _InfoRow(
                         hint: StateNotifierBuilder(
@@ -81,7 +80,7 @@ class AddTip3TokenWidget
                         ),
                         children: [
                           SeparatedRow(
-                            spacing: DimensSizeV2.d4,
+                            spacing: DimensSize.d4,
                             children: [
                               StateNotifierBuilder(
                                 listenableState: wm.statusState,
@@ -194,7 +193,7 @@ class AddTip3TokenWidget
                         ],
                       ),
                       SeparatedColumn(
-                        spacing: DimensSizeV2.d2,
+                        spacing: DimensSize.d2,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(LocaleKeys.symbolWord.tr(), style: labelStyle),
@@ -242,7 +241,7 @@ class _InfoRow extends StatelessWidget {
             children: children,
           )
         : SeparatedColumn(
-            spacing: DimensSizeV2.d12,
+            spacing: DimensSize.d12,
             children: [
               SeparatedRow(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -296,8 +295,8 @@ class _StatusText extends StatelessWidget {
 
     return switch (status) {
       TokenStatus.untrasted => PrimaryCard(
-        padding: const EdgeInsets.all(DimensSizeV2.d16),
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+        padding: const EdgeInsets.all(DimensSize.d16),
+        borderRadius: BorderRadius.circular(DimensRadius.radius12),
         color: theme.colors.backgroundWarning,
         child: Text(
           LocaleKeys.untrastedTokenWarning.tr(),
@@ -307,8 +306,8 @@ class _StatusText extends StatelessWidget {
         ),
       ),
       TokenStatus.suggestion => PrimaryCard(
-        padding: const EdgeInsets.all(DimensSizeV2.d16),
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+        padding: const EdgeInsets.all(DimensSize.d16),
+        borderRadius: BorderRadius.circular(DimensRadius.radius12),
         color: theme.colors.backgroundWarning,
         child: Text(
           LocaleKeys.phishingSuggestionWarning.tr(),
@@ -318,8 +317,8 @@ class _StatusText extends StatelessWidget {
         ),
       ),
       TokenStatus.explicit => PrimaryCard(
-        padding: const EdgeInsets.all(DimensSizeV2.d16),
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+        padding: const EdgeInsets.all(DimensSize.d16),
+        borderRadius: BorderRadius.circular(DimensRadius.radius12),
         color: theme.colors.backgroundNegative,
         child: Text(
           LocaleKeys.phishingExplicitWarning.tr(),
@@ -329,8 +328,8 @@ class _StatusText extends StatelessWidget {
         ),
       ),
       TokenStatus.sameSymbol => PrimaryCard(
-        padding: const EdgeInsets.all(DimensSizeV2.d16),
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+        padding: const EdgeInsets.all(DimensSize.d16),
+        borderRadius: BorderRadius.circular(DimensRadius.radius12),
         color: theme.colors.backgroundNegative,
         child: Text(
           LocaleKeys.phishingSameSymbolWarning.tr(),

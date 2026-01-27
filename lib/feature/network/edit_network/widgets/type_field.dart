@@ -3,7 +3,6 @@ import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class TypeField extends StatelessWidget {
   const TypeField({
@@ -23,7 +22,7 @@ class TypeField extends StatelessWidget {
       label: LocaleKeys.networkType.tr(),
       child: PrimaryCard(
         padding: EdgeInsets.zero,
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+        borderRadius: BorderRadius.circular(DimensRadius.radius16),
         child: StateNotifierBuilder<ConnectionType>(
           listenableState: connectionTypeState,
           builder: (_, ConnectionType? connectionType) {

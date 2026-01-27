@@ -109,7 +109,7 @@
   "myAccounts": "My accounts",
   "externalAccounts": "External accounts",
   "externalLink": "External link",
-  "openExternalLink": "Open external link {}",
+  "openExternalLink": "This link comes from another app. Do you want to open {}",
   "publicKey": "Public key",
   "selectWord": "Select",
   "selectKeysYouNeed": "Select keys you need",
@@ -715,6 +715,8 @@
   "unsupportedWalletTypeAlertTitle": "V5R1 wallet not supported",
   "unsupportedWalletTypeAlertDescription": "Unavailable in Ever/Venom networks.",
   "unsupportedWalletTypeAlertButtonLabel": "Switch Account",
+  "invalidExternalAccountAlertTitle": "Account network mismatch",
+  "invalidExternalAccountAlertDescription": "This external account is not available on the current network.",
   "scanSeedLoaderTitle": "Scanning and importing,\nplease wait…",
   "scanningCompleted": "Scanning completed",
   "scanSeed": "Scan seed",
@@ -788,5 +790,6 @@
   "failedToSendTransaction": "Failed to send transaction",
   "passwordLockedUntil": "Password locked until {}",
   "invalidPayloadError": "Payload is invalid",
-  "invalidStateInitError": "StateInit is invalid"
+  "invalidStateInitError": "StateInit is invalid",
+  "unsupportedWalletTypeError": "Unsupported wallet type"
 }

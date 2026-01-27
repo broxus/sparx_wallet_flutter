@@ -5,7 +5,6 @@ import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 /// Helper function to show [BrowserBookmarkRenameBottomSheet].
 ModalRoute<void> showBrowserBookmarkRenameSheet({
@@ -16,10 +15,10 @@ ModalRoute<void> showBrowserBookmarkRenameSheet({
     title: LocaleKeys.browserBookmarkRenameEnterName.tr(),
     titleTextStyle: titleTextStyle,
     titleMargin: const EdgeInsets.only(
-      top: DimensSizeV2.d32,
-      bottom: DimensSizeV2.d24,
-      left: DimensSizeV2.d16,
-      right: DimensSizeV2.d16,
+      top: DimensSize.d32,
+      bottom: DimensSize.d24,
+      left: DimensSize.d16,
+      right: DimensSize.d16,
     ),
     body: (_, __) => BrowserBookmarkRenameBottomSheet(item: item),
   );
@@ -40,7 +39,7 @@ class BrowserBookmarkRenameBottomSheet
   Widget build(BrowserBookmarkRenameBottomSheetWidgetModel wm) {
     return SeparatedColumn(
       mainAxisSize: MainAxisSize.min,
-      spacing: DimensSizeV2.d24,
+      spacing: DimensSize.d24,
       children: [
         PrimaryTextField(
           textEditingController: wm.nameController,

@@ -2,7 +2,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Default widget that displays information about Ton/Token wallet and allows
 /// interacting with it.
@@ -49,9 +48,9 @@ class WalletAssetWidget extends StatelessWidget {
       onTap: onPressed,
       behavior: HitTestBehavior.translucent,
       child: SeparatedRow(
-        spacing: DimensSizeV2.d12,
+        spacing: DimensSize.d12,
         children: [
-          const SizedBox(width: DimensSizeV2.d4),
+          const SizedBox(width: DimensSize.d4),
           icon,
           Expanded(
             flex: 2,
@@ -63,7 +62,7 @@ class WalletAssetWidget extends StatelessWidget {
                   builder: (_, tokenBalance) {
                     if (tokenBalance == null) {
                       return ProgressIndicatorWidget(
-                        size: DimensSizeV2.d18,
+                        size: DimensSize.d18,
                         color: theme.colors.content3,
                       );
                     }
@@ -94,7 +93,7 @@ class WalletAssetWidget extends StatelessWidget {
                 if (fiatBalance == null) {
                   return Center(
                     child: ProgressIndicatorWidget(
-                      size: DimensSizeV2.d16,
+                      size: DimensSize.d16,
                       color: theme.colors.content0,
                     ),
                   );
@@ -125,7 +124,7 @@ class WalletAssetWidget extends StatelessWidget {
               );
             },
           ),
-          const SizedBox(width: DimensSizeV2.d4),
+          const SizedBox(width: DimensSize.d4),
         ],
       ),
     );

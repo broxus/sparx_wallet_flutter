@@ -83,17 +83,17 @@ class CommonCheckbox extends StatelessWidget {
     return checked
         ? CommonIconWidget.svg(
             svg: AssetsImages.checkedUri,
-            size: DimensSizeV2.d20,
+            size: DimensSize.d20,
           )
         : SizedBox(
-            width: DimensSizeV2.d20,
-            height: DimensSizeV2.d20,
+            width: DimensSize.d20,
+            height: DimensSize.d20,
             child: DecoratedBox(
               decoration: BoxDecoration(
                 border: Border.all(
                   color: context.themeStyleV2.colors.borderAlpha,
                 ),
-                borderRadius: BorderRadius.circular(DimensRadiusV2.radius6),
+                borderRadius: BorderRadius.circular(DimensRadius.radius6),
               ),
             ),
           );

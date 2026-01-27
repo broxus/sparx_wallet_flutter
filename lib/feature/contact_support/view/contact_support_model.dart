@@ -1,10 +1,8 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/core/app_build_type.dart';
 import 'package:app/feature/contact_support/contact_support.dart';
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/runner.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:injectable/injectable.dart';
@@ -18,14 +16,16 @@ class ContactSupportModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._messengerService,
     this._ntpService,
+    this._appBuildType,
   ) : super(errorHandler: errorHandler);
 
   static final _logger = Logger('ContactSupportModel');
 
   final MessengerService _messengerService;
   final NtpService _ntpService;
+  final AppBuildType _appBuildType;
 
-  bool get isQaEnabled => currentAppBuildType != AppBuildType.production;
+  bool get isQaEnabled => _appBuildType != AppBuildType.production;
 
   Future<void> sendEmail(ContactSupportMode mode) async {
     late final String logFilePath;

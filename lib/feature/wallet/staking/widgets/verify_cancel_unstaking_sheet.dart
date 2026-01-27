@@ -1,7 +1,6 @@
 import 'package:app/generated/generated.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 /// Helper function that shows [VerifyCancelUnstakingSheet].
 /// Returns true if user decided to cancel unstaking.
@@ -29,7 +28,7 @@ class VerifyCancelUnstakingSheet extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return SeparatedColumn(
-      spacing: DimensSizeV2.d24,
+      spacing: DimensSize.d24,
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(

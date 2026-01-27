@@ -6,7 +6,6 @@ import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class ChangeNetworkWidget
     extends
@@ -35,13 +34,13 @@ class ChangeNetworkWidget
     final theme = wm.theme;
 
     return SeparatedColumn(
-      spacing: DimensSizeV2.d12,
+      spacing: DimensSize.d12,
       children: [
         Expanded(
           child: SingleChildScrollView(
             controller: scrollController,
             child: SeparatedColumn(
-              spacing: DimensSizeV2.d12,
+              spacing: DimensSize.d12,
               children: [
                 ValueListenableBuilder(
                   valueListenable: wm.originState,
@@ -75,15 +74,13 @@ class ChangeNetworkWidget
                   valueListenable: wm.connectionState,
                   builder: (_, connection, __) => PrimaryCard(
                     color: theme.colors.background2,
-                    borderRadius: BorderRadius.circular(
-                      DimensRadiusV2.radius12,
-                    ),
+                    borderRadius: BorderRadius.circular(DimensRadius.radius12),
                     padding: const EdgeInsets.symmetric(
-                      vertical: DimensSizeV2.d24,
-                      horizontal: DimensSizeV2.d16,
+                      vertical: DimensSize.d24,
+                      horizontal: DimensSize.d16,
                     ),
                     child: SeparatedColumn(
-                      spacing: DimensSizeV2.d16,
+                      spacing: DimensSize.d16,
                       children: [
                         _Param(
                           label: LocaleKeys.networkId.tr(),

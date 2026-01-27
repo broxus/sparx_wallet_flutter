@@ -7,7 +7,7 @@ import 'package:app/feature/browser/screens/main/widgets/pages/page/browser_page
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class BrowserPage
     extends
@@ -20,6 +20,7 @@ class BrowserPage
     required ValueChanged<int> onWebPageScrollChanged,
     required VoidCallback onDispose,
     required ValueChanged<int> onLoadingProgressChanged,
+    required ValueChanged<Uri> onLoadingError,
     required this.width,
     required NotNullListenableState<BrowserTab> tabState,
     super.key,
@@ -30,6 +31,7 @@ class BrowserPage
            onWebPageScrollChanged: onWebPageScrollChanged,
            onDispose: onDispose,
            onLoadingProgressChanged: onLoadingProgressChanged,
+           onLoadingError: onLoadingError,
          ),
        );
 
