@@ -40,7 +40,7 @@ jobs:
       SECRET_PASSPHRASE: ${{ secrets.SECRET_PASSPHRASE }}
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 1
 
@@ -142,7 +142,7 @@ jobs:
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 1
       
@@ -265,7 +265,7 @@ jobs:
           sudo gem uninstall fastlane-plugin-firebase_app_distribution
           gem install fastlane-plugin-firebase_app_distribution --user-install
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 1
 
@@ -355,7 +355,7 @@ jobs:
     if: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/dev' && github.ref != 'refs/heads/predev' }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 1
 
