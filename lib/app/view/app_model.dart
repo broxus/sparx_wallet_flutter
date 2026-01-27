@@ -8,7 +8,6 @@ import 'package:app/app/service/bootstrap/bootstrap_navigation_delegate.dart';
 import 'package:app/app/service/bootstrap/bootstrap_service.dart';
 import 'package:app/app/service/bootstrap/bootstrap_steps.dart';
 import 'package:app/app/service/bootstrap/configurators/logger.dart';
-import 'package:app/app/service/navigation_service.dart';
 import 'package:app/app/service/pending_deep_link_service.dart';
 import 'package:app/app/view/app.dart';
 import 'package:app/feature/browser/domain/browser_launcher.dart';
