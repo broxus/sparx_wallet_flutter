@@ -39,7 +39,7 @@ class AccountTransactionsTab
             child: Align(
               alignment: Alignment.topCenter,
               child: ProgressIndicatorWidget(
-                size: DimensSizeV2.d32,
+                size: DimensSize.d32,
                 color: theme.colors.content0,
               ),
             ),

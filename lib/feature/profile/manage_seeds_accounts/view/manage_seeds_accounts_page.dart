@@ -24,10 +24,10 @@ class ManageSeedsAccountsPage
       appBar: const DefaultAppBar(),
       body: Padding(
         padding: const EdgeInsets.only(
-          top: DimensSizeV2.d12,
-          bottom: DimensSizeV2.d20,
-          left: DimensSizeV2.d16,
-          right: DimensSizeV2.d16,
+          top: DimensSize.d12,
+          bottom: DimensSize.d20,
+          left: DimensSize.d16,
+          right: DimensSize.d16,
         ),
         child: SeparatedColumn(
           spacing: DimensSize.d16,

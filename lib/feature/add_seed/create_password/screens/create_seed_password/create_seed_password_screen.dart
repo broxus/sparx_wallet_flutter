@@ -8,7 +8,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/custom_media_query.dart';
 
 /// {@template create_seed_password_onboarding_page}
 /// Entry point to create seed password from onboarding.

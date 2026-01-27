@@ -76,7 +76,7 @@ class EnterSeedPhraseWidget
                       },
                     ),
                   ),
-                  const SizedBox(height: DimensSizeV2.d100),
+                  const SizedBox(height: DimensSize.d100),
                   const ViewInsetsPadding(),
                   const SystemSpace(additionalPadding: DimensSize.d20),
                 ],
@@ -92,9 +92,9 @@ class EnterSeedPhraseWidget
                 child: Container(
                   color: theme.colors.background0,
                   padding: const EdgeInsets.only(
-                    top: DimensSizeV2.d16,
-                    left: DimensSizeV2.d16,
-                    right: DimensSizeV2.d16,
+                    top: DimensSize.d16,
+                    left: DimensSize.d16,
+                    right: DimensSize.d16,
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

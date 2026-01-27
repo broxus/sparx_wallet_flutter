@@ -72,7 +72,7 @@ class _EnterSeedNameViewState extends State<EnterSeedNameView> {
                       hintText: LocaleKeys.seedName.tr(),
                       onSubmit: (_) => _nextAction(),
                     ),
-                    const SizedBox(height: DimensSizeV2.d24),
+                    const SizedBox(height: DimensSize.d24),
                   ],
                 ),
               ),

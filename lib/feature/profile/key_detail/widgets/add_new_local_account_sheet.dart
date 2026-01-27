@@ -73,7 +73,7 @@ class _AddNewLocalAccountSheetState extends State<AddNewLocalAccountSheet> {
             textEditingController: nameController,
             onSubmit: (_) => _goNext(context),
           ),
-          const SizedBox(height: DimensSizeV2.d24),
+          const SizedBox(height: DimensSize.d24),
           PrimaryButton(
             buttonShape: ButtonShape.pill,
             title: LocaleKeys.continueWord.tr(),
