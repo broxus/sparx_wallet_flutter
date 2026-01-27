@@ -5,7 +5,6 @@ import 'package:app/app/service/storage_service/secure_storage_service.dart';
 import 'package:app/core/app_build_type.dart';
 import 'package:app/feature/presets_config/presets_config.dart';
 import 'package:app/http/api/presets/presets_api.dart';
-import 'package:app/runner.dart' as runner;
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -35,10 +34,8 @@ void main() {
       mockPresetsApi,
       mockSecureStorage,
       mockResourcesService,
+      _buildType,
     );
-
-    // Set app build type for tests
-    runner.currentAppBuildType = _buildType;
   });
 
   group('getConfig', () {

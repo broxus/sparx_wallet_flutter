@@ -25,6 +25,7 @@ class StorageMigrationV3 implements StorageMigration {
           final key = _NetworkType.from(entry.key);
           final value = entry.value;
 
+          // TODO(knightforce): Why not delete old key?
           await storage.write(key.toString(), value);
         } catch (_) {
           await storage.remove(entry.key);

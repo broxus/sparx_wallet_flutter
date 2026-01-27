@@ -7,7 +7,7 @@ import 'package:app/feature/profile/widgets/switch_to_seed_sheet/switch_to_seed_
 import 'package:app/feature/wallet/route.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
 class SwitchToSeedWidgetModel

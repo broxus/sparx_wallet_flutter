@@ -4,7 +4,6 @@ import 'package:app/feature/wallet/widgets/account_asset_tab/token_wallet_asset/
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class TokensModalBody extends StatelessWidget {
   const TokensModalBody({
@@ -45,10 +44,10 @@ class TokensModalBody extends StatelessWidget {
               ),
             ),
           ),
-        const SizedBox(height: DimensSizeV2.d8),
+        const SizedBox(height: DimensSize.d8),
         SeparatedColumn(
           mainAxisSize: MainAxisSize.min,
-          spacing: DimensSizeV2.d12,
+          spacing: DimensSize.d12,
           children: assets
               .map(
                 (value) =>
@@ -58,10 +57,10 @@ class TokensModalBody extends StatelessWidget {
         ),
         if (isLoading)
           const Padding(
-            padding: EdgeInsets.only(top: DimensSizeV2.d16),
-            child: ProgressIndicatorWidget(size: DimensSizeV2.d40),
+            padding: EdgeInsets.only(top: DimensSize.d16),
+            child: ProgressIndicatorWidget(size: DimensSize.d40),
           ),
-        const SizedBox(height: DimensSizeV2.d24),
+        const SizedBox(height: DimensSize.d24),
       ],
     );
   }
@@ -89,7 +88,7 @@ class _TokenItem extends StatelessWidget {
         ),
         Expanded(
           child: SeparatedColumn(
-            spacing: DimensSizeV2.d4,
+            spacing: DimensSize.d4,
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -117,7 +116,7 @@ class _TokenItem extends StatelessWidget {
             tokenDataElement.copyWith(isSelected: !tokenDataElement.isSelected),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(DimensSizeV2.d10),
+            padding: const EdgeInsets.all(DimensSize.d10),
             child: CommonCheckboxInput(
               checked: tokenDataElement.isSelected,
               onChanged: (v) {

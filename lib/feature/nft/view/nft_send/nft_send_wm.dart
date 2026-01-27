@@ -185,7 +185,8 @@ class NftSendWidgetModel
 
       final wallet = walletState.wallet!;
       final balance = wallet.contractState.balance;
-      final isPossibleToSendMessage = balance > (fees + internalMessage.amount);
+      final isPossibleToSendMessage =
+          balance >= (fees + internalMessage.amount);
 
       if (!isPossibleToSendMessage) {
         _errorState.accept(LocaleKeys.insufficientFunds.tr());

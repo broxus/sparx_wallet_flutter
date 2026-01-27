@@ -13,9 +13,8 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class SendMessageWmParams {
   const SendMessageWmParams({
@@ -157,19 +156,9 @@ class SendMessageWidgetModel
   }
 
   Future<void> _init() async {
-    final (from, to, isAccess) = model.checkIsValidWorkchain(
-      wmParams.value.recipient.address,
-    );
-
-    if (!isAccess) {
-      _feeState.error(
-        UiException(
-          LocaleKeys.invalidWorkchainAddress.tr(
-            args: [from?.toString() ?? '', to?.toString() ?? ''],
-          ),
-        ),
-        _feeState.value.data,
-      );
+    final result = model.validateCrosschainTransfer(wmParams.value.recipient);
+    if (result.errorMessage case final String message) {
+      _feeState.error(UiException(message), _feeState.value.data);
       return;
     }
 

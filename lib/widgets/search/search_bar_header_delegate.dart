@@ -2,12 +2,11 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class SearchBarHeaderDelegate extends SliverPersistentHeaderDelegate {
   SearchBarHeaderDelegate({required this.controller});
 
-  static const double headerHeight = DimensSizeV2.d90;
+  static const double headerHeight = DimensSize.d90;
 
   TextEditingController controller;
 

@@ -17,8 +17,8 @@ final class StakingInfo {
 
   final TonWallet wallet;
   final GenericTokenWallet tokenWallet;
-  final CustomCurrency currency;
-  final CustomCurrency tokenCurrency;
+  final CustomCurrency? currency;
+  final CustomCurrency? tokenCurrency;
   final StEverDetails details;
   final double apy;
   final int withdrawHours;

@@ -1,13 +1,13 @@
 import 'package:app/utils/utils.dart';
 import 'package:flutter/widgets.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class ClipboardPasteButton extends StatelessWidget {
   const ClipboardPasteButton({
     required this.value,
     required this.onPaste,
     required this.onClear,
-    this.padding = const EdgeInsets.only(right: DimensSizeV2.d8),
+    this.padding = const EdgeInsets.only(right: DimensSize.d8),
     this.buttonSize = ButtonSize.small,
     super.key,
   });

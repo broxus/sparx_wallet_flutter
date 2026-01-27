@@ -6,7 +6,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Helper method that shows the [DeleteAccountSheet] bottom sheet.
 ModalRoute<void> deleteAccountSheetRoute(
@@ -68,15 +67,15 @@ class DeleteAccountSheet
                     return CommonListTile(
                       titleText: LocaleKeys.totalBalance.tr(),
                       subtitleChild: const CommonLoader(
-                        width: DimensSizeV2.d64,
-                        height: DimensSizeV2.d24,
+                        width: DimensSize.d64,
+                        height: DimensSize.d24,
                       ),
                       padding: EdgeInsets.zero,
                     );
                   },
                 ),
                 CommonListTile(
-                  height: DimensSizeV2.d80,
+                  height: DimensSize.d80,
                   invertTitleSubtitleStyles: true,
                   subtitleChild: Text(wm.address.address),
                   titleText: LocaleKeys.addressWord.tr(),
@@ -85,7 +84,7 @@ class DeleteAccountSheet
                 ),
               ],
             ),
-            const SizedBox(height: DimensSizeV2.d8),
+            const SizedBox(height: DimensSize.d8),
             DestructiveButton(
               buttonShape: ButtonShape.pill,
               title: LocaleKeys.deleteWord.tr(),

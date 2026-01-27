@@ -53,9 +53,11 @@ class _TonWalletIconWidgetState extends State<TonWalletIconWidget> {
       if (uri.path.endsWith('.svg')) {
         return SvgPicture.network(
           _path,
-          placeholderBuilder: (_) => _Placeholder(size: _size),
           width: _size,
           height: _size,
+          placeholderBuilder: (_) => _Placeholder(size: _size),
+          errorBuilder: (_, _, _) =>
+              Assets.images.tokenDefaultIcon.svg(width: _size),
         );
       } else {
         return CachedNetworkImage(
@@ -63,10 +65,8 @@ class _TonWalletIconWidgetState extends State<TonWalletIconWidget> {
           width: _size,
           imageUrl: _path,
           placeholder: (_, __) => _Placeholder(size: _size),
-          errorWidget: (_, __, ___) => SvgPicture.asset(
-            Assets.images.tokenDefaultIcon.path,
-            width: _size,
-          ),
+          errorWidget: (_, __, ___) =>
+              Assets.images.tokenDefaultIcon.svg(width: _size),
         );
       }
     }

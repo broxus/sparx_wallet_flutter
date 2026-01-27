@@ -29,12 +29,7 @@ class StoryV1 extends StatelessWidget {
             name: 'Widgets/Snackbar',
             builder: (_) => const SnackbarStory(),
           ),
-          Story(name: 'Widgets/Sheet', builder: (_) => const SheetStory()),
           Story(name: 'Widgets/Common', builder: (_) => const CommonStory()),
-          Story(
-            name: 'Widgets/Read Only',
-            builder: (_) => const ReadOnlyStory(),
-          ),
           Story(name: 'Colors', builder: (_) => const ColorsStory()),
         ],
       ),

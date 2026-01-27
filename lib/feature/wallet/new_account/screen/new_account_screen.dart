@@ -28,7 +28,7 @@ class NewAccountScreen
       body: wm.isError
           ? const SizedBox.shrink()
           : Padding(
-              padding: const EdgeInsets.all(DimensSizeV2.d16),
+              padding: const EdgeInsets.all(DimensSize.d16),
               child: NewAccountTypeWidget(
                 publicKey: PublicKey(publicKey: wm.publicKey!),
                 password: wm.password,

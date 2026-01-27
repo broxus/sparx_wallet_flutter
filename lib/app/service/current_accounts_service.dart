@@ -4,6 +4,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -30,6 +31,7 @@ class CurrentAccountsService {
   final ConnectionsStorageService _connectionsStorageService;
 
   final _currentAccountsSubject = BehaviorSubject<AccountList?>();
+  final _logger = Logger('CurrentAccountsService');
 
   /// Get stream of accounts in scope of current active key
   Stream<AccountList?> get currentAccountsStream => _currentAccountsSubject;
@@ -78,8 +80,6 @@ class CurrentAccountsService {
 
   Future<void> init() async {
     // skip 1 to avoid duplicate calls
-
-    await _connectionsStorageService.fetchAccountsForCurrentWorkchain();
     _nekotonRepository.seedListStream
         .skip(1)
         .listen(
@@ -104,6 +104,10 @@ class CurrentAccountsService {
     _updateAccountsList(
       _nekotonRepository.seedList,
       _currentKeyService.currentKey,
+    );
+
+    _nekotonRepository.currentTransportStream.distinct().listen(
+      (transport) => _fetchAccountsForWorkchain(transport.workchainId),
     );
   }
 
@@ -232,10 +236,43 @@ class CurrentAccountsService {
       await _nekotonRepository.updateSubscriptions([]);
       await _nekotonRepository.updateTokenSubscriptions([]);
     } else {
-      await _nekotonRepository.updateSubscriptions([
-        (account.account.tonWallet, account.isExternal),
-      ]);
+      await _nekotonRepository.updateSubscriptions([account.account.tonWallet]);
       await _nekotonRepository.updateTokenSubscriptions([account.account]);
+    }
+  }
+
+  Future<void> _fetchAccountsForWorkchain(int workchainId) async {
+    final hasAny = _nekotonRepository.accountsStorage.accounts.any(
+      (a) => a.address.workchain == workchainId,
+    );
+
+    if (hasAny) return;
+
+    final publicKeys = _nekotonRepository.keyStore.keys
+        .map((e) => e.publicKey)
+        .toList();
+
+    await _nekotonRepository.triggerAddingAccounts(
+      publicKeys: publicKeys,
+      workchainId: workchainId,
+    );
+
+    final notEmptyPublicKeys = _nekotonRepository.accountsStorage.accounts
+        .where((a) => a.address.workchain == workchainId)
+        .map((a) => a.publicKey)
+        .toSet();
+
+    for (final key in publicKeys) {
+      if (notEmptyPublicKeys.contains(key)) continue;
+
+      try {
+        await _nekotonRepository.addDefaultAccount(
+          publicKey: key,
+          workchainId: workchainId,
+        );
+      } catch (e, s) {
+        _logger.severe('_fetchAccountsForWorkchain', e, s);
+      }
     }
   }
 }

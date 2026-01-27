@@ -25,8 +25,8 @@ class AccountSettingsButton extends StatelessWidget {
       behavior: HitTestBehavior.translucent,
       onTap: onTap,
       child: Container(
-        height: DimensSizeV2.d56,
-        padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d24),
+        height: DimensSize.d56,
+        padding: const EdgeInsets.symmetric(horizontal: DimensSize.d24),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -39,7 +39,7 @@ class AccountSettingsButton extends StatelessWidget {
             if (icon != null)
               Icon(
                 icon,
-                size: DimensSizeV2.d20,
+                size: DimensSize.d20,
                 color: color ?? theme.colors.content0,
               ),
             if (iconWidget != null) iconWidget!,

@@ -54,7 +54,25 @@ class ProfilePageWidgetModel
 
   // ignore: avoid_positional_boolean_parameters
   Future<void> onBiomentryChanged(bool enabled) async {
+    String? password;
+    final publicKey = _seedState.value?.publicKey;
+
+    if (publicKey == null) return;
+    if (enabled && !await model.checkBiometryPermission()) return;
+
+    if (enabled && contextSafe != null) {
+      password = await showEnterPasswordSheet(
+        context: contextSafe!,
+        publicKey: publicKey,
+      );
+      if (password == null) return;
+    }
+
     await model.setBiometryEnabled(enabled: enabled);
+
+    if (enabled && password != null) {
+      await model.setKeyPassword(publicKey: publicKey, password: password);
+    }
   }
 
   void onManageSeeds() {

@@ -10,7 +10,7 @@ class DateItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        bottom: DimensSizeV2.d12,
+        bottom: DimensSize.d12,
         left: DimensSize.d24,
         right: DimensSize.d24,
       ),

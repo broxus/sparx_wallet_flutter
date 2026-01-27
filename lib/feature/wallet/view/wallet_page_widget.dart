@@ -14,18 +14,16 @@ class WalletPageWidget extends InjectedElementaryWidget<WalletPageWidgetModel> {
       builder: (_, account) {
         if (account == null) return const SizedBox.shrink();
 
-        return TripleSourceBuilder(
+        return DoubleSourceBuilder(
           firstSource: wm.isShowingNewTokensState,
-          secondSource: wm.transportStrategyState,
-          thirdSource: wm.hasUnconfirmedTransactionsState,
-          builder: (_, isShowingNewTokens, transport, hasUnconfirmed) {
+          secondSource: wm.hasUnconfirmedTransactionsState,
+          builder: (_, isShowingNewTokens, hasUnconfirmed) {
             return WalletView(
               key: ValueKey(account),
               currentAccount: account,
               scrollController: wm.scrollController,
               isShowingNewTokens: isShowingNewTokens ?? false,
               confirmImportCallback: wm.hideNewTokensLabel,
-              manifestUrl: transport?.manifestUrl ?? '',
               hasUnconfirmedTransactions: hasUnconfirmed ?? false,
             );
           },
