@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Root widget for manage seeds and accounts feature
 class ManageSeedsAccountsPage
@@ -31,10 +30,10 @@ class ManageSeedsAccountsPage
           right: DimensSizeV2.d16,
         ),
         child: SeparatedColumn(
-          spacing: DimensSizeV2.d16,
+          spacing: DimensSize.d16,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d40),
+              padding: const EdgeInsets.symmetric(horizontal: DimensSize.d40),
               child: Text(
                 LocaleKeys.manageSeedsAndAccounts.tr(),
                 style: theme.textStyles.headingLarge,
@@ -53,9 +52,7 @@ class ManageSeedsAccountsPage
                       color: theme.colors.background1,
                       margin: EdgeInsets.zero,
                       separator: const Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: DimensSizeV2.d4,
-                        ),
+                        padding: EdgeInsets.symmetric(vertical: DimensSize.d4),
                         child: CommonDivider(),
                       ),
                       titleText: LocaleKeys.seedPhrases.tr(),
@@ -72,7 +69,7 @@ class ManageSeedsAccountsPage
                 ),
               ),
             ),
-            const SizedBox(height: DimensSizeV2.d8),
+            const SizedBox(height: DimensSize.d8),
             PrimaryButton(
               buttonShape: ButtonShape.pill,
               postfixIcon: LucideIcons.plus,

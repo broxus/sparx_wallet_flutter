@@ -27,9 +27,9 @@ class EditNetworkPageWidget
               slivers: [
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.all(DimensSizeV2.d16),
+                    padding: const EdgeInsets.all(DimensSize.d16),
                     child: SeparatedColumn(
-                      spacing: DimensSizeV2.d24,
+                      spacing: DimensSize.d24,
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

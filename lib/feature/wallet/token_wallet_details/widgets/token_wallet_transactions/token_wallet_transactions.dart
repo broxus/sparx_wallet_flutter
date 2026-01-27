@@ -42,15 +42,14 @@ class TokenWalletTransactionsWidget
         return switch (state!) {
           TokenWalletTransactionsStateEmpty() => SliverFillRemaining(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
+              padding: const EdgeInsets.symmetric(vertical: DimensSize.d24),
               child: SeparatedColumn(
-                spacing: DimensSizeV2.d12,
+                spacing: DimensSize.d12,
                 children: [
-                  SvgPicture.asset(
-                    Assets.images.lightning.path,
+                  Assets.images.lightning.svg(
                     colorFilter: theme.colors.content3.colorFilter,
-                    width: DimensSizeV2.d56,
-                    height: DimensSizeV2.d56,
+                    width: DimensSize.d56,
+                    height: DimensSize.d56,
                   ),
                   Text(
                     LocaleKeys.emptyHistoryTitle.tr(),
@@ -64,7 +63,7 @@ class TokenWalletTransactionsWidget
           ),
           TokenWalletTransactionsStateLoading() => const SliverToBoxAdapter(
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: DimensSizeV2.d16),
+              padding: EdgeInsets.symmetric(vertical: DimensSize.d16),
               child: Center(child: CommonCircularProgressIndicator()),
             ),
           ),
@@ -82,7 +81,7 @@ class TokenWalletTransactionsWidget
                 itemBuilder: (context, index) {
                   if (index == transactions.length) {
                     return const Padding(
-                      padding: EdgeInsets.symmetric(vertical: DimensSizeV2.d16),
+                      padding: EdgeInsets.symmetric(vertical: DimensSize.d16),
                       child: Center(child: CommonCircularProgressIndicator()),
                     );
                   }

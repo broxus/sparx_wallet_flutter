@@ -3,8 +3,6 @@ import 'package:app/feature/qa/view/qa_wm.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/accent_button.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/button_shape.dart';
 
 Future<void> showQaSheet({required BuildContext context}) {
   return showCommonBottomSheet(
@@ -33,7 +31,7 @@ class _InfoRow extends StatelessWidget {
             color: theme.colors.content1,
           ),
         ),
-        const SizedBox(height: DimensSizeV2.d4),
+        const SizedBox(height: DimensSize.d4),
         Text(value, style: theme.textStyles.labelMedium, maxLines: 1),
       ],
     );
@@ -46,12 +44,12 @@ class QaSheet extends InjectedElementaryWidget<QaWidgetModel> {
   @override
   Widget build(QaWidgetModel wm) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: DimensSizeV2.d20),
+      padding: const EdgeInsets.only(bottom: DimensSize.d20),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: DimensSizeV2.d8,
+          spacing: DimensSize.d8,
           children: [
             SizedBox(
               width: double.infinity,
@@ -61,7 +59,7 @@ class QaSheet extends InjectedElementaryWidget<QaWidgetModel> {
                 textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(height: DimensSizeV2.d24),
+            const SizedBox(height: DimensSize.d24),
             StateNotifierBuilder<String>(
               listenableState: wm.keyState,
               builder: (context, keyValue) {
@@ -74,7 +72,7 @@ class QaSheet extends InjectedElementaryWidget<QaWidgetModel> {
                 return _InfoRow(subtitle: 'IV', value: ivValue ?? 'Not set');
               },
             ),
-            const SizedBox(height: DimensSizeV2.d8),
+            const SizedBox(height: DimensSize.d8),
             AccentButton(
               buttonShape: ButtonShape.pill,
               title: 'Drop DB',

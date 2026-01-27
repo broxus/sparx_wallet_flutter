@@ -2,7 +2,7 @@ import 'package:app/feature/add_seed/check_seed_phrase/check_seed_phrase.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/widgets/bottom_space.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 // Errors are handled via WM/Model messaging.
 
@@ -28,8 +28,9 @@ class CheckSeedPhraseView extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return SafeArea(
+      minimum: const EdgeInsets.only(bottom: DimensSize.d24),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+        padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -42,12 +43,12 @@ class CheckSeedPhraseView extends StatelessWidget {
                       LocaleKeys.letsCheckSeedPhrase.tr(),
                       style: theme.textStyles.headingXLarge,
                     ),
-                    const SizedBox(height: DimensSizeV2.d12),
+                    const SizedBox(height: DimensSize.d12),
                     Text(
                       LocaleKeys.checkSeedPhraseCorrectly.tr(),
                       style: theme.textStyles.paragraphMedium,
                     ),
-                    const SizedBox(height: DimensSizeV2.d24),
+                    const SizedBox(height: DimensSize.d24),
                     CheckSeedAnswersWidget(
                       userAnswers: userAnswers,
                       currentIndex: currentAnswerIndex,
@@ -57,7 +58,7 @@ class CheckSeedPhraseView extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: DimensSizeV2.d12),
+            const SizedBox(height: DimensSize.d12),
             CheckSeedAvailableAnswersWidget(
               availableAnswers: availableAnswers,
               selectedAnswers: userAnswers.map((e) => e.word).toList(),

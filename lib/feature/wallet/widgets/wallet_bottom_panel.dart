@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 enum WalletBottomPanelTab { asset, transactions }
 
@@ -19,7 +19,6 @@ class WalletBottomPanel extends StatefulWidget {
     required this.isShowingNewTokens,
     required this.hasUnconfirmedTransactions,
     required this.confirmImportCallback,
-    required this.manifestUrl,
     super.key,
   });
 
@@ -28,16 +27,13 @@ class WalletBottomPanel extends StatefulWidget {
   final bool isShowingNewTokens;
   final bool hasUnconfirmedTransactions;
   final VoidCallback confirmImportCallback;
-  final String manifestUrl;
 
   @override
   State<WalletBottomPanel> createState() => _WalletBottomPanelState();
 }
 
 class _WalletBottomPanelState extends State<WalletBottomPanel> {
-  final currentTabNotifier = ValueNotifier<WalletBottomPanelTab>(
-    WalletBottomPanelTab.asset,
-  );
+  final currentTabNotifier = ValueNotifier<WalletBottomPanelTab>(.asset);
 
   @override
   Widget build(BuildContext context) {
@@ -47,15 +43,15 @@ class _WalletBottomPanelState extends State<WalletBottomPanel> {
       decoration: BoxDecoration(
         color: theme.colors.background0,
         borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(DimensRadiusV2.radius24),
+          top: Radius.circular(DimensRadius.radius24),
         ),
       ),
       sliver: SliverPadding(
         padding: const EdgeInsets.only(
-          top: DimensSizeV2.d24,
-          left: DimensSizeV2.d16,
-          right: DimensSizeV2.d16,
-          bottom: DimensSizeV2.d8,
+          top: DimensSize.d24,
+          left: DimensSize.d16,
+          right: DimensSize.d16,
+          bottom: DimensSize.d8,
         ),
         sliver: ValueListenableBuilder<WalletBottomPanelTab>(
           valueListenable: currentTabNotifier,
@@ -64,21 +60,21 @@ class _WalletBottomPanelState extends State<WalletBottomPanel> {
               slivers: [
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: DimensSizeV2.d24),
+                    padding: const EdgeInsets.only(bottom: DimensSize.d24),
                     child: SwitcherSegmentControls(
                       currentValue: value,
                       values: [
                         PrimarySegmentControl(
-                          state: SegmentControlState.normal,
+                          state: .normal,
                           title: LocaleKeys.assetsWord.tr(),
                           value: WalletBottomPanelTab.asset,
-                          size: SegmentControlSize.xsmall,
+                          size: .xsmall,
                         ),
                         PrimarySegmentControl(
-                          state: SegmentControlState.normal,
+                          state: .normal,
                           title: LocaleKeys.transactionsWord.tr(),
                           value: WalletBottomPanelTab.transactions,
-                          size: SegmentControlSize.xsmall,
+                          size: .xsmall,
                           postfixIcon: widget.hasUnconfirmedTransactions
                               ? LucideIcons.timer
                               : null,
@@ -90,13 +86,12 @@ class _WalletBottomPanelState extends State<WalletBottomPanel> {
                   ),
                 ),
                 switch (value) {
-                  WalletBottomPanelTab.asset => AccountAssetsTab(
+                  .asset => AccountAssetsTab(
                     account: widget.currentAccount,
                     isShowingNewTokens: widget.isShowingNewTokens,
                     confirmImportCallback: widget.confirmImportCallback,
-                    manifestUrl: widget.manifestUrl,
                   ),
-                  WalletBottomPanelTab.transactions => AccountTransactionsTab(
+                  .transactions => AccountTransactionsTab(
                     account: widget.currentAccount,
                     scrollController: widget.scrollController,
                   ),

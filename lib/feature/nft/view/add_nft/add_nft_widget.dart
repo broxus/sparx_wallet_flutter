@@ -7,7 +7,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class AddNftWidget extends InjectedElementaryWidget<AddNftWidgetModel> {
   const AddNftWidget({super.key});
@@ -20,7 +19,7 @@ class AddNftWidget extends InjectedElementaryWidget<AddNftWidgetModel> {
       backgroundColor: theme.colors.background0,
       appBar: DefaultAppBar(titleText: LocaleKeys.addNFT.tr()),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+        padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -32,7 +31,7 @@ class AddNftWidget extends InjectedElementaryWidget<AddNftWidgetModel> {
               },
             ),
 
-            const SizedBox(height: DimensSizeV2.d12),
+            const SizedBox(height: DimensSize.d12),
             PrimaryTextField(
               sizeType: PrimaryTextFieldSizeType.medium,
               hintText: LocaleKeys.nftPasteHint.tr(),
@@ -47,7 +46,7 @@ class AddNftWidget extends InjectedElementaryWidget<AddNftWidgetModel> {
                 ),
               ],
             ),
-            const SizedBox(height: DimensSizeV2.d6),
+            const SizedBox(height: DimensSize.d6),
             StateNotifierBuilder(
               listenableState: wm.errorState,
               builder: (_, error) {
@@ -78,7 +77,7 @@ class AddNftWidget extends InjectedElementaryWidget<AddNftWidgetModel> {
                 onPressed: wm.onPressedImport,
               ),
             ),
-            const SystemSpace(additionalPadding: DimensSizeV2.d20),
+            const SystemSpace(additionalPadding: DimensSize.d20),
           ],
         ),
       ),

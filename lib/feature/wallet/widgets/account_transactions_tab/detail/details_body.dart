@@ -1,7 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_status_body.dart';
 import 'package:app/generated/generated.dart';
@@ -10,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 /// Body of transaction for Ton/Token Wallets that contains main information
 /// about transaction (date, hash, value, fee, sender/recipient).
@@ -208,7 +206,7 @@ class _WalletTransactionDetailsDefaultBodyState
                   widget.status.chipByStatus,
                 ],
               ),
-              const SizedBox(height: DimensSizeV2.d4),
+              const SizedBox(height: DimensSize.d4),
               Text(
                 formatter.format(widget.date),
                 style: theme.textStyles.labelXSmall.copyWith(
@@ -217,7 +215,7 @@ class _WalletTransactionDetailsDefaultBodyState
                 textAlign: TextAlign.right,
               ),
               if (widget.expiresAt != null)
-                const SizedBox(height: DimensSizeV2.d4),
+                const SizedBox(height: DimensSize.d4),
               if (widget.expiresAt != null)
                 Text(
                   DateTimeUtils.formatExpirationDate(widget.expiresAt!),

@@ -68,8 +68,9 @@ class BrowserServicePermissionsDelegate
 
   @override
   void deletePermissionsForOrigin(String origin) {
-    _browserPermissionsStorageService.deletePermissionsForOrigin(origin);
-    _fetchPermissions();
+    if (_browserPermissionsStorageService.deletePermissionsForOrigin(origin)) {
+      _fetchPermissions();
+    }
   }
 
   /// Delete permissions for specified account

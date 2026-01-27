@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:app/app/service/app_notifications/domain/service/app_notifications_service.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
+import 'package:app/feature/app_notifications/app_notifications.dart';
 import 'package:app/feature/browser/browser_collection.dart';
 import 'package:app/feature/browser/custom_web_controller.dart';
 import 'package:app/feature/browser/data/browser_uri.dart';
@@ -43,7 +43,7 @@ abstract interface class BrowserServiceTabs {
 
   NotNullListenableState<BrowserGroup>? getGroupListenableById(String id);
 
-  Future<void> openUrl(BrowserUri uri);
+  Future<void> openUrl(BrowserUri uri, {bool isUseLastTabIfEmpty = false});
 
   void setActiveGroup(String groupId);
 
@@ -393,7 +393,10 @@ class BrowserServiceTabsDelegate
   }
 
   @override
-  Future<void> openUrl(BrowserUri uri) async {
+  Future<void> openUrl(
+    BrowserUri uri, {
+    bool isUseLastTabIfEmpty = false,
+  }) async {
     if (!uri.isInternalAppUri) {
       final isSuccess = await _appNotificationService.showBrowserUrlAlert(
         uri.url,
@@ -403,21 +406,23 @@ class BrowserServiceTabsDelegate
       }
     }
 
-    final lastTabId = _groupsReactiveStore.getTabIds(tabsGroupId)?.lastOrNull;
+    if (isUseLastTabIfEmpty) {
+      final lastTabId = _groupsReactiveStore.getTabIds(tabsGroupId)?.lastOrNull;
 
-    if (lastTabId != null) {
-      final isExistUrl = _tabsReactiveStore
-          .getCachedUrl(lastTabId)
-          .toString()
-          .isNotEmpty;
-      if (!isExistUrl) {
-        unawaited(requestUrl(lastTabId, uri));
+      if (lastTabId != null) {
+        final isExistUrl = _tabsReactiveStore
+            .getCachedUrl(lastTabId)
+            .toString()
+            .isNotEmpty;
+        if (!isExistUrl) {
+          unawaited(requestUrl(lastTabId, uri));
 
-        _groupsReactiveStore.setActiveById(tabsGroupId);
-        _tabsReactiveStore.setActiveById(lastTabId);
-        _browserTabsStorageService.saveBrowserActiveTabId(lastTabId);
+          _groupsReactiveStore.setActiveById(tabsGroupId);
+          _tabsReactiveStore.setActiveById(lastTabId);
+          _browserTabsStorageService.saveBrowserActiveTabId(lastTabId);
 
-        return;
+          return;
+        }
       }
     }
 

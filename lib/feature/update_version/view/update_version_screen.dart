@@ -8,7 +8,6 @@ import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Screen for displaying update version notification
 class UpdateVersionScreen
@@ -85,27 +84,27 @@ class _UpdateVersionContent extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return PrimaryCard(
-      padding: const EdgeInsets.all(DimensSizeV2.d16),
+      padding: const EdgeInsets.all(DimensSize.d16),
       borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(DimensRadiusV2.radius24),
-        topRight: Radius.circular(DimensRadiusV2.radius24),
+        topLeft: Radius.circular(DimensRadius.radius24),
+        topRight: Radius.circular(DimensRadius.radius24),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(
             // 80 - content size of icon
-            height: DimensSizeV2.d32 + DimensSizeV2.d80,
+            height: DimensSize.d32 + DimensSize.d80,
           ),
           Text(
             LocaleKeys.appNewVersionTitle.tr(),
             style: theme.textStyles.headingLarge,
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: DimensSizeV2.d4),
+          const SizedBox(height: DimensSize.d4),
           if (targetVersion != null)
             Padding(
-              padding: const EdgeInsets.only(bottom: DimensSizeV2.d16),
+              padding: const EdgeInsets.only(bottom: DimensSize.d16),
               child: Text(
                 'v$targetVersion',
                 style: theme.textStyles.labelSmall.copyWith(
@@ -121,7 +120,7 @@ class _UpdateVersionContent extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: DimensSizeV2.d24),
+          const SizedBox(height: DimensSize.d24),
           AccentButton(
             buttonShape: ButtonShape.pill,
             onPressed: onUpdate,
@@ -134,7 +133,7 @@ class _UpdateVersionContent extends StatelessWidget {
           ),
           if (!isBlockingUpdate)
             Padding(
-              padding: const EdgeInsets.only(bottom: DimensSizeV2.d16),
+              padding: const EdgeInsets.only(bottom: DimensSize.d16),
               child: GhostButton(
                 buttonShape: ButtonShape.pill,
                 onPressed: onCancel,
@@ -146,7 +145,7 @@ class _UpdateVersionContent extends StatelessWidget {
                 ),
               ),
             ),
-          const SizedBox(height: DimensSizeV2.d16),
+          const SizedBox(height: DimensSize.d16),
         ],
       ),
     );

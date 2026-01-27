@@ -6,9 +6,7 @@ import 'package:app/widgets/bottom_space.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:ui_components_lib/components/common/common.dart';
-import 'package:ui_components_lib/dimens.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Page that displays information about multisig expired transaction for
 /// TonWallet
@@ -52,7 +50,7 @@ class TonWalletMultisigExpiredTransactionDetailsPage extends StatelessWidget {
           spacing: DimensSize.d16,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+              padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
               child: AccountInfo(account: account),
             ),
             WalletTransactionDetailsDefaultBody(
@@ -75,9 +73,9 @@ class TonWalletMultisigExpiredTransactionDetailsPage extends StatelessWidget {
               custodians: transaction.custodians,
               initiator: transaction.creator,
             ),
-            const SizedBox(height: DimensSizeV2.d32),
+            const SizedBox(height: DimensSize.d32),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+              padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
               child: PrimaryButton(
                 title: LocaleKeys.seeInExplorer.tr(),
                 icon: LucideIcons.globe,

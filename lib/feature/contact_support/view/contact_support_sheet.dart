@@ -5,7 +5,6 @@ import 'package:app/widgets/bottom_space.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Helper function to show [ContactSupportSheet].
 Future<void> showContactSupportSheet({
@@ -65,7 +64,7 @@ class ContactSupportSheet
             isLoading: isBusy ?? false,
             onPressed: wm.onSendEmail,
           ),
-          if (wm.isQaEnabled) const SizedBox(height: DimensSizeV2.d16),
+          if (wm.isQaEnabled) const SizedBox(height: DimensSize.d16),
           if (wm.isQaEnabled)
             AccentButton(
               buttonShape: ButtonShape.pill,

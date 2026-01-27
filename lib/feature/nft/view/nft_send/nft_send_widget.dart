@@ -40,7 +40,7 @@ class NftSendWidget
             child: WalletSubscribeErrorWidget(error: error),
           ),
           NftSendStateSending(:final canClose) => Padding(
-            padding: const EdgeInsets.all(DimensSizeV2.d16),
+            padding: const EdgeInsets.all(DimensSize.d16),
             child: TransactionSendingWidget(
               canClose: canClose,
               popOnComplete: false,
@@ -48,7 +48,7 @@ class NftSendWidget
             ),
           ),
           NftSendStateReady() => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+            padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
             child: NftSendConfirm(
               itemState: wm.itemState,
               collectionState: wm.collectionState,

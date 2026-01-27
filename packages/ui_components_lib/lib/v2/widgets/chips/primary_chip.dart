@@ -19,12 +19,12 @@ class PrimaryChip extends StatelessWidget {
     final theme = context.themeStyleV2;
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius8),
+        borderRadius: BorderRadius.circular(DimensRadius.radius8),
         color: _getColorBackground(theme, type),
       ),
       padding: const EdgeInsets.symmetric(
-        horizontal: DimensSizeV2.d8,
-        vertical: DimensSizeV2.d6,
+        horizontal: DimensSize.d8,
+        vertical: DimensSize.d6,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -32,9 +32,9 @@ class PrimaryChip extends StatelessWidget {
           Icon(
             iconData,
             color: _getColorContent(theme, type),
-            size: DimensSizeV2.d16,
+            size: DimensSize.d16,
           ),
-          const SizedBox(width: DimensSizeV2.d4),
+          const SizedBox(width: DimensSize.d4),
           Text(
             text,
             style: theme.textStyles.labelXSmall.copyWith(

@@ -6,7 +6,7 @@ import 'package:app/feature/browser/screens/main/widgets/tab_animated_view/tab_a
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class TabAnimatedView
     extends
@@ -88,7 +88,7 @@ class _StartPageAnimationView extends StatelessWidget {
           color: context.themeStyleV2.colors.background0,
         ),
         child: Transform.translate(
-          offset: const Offset(0, -DimensSizeV2.d140),
+          offset: const Offset(0, -DimensSize.d140),
           child: Assets.images.bgNetwork.image(
             width: double.infinity,
             fit: BoxFit.fitWidth,

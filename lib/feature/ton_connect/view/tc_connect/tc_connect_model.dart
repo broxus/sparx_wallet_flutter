@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/utils/utils.dart';
 import 'package:convert/convert.dart';
@@ -9,7 +10,7 @@ import 'package:crypto/crypto.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:money2/money2.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
 class TCConnectModel extends ElementaryModel {
@@ -18,11 +19,13 @@ class TCConnectModel extends ElementaryModel {
     this._nekotonRepository,
     this._currentAccountsService,
     this._ntpService,
+    this._messengerService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final CurrentAccountsService _currentAccountsService;
   final NtpService _ntpService;
+  final MessengerService _messengerService;
 
   String get symbol => currentTransport.nativeTokenTicker;
 
@@ -150,4 +153,6 @@ class TCConnectModel extends ElementaryModel {
 
     return SignInputAuthLedger(wallet: wallet!.walletType);
   }
+
+  void showMessage(Message message) => _messengerService.show(message);
 }

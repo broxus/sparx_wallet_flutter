@@ -1,7 +1,6 @@
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 Future<void> showBrowserClearBookmarksSheet({
   required BuildContext context,
@@ -19,12 +18,12 @@ Future<void> showBrowserClearBookmarksSheet({
     centerTitle: true,
     context: context,
     titleMargin: const EdgeInsets.only(
-      top: DimensSizeV2.d32,
-      bottom: DimensSizeV2.d16,
-      left: DimensSizeV2.d16,
-      right: DimensSizeV2.d16,
+      top: DimensSize.d32,
+      bottom: DimensSize.d16,
+      left: DimensSize.d16,
+      right: DimensSize.d16,
     ),
-    subtitleMargin: const EdgeInsets.only(bottom: DimensSizeV2.d16),
+    subtitleMargin: const EdgeInsets.only(bottom: DimensSize.d16),
     centerSubtitle: true,
     body: (BuildContext context, __) => PrimaryButton(
       buttonShape: ButtonShape.pill,

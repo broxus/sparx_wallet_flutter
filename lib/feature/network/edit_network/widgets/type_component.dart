@@ -32,14 +32,14 @@ class TypeComponent extends StatelessWidget {
       onTap: onPressed,
       behavior: HitTestBehavior.translucent,
       child: SizedBox(
-        height: DimensSizeV2.d56,
+        height: DimensSize.d56,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
           child: SeparatedRow(
             children: [
               Expanded(child: Text(title, style: theme.textStyles.labelSmall)),
               if (currentConnectionType == type)
-                const Icon(LucideIcons.check, size: DimensSizeV2.d20),
+                const Icon(LucideIcons.check, size: DimensSize.d20),
             ],
           ),
         ),

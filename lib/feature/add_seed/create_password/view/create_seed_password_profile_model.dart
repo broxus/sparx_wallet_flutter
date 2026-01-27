@@ -3,8 +3,7 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/seed/seed_phrase_model.dart';
 import 'package:app/feature/loader_screen/loader_screen.dart';
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/mixins/connection_mixin.dart';
 import 'package:app/utils/nekoton_utils.dart';

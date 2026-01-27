@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Card widget that displays information about account.
 class AccountCard
@@ -72,8 +71,8 @@ class _AccountCard extends StatelessWidget {
           onTap: onCopy,
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: DimensSizeV2.d12,
-              horizontal: DimensSizeV2.d24,
+              vertical: DimensSize.d12,
+              horizontal: DimensSize.d24,
             ),
             child: SeparatedRow(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -83,7 +82,7 @@ class _AccountCard extends StatelessWidget {
                   account.address.toEllipseString(),
                   style: theme.textStyles.labelSmall,
                 ),
-                const Icon(LucideIcons.copy, size: DimensSizeV2.d16),
+                const Icon(LucideIcons.copy, size: DimensSize.d16),
               ],
             ),
           ),
@@ -97,7 +96,7 @@ class _AccountCard extends StatelessWidget {
                   style: theme.textStyles.displayMedium,
                 ),
               ) ??
-              const ProgressIndicatorWidget(size: DimensSizeV2.d52),
+              const ProgressIndicatorWidget(size: DimensSize.d52),
         ),
       ],
     );

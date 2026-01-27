@@ -4,7 +4,6 @@ import 'package:app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// This is a helper method to display AddNewLocalAccountSheet.
 Future<void> showAddNewLocalAccountSheet({
@@ -60,14 +59,14 @@ class _AddNewLocalAccountSheetState extends State<AddNewLocalAccountSheet> {
             LocaleKeys.newAccountName.tr(),
             style: context.themeStyleV2.textStyles.headingLarge,
           ),
-          const SizedBox(height: DimensSizeV2.d8),
+          const SizedBox(height: DimensSize.d8),
           Text(
             LocaleKeys.newAccountNameDescription.tr(),
             style: context.themeStyleV2.textStyles.paragraphMedium.copyWith(
               color: context.themeStyleV2.colors.content1,
             ),
           ),
-          const SizedBox(height: DimensSizeV2.d24),
+          const SizedBox(height: DimensSize.d24),
           PrimaryTextField(
             maxLength: maxLengthForMainEntities,
             hintText: LocaleKeys.nameWord.tr(),
