@@ -12,7 +12,6 @@ class WalletView extends StatelessWidget {
     required this.isShowingNewTokens,
     required this.hasUnconfirmedTransactions,
     required this.confirmImportCallback,
-    required this.manifestUrl,
     super.key,
   });
 
@@ -21,7 +20,6 @@ class WalletView extends StatelessWidget {
   final bool isShowingNewTokens;
   final bool hasUnconfirmedTransactions;
   final VoidCallback confirmImportCallback;
-  final String manifestUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +44,6 @@ class WalletView extends StatelessWidget {
                 scrollController: scrollController,
                 isShowingNewTokens: isShowingNewTokens,
                 confirmImportCallback: confirmImportCallback,
-                manifestUrl: manifestUrl,
                 hasUnconfirmedTransactions: hasUnconfirmedTransactions,
               ),
               SliverFillRemaining(
@@ -67,7 +64,7 @@ class _Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: -DimensSizeV2.d36,
+      top: -DimensSize.d36,
       left: 0,
       right: 0,
       child: Image.asset(

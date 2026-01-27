@@ -11,9 +11,8 @@ import 'package:app/feature/browser/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browser/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:app/feature/browser/screens/main/widgets/pages/page/helpers/events_helper.dart';
 import 'package:app/feature/ledger/ledger.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
-import 'package:app/runner.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -37,9 +36,8 @@ class BrowserPageModel extends ElementaryModel {
     this._ledgerService,
     this._appPermissionsService,
     this._ntpService,
+    this._appBuildType,
   ) : super(errorHandler: errorHandler);
-
-  final isShowBrowserLog = currentAppBuildType == AppBuildType.development;
 
   final BrowserService _browserService;
   final BrowserApprovalsService _approvalsService;
@@ -53,6 +51,7 @@ class BrowserPageModel extends ElementaryModel {
   final LedgerService _ledgerService;
   final AppPermissionsService _appPermissionsService;
   final NtpService _ntpService;
+  final AppBuildType _appBuildType;
 
   InpageProvider? _inpageProvider;
 
@@ -66,6 +65,8 @@ class BrowserPageModel extends ElementaryModel {
 
   ListenableState<String?> get activeTabIdState =>
       _browserService.tab.activeTabIdState;
+
+  bool get isShowBrowserLog => _appBuildType == AppBuildType.development;
 
   String? get _activeTabId => activeTabIdState.value;
 

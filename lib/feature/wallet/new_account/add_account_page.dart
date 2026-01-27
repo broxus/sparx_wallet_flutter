@@ -5,7 +5,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/cards/primary_card.dart';
 
 class AddAccountPage extends InjectedElementaryWidget<AddAccountWidgetModel> {
   const AddAccountPage({super.key});
@@ -24,9 +23,9 @@ class AddAccountPage extends InjectedElementaryWidget<AddAccountWidgetModel> {
           builder: (context, list, currentSeed) {
             return PrimaryCard(
               color: theme.colors.background2,
-              borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+              borderRadius: BorderRadius.circular(DimensRadius.radius16),
               padding: EdgeInsets.zero,
-              margin: const EdgeInsets.only(top: DimensSizeV2.d16),
+              margin: const EdgeInsets.only(top: DimensSize.d16),
               child: SeparatedColumn(
                 mainAxisSize: MainAxisSize.min,
                 separator: const CommonDivider(),
@@ -35,18 +34,15 @@ class AddAccountPage extends InjectedElementaryWidget<AddAccountWidgetModel> {
                     onTap: wm.onSelect,
                     behavior: HitTestBehavior.translucent,
                     child: SizedBox(
-                      height: DimensSizeV2.d64,
+                      height: DimensSize.d64,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: DimensSizeV2.d16,
+                          horizontal: DimensSize.d16,
                         ),
                         child: SeparatedRow(
-                          spacing: DimensSizeV2.d12,
+                          spacing: DimensSize.d12,
                           children: [
-                            const Icon(
-                              LucideIcons.plus,
-                              size: DimensSizeV2.d20,
-                            ),
+                            const Icon(LucideIcons.plus, size: DimensSize.d20),
                             Expanded(
                               child: Text(
                                 LocaleKeys.createNewAccount.tr(),
@@ -55,7 +51,7 @@ class AddAccountPage extends InjectedElementaryWidget<AddAccountWidgetModel> {
                             ),
                             const Icon(
                               LucideIcons.chevronRight,
-                              size: DimensSizeV2.d20,
+                              size: DimensSize.d20,
                             ),
                           ],
                         ),
@@ -65,17 +61,17 @@ class AddAccountPage extends InjectedElementaryWidget<AddAccountWidgetModel> {
                   GestureDetector(
                     onTap: wm.onAddExternalAccount,
                     child: SizedBox(
-                      height: DimensSizeV2.d64,
+                      height: DimensSize.d64,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: DimensSizeV2.d16,
+                          horizontal: DimensSize.d16,
                         ),
                         child: SeparatedRow(
-                          spacing: DimensSizeV2.d12,
+                          spacing: DimensSize.d12,
                           children: [
                             const Icon(
                               LucideIcons.import,
-                              size: DimensSizeV2.d20,
+                              size: DimensSize.d20,
                             ),
                             Expanded(
                               child: Text(
@@ -85,7 +81,7 @@ class AddAccountPage extends InjectedElementaryWidget<AddAccountWidgetModel> {
                             ),
                             const Icon(
                               LucideIcons.chevronRight,
-                              size: DimensSizeV2.d20,
+                              size: DimensSize.d20,
                             ),
                           ],
                         ),

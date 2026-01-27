@@ -15,7 +15,7 @@ class TonConnectRequestValidator {
     required TonAppConnection connection,
     required SignDataPayload payload,
   }) async {
-    final walletState = await _nekotonRepository.getWallet(
+    final walletState = await _nekotonRepository.getWalletByAddress(
       connection.walletAddress,
     );
     final wallet = walletState.wallet;
@@ -78,7 +78,7 @@ class TonConnectRequestValidator {
       }
     }
 
-    final walletState = await _nekotonRepository.getWallet(
+    final walletState = await _nekotonRepository.getWalletByAddress(
       connection.walletAddress,
     );
     final wallet = walletState.wallet;

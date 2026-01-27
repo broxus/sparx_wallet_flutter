@@ -4,7 +4,6 @@ import 'package:app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// This is a helper method to display AddNewLocalAccountSheet.
 Future<void> showAddNewLocalAccountSheet({
@@ -57,7 +56,7 @@ class _AddNewLocalAccountSheetState extends State<AddNewLocalAccountSheet> {
       controller: widget.controller,
       child: SeparatedColumn(
         mainAxisSize: MainAxisSize.min,
-        spacing: DimensSizeV2.d24,
+        spacing: DimensSize.d24,
         children: [
           PrimaryTextField(
             maxLength: maxLengthForMainEntities,

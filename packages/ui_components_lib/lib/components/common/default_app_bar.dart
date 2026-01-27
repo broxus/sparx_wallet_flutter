@@ -27,7 +27,7 @@ typedef DefaultAppBarCloseAction = void Function(BuildContext context);
 typedef DefaultAppBarCanPopAction = bool Function(BuildContext context);
 
 /// Default width or height of appbar button
-const appBarButtonSize = DimensSizeV2.d48;
+const appBarButtonSize = DimensSize.d48;
 
 /// {@template default_appbar}
 /// Default appbar for authorized zone.

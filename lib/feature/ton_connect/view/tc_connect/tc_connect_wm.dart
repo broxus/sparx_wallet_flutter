@@ -1,13 +1,15 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
+import 'package:app/generated/generated.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:money2/money2.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 enum TonConnectStep { account, confirm }
 
@@ -51,7 +53,17 @@ class TCConnectWidgetModel
   DappManifest get manifest => wmParams.value.manifest;
 
   void onNext() {
-    if (selectedState.value == null) return;
+    final account = selectedState.value;
+    final request = wmParams.value.request;
+
+    if (account == null) return;
+    if (request.hasTonProofItem && !_isTonWalletType(account)) {
+      model.showMessage(
+        Message.error(message: LocaleKeys.unsupportedWalletTypeError.tr()),
+      );
+      return;
+    }
+
     _stepState.value = TonConnectStep.confirm;
   }
 
@@ -117,5 +129,17 @@ class TCConnectWidgetModel
     }
 
     return model.getLedgerAuthInput(account);
+  }
+
+  bool _isTonWalletType(KeyAccount keyAccount) {
+    final walletType = keyAccount.account.tonWallet.contract;
+    return switch (walletType) {
+      WalletTypeWalletV3R1() => true,
+      WalletTypeWalletV3R2() => true,
+      WalletTypeWalletV4R1() => true,
+      WalletTypeWalletV4R2() => true,
+      WalletTypeWalletV5R1() => true,
+      _ => false,
+    };
   }
 }

@@ -9,5 +9,7 @@
 		<string>applinks:l.sparxwallet.com</string>
 		<string>applinks:l.sparxwallet.com?mode=developer</string>
 	</array>
+	<key>com.apple.developer.default-data-protection</key>
+	<string>NSFileProtectionComplete</string>
 </dict>
 </plist>

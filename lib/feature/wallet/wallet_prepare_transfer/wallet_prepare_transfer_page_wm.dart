@@ -142,26 +142,22 @@ class WalletPrepareTransferPageWidgetModel
       return;
     }
 
-    final addr = Address(address: receiverController.text.trim());
+    final address = Address(address: receiverController.text.trim());
 
-    final result = model.checkIsValidWorkchain(addr.address);
-
-    if (!result.$3) {
-      return;
-    }
-
-    if (!addr.isValid) {
+    if (!address.isValid) {
       model.showError(LocaleKeys.addressIsWrong.tr());
-
       return;
     }
+
+    final result = model.validateCrosschainTransfer(address);
+    if (!result.isValid) return;
 
     final amnt = Fixed.parse(
       amountController.text.trim().replaceAll(',', '.'),
       decimalDigits: _selectedAsset?.balance.decimalDigits,
     );
 
-    _goNext(addr, amnt);
+    _goNext(address, amnt);
   }
 
   Future<void> setMaxBalance() async {
@@ -174,27 +170,14 @@ class WalletPrepareTransferPageWidgetModel
     }
 
     if (asset.isNative) {
-      // subtract approximate comission
-      final gas = await model.getFeeFactor();
-      final valueComission = gas == null ? 0.01 : gas / pow(2, 16) * 0.01;
-
-      comission = Money.fromFixedWithCurrency(
-        Fixed.fromNum(valueComission),
-        available.currency,
+      comission = await _computeNativeComissionEstimate(
+        available: available,
+        sender: addressState.value,
       );
     } else {
-      final keyAccount = _data?.account;
-      final publicKey = _data?.selectedCustodian;
-      final address = Address(address: receiverController.text.trim());
-
-      comission = keyAccount != null && publicKey != null
-          ? await model.estimateGaslessCommission(
-              keyAccount: keyAccount,
-              rootTokenContract: asset.rootTokenContract,
-              publicKey: publicKey,
-              destination: address.isValid ? address : _zeroAddress,
-            )
-          : null;
+      comission = await _computeTokenComissionEstimate(
+        rootTokenContract: asset.rootTokenContract,
+      );
     }
 
     if (comission != null) {
@@ -252,18 +235,20 @@ class WalletPrepareTransferPageWidgetModel
       return LocaleKeys.addressIsEmpty.tr();
     }
 
-    final (from, to, isAccess) = model.checkIsValidWorkchain(value);
-
-    if (!isAccess) {
-      return LocaleKeys.invalidWorkchainAddress.tr(
-        args: [from?.toString() ?? '', to?.toString() ?? value],
-      );
+    final address = Address(address: value.trim());
+    if (!address.isValid) {
+      return LocaleKeys.invalidAddressFormat.tr();
     }
 
-    if (_selectedAsset?.isNative != true &&
-        addressState.value.address == value) {
+    if (_selectedAsset?.isNative != true && addressState.value == address) {
       return LocaleKeys.invalidReceiverAddress.tr();
     }
+
+    final result = model.validateCrosschainTransfer(address);
+    if (result.errorMessage case final String message) {
+      return message;
+    }
+
     return null;
   }
 
@@ -531,5 +516,44 @@ class WalletPrepareTransferPageWidgetModel
       Currencies()[symbol] ??
           Currency.create(symbol, 0, symbol: symbol, pattern: moneyPattern(0)),
     );
+  }
+
+  Future<Money> _computeNativeComissionEstimate({
+    required Address sender,
+    required Money available,
+  }) async {
+    if (sender.workchain == -1) {
+      final fundamentals = await model.getFundamentalAddresses();
+
+      if (fundamentals.contains(sender)) {
+        return Money.fromFixedWithCurrency(Fixed.zero, available.currency);
+      }
+    }
+
+    // subtract approximate comission
+    final gas = await model.getFeeFactor();
+    final valueComission = gas == null ? 0.01 : gas / pow(2, 16) * 0.01;
+
+    return Money.fromFixedWithCurrency(
+      Fixed.fromNum(valueComission),
+      available.currency,
+    );
+  }
+
+  Future<Money?> _computeTokenComissionEstimate({
+    required Address rootTokenContract,
+  }) async {
+    final keyAccount = _data?.account;
+    final publicKey = _data?.selectedCustodian;
+    final address = Address(address: receiverController.text.trim());
+
+    return keyAccount != null && publicKey != null
+        ? await model.estimateGaslessCommission(
+            keyAccount: keyAccount,
+            rootTokenContract: rootTokenContract,
+            publicKey: publicKey,
+            destination: address.isValid ? address : _zeroAddress,
+          )
+        : null;
   }
 }

@@ -1,7 +1,5 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/browser/utils.dart';
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -23,9 +21,9 @@ class ChangeNetworkModel extends ElementaryModel {
   final NekotonRepository _nekotonRepository;
 
   Future<TransportStrategy> changeConnection(String id) async {
-    await _connectionsStorageService.saveCurrentConnectionId(connectionId: id);
+    _connectionsStorageService.saveCurrentConnectionId(connectionId: id);
     return _nekotonRepository.currentTransportStream
-        .firstWhere((strategy) => strategy.connection?.id == id)
+        .firstWhere((strategy) => strategy.connectionId == id)
         .timeout(_timeLimit);
   }
 

@@ -29,11 +29,21 @@ class StorageMigrationV6 implements StorageMigration {
     final list = storage.read<List<dynamic>>('browser_history_key');
 
     if (list != null) {
-      await _databaseService.history.saveHistoryItemsList([
-        for (final entry in list)
-          BrowserHistoryItem.fromJson(entry as Map<String, dynamic>),
-      ]);
+      final result = <BrowserHistoryItem>[];
+
+      for (final entry in list) {
+        try {
+          result.add(
+            BrowserHistoryItem.fromJson(entry as Map<String, dynamic>),
+          );
+        } catch (_) {}
+      }
+
+      if (result.isNotEmpty) {
+        await _databaseService.history.saveHistoryItemsList(result);
+      }
     }
+
     await _databaseService.migration.acceptHistoryMigration();
     await storage.erase();
   }

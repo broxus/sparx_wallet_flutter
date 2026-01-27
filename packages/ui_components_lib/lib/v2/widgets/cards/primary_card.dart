@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class PrimaryCard extends StatelessWidget {
   const PrimaryCard({
@@ -8,10 +8,10 @@ class PrimaryCard extends StatelessWidget {
     this.child,
     this.margin = EdgeInsets.zero,
     this.padding = const EdgeInsets.only(
-      top: DimensSizeV2.d12,
-      bottom: DimensSizeV2.d12,
-      left: DimensSizeV2.d12,
-      right: DimensSizeV2.d12,
+      top: DimensSize.d12,
+      bottom: DimensSize.d12,
+      left: DimensSize.d12,
+      right: DimensSize.d12,
     ),
     this.borderRadius,
     this.color,

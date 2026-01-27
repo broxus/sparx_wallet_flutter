@@ -4,7 +4,7 @@ import 'package:app/feature/wallet/widgets/wallet_app_bar/widgets/workchain_sele
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:ui_components_lib/v2/dimens_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class WorkchainSelector
     extends InjectedElementaryWidget<WorkchainSelectorWidgetModel> {
@@ -35,17 +35,14 @@ class WorkchainSelector
                 onTap: wm.onPressed,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    vertical: DimensSizeV2.d8,
-                    horizontal: DimensSizeV2.d22,
+                    vertical: DimensSize.d8,
+                    horizontal: DimensSize.d22,
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text('W: ${currentWorkchain.id}'),
-                      const Icon(
-                        LucideIcons.chevronDown,
-                        size: DimensSizeV2.d20,
-                      ),
+                      const Icon(LucideIcons.chevronDown, size: DimensSize.d20),
                     ],
                   ),
                 ),
