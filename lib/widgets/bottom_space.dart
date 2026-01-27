@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:ui_components_lib/v2/dimens_v2.dart';
+import 'package:ui_components_lib/dimens.dart';
 
 class BottomSpace extends SizedBox {
-  const BottomSpace({super.key}) : super(height: DimensSizeV2.d20);
+  const BottomSpace({super.key}) : super(height: DimensSize.d20);
 }

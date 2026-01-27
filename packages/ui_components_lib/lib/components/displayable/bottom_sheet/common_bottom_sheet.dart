@@ -88,9 +88,9 @@ ModalSheetRoute<T> commonBottomSheetRoute<T>({
   String? title,
   String? subtitle,
   EdgeInsets padding = const EdgeInsets.only(
-    bottom: DimensSizeV2.d20,
-    left: DimensSizeV2.d16,
-    right: DimensSizeV2.d16,
+    bottom: DimensSize.d20,
+    left: DimensSize.d16,
+    right: DimensSize.d16,
   ),
   bool expand = false,
   bool dismissible = true,
@@ -209,7 +209,7 @@ class CommonBottomSheetWidget extends StatelessWidget {
           : theme.colors.background1,
       child: SafeArea(
         minimum: avoidBottomInsets
-            ? const EdgeInsets.only(bottom: DimensSizeV2.d20)
+            ? const EdgeInsets.only(bottom: DimensSize.d20)
             : EdgeInsets.zero,
         child: Padding(
           padding: avoidBottomInsets

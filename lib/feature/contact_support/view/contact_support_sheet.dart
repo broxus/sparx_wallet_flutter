@@ -64,7 +64,7 @@ class ContactSupportSheet
             isLoading: isBusy ?? false,
             onPressed: wm.onSendEmail,
           ),
-          if (wm.isQaEnabled) const SizedBox(height: DimensSizeV2.d16),
+          if (wm.isQaEnabled) const SizedBox(height: DimensSize.d16),
           if (wm.isQaEnabled)
             AccentButton(
               buttonShape: ButtonShape.pill,

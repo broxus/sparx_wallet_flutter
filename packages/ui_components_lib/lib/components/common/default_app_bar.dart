@@ -166,7 +166,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(color: backgroundColor ?? Colors.transparent),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
           child: AppBar(
             backgroundColor: backgroundColor ?? Colors.transparent,
             surfaceTintColor: Colors.transparent,
@@ -175,7 +175,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
             scrolledUnderElevation: 0,
             titleSpacing: DimensSize.d8,
             centerTitle: centerTitle,
-            leadingWidth: isShowLeadingClose ? DimensSizeV2.d48 : leadingWidth,
+            leadingWidth: isShowLeadingClose ? DimensSize.d48 : leadingWidth,
             leading: leading == null
                 ? null
                 : Align(alignment: Alignment.centerLeft, child: leading),

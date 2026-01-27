@@ -38,9 +38,9 @@ class ConnectionFailScreen
               ),
             ),
             Positioned(
-              bottom: DimensSizeV2.d34,
-              left: DimensSizeV2.d16,
-              right: DimensSizeV2.d16,
+              bottom: DimensSize.d34,
+              left: DimensSize.d16,
+              right: DimensSize.d16,
               child: Column(
                 children: [
                   PrimaryButton(
