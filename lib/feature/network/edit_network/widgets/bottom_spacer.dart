@@ -18,10 +18,10 @@ class BottomSpacer extends StatelessWidget {
     return SliverSafeArea(
       sliver: SliverToBoxAdapter(
         child: SizedBox(
-          height: buttonCount * commonButtonHeight + DimensSizeV2.d16,
+          height: buttonCount * commonButtonHeight + DimensSize.d16,
         ),
       ),
-      minimum: const EdgeInsets.only(bottom: DimensSizeV2.d16),
+      minimum: const EdgeInsets.only(bottom: DimensSize.d16),
     );
   }
 }

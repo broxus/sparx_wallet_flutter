@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class AddAccountConfirmWidget
     extends
@@ -31,20 +31,20 @@ class AddAccountConfirmWidget
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
+          padding: const EdgeInsets.symmetric(vertical: DimensSize.d24),
           decoration: BoxDecoration(
             color: wm.theme.colors.background3,
-            borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+            borderRadius: BorderRadius.circular(DimensRadius.radius16),
           ),
           child: Row(
             children: [
-              const SizedBox(width: DimensSizeV2.d16),
+              const SizedBox(width: DimensSize.d16),
               Icon(
                 LucideIcons.lockKeyhole,
                 color: wm.theme.colors.content0,
-                size: DimensSizeV2.d20,
+                size: DimensSize.d20,
               ),
-              const SizedBox(width: DimensSizeV2.d12),
+              const SizedBox(width: DimensSize.d12),
               Flexible(
                 child: Text(
                   wm.seedName,
@@ -55,14 +55,14 @@ class AddAccountConfirmWidget
             ],
           ),
         ),
-        const SizedBox(height: DimensSizeV2.d16),
+        const SizedBox(height: DimensSize.d16),
         SecureTextField(
           textEditingController: wm.controller,
           hintText: LocaleKeys.enterYourPassword.tr(),
           isAutofocus: true,
           onSubmit: (_) => wm.onPasswordSubmit(),
         ),
-        const SizedBox(height: DimensSizeV2.d28),
+        const SizedBox(height: DimensSize.d28),
         StateNotifierBuilder(
           listenableState: wm.isPasswordLockedState,
           builder: (_, isLocked) => AccentButton(
@@ -77,7 +77,7 @@ class AddAccountConfirmWidget
           builder: (_, value) {
             if (value?.contains(BiometricType.face) ?? false) {
               return Padding(
-                padding: const EdgeInsets.only(top: DimensSizeV2.d8),
+                padding: const EdgeInsets.only(top: DimensSize.d8),
                 child: PrimaryButton(
                   buttonShape: ButtonShape.pill,
                   title: LocaleKeys.useFaceID.tr(),
@@ -89,7 +89,7 @@ class AddAccountConfirmWidget
 
             if (value?.isNotEmpty ?? false) {
               return Padding(
-                padding: const EdgeInsets.only(top: DimensSizeV2.d8),
+                padding: const EdgeInsets.only(top: DimensSize.d8),
                 child: PrimaryButton(
                   buttonShape: ButtonShape.pill,
                   title: LocaleKeys.useFingerprint.tr(),

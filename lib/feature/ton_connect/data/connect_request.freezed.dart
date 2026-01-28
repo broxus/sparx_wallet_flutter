@@ -209,8 +209,8 @@ return $default(_that.manifestUrl,_that.items);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _ConnectRequest implements ConnectRequest {
-   _ConnectRequest({required this.manifestUrl, required final  List<ConnectItem> items}): _items = items;
+class _ConnectRequest extends ConnectRequest {
+   _ConnectRequest({required this.manifestUrl, required final  List<ConnectItem> items}): _items = items,super._();
   factory _ConnectRequest.fromJson(Map<String, dynamic> json) => _$ConnectRequestFromJson(json);
 
 @override final  String manifestUrl;

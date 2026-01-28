@@ -13,7 +13,7 @@ class BrowserBookTabBar extends StatelessWidget {
   final ListenableState<BrowserBookTabBarValue> tabBarState;
   final ValueChanged<BrowserBookTabBarValue> onPressedTab;
 
-  static const height = DimensSizeV2.d48;
+  static const height = DimensSize.d48;
 
   @override
   Widget build(BuildContext context) {
@@ -22,16 +22,16 @@ class BrowserBookTabBar extends StatelessWidget {
     return SizedBox(
       height: height,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d24),
+        padding: const EdgeInsets.symmetric(horizontal: DimensSize.d24),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(DimensRadiusV2.radius8),
+            borderRadius: BorderRadius.circular(DimensRadius.radius8),
             color: colors.background2,
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: DimensSizeV2.d4,
-              horizontal: DimensSizeV2.d2,
+              vertical: DimensSize.d4,
+              horizontal: DimensSize.d2,
             ),
             child: StateNotifierBuilder(
               listenableState: tabBarState,
@@ -81,7 +81,7 @@ class _Item extends StatelessWidget {
     final colors = theme.colors;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d2),
+      padding: const EdgeInsets.symmetric(horizontal: DimensSize.d2),
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: onPressed,
@@ -91,16 +91,16 @@ class _Item extends StatelessWidget {
             duration: _duration,
             decoration: BoxDecoration(
               color: isActive ? ColorsResV2.midnightBlue : colors.background2,
-              borderRadius: BorderRadius.circular(DimensRadiusV2.radius8),
+              borderRadius: BorderRadius.circular(DimensRadius.radius8),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: DimensSizeV2.d8),
+                  padding: const EdgeInsets.only(right: DimensSize.d8),
                   child: Icon(
                     icon,
-                    size: DimensSizeV2.d20,
+                    size: DimensSize.d20,
                     color: isActive ? colors.primaryA : colors.border1,
                   ),
                 ),

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({
@@ -45,13 +44,13 @@ class ProfileView extends StatelessWidget {
 
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+        padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(height: MediaQuery.paddingOf(context).top),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
+              padding: const EdgeInsets.symmetric(vertical: DimensSize.d24),
               child: Text(
                 LocaleKeys.settings.tr(),
                 style: theme.textStyles.headingMedium,
@@ -87,7 +86,7 @@ class ProfileView extends StatelessWidget {
 
                     return Padding(
                       padding: const EdgeInsets.symmetric(
-                        vertical: DimensSizeV2.d16,
+                        vertical: DimensSize.d16,
                       ),
                       child: _Container(
                         children: [
@@ -134,10 +133,10 @@ class ProfileView extends StatelessWidget {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: DimensSizeV2.d24),
+                  padding: const EdgeInsets.only(top: DimensSize.d24),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    spacing: DimensSizeV2.d8,
+                    spacing: DimensSize.d8,
                     children: [
                       DestructiveButton(
                         buttonShape: ButtonShape.pill,
@@ -185,7 +184,7 @@ class _Item extends StatelessWidget {
 
     return CommonListTile(
       padding: EdgeInsets.zero,
-      height: DimensSizeV2.d40,
+      height: DimensSize.d40,
       titleText: title,
       titleTextStyle: theme.textStyles.button,
       subtitleText: subtitle,
@@ -199,7 +198,7 @@ class _Item extends StatelessWidget {
       ),
       trailing:
           trailing ??
-          const Icon(LucideIcons.chevronRight, size: DimensSizeV2.d20),
+          const Icon(LucideIcons.chevronRight, size: DimensSize.d20),
       onPressed: onPressed,
     );
   }
@@ -217,9 +216,9 @@ class _Container extends StatelessWidget {
     return ShapedContainerColumn(
       color: theme.colors.background1,
       separator: const CommonDivider(
-        margin: EdgeInsets.symmetric(vertical: DimensSizeV2.d16),
+        margin: EdgeInsets.symmetric(vertical: DimensSize.d16),
       ),
-      padding: const EdgeInsets.all(DimensSizeV2.d16),
+      padding: const EdgeInsets.all(DimensSize.d16),
       margin: EdgeInsets.zero,
       children: children,
     );

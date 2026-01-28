@@ -2,7 +2,6 @@ import 'package:app/feature/browser/data/browser_basic_auth_creds.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Helper function to show [BrowserEnterBasicAuthCredsSheet].
 ModalRoute<BrowserBasicAuthCreds> showBrowserEnterBasicAuthCredsSheet({
@@ -56,7 +55,7 @@ class _BrowserEnterBasicAuthCredsSheetState
     return SingleChildScrollView(
       controller: widget.controller,
       child: SeparatedColumn(
-        spacing: DimensSizeV2.d24,
+        spacing: DimensSize.d24,
         children: [
           Text(
             LocaleKeys.browserEnterBasicAuthDescription.tr(args: [widget.host]),

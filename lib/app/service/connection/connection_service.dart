@@ -1,6 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/app/service/storage_service/connections_storage/connections_ids_data.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
@@ -146,7 +146,7 @@ class ConnectionService {
         // try to revert to previous connection
         if (_prevWorkchain != null &&
             !_failedConnections.contains(_prevWorkchain!.fullId)) {
-          await _storageService.saveCurrentConnectionId(
+          _storageService.saveCurrentConnectionId(
             connectionId: _prevWorkchain!.parentConnectionId,
             workchainId: _prevWorkchain!.id,
           );
@@ -154,17 +154,16 @@ class ConnectionService {
         }
 
         // try to revert to base connection if previous is not available
-
         final base = _storageService.baseConnection;
 
         if (base != null && base.id != workchain.parentConnectionId) {
-          await _storageService.saveCurrentConnectionId(connectionId: base.id);
+          _storageService.saveCurrentConnectionId(connectionId: base.id);
           return;
         }
-
-        // allow level above to track fail
-        rethrow;
       }
+
+      // allow level above to track fail
+      rethrow;
     }
   }
 }
@@ -200,6 +199,14 @@ extension TransportTypeExtension on TransportStrategy {
     }
 
     return null;
+  }
+
+  int get workchainId {
+    if (this is CommonTransportStrategy) {
+      return (this as CommonTransportStrategy).workchain.id;
+    }
+
+    return 0;
   }
 
   bool get isEverscale => networkType.isEver;

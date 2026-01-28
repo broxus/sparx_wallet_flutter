@@ -45,7 +45,7 @@ class StakingPageModel extends ElementaryModel {
       _stakingService.withdrawRequestsStream(address);
 
   Future<TonWalletState> getWallet(Address address) =>
-      _nekotonRepository.getWallet(address);
+      _nekotonRepository.getWalletByAddress(address);
 
   Future<TokenWalletState> getTokenWallet(Address owner) => _nekotonRepository
       .getTokenWallet(owner, staking.stakingRootContractAddress);

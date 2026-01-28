@@ -110,6 +110,11 @@ class BrowserAntiPhishingDelegate
     final i = s.indexOf('#');
     if (i != -1) s = s.substring(0, i);
 
+    final slashIndex = s.indexOf('/');
+    if (slashIndex != -1) {
+      s = s.substring(0, slashIndex);
+    }
+
     if (s.endsWith('/')) s = s.substring(0, s.length - 1);
 
     return s;
