@@ -49,8 +49,6 @@ class EnterSeedPhraseWidgetModel
 
   late final screenScrollController = createScrollController();
 
-  final actionBarId = 'actionBar';
-
   late final List<EnterSeedPhraseInputData> _inputDataList = List.unmodifiable(
     Iterable.generate(
       model.seedPhraseWordsCount.max,
@@ -327,14 +325,16 @@ class EnterSeedPhraseWidgetModel
 
       if (node == null) return;
 
-      final diff = renderManager.getDiffById(node, actionBarId);
+      final yBottom = renderManager.getRenderData(node)?.yBottom;
 
-      if (diff == null || diff.yTop < -50) {
+      if (yBottom == null) return;
+
+      if (yBottom < 295) {
         return;
       }
 
       screenScrollController.position.animateTo(
-        screenScrollController.offset + diff.diffBottomToTop,
+        screenScrollController.offset + 50,
         duration: const Duration(milliseconds: 150),
         curve: Curves.linear,
       );

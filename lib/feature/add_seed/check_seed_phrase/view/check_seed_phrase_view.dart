@@ -28,7 +28,6 @@ class CheckSeedPhraseView extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return SafeArea(
-      minimum: const EdgeInsets.only(bottom: DimensSize.d24),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
         child: Column(
