@@ -90,7 +90,6 @@ class EnterSeedPhraseWords extends StatelessWidget {
               );
             },
           ),
-          const SizedBox(height: DimensSize.d16),
         ],
       ),
     );

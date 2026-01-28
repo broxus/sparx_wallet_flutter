@@ -3,7 +3,6 @@ import 'package:app/feature/add_seed/add_seed.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class EnterSeedPhraseWidget
@@ -31,14 +30,13 @@ class EnterSeedPhraseWidget
       child: Scaffold(
         backgroundColor: theme.colors.background0,
         resizeToAvoidBottomInset: false,
-        appBar: const DefaultAppBar(),
-        body: Stack(
-          children: [
-            SingleChildScrollView(
+        body: CustomScrollView(
+          controller: wm.screenScrollController,
+          slivers: [
+            const SliverToBoxAdapter(child: DefaultAppBar()),
+            SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
-              controller: wm.screenScrollController,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+              sliver: SliverList.list(
                 children: [
                   Text(
                     LocaleKeys.enterSeedPhrase.tr(),
@@ -52,77 +50,47 @@ class EnterSeedPhraseWidget
                     ),
                     child: PrimaryText(LocaleKeys.pasteSeedIntoFirstBox.tr()),
                   ),
-                  Flexible(
-                    child: StateNotifierBuilder(
-                      listenableState: wm.tabState,
-                      builder: (_, EnterSeedPhraseTabData? tabData) {
-                        if (tabData == null) {
-                          return const SizedBox.shrink();
-                        }
-                        return EnterSeedPhraseWords(
-                          formKey: wm.formKey,
-                          renderManager: wm.renderManager,
-                          allowedValues: wm.seedPhraseWordsCount,
-                          currentValue: tabData.currentValue,
-                          displayPasteButtonState: wm.displayPasteButtonState,
-                          tabState: wm.tabState,
-                          changeTab: wm.changeTab,
-                          pastePhrase: wm.pastePhrase,
-                          clearFields: wm.clearFields,
-                          onSuggestions: wm.onSuggestions,
-                          onSuggestionSelected: wm.onSuggestionSelected,
-                          onNext: wm.nextOrConfirm,
-                        );
-                      },
-                    ),
+                  StateNotifierBuilder(
+                    listenableState: wm.tabState,
+                    builder: (_, EnterSeedPhraseTabData? tabData) {
+                      if (tabData == null) {
+                        return const SizedBox.shrink();
+                      }
+                      return EnterSeedPhraseWords(
+                        formKey: wm.formKey,
+                        renderManager: wm.renderManager,
+                        allowedValues: wm.seedPhraseWordsCount,
+                        currentValue: tabData.currentValue,
+                        displayPasteButtonState: wm.displayPasteButtonState,
+                        tabState: wm.tabState,
+                        changeTab: wm.changeTab,
+                        pastePhrase: wm.pastePhrase,
+                        clearFields: wm.clearFields,
+                        onSuggestions: wm.onSuggestions,
+                        onSuggestionSelected: wm.onSuggestionSelected,
+                        onNext: wm.nextOrConfirm,
+                      );
+                    },
                   ),
-                  const SizedBox(height: DimensSize.d100),
-                  const ViewInsetsPadding(),
-                  const SystemSpace(additionalPadding: DimensSize.d20),
+                  DoubleSourceBuilder(
+                    firstSource: wm.tabState,
+                    secondSource: wm.seedPhraseFormatState,
+                    builder: (_, tabData, seedPhraseFormat) =>
+                        SeedPhraseFormatView(
+                          networkGroup: wm.networkGroup,
+                          networkType: wm.networkType,
+                          wordsCount: tabData?.currentValue,
+                          value: seedPhraseFormat,
+                          onChanged: wm.onSeedPhraseFormatChanged,
+                        ),
+                  ),
+                  AccentButton(
+                    buttonShape: ButtonShape.pill,
+                    title: LocaleKeys.confirm.tr(),
+                    onPressed: wm.confirm,
+                  ),
+                  const ViewInsetsPadding(additionalPadding: DimensSize.d24),
                 ],
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: RenderMetricsObject(
-                id: wm.actionBarId,
-                manager: wm.renderManager,
-                child: Container(
-                  color: theme.colors.background0,
-                  padding: const EdgeInsets.only(
-                    top: DimensSize.d16,
-                    left: DimensSize.d16,
-                    right: DimensSize.d16,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      DoubleSourceBuilder(
-                        firstSource: wm.tabState,
-                        secondSource: wm.seedPhraseFormatState,
-                        builder: (_, tabData, seedPhraseFormat) =>
-                            SeedPhraseFormatView(
-                              networkGroup: wm.networkGroup,
-                              networkType: wm.networkType,
-                              wordsCount: tabData?.currentValue,
-                              value: seedPhraseFormat,
-                              onChanged: wm.onSeedPhraseFormatChanged,
-                            ),
-                      ),
-                      AccentButton(
-                        buttonShape: ButtonShape.pill,
-                        title: LocaleKeys.confirm.tr(),
-                        onPressed: wm.confirm,
-                      ),
-                      const ViewInsetsPadding(
-                        additionalPadding: -DimensSize.d48,
-                      ),
-                      const SystemSpace(additionalPadding: DimensSize.d20),
-                    ],
-                  ),
-                ),
               ),
             ),
           ],
