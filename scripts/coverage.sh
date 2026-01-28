@@ -10,4 +10,5 @@ mv coverage/lcov.info coverage/integration.info
 
 # Merge
 lcov -a coverage/unit.info -a coverage/integration.info -o coverage/merged.info
+lcov --remove coverage/merged.info -o coverage/merged.info "*/data/*" "*/dto/*"
 genhtml coverage/merged.info -o coverage/html
