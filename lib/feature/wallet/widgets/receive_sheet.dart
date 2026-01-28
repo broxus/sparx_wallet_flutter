@@ -5,7 +5,6 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:share_plus/share_plus.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Helper function to show [ReceiveFundsSheet].
 void showReceiveFundsSheet(BuildContext context, Address address) {
@@ -31,7 +30,7 @@ class ReceiveFundsSheet extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         BarcodeAddress(address: address),
-        const SizedBox(height: DimensSizeV2.d16),
+        const SizedBox(height: DimensSize.d16),
         PrimaryButton(
           buttonShape: ButtonShape.pill,
           icon: LucideIcons.share2,

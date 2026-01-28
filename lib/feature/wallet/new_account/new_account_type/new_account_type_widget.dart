@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 const _walletV5R1 = WalletType.walletV5R1();
 
@@ -47,15 +46,13 @@ class NewAccountTypeWidget
                   textEditingController: wm.controller,
                   hintText: LocaleKeys.accountName.tr(),
                 ),
-                const SizedBox(height: DimensSizeV2.d12),
+                const SizedBox(height: DimensSize.d12),
                 StateNotifierBuilder(
                   listenableState: wm.selectedState,
                   builder: (_, selected) => PrimaryCard(
                     padding: EdgeInsets.zero,
                     color: theme.colors.background1,
-                    borderRadius: BorderRadius.circular(
-                      DimensRadiusV2.radius12,
-                    ),
+                    borderRadius: BorderRadius.circular(DimensRadius.radius12),
                     child: SeparatedColumn(
                       mainAxisSize: MainAxisSize.min,
                       separator: const CommonDivider(),
@@ -95,7 +92,7 @@ class NewAccountTypeWidget
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const SizedBox(height: DimensSizeV2.d24),
+                      const SizedBox(height: DimensSize.d24),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -112,13 +109,13 @@ class NewAccountTypeWidget
                           ),
                         ],
                       ),
-                      const SizedBox(height: DimensSizeV2.d8),
+                      const SizedBox(height: DimensSize.d8),
                       SeparatedRow(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Icon(
                             LucideIcons.octagonAlert,
-                            size: DimensSizeV2.d20,
+                            size: DimensSize.d20,
                             color: theme.colors.content3,
                           ),
                           Flexible(
@@ -131,7 +128,7 @@ class NewAccountTypeWidget
                           ),
                         ],
                       ),
-                      const SizedBox(height: DimensSizeV2.d12),
+                      const SizedBox(height: DimensSize.d12),
                       MultiListenerRebuilder(
                         listenableList: [
                           wm.selectedState,
@@ -149,7 +146,7 @@ class NewAccountTypeWidget
                             padding: EdgeInsets.zero,
                             color: theme.colors.background1,
                             borderRadius: BorderRadius.circular(
-                              DimensRadiusV2.radius12,
+                              DimensRadius.radius12,
                             ),
                             child: SeparatedColumn(
                               mainAxisSize: MainAxisSize.min,
@@ -181,7 +178,7 @@ class NewAccountTypeWidget
             final selected = wm.selectedState.value;
 
             return Padding(
-              padding: const EdgeInsets.only(top: DimensSizeV2.d12),
+              padding: const EdgeInsets.only(top: DimensSize.d12),
               child: AccentButton(
                 buttonShape: ButtonShape.pill,
                 title: LocaleKeys.addAccount.tr(),
@@ -250,13 +247,13 @@ class _WalletType extends StatelessWidget {
       onTap: !disabled ? onTap : null,
       behavior: HitTestBehavior.translucent,
       child: Padding(
-        padding: const EdgeInsets.all(DimensSizeV2.d16),
+        padding: const EdgeInsets.all(DimensSize.d16),
         child: SeparatedRow(
-          spacing: DimensSizeV2.d12,
+          spacing: DimensSize.d12,
           children: [
             Expanded(
               child: SeparatedColumn(
-                spacing: DimensSizeV2.d4,
+                spacing: DimensSize.d4,
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -287,7 +284,7 @@ class _WalletType extends StatelessWidget {
               visible: checked,
               child: Icon(
                 LucideIcons.check,
-                size: DimensSizeV2.d20,
+                size: DimensSize.d20,
                 color: disabled ? colors.borderDisabled : null,
               ),
             ),

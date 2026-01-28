@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class PrimaryBottomSheetContainer extends StatelessWidget {
   const PrimaryBottomSheetContainer({
@@ -41,8 +41,8 @@ class PrimaryBottomSheetContainerBox extends StatelessWidget {
       decoration: BoxDecoration(
         color: backgroundColor ?? colors.background1,
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(DimensRadiusV2.radius16),
-          topRight: Radius.circular(DimensRadiusV2.radius16),
+          topLeft: Radius.circular(DimensRadius.radius16),
+          topRight: Radius.circular(DimensRadius.radius16),
         ),
       ),
       child: child,
@@ -59,15 +59,15 @@ class PrimaryBottomSheetLabel extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(
-        top: DimensSizeV2.d6,
-        bottom: DimensSizeV2.d21,
+        top: DimensSize.d6,
+        bottom: DimensSize.d21,
       ),
       child: SizedBox(
-        width: DimensSizeV2.d36,
-        height: DimensSizeV2.d5,
+        width: DimensSize.d36,
+        height: DimensSize.d5,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(DimensSizeV2.d2),
+            borderRadius: BorderRadius.circular(DimensSize.d2),
             color: colors.primaryA.withValues(alpha: .7),
           ),
         ),

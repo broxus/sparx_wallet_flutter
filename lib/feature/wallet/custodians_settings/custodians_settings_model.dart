@@ -1,6 +1,5 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/wallet/custodians_settings/custodian_data.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
@@ -21,7 +20,7 @@ class CustodiansSettingsModel extends ElementaryModel {
   final NekotonRepository _nekotonRepository;
 
   Future<TonWalletState> getWallet(Address address) =>
-      _nekotonRepository.getWallet(address);
+      _nekotonRepository.getWalletByAddress(address);
 
   List<CustodianData> getCustodiansForAccount(TonWallet wallet) =>
       wallet.custodians

@@ -33,7 +33,7 @@ class QrScannerWidgetModel
 
   Rect get scanWindow => MediaQuery.sizeOf(context).let(
     (size) => Rect.fromCenter(
-      center: size.center(const Offset(0, -DimensSizeV2.d64)),
+      center: size.center(const Offset(0, -DimensSize.d64)),
       width: (size.width * 0.65).roundToDouble(),
       height: (size.width * 0.65).roundToDouble(),
     ),

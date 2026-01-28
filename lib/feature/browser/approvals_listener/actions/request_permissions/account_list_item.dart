@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class AccountListItem extends StatelessWidget {
   const AccountListItem({
@@ -35,13 +34,13 @@ class AccountListItem extends StatelessWidget {
       child: ColoredBox(
         color: active ? theme.colors.background3 : theme.colors.background2,
         child: Padding(
-          padding: const EdgeInsets.all(DimensSizeV2.d16),
+          padding: const EdgeInsets.all(DimensSize.d16),
           child: SeparatedRow(
             children: [
               UserAvatar(address: account.address.address),
               Expanded(
                 child: SeparatedColumn(
-                  spacing: DimensSizeV2.d2,
+                  spacing: DimensSize.d2,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -67,7 +66,7 @@ class AccountListItem extends StatelessWidget {
                                 ),
                               ) ??
                               ProgressIndicatorWidget(
-                                size: DimensSizeV2.d16,
+                                size: DimensSize.d16,
                                 color: theme.colors.content3,
                               ),
                         ),
@@ -76,7 +75,7 @@ class AccountListItem extends StatelessWidget {
                   ],
                 ),
               ),
-              if (active) const Icon(LucideIcons.check, size: DimensSizeV2.d20),
+              if (active) const Icon(LucideIcons.check, size: DimensSize.d20),
             ],
           ),
         ),

@@ -38,13 +38,13 @@ class PrivateKeyItemWidget extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const SizedBox(width: DimensSizeV2.d16),
+                    const SizedBox(width: DimensSize.d16),
                     Icon(
                       LucideIcons.keyRound,
                       color: theme.colors.content0,
-                      size: DimensSizeV2.d20,
+                      size: DimensSize.d20,
                     ),
-                    const SizedBox(width: DimensSizeV2.d12),
+                    const SizedBox(width: DimensSize.d12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +60,7 @@ class PrivateKeyItemWidget extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: DimensSizeV2.d4),
+                          const SizedBox(height: DimensSize.d4),
                           Text(
                             privateKey.key,
                             style: theme.textStyles.labelXSmall.copyWith(
@@ -72,7 +72,7 @@ class PrivateKeyItemWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: DimensSizeV2.d12),
+                const SizedBox(height: DimensSize.d12),
                 PublicKeyItemWidget(
                   accounts: privateKey.accounts,
                   currentAccount: currentAccount,

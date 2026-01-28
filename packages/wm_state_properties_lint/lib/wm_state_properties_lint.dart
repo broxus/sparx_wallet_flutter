@@ -1,5 +1,5 @@
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/error/error.dart' show ErrorSeverity;
+import 'package:analyzer/error/error.dart' show DiagnosticSeverity;
 import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/source/source_range.dart' show SourceRange;
 import 'package:custom_lint_builder/custom_lint_builder.dart';
@@ -71,7 +71,7 @@ class WmPublicGetterNamingRule extends DartLintRule
     problemMessage:
         'Public getter {0} of type {1} must end with "State" suffix',
     correctionMessage: 'Consider renaming to {2}',
-    errorSeverity: ErrorSeverity.WARNING,
+    errorSeverity: DiagnosticSeverity.WARNING,
   );
 
   static const _streamCode = LintCode(
@@ -79,13 +79,13 @@ class WmPublicGetterNamingRule extends DartLintRule
     problemMessage:
         'Public getter {0} of type {1} must end with "Stream" suffix',
     correctionMessage: 'Consider renaming to {2}',
-    errorSeverity: ErrorSeverity.WARNING,
+    errorSeverity: DiagnosticSeverity.WARNING,
   );
 
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     // Only check files that end with _wm.dart
@@ -138,13 +138,13 @@ class WmPrivateFieldNamingRule extends DartLintRule
     name: 'wm_private_field_naming',
     problemMessage: 'Private field {0} should match its public getter name {1}',
     correctionMessage: 'Rename to {2}',
-    errorSeverity: ErrorSeverity.WARNING,
+    errorSeverity: DiagnosticSeverity.WARNING,
   );
 
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     // Only check files that end with _wm.dart

@@ -20,9 +20,6 @@ class WalletPageWidgetModel
   late final _currentAccountState = createNotifierFromStream(
     model.currentAccount,
   );
-  late final _transportStrategyState = createNotifierFromStream(
-    model.transportStrategy,
-  );
   late final _isShowingNewTokensState = createNotifier<bool>();
   late final _hasUnconfirmedTransactionsState = createNotifier<bool>();
 
@@ -38,9 +35,6 @@ class WalletPageWidgetModel
 
   ListenableState<bool?> get hasUnconfirmedTransactionsState =>
       _hasUnconfirmedTransactionsState;
-
-  ListenableState<TransportStrategy> get transportStrategyState =>
-      _transportStrategyState;
 
   ListenableState<bool> get isShowingNewTokensState => _isShowingNewTokensState;
 

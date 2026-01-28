@@ -15,7 +15,7 @@ class SelectWorkchainModel extends ElementaryModel {
   Stream<ConnectionWorkchain?> get currentWorkchainStream =>
       _storageService.currentWorkchainStream;
 
-  Future<void> saveCurrentConnectionId({
+  void saveCurrentConnectionId({
     required String connectionId,
     required int workchainId,
   }) {

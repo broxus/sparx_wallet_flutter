@@ -10,7 +10,6 @@ import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/text_styles_v2.dart';
 
 class TonWalletMultisigPendingTransactionDetailsWmParams {
   TonWalletMultisigPendingTransactionDetailsWmParams({

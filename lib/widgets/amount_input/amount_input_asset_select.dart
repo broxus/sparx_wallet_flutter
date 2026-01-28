@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class AmountInputAssetSelect extends StatelessWidget {
   const AmountInputAssetSelect({
@@ -32,7 +31,7 @@ class AmountInputAssetSelect extends StatelessWidget {
         children: [
           if (currentValue != null) ...[
             TokenWalletIconWidget(
-              size: DimensSizeV2.d20,
+              size: DimensSize.d20,
               address: currentValue!.rootTokenContract,
               logoURI: currentValue!.logoURI,
               version: currentValue!.version ?? TokenWalletVersion.tip3,
@@ -54,7 +53,7 @@ class AmountInputAssetSelect extends StatelessWidget {
                   ? Icon(
                       LucideIcons.chevronDown,
                       color: theme.colors.content0,
-                      size: DimensSizeV2.d16,
+                      size: DimensSize.d16,
                     )
                   : const SizedBox.shrink(),
             ),
@@ -75,7 +74,7 @@ class AmountInputAssetSelect extends StatelessWidget {
         onTap: onPressed,
         behavior: HitTestBehavior.translucent,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d8),
+          padding: const EdgeInsets.symmetric(vertical: DimensSize.d8),
           child: SeparatedRow(
             children: [
               TokenWalletIconWidget(
@@ -86,7 +85,7 @@ class AmountInputAssetSelect extends StatelessWidget {
               ),
               Expanded(
                 child: SeparatedColumn(
-                  spacing: DimensSizeV2.d4,
+                  spacing: DimensSize.d4,
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -107,7 +106,7 @@ class AmountInputAssetSelect extends StatelessWidget {
                 ),
               ),
               if (isSelected)
-                const Icon(LucideIcons.check, size: DimensSizeV2.d20),
+                const Icon(LucideIcons.check, size: DimensSize.d20),
             ],
           ),
         ),
@@ -123,11 +122,11 @@ class AmountInputAssetSelect extends StatelessWidget {
       body: (context, scrollController) {
         return SingleChildScrollView(
           controller: scrollController,
-          padding: const EdgeInsets.only(top: DimensSizeV2.d16),
+          padding: const EdgeInsets.only(top: DimensSize.d16),
           child: ValueListenableBuilder(
             valueListenable: values!,
             builder: (_, values, __) => SeparatedColumn(
-              spacing: DimensSizeV2.d12,
+              spacing: DimensSize.d12,
               children: values
                   .map(
                     (asset) => _itemBuilder(

@@ -4,7 +4,6 @@ import 'package:app/generated/generated.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class WebsiteInfoWidget
     extends
@@ -20,10 +19,10 @@ class WebsiteInfoWidget
   @override
   Widget build(WebsiteInfoWidgetModel wm) => PrimaryCard(
     color: wm.theme.colors.background2,
-    borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+    borderRadius: BorderRadius.circular(DimensRadius.radius16),
     padding: const EdgeInsets.symmetric(
-      vertical: DimensSizeV2.d12,
-      horizontal: DimensSizeV2.d16,
+      vertical: DimensSize.d12,
+      horizontal: DimensSize.d16,
     ),
     child: SeparatedRow(
       children: [
@@ -32,10 +31,10 @@ class WebsiteInfoWidget
           builder: (_, faviconUrl, __) => faviconUrl == null
               ? CommonIconWidget.svg(svg: Assets.images.web.path)
               : ClipRRect(
-                  borderRadius: BorderRadius.circular(DimensRadiusV2.radius20),
+                  borderRadius: BorderRadius.circular(DimensRadius.radius20),
                   child: CachedNetworkImage(
-                    height: DimensSizeV2.d40,
-                    width: DimensSizeV2.d40,
+                    height: DimensSize.d40,
+                    width: DimensSize.d40,
                     imageUrl: faviconUrl,
                     placeholder: (_, __) =>
                         const CommonCircularProgressIndicator(),
@@ -46,7 +45,7 @@ class WebsiteInfoWidget
         ),
         Expanded(
           child: SeparatedColumn(
-            spacing: DimensSizeV2.d4,
+            spacing: DimensSize.d4,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(

@@ -1,0 +1,85 @@
+import 'package:app/feature/ledger/ledger.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:test/test.dart';
+
+class _MockGetStorage extends Mock implements GetStorage {}
+
+void main() {
+  group('LedgerStorageService', () {
+    const connectedKey = 'connected_ledgers';
+
+    late LedgerStorageService service;
+    late _MockGetStorage storage;
+
+    setUp(() {
+      storage = _MockGetStorage();
+      service = LedgerStorageService(storage);
+
+      when(
+        () => storage.write(any<String>(), any<dynamic>()),
+      ).thenAnswer((_) async {});
+      when(() => storage.erase()).thenAnswer((_) async {});
+    });
+
+    test('readConnectedLedgers decodes stored list', () {
+      // Arrange
+      const connected = ConnectedLedger(
+        remoteId: 'remote-1',
+        masterKey: PublicKey(publicKey: 'master-1'),
+        deviceModelId: DeviceModelId.nanoX,
+      );
+      when(
+        () => storage.read<List<dynamic>>(connectedKey),
+      ).thenReturn([connected.toJson()]);
+
+      // Act
+      final result = service.readConnectedLedgers();
+
+      // Assert
+      expect(result, hasLength(1));
+      expect(result.first.remoteId, equals('remote-1'));
+      expect(result.first.deviceModelId, equals(DeviceModelId.nanoX));
+      expect(result.first.masterKey.publicKey, equals('master-1'));
+    });
+
+    test('addConnectedLedger stores and publishes ledger', () {
+      // Arrange
+      when(() => storage.read<List<dynamic>>(connectedKey)).thenReturn([]);
+      const connected = ConnectedLedger(
+        remoteId: 'remote-2',
+        masterKey: PublicKey(publicKey: 'master-2'),
+        deviceModelId: DeviceModelId.stax,
+      );
+
+      // Act
+      service.addConnectedLedger(connected);
+
+      // Assert
+      expect(service.connected[connected.masterKey], equals(connected));
+      verify(() => storage.write(connectedKey, [connected.toJson()])).called(1);
+    });
+
+    test('removeConnectedLedger removes stored entry', () {
+      // Arrange
+      when(() => storage.read<List<dynamic>>(connectedKey)).thenReturn([]);
+      const connected = ConnectedLedger(
+        remoteId: 'remote-3',
+        masterKey: PublicKey(publicKey: 'master-3'),
+        deviceModelId: DeviceModelId.europa,
+      );
+      service.addConnectedLedger(connected);
+
+      // Act
+      // ignore: cascade_invocations
+      service.removeConnectedLedger(connected.masterKey);
+
+      // Assert
+      expect(service.connected.containsKey(connected.masterKey), isFalse);
+      verify(
+        () => storage.write(connectedKey, <Map<String, dynamic>>[]),
+      ).called(1);
+    });
+  });
+}

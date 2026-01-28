@@ -54,7 +54,7 @@ class _TokenWalletSendConfirmViewState
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: DimensSizeV2.d8,
+      spacing: DimensSize.d8,
       children: [
         Expanded(
           child: SingleChildScrollView(
@@ -91,7 +91,7 @@ class _TokenWalletSendConfirmViewState
             final fees = widget.fees.value;
 
             return Column(
-              spacing: DimensSizeV2.d8,
+              spacing: DimensSize.d8,
               children: [
                 if (txErrors != null && txErrors.isNotEmpty)
                   TxTreeSimulationErrorWidget(

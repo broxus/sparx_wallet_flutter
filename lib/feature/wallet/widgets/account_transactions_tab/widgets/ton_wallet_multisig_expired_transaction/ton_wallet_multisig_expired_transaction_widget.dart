@@ -72,14 +72,14 @@ class TonWalletMultisigExpiredTransactionWidget
                   color: wm.colors.content3,
                 ),
               ),
-              const SizedBox(height: DimensSizeV2.d4),
+              const SizedBox(height: DimensSize.d4),
               Text(
                 transactionText,
                 style: wm.textStyles.labelXSmall.copyWith(
                   color: wm.colors.content3,
                 ),
               ),
-              const SizedBox(height: DimensSizeV2.d6),
+              const SizedBox(height: DimensSize.d6),
             ],
           ),
         );

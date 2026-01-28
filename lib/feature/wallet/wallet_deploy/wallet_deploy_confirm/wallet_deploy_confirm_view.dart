@@ -9,7 +9,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Widget, that displays base information for deploying wallet and let user
 /// confirm transaction by entering password.
@@ -50,12 +49,12 @@ class WalletDeployConfirmView extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return SeparatedColumn(
-      spacing: DimensSizeV2.d16,
+      spacing: DimensSize.d16,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (account != null)
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+            padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
             child: AccountInfo(account: account!),
           ),
         Expanded(
@@ -63,10 +62,10 @@ class WalletDeployConfirmView extends StatelessWidget {
             child: ShapedContainerColumn(
               separator: const SizedBox.shrink(),
               padding: const EdgeInsets.only(
-                top: DimensSizeV2.d24,
-                left: DimensSizeV2.d16,
-                right: DimensSizeV2.d16,
-                bottom: DimensSizeV2.d4,
+                top: DimensSize.d24,
+                left: DimensSize.d16,
+                right: DimensSize.d16,
+                bottom: DimensSize.d4,
               ),
               color: theme.colors.background1,
               mainAxisSize: MainAxisSize.min,
@@ -75,9 +74,9 @@ class WalletDeployConfirmView extends StatelessWidget {
                   LocaleKeys.fundsDebitedToDeploy.tr(),
                   style: theme.textStyles.labelMedium,
                 ),
-                const SizedBox(height: DimensSizeV2.d16),
+                const SizedBox(height: DimensSize.d16),
                 CommonDivider(color: theme.colors.border0),
-                const SizedBox(height: DimensSizeV2.d16),
+                const SizedBox(height: DimensSize.d16),
                 if (currency != null)
                   WalletTransactionDetailsItem(
                     title: LocaleKeys.accountBalance.tr(),
@@ -102,7 +101,7 @@ class WalletDeployConfirmView extends StatelessWidget {
                       ),
                     ),
                   ),
-                const SizedBox(height: DimensSizeV2.d16),
+                const SizedBox(height: DimensSize.d16),
                 if (currency != null)
                   WalletTransactionDetailsItem(
                     title: LocaleKeys.networkFee.tr(),
@@ -129,12 +128,12 @@ class WalletDeployConfirmView extends StatelessWidget {
                       ),
                     ),
                   ),
-                const SizedBox(height: DimensSizeV2.d4),
+                const SizedBox(height: DimensSize.d4),
                 if (custodians?.isNotEmpty ?? false)
                   Padding(
                     padding: const EdgeInsets.only(
-                      bottom: DimensSizeV2.d16,
-                      top: DimensSizeV2.d12,
+                      bottom: DimensSize.d16,
+                      top: DimensSize.d12,
                     ),
                     child: CommonDivider(color: theme.colors.border0),
                   ),
@@ -148,7 +147,7 @@ class WalletDeployConfirmView extends StatelessWidget {
                 ),
                 if (requireConfirmations != null)
                   Padding(
-                    padding: const EdgeInsets.only(bottom: DimensSizeV2.d16),
+                    padding: const EdgeInsets.only(bottom: DimensSize.d16),
                     child: CommonDivider(color: theme.colors.border0),
                   ),
                 if (requireConfirmations != null)
@@ -198,7 +197,7 @@ class WalletDeployConfirmView extends StatelessWidget {
         return SeparatedColumn(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: DimensSizeV2.d12,
+          spacing: DimensSize.d12,
           children: [
             Text(
               title,
@@ -221,7 +220,7 @@ class WalletDeployConfirmView extends StatelessWidget {
                   color: theme.colors.contentNegative,
                 ),
               ),
-            const SizedBox(height: DimensSizeV2.d12),
+            const SizedBox(height: DimensSize.d12),
           ],
         );
       },

@@ -8,7 +8,6 @@ import 'package:app/feature/splash/route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/text_styles_v2.dart';
 
 /// [WidgetModel] для [NoInternetScreen]
 @injectable
