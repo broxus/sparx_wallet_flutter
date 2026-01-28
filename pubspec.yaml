@@ -318,6 +318,10 @@ melos:
       description: Fetch connections config
       run: bash scripts/fetch-configs.sh
 
+    coverage:
+      description: Generate test coverage report
+      run: bash scripts/coverage.sh
+
   command:
     clean:
       hooks:
