@@ -35,24 +35,20 @@ class CreateSeedPasswordScreen
       onTap: resetFocus,
       child: CustomMediaQuery(
         viewInsetsBottomAddon: -DimensSize.d16,
-        child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          backgroundColor: wm.themeStyle.colors.background0,
-          appBar: const DefaultAppBar(),
-          body: DoubleSourceBuilder<bool, PasswordStatus>(
-            firstSource: wm.loadState,
-            secondSource: wm.passwordStatusState,
-            builder: (_, isLoading, passwordStatus) {
-              return CreateSeedPasswordView(
-                needBiometryIfPossible: true,
-                passwordController: wm.passwordController,
-                confirmController: wm.confirmController,
-                onPressedNext: wm.onPressedNext,
-                isLoading: isLoading ?? false,
-                passwordStatus: passwordStatus,
-              );
-            },
-          ),
+        child: DoubleSourceBuilder<bool, PasswordStatus>(
+          firstSource: wm.loadState,
+          secondSource: wm.passwordStatusState,
+          builder: (_, isLoading, passwordStatus) {
+            return CreateSeedPasswordView(
+              backgroundColor: wm.themeStyle.colors.background0,
+              needBiometryIfPossible: true,
+              passwordController: wm.passwordController,
+              confirmController: wm.confirmController,
+              onPressedNext: wm.onPressedNext,
+              isLoading: isLoading ?? false,
+              passwordStatus: passwordStatus,
+            );
+          },
         ),
       ),
     );
