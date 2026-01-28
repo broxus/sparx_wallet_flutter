@@ -1,8 +1,8 @@
 ---
-name: app
+name: Osama Atef 
 description: SparX Wallet Flutter app
 version: 2.1.0
-publish_to: none
+publish_to: none ( Osama Atef )
 
 environment:
   sdk: '>=3.10.0 <4.0.0'
