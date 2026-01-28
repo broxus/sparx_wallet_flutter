@@ -42,7 +42,7 @@ class SelectAccountWidgetSmallLayout extends StatelessWidget {
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.only(bottom: DimensSizeV2.d24),
+              padding: const EdgeInsets.only(bottom: DimensSize.d24),
               child: PrimaryTextField(
                 textEditingController: _wm.searchController,
                 hintText: LocaleKeys.searchWord.tr(),
@@ -88,20 +88,20 @@ class SelectAccountWidgetSmallLayout extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const SizedBox(height: DimensSizeV2.d16),
+                const SizedBox(height: DimensSize.d16),
                 AccentButton(
                   buttonShape: ButtonShape.pill,
                   title: LocaleKeys.addAccount.tr(),
                   postfixIcon: LucideIcons.plus,
                   onPressed: _wm.onAddAccount,
                 ),
-                const SizedBox(height: DimensSizeV2.d8),
+                const SizedBox(height: DimensSize.d8),
                 PrimaryButton(
                   buttonShape: ButtonShape.pill,
                   title: LocaleKeys.manageSeedsAndAccounts.tr(),
                   onPressed: _wm.onManageSeedsAndAccounts,
                 ),
-                const SizedBox(height: DimensSizeV2.d8),
+                const SizedBox(height: DimensSize.d8),
               ],
             ),
           ),
@@ -144,10 +144,10 @@ class _SeedItemStickyDelegate extends SliverPersistentHeaderDelegate {
       child: Container(
         decoration: BoxDecoration(
           color: theme.colors.background2,
-          borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+          borderRadius: BorderRadius.circular(DimensRadius.radius12),
         ),
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d16),
+          padding: const EdgeInsets.symmetric(vertical: DimensSize.d16),
           child: SeedPhraseItemWidget(
             name: data.name,
             isExpanded: isExpanded,
@@ -250,15 +250,15 @@ class _SeedItemSliverSectionState extends State<_SeedItemSliverSection>
   Widget _getExpandedContent(BuildContext context) {
     _cachedExpandedContent ??= Container(
       margin: const EdgeInsets.only(
-        bottom: DimensSizeV2.d8,
-        left: DimensSizeV2.d8,
-        right: DimensSizeV2.d8,
+        bottom: DimensSize.d8,
+        left: DimensSize.d8,
+        right: DimensSize.d8,
       ),
       decoration: BoxDecoration(
         color: context.themeStyleV2.colors.background2,
         borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(DimensRadiusV2.radius12),
-          bottomRight: Radius.circular(DimensRadiusV2.radius12),
+          bottomLeft: Radius.circular(DimensRadius.radius12),
+          bottomRight: Radius.circular(DimensRadius.radius12),
         ),
       ),
       child: Column(
