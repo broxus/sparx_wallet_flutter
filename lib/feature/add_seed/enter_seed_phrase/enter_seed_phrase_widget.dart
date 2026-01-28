@@ -38,9 +38,11 @@ class EnterSeedPhraseWidget
               padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
               sliver: SliverList.list(
                 children: [
-                  Text(
-                    LocaleKeys.enterSeedPhrase.tr(),
-                    style: theme.textStyles.headingLarge,
+                  Align(
+                    child: Text(
+                      LocaleKeys.enterSeedPhrase.tr(),
+                      style: theme.textStyles.headingLarge,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
