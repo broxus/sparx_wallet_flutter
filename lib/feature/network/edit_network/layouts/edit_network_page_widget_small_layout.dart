@@ -1,6 +1,5 @@
 import 'package:app/feature/network/edit_network/edit_network.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/widgets/bottom_space.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/components/common/common.dart';
 import 'package:ui_components_lib/dimens.dart';

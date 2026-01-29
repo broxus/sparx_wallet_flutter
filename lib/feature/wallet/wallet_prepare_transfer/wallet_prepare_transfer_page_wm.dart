@@ -76,9 +76,7 @@ class WalletPrepareTransferPageWidgetModel
   late final commentController = createTextEditingController();
   late final commentFocus = createFocusNode();
 
-  final addressFilterFormatter = FilteringTextInputFormatter.deny(
-    RegExp(r'\s'),
-  );
+  final inputFormatters = [FilteringTextInputFormatter.deny(RegExp(r'\s'))];
 
   final _assets = <(Address, String), WalletPrepareTransferAsset>{};
   late final _assetsState = createValueNotifier(_assets.values.toList());
