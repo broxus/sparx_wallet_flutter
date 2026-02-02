@@ -72,7 +72,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   Stream<BootstrapSteps> get bootstrapStepStream =>
       _bootstrapService.bootstrapStepStream;
 
-  Future<bool> get isShowRootAlert => _rootDeviceDelegate.isShowRootAlert;
+  Future<bool> get isShowRootScreen => _rootDeviceDelegate.isShowRootScreen;
 
   @override
   void init() {

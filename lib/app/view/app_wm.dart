@@ -57,7 +57,7 @@ class AppWidgetModel extends CustomWidgetModel<App, AppModel> {
     await _bootstrapStepsSubs?.cancel();
     _bootstrapStepsSubs = null;
 
-    if (await model.isShowRootAlert) {
+    if (await model.isShowRootScreen) {
       router.compassPoint(const RootDeviceAlertRouteData());
     } else {
       model.next();

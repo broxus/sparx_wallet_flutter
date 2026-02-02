@@ -6,12 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class RootDeviceDelegate {
   static const userKnowRootKey = 'user_know_root';
 
-  Future<bool> get isShowRootAlert async {
-    return true;
+  Future<bool> get isShowRootScreen async {
+    return await _isRootDevice && !(await _isUserKnowRoot);
   }
-  // Future<bool> get isShowRootAlert async {
-  //   return await _isRootDevice && !(await _isUserKnowRoot);
-  // }
 
   Future<bool> get _isRootDevice async =>
       (await RootCheckerPlus.isRootChecker()) ?? false;
