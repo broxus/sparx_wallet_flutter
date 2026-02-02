@@ -830,4 +830,10 @@ abstract class LocaleKeys {
   static const rootDetectedDescription = 'rootDetectedDescription';
   static const rootDetectedRisk = 'rootDetectedRisk';
   static const rootDetectedAccept = 'rootDetectedAccept';
+  static const rootInfoTitle = 'rootInfoTitle';
+  static const rootInfoDescription = 'rootInfoDescription';
+  static const whatYouCanDoTitle = 'whatYouCanDoTitle';
+  static const whatYouCanDoDescription0 = 'whatYouCanDoDescription0';
+  static const whatYouCanDoDescription1 = 'whatYouCanDoDescription1';
+  static const whatYouCanDoDescription2 = 'whatYouCanDoDescription2';
 }
