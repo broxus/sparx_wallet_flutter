@@ -20,7 +20,7 @@ jobs:
       flutter_version: ${{ steps.read.outputs.flutter_version }}
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Read Flutter version
         id: read
