@@ -4,7 +4,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('EnumExtension.byNameNormalize', () {
+  group('EnumExtension byNameNormalize', () {
     test('returns enum when name matches exactly', () {
       expect(
         MultisigType.values.byNameNormalize('safeMultisigWallet'),
@@ -12,14 +12,14 @@ void main() {
       );
     });
 
-    test('returns enum when first letter case differs (upper -> lower)', () {
+    test('returns enum when first letter case differs. Upper -> lower', () {
       expect(
         MultisigType.values.byNameNormalize('SafeMultisigWallet'),
         MultisigType.safeMultisigWallet,
       );
     });
 
-    test('returns enum when first letter case differs (lower -> upper)', () {
+    test('returns enum when first letter case differs> Lower -> upper', () {
       expect(
         MultisigType.values.byNameNormalize('Multisig2'),
         MultisigType.multisig2,
@@ -33,7 +33,7 @@ void main() {
       );
     });
 
-    test('throws RangeError for empty string (name[0])', () {
+    test('throws RangeError for empty string', () {
       expect(
         () => MultisigType.values.byNameNormalize(''),
         throwsA(isA<RangeError>()),
@@ -41,7 +41,7 @@ void main() {
     });
   });
 
-  group('MultisigTypeConverter.fromJson', () {
+  group('MultisigTypeConverter fromJson', () {
     const converter = MultisigTypeConverter();
 
     test('returns defaults when json is null', () {
@@ -51,7 +51,7 @@ void main() {
       expect(res.length, defaultMultisigNames.length);
     });
 
-    test('starts from defaults and overrides known keys (exact name)', () {
+    test('starts from defaults and overrides known keys', () {
       final res = converter.fromJson({
         'safeMultisigWallet': 'My Safe',
         'multisig2_1': 'My Multisig',
@@ -126,7 +126,7 @@ void main() {
     });
   });
 
-  group('MultisigTypeConverter.toJson', () {
+  group('MultisigTypeConverter toJson', () {
     const converter = MultisigTypeConverter();
 
     test('serializes using enum.name keys', () {

@@ -3,7 +3,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('PollingConfigSecondsConverter.fromJson', () {
+  group('PollingConfigSecondsConverter fromJson', () {
     const converter = PollingConfigSecondsConverter();
 
     test('returns null when json is null', () {
@@ -47,7 +47,7 @@ void main() {
       );
     });
 
-    test('accepts ints (seconds) for all fields', () {
+    test('accepts ints for all fields', () {
       final cfg = converter.fromJson(<String, dynamic>{
         'tonWalletRefreshInterval': 11,
         'tokenWalletRefreshInterval': 22,
@@ -71,7 +71,7 @@ void main() {
       expect(cfg.intensivePollingInterval, const Duration(seconds: 1));
     });
 
-    test('accepts doubles and truncates via toInt()', () {
+    test('accepts doubles and truncates via toInt', () {
       final cfg = converter.fromJson(<String, dynamic>{
         'tonWalletRefreshInterval': 10.9,
         'tokenWalletRefreshInterval': 7.1,
@@ -118,7 +118,7 @@ void main() {
       );
     });
 
-    test('allows negative values (no validation in converter)', () {
+    test('allows negative values', () {
       final cfg = converter.fromJson(<String, dynamic>{
         'tonWalletRefreshInterval': -5,
         'tokenWalletRefreshInterval': '-10',
@@ -131,7 +131,7 @@ void main() {
     });
   });
 
-  group('PollingConfigSecondsConverter.toJson', () {
+  group('PollingConfigSecondsConverter toJson', () {
     const converter = PollingConfigSecondsConverter();
 
     test('returns null when PollingConfig is null', () {

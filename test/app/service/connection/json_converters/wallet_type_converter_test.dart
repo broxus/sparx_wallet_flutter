@@ -3,7 +3,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('WalletTypeConverter.fromJson - multisig special-case', () {
+  group('WalletTypeConverter fromJson. Multisig', () {
     const converter = WalletTypeConverter();
 
     test('reads multisig type from "value"', () {
@@ -17,7 +17,7 @@ void main() {
       expect(res, const WalletType.multisig(MultisigType.multisig2_1));
     });
 
-    test('reads multisig type from "data" when "value" is absent', () {
+    test('reads multisig type from data when value is absent', () {
       final json = <String, dynamic>{
         'type': 'multisig',
         'data': 'safeMultisigWallet',
@@ -40,7 +40,7 @@ void main() {
     });
 
     test(
-      'throws when multisig "value"/"data" is missing (casts null as String)',
+      'throws when multisig value/data is missing. Casts null as String',
       () {
         final json = <String, dynamic>{
           'type': 'multisig',
@@ -51,7 +51,7 @@ void main() {
       },
     );
 
-    test('throws when multisig "value" is not String (cast)', () {
+    test('throws when multisig value is not String', () {
       final json = <String, dynamic>{'type': 'multisig', 'value': 123};
 
       expect(() => converter.fromJson(json), throwsA(isA<TypeError>()));
@@ -67,7 +67,7 @@ void main() {
     });
   });
 
-  group('WalletTypeConverter.fromJson - non-multisig branch', () {
+  group('WalletTypeConverter fromJson. No multisig', () {
     const converter = WalletTypeConverter();
 
     test('delegates to WalletType.fromJson for non-multisig', () {
@@ -80,17 +80,17 @@ void main() {
     });
   });
 
-  group('WalletTypeConverter.toJson', () {
+  group('WalletTypeConverter toJson', () {
     const converter = WalletTypeConverter();
 
-    test('returns object.toJson() result', () {
+    test('returns object.toJson result', () {
       const obj = WalletType.multisig(MultisigType.multisig2);
       final json = converter.toJson(obj);
 
       expect(json, equals(obj.toJson()));
     });
 
-    test('multisig toJson contains unionKey "type" (sanity check)', () {
+    test('multisig toJson contains unionKey type', () {
       const obj = WalletType.multisig(MultisigType.multisig2_1);
       final json = converter.toJson(obj);
 
@@ -117,7 +117,7 @@ void main() {
       expect(res[2], const WalletType.walletV4R2());
     });
 
-    test('toJson returns list of element.toJson()', () {
+    test('toJson returns list of element.toJson', () {
       final list = <WalletType>[
         const WalletType.multisig(MultisigType.safeMultisigWallet),
         const WalletType.walletV3R2(),
@@ -129,7 +129,7 @@ void main() {
     });
 
     test(
-      'throws when list contains non-map element (cast in list converter)',
+      'throws when list contains non-map element. Cast in list converter',
       () {
         final json = <dynamic>[
           <String, dynamic>{'type': 'multisig', 'value': 'multisig2'},
@@ -162,7 +162,7 @@ void main() {
       expect(back, original);
     });
 
-    test('non-multisig: fromJson(toJson(x)) == x', () {
+    test('non-multisig fromJson(toJson(x)) == x', () {
       const original = WalletType.walletV5R1();
       final json = converter.toJson(original);
       final back = converter.fromJson(json);
