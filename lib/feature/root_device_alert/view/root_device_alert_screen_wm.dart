@@ -4,6 +4,7 @@ import 'package:app/feature/root_device_alert/view/root_device_alert_screen.dart
 import 'package:app/feature/root_device_alert/view/root_device_alert_screen_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// [WidgetModel] for [RootDeviceAlertScreen]
 @injectable
@@ -12,12 +13,24 @@ class RootDeviceAlertScreenWidgetModel
         CustomWidgetModel<RootDeviceAlertScreen, RootDeviceAlertScreenModel> {
   RootDeviceAlertScreenWidgetModel(super.model);
 
-  late final _understandState = createNotNullNotifier<bool>(false);
+  late final titleStyle = _theme.textStyles.headingLarge.copyWith(
+    letterSpacing: -.336,
+  );
 
-  NotNullListenableState<bool> get understandState => _understandState;
+  late final descriptionStyle = _theme.textStyles.paragraphSmall;
 
-  void onChangedCheckBox() {
-    _understandState.accept(!_understandState.value);
+  late final _theme = context.themeStyleV2;
+
+  late final _acceptState = createNotNullNotifier<bool>(false);
+
+  NotNullListenableState<bool> get acceptState => _acceptState;
+
+  void onPressedInfo() {
+    // todo
+  }
+
+  void onPressedAccept() {
+    _acceptState.accept(!_acceptState.value);
   }
 
   void onPressedNext() => model.next();

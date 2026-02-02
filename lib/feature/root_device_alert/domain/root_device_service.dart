@@ -7,8 +7,11 @@ class RootDeviceDelegate {
   static const userKnowRootKey = 'user_know_root';
 
   Future<bool> get isShowRootAlert async {
-    return await _isRootDevice && !(await _isUserKnowRoot);
+    return true;
   }
+  // Future<bool> get isShowRootAlert async {
+  //   return await _isRootDevice && !(await _isUserKnowRoot);
+  // }
 
   Future<bool> get _isRootDevice async =>
       (await RootCheckerPlus.isRootChecker()) ?? false;

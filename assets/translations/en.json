@@ -791,5 +791,9 @@
   "passwordLockedUntil": "Password locked until {}",
   "invalidPayloadError": "Payload is invalid",
   "invalidStateInitError": "StateInit is invalid",
-  "unsupportedWalletTypeError": "Unsupported wallet type"
+  "unsupportedWalletTypeError": "Unsupported wallet type",
+  "rootDetectedTitle": "Root / Jailbreak detected",
+  "rootDetectedDescription": "This device has a modified security environment. Wallet security cannot be guaranteed.",
+  "rootDetectedRisk": "By continuing, you acknowledge\nand accept the associated risks",
+  "rootDetectedAccept": "I understand and accept the risks"
 }
