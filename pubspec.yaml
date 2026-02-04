@@ -110,6 +110,7 @@ dependency_overrides:
   money2: 6.0.5
 
 dev_dependencies:
+  app_links_platform_interface: 2.0.2
   broxus_flutter_analysis:
     git:
       url: https://github.com/broxus/flutter_templates.git
