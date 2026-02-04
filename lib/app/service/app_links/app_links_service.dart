@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app_links/app_links.dart';
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
@@ -72,7 +71,6 @@ class AppLinksService {
       return _handleTonConnectLink(uri);
     }
   }
-
 
   void _handleQueryLink(String link) {
     if (link.isEmpty) {

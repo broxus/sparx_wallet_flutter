@@ -145,7 +145,6 @@ void main() {
           const Duration(milliseconds: 80),
         );
 
-        // Если ConnectQuery.fromQuery не принимает это — событие не должно появиться
         platform.emitUri(Uri.parse('tc://?bad=1'));
 
         await expectLater(future, throwsA(isA<TimeoutException>()));
