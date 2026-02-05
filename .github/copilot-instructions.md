@@ -19,7 +19,8 @@ Keep review feedback concise; prefer checklists and links over prose.
 - Async loading should use EntityStateNotifier pattern; keep try/catch minimal and meaningful.
 
 ## Testing Expectations
-- Design for testability via DI; prefer Mocktail and AAA style.
+- Design for testability via DI; prefer AAA style.
+- Prefer using **mocktail** for mocks instead of handwritten fakes.
 - Highlight missing or weak tests for critical paths (happy + error). Usual commands: `melos run test` or `flutter test path/to/file -p name="test name"`.
 
 ## Code Quality
