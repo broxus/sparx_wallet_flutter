@@ -18,7 +18,10 @@ class PollingConfigConverter
     final rawSseBaseUrl = json['sseBaseUrl'];
     if (rawSseBaseUrl is String && rawSseBaseUrl.isNotEmpty) {
       final uri = Uri.tryParse(rawSseBaseUrl);
-      if (uri != null && uri.hasScheme && uri.hasAuthority) {
+      if (uri != null &&
+          uri.hasScheme &&
+          uri.hasAuthority &&
+          (uri.scheme == 'http' || uri.scheme == 'https')) {
         sseBaseUrl = rawSseBaseUrl;
       }
     }
