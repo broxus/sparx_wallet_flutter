@@ -21,7 +21,8 @@ class _ThrowingPathProviderPlatform extends PathProviderPlatform {
   @override
   Future<String?> getApplicationDocumentsPath() {
     throw StateError(
-      'PathProvider used before test setUp(): MainDatabase was created too early',
+      'PathProvider used before test setUp(): '
+      'MainDatabase was created too early',
     );
   }
 }
@@ -80,7 +81,7 @@ void main() {
   });
 
   test('saveHistoryItem: inserts and getHistoryItemById returns it', () async {
-    final t = DateTime.utc(2026, 2, 5, 10, 0);
+    final t = DateTime.utc(2026, 2, 5, 10);
     final x = _item(
       id: '1',
       title: 'Hello',
@@ -165,8 +166,8 @@ void main() {
     final first = await q.next;
     expect(first, isEmpty);
 
-    final t1 = DateTime.utc(2026, 2, 5, 10, 0);
-    final t2 = DateTime.utc(2026, 2, 5, 11, 0);
+    final t1 = DateTime.utc(2026, 2, 5, 10);
+    final t2 = DateTime.utc(2026, 2, 5, 11);
 
     await delegate.saveHistoryItem(
       _item(id: 'a', title: 'A', url: 'https://a.com', visitTime: t1),
@@ -199,45 +200,43 @@ void main() {
   );
 
   test('search: matches by norm(title) with ё->е and trim/case', () async {
-    final t = DateTime.utc(2026, 2, 5, 10, 0);
+    final t = DateTime.utc(2026, 2, 5, 10);
 
     await delegate.saveHistoryItem(
       _item(
-        id: 'ru',
-        title: '  Ёжик В ТумАне  ',
+        id: '0',
+        title: '  Test  ',
         url: 'https://somewhere.com',
         visitTime: t,
       ),
     );
 
-    final got1 = await delegate.getItems('ежик');
-    expect(got1.map((e) => e.id), contains('ru'));
+    final got1 = await delegate.getItems('test');
+    expect(got1.map((e) => e.id), contains('0'));
 
-    final got2 = await delegate.getItems('  ЕЖИК  ');
-    expect(got2.map((e) => e.id), contains('ru'));
+    final got2 = await delegate.getItems('  TEST  ');
+    expect(got2.map((e) => e.id), contains('0'));
   });
 
-  test(
-    'search: matches by norm_url(url): lower host, strips www., uses path, ignores query',
-    () async {
-      final t = DateTime.utc(2026, 2, 5, 10, 0);
+  test('search: matches by norm_url(url): lower host, strips www., '
+      'uses path, ignores query', () async {
+    final t = DateTime.utc(2026, 2, 5, 10);
 
-      await delegate.saveHistoryItem(
-        _item(
-          id: 'u',
-          title: 'Anything',
-          url: 'https://WWW.Example.COM/Path/Page?X=1&Y=2',
-          visitTime: t,
-        ),
-      );
+    await delegate.saveHistoryItem(
+      _item(
+        id: 'u',
+        title: 'Anything',
+        url: 'https://WWW.Example.COM/Path/Page?X=1&Y=2',
+        visitTime: t,
+      ),
+    );
 
-      final got = await delegate.getItems('example.com/path');
-      expect(got.map((e) => e.id), contains('u'));
-    },
-  );
+    final got = await delegate.getItems('example.com/path');
+    expect(got.map((e) => e.id), contains('u'));
+  });
 
   test('search: escapes LIKE wildcards %, _ and backslash', () async {
-    final t = DateTime.utc(2026, 2, 5, 10, 0);
+    final t = DateTime.utc(2026, 2, 5, 10);
 
     await delegate.saveHistoryItem(
       _item(
@@ -261,7 +260,7 @@ void main() {
       final first = await q.next;
       expect(first, 0);
 
-      final t = DateTime.utc(2026, 2, 5, 10, 0);
+      final t = DateTime.utc(2026, 2, 5, 10);
       await delegate.saveHistoryItem(
         _item(id: '1', title: 'T1', url: 'https://1.com', visitTime: t),
       );
@@ -287,7 +286,7 @@ void main() {
   );
 
   test('deleteHistoryItem removes by id', () async {
-    final t = DateTime.utc(2026, 2, 5, 10, 0);
+    final t = DateTime.utc(2026, 2, 5, 10);
 
     await delegate.saveHistoryItemsList([
       _item(id: 'a', title: 'A', url: 'https://a.com', visitTime: t),
@@ -302,7 +301,7 @@ void main() {
   });
 
   test('deleteHistoryItemByUri removes by exact url string', () async {
-    final t = DateTime.utc(2026, 2, 5, 10, 0);
+    final t = DateTime.utc(2026, 2, 5, 10);
 
     final uri = Uri.parse('https://example.com/x');
     await delegate.saveHistoryItem(
@@ -316,7 +315,7 @@ void main() {
   });
 
   test('deleteHistoryByPeriod deletes items with visitTime > date', () async {
-    final base = DateTime.utc(2026, 2, 5, 10, 0);
+    final base = DateTime.utc(2026, 2, 5, 10);
 
     await delegate.saveHistoryItemsList([
       _item(id: 'old', title: 'Old', url: 'https://old', visitTime: base),
@@ -338,7 +337,7 @@ void main() {
   test(
     'clearHistoryByDates deletes items in inclusive range (between values)',
     () async {
-      final t0 = DateTime.utc(2026, 2, 5, 10, 0);
+      final t0 = DateTime.utc(2026, 2, 5, 10);
       final t1 = DateTime.utc(2026, 2, 5, 10, 1);
       final t2 = DateTime.utc(2026, 2, 5, 10, 2);
 

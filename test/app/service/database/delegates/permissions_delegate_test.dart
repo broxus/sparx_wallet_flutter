@@ -19,7 +19,8 @@ class _ThrowingPathProviderPlatform extends PathProviderPlatform {
   @override
   Future<String?> getApplicationDocumentsPath() {
     throw StateError(
-      'PathProvider used before test setUp(): MainDatabase was created too early',
+      'PathProvider used before test setUp(): '
+      'MainDatabase was created too early',
     );
   }
 }
@@ -82,7 +83,7 @@ void main() {
         'CaMeRa',
         '  mic ',
         'MIC',
-        '   ', // мусор
+        '   ',
       ]);
 
       expect(
@@ -142,22 +143,17 @@ void main() {
     },
   );
 
-  test(
-    'checkPermissions: host is isolated (same perm on other host does not count)',
-    () async {
-      await delegate.savePermissions('a.com', ['camera', 'mic']);
-      await delegate.savePermissions('b.com', ['camera']); // mic нет
+  test('checkPermissions: host is isolated '
+      '(same perm on other host does not count)', () async {
+    await delegate.savePermissions('a.com', ['camera', 'mic']);
+    await delegate.savePermissions('b.com', ['camera']);
 
-      expect(
-        await delegate.checkPermissions('a.com', ['camera', 'mic']),
-        isTrue,
-      );
-      expect(
-        await delegate.checkPermissions('b.com', ['camera', 'mic']),
-        isFalse,
-      );
-    },
-  );
+    expect(await delegate.checkPermissions('a.com', ['camera', 'mic']), isTrue);
+    expect(
+      await delegate.checkPermissions('b.com', ['camera', 'mic']),
+      isFalse,
+    );
+  });
 
   test(
     'clearAllPermissions: deletes everything and returns deleted rows count',
