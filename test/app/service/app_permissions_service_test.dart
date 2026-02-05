@@ -142,18 +142,16 @@ void main() {
       expect(ok, isTrue);
     });
 
-    test(
-      'returns false when request ends up denied (and shouldAskForSettings stays false)',
-      () async {
-        fake
-          ..setStatus(Permission.camera, PermissionStatus.denied)
-          ..setRequestResult(Permission.camera, PermissionStatus.denied);
+    test('returns false when request ends up denied '
+        '(and shouldAskForSettings stays false)', () async {
+      fake
+        ..setStatus(Permission.camera, PermissionStatus.denied)
+        ..setRequestResult(Permission.camera, PermissionStatus.denied);
 
-        final ok = await service.requestPermission(Permission.camera);
+      final ok = await service.requestPermission(Permission.camera);
 
-        expect(ok, isFalse);
-      },
-    );
+      expect(ok, isFalse);
+    });
   });
 
   group('shouldAskForSettings(permission)', () {
