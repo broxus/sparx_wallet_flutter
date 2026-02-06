@@ -40,8 +40,8 @@ String? castToString(dynamic data) => castTo<String>(data);
 /// JSON converter for epoch timestamps that may be in seconds or milliseconds.
 ///
 /// This converter normalizes different epoch formats commonly returned by APIs:
-/// - Values **>= 100,000,000,000** (1e11) are treated as **milliseconds since epoch**
-///   and converted to seconds by dividing by 1000.
+/// - Values **>= 100,000,000,000** (1e11) are treated as
+///   **milliseconds since epoch** and converted to seconds by dividing by 1000.
 /// - Values **< 100,000,000,000** are treated as **seconds since epoch** and
 ///   returned as-is.
 ///
