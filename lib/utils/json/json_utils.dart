@@ -37,6 +37,16 @@ T? castTo<T>(dynamic data) {
 
 String? castToString(dynamic data) => castTo<String>(data);
 
+/// JSON converter for epoch timestamps that may be in seconds or milliseconds.
+///
+/// This converter normalizes different epoch formats commonly returned by APIs:
+/// - Values **>= 100,000,000,000** (1e11) are treated as **milliseconds since epoch**
+///   and converted to seconds by dividing by 1000.
+/// - Values **< 100,000,000,000** are treated as **seconds since epoch** and
+///   returned as-is.
+///
+/// Using this converter on timestamp fields helps when API responses are
+/// inconsistent or change over time between seconds and milliseconds.
 class EpochSecondsConverter implements JsonConverter<int?, Object?> {
   const EpochSecondsConverter();
 
