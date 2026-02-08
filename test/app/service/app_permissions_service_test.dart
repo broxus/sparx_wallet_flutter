@@ -88,17 +88,28 @@ void main() {
       () async {
         fake
           ..setRequestResult(Permission.camera, PermissionStatus.granted)
-          ..setRequestResult(Permission.microphone, PermissionStatus.limited);
+          ..setRequestResult(Permission.microphone, PermissionStatus.limited)
+          ..setRequestResult(Permission.photos, PermissionStatus.restricted);
 
         final ok = await service.requestPermissions([
           Permission.camera,
           Permission.microphone,
+          Permission.photos,
         ]);
 
         expect(ok, isTrue);
         expect(fake.requestCalls, 1);
       },
     );
+
+    test('true when status is restricted (good status)', () async {
+      fake.setRequestResult(Permission.photos, PermissionStatus.restricted);
+
+      final ok = await service.requestPermissions([Permission.photos]);
+
+      expect(ok, isTrue);
+      expect(fake.requestCalls, 1);
+    });
 
     test('false when any status is not good', () async {
       fake
@@ -152,6 +163,18 @@ void main() {
 
       expect(ok, isFalse);
     });
+
+    test('already granted: current impl does request + checks', () async {
+      fake
+        ..setStatus(Permission.camera, PermissionStatus.granted)
+        ..setRequestResult(Permission.camera, PermissionStatus.granted);
+
+      final ok = await service.requestPermission(Permission.camera);
+
+      expect(ok, isTrue);
+      expect(fake.requestCalls, 1);
+      expect(fake.checkCalls, 3);
+    });
   });
 
   group('shouldAskForSettings(permission)', () {
@@ -167,6 +190,62 @@ void main() {
 
       expect(shouldAsk, isTrue);
     });
+
+    test(
+      'non-Android: status granted => still requests; shouldAsk=false',
+      () async {
+        fake
+          ..setStatus(Permission.camera, PermissionStatus.granted)
+          ..setRequestResult(Permission.camera, PermissionStatus.granted);
+
+        final shouldAsk = await service.shouldAskForSettings(Permission.camera);
+
+        expect(shouldAsk, isFalse);
+        expect(fake.requestCalls, 1);
+      },
+    );
+
+    test('non-Android: denied + request granted => shouldAsk=false', () async {
+      fake
+        ..setStatus(Permission.camera, PermissionStatus.denied)
+        ..setRequestResult(Permission.camera, PermissionStatus.granted);
+
+      final shouldAsk = await service.shouldAskForSettings(Permission.camera);
+
+      expect(shouldAsk, isFalse);
+      expect(fake.requestCalls, 1);
+    });
+
+    test(
+      'non-Android: denied + request denied (not permanent) => shouldAsk=false',
+      () async {
+        fake
+          ..setStatus(Permission.camera, PermissionStatus.denied)
+          ..setRequestResult(Permission.camera, PermissionStatus.denied);
+
+        final shouldAsk = await service.shouldAskForSettings(Permission.camera);
+
+        expect(shouldAsk, isFalse);
+        expect(fake.requestCalls, 1);
+      },
+    );
+
+    test(
+      'non-Android: denied + request permanentlyDenied => shouldAsk=true',
+      () async {
+        fake
+          ..setStatus(Permission.camera, PermissionStatus.denied)
+          ..setRequestResult(
+            Permission.camera,
+            PermissionStatus.permanentlyDenied,
+          );
+
+        final shouldAsk = await service.shouldAskForSettings(Permission.camera);
+
+        expect(shouldAsk, isTrue);
+        expect(fake.requestCalls, 1);
+      },
+    );
   });
 
   group('convenience', () {
@@ -193,6 +272,31 @@ void main() {
       },
       skip: Platform.isAndroid,
     );
+
+    testWidgets('requestPhotos: Android returns true without platform calls', (
+      tester,
+    ) async {
+      if (!Platform.isAndroid) {
+        return; // этот тест смысл имеет только на Android
+      }
+
+      final original = PermissionHandlerPlatform.instance;
+      final fake = FakePermissionHandlerPlatform();
+      PermissionHandlerPlatform.instance = fake;
+
+      try {
+        final service = AppPermissionsService();
+
+        final ok = await service.requestPhotos();
+
+        expect(ok, isTrue);
+        expect(fake.requestCalls, 0);
+        expect(fake.checkCalls, 0);
+        expect(fake.openSettingsCalls, 0);
+      } finally {
+        PermissionHandlerPlatform.instance = original;
+      }
+    });
 
     test('openSettings calls platform openAppSettings', () async {
       await service.openSettings();
