@@ -6,14 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 
-class _FakePathProviderPlatform extends PathProviderPlatform {
-  _FakePathProviderPlatform(this._appDocsDir);
-
-  final Directory _appDocsDir;
-
-  @override
-  Future<String?> getApplicationDocumentsPath() async => _appDocsDir.path;
-}
+import '../../../../test_helpers/fake_path_provider_platform.dart';
 
 class _ThrowingPathProviderPlatform extends PathProviderPlatform {
   @override
@@ -40,7 +33,7 @@ void main() {
 
   setUp(() async {
     tempDir = await Directory.systemTemp.createTemp('drift_perm_db_test_');
-    PathProviderPlatform.instance = _FakePathProviderPlatform(tempDir);
+    PathProviderPlatform.instance = FakePathProviderPlatform(tempDir);
 
     db = MainDatabase();
     delegate = PermissionsDelegate(db);

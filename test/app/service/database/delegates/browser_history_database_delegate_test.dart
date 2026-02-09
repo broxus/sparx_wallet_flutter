@@ -8,14 +8,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 
-class _FakePathProviderPlatform extends PathProviderPlatform {
-  _FakePathProviderPlatform(this._appDocsDir);
+import '../../../../test_helpers/fake_path_provider_platform.dart';
 
-  final Directory _appDocsDir;
-
-  @override
-  Future<String?> getApplicationDocumentsPath() async => _appDocsDir.path;
-}
 
 class _ThrowingPathProviderPlatform extends PathProviderPlatform {
   @override
@@ -48,7 +42,7 @@ void main() {
   late MainDatabase db;
   late BrowserHistoryDatabaseDelegate delegate;
 
-  setUpAll(() async {
+  setUpAll(() {
     // If the base is accidentally created before setUp, then PathProvider will
     // be called and the test should fail to avoid accessing the real path.
     PathProviderPlatform.instance = _ThrowingPathProviderPlatform();
@@ -56,7 +50,7 @@ void main() {
 
   setUp(() async {
     tempDir = await Directory.systemTemp.createTemp('drift_main_db_test_');
-    PathProviderPlatform.instance = _FakePathProviderPlatform(tempDir);
+    PathProviderPlatform.instance = FakePathProviderPlatform(tempDir);
 
     db = MainDatabase();
     delegate = BrowserHistoryDatabaseDelegate(db);
