@@ -21,3 +21,11 @@ double get currentScreenHeight => currentScreenSize.height;
 
 const double minTabletWidth = 660;
 const double maxPhoneWidth = 915;
+
+/// Whether the screen is small or large.
+/// true - small
+/// false - large
+/// At a height of 600, the layout looks unacceptable.
+/// At a height of >820, the UX is acceptable.
+/// Therefore, 800 was chosen as the minimum acceptable value.
+bool get isSmallScreenHeight => currentScreenHeight < 800;
