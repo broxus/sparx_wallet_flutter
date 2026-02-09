@@ -1,25 +1,9 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/presets_config/presets_config.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 
-class _FakePresetsConfigReader implements PresetsConfigReader {
-  _FakePresetsConfigReader();
-
-  ConnectionConfig? config;
-
-  int calls = 0;
-  PresetConfigType<dynamic>? lastType;
-
-  @override
-  Future<T?> getConfig<T>(PresetConfigType<T> configType) async {
-    calls++;
-    lastType = configType;
-    return config as T?;
-  }
-
-  @override
-  Future<void> awaitPendingUpdate<T>(PresetConfigType<T> configType) async {}
-}
+class _MockPresetsConfigReader extends Mock implements PresetsConfigReader {}
 
 ConnectionConfig _makeConfig({
   required List<Connection> connections,
@@ -46,7 +30,7 @@ ConnectionConfig _makeConfig({
 void main() {
   group('PresetsConnectionService', () {
     test('initial state: getters return defaults / empty', () {
-      final reader = _FakePresetsConfigReader();
+      final reader = _MockPresetsConfigReader();
       final s = PresetsConnectionService(reader);
 
       expect(s.customNetworkOptions, isNull);
@@ -66,7 +50,7 @@ void main() {
 
     test('fetchConnectionsList: calls reader with PresetConfigType.connections '
         'and updates getters', () async {
-      final reader = _FakePresetsConfigReader();
+      final reader = _MockPresetsConfigReader();
       final s = PresetsConnectionService(reader);
 
       final cfg = _makeConfig(
@@ -77,12 +61,21 @@ void main() {
         ],
       );
 
-      reader.config = cfg;
+      when(
+        () => reader.getConfig<ConnectionConfig>(PresetConfigType.connections),
+      ).thenAnswer((_) async => cfg);
+
+      when(
+        () => reader.awaitPendingUpdate<ConnectionConfig>(
+          PresetConfigType.connections,
+        ),
+      ).thenAnswer((_) async {});
 
       await s.fetchConnectionsList();
 
-      expect(reader.calls, 1);
-      expect(reader.lastType, PresetConfigType.connections);
+      verify(
+        () => reader.getConfig<ConnectionConfig>(PresetConfigType.connections),
+      ).called(1);
 
       expect(s.connections, hasLength(1));
       expect(s.connections.single.id, defaultPresetConnection.id);
@@ -105,24 +98,39 @@ void main() {
 
     test('getTransportIconsByNetworkGroup: returns icons '
         'for matching workchain, else empty', () async {
-      final reader = _FakePresetsConfigReader();
+      final reader = _MockPresetsConfigReader();
       final s = PresetsConnectionService(reader);
 
       final group = defaultPresetConnection.workchains.first.networkGroup;
       final expectedIcons = defaultPresetConnection.workchains.first.icons;
 
-      reader.config = _makeConfig(
+      final cfg1 = _makeConfig(
         connections: [defaultPresetConnection],
         defaultConnectionId: defaultPresetConnection.id,
       );
+
+      final cfg2 = _makeConfig(
+        connections: const [],
+        defaultConnectionId: 'nope',
+      );
+
+      var call = 0;
+      when(() => reader.getConfig<ConnectionConfig>(PresetConfigType.connections))
+          .thenAnswer((_) async {
+        call++;
+        return call == 1 ? cfg1 : cfg2;
+      });
+
+      when(
+        () => reader.awaitPendingUpdate<ConnectionConfig>(
+          PresetConfigType.connections,
+        ),
+      ).thenAnswer((_) async {});
+
       await s.fetchConnectionsList();
 
       expect(s.getTransportIconsByNetworkGroup(group), expectedIcons);
 
-      reader.config = _makeConfig(
-        connections: const [],
-        defaultConnectionId: 'nope',
-      );
       await s.fetchConnectionsList();
 
       expect(s.connections, isEmpty);
@@ -130,47 +138,91 @@ void main() {
         s.getTransportIconsByNetworkGroup(group),
         equals(TransportIcons()),
       );
+
+      verify(
+            () =>
+            reader.getConfig<ConnectionConfig>(PresetConfigType.connections),
+      ).called(2);
     });
 
-    test('getDefaultActiveAsset: returns assets '
-        'for matching workchain, else empty', () async {
-      final reader = _FakePresetsConfigReader();
-      final s = PresetsConnectionService(reader);
+    test(
+      'getDefaultActiveAsset: returns assets for matching workchain, else empty',
+      () async {
+        final reader = _MockPresetsConfigReader();
+        final s = PresetsConnectionService(reader);
 
-      final group = defaultPresetConnection.workchains.first.networkGroup;
-      final expectedAssets =
-          defaultPresetConnection.workchains.first.defaultActiveAssets;
+        final group = defaultPresetConnection.workchains.first.networkGroup;
+        final expectedAssets =
+            defaultPresetConnection.workchains.first.defaultActiveAssets;
 
-      reader.config = _makeConfig(
-        connections: [defaultPresetConnection],
-        defaultConnectionId: defaultPresetConnection.id,
-      );
-      await s.fetchConnectionsList();
+        final cfg1 = _makeConfig(
+          connections: [defaultPresetConnection],
+          defaultConnectionId: defaultPresetConnection.id,
+        );
 
-      expect(s.getDefaultActiveAsset(group), expectedAssets);
+        final cfg2 = _makeConfig(
+          connections: const [],
+          defaultConnectionId: 'nope',
+        );
 
-      reader.config = _makeConfig(
-        connections: const [],
-        defaultConnectionId: 'nope',
-      );
-      await s.fetchConnectionsList();
+        var call = 0;
+        when(
+          () =>
+              reader.getConfig<ConnectionConfig>(PresetConfigType.connections),
+        ).thenAnswer((_) async {
+          call++;
+          return call == 1 ? cfg1 : cfg2;
+        });
 
-      expect(s.getDefaultActiveAsset(group), isEmpty);
-    });
+        when(
+          () => reader.awaitPendingUpdate<ConnectionConfig>(
+            PresetConfigType.connections,
+          ),
+        ).thenAnswer((_) async {});
+
+        await s.fetchConnectionsList();
+
+        expect(s.getDefaultActiveAsset(group), expectedAssets);
+
+        await s.fetchConnectionsList();
+
+        expect(s.getDefaultActiveAsset(group), isEmpty);
+
+        verify(
+          () =>
+              reader.getConfig<ConnectionConfig>(PresetConfigType.connections),
+        ).called(2);
+      },
+    );
 
     test('fetchConnectionsList: supports null config '
         '(service falls back to defaults)', () async {
-      final reader = _FakePresetsConfigReader();
+      final reader = _MockPresetsConfigReader();
       final s = PresetsConnectionService(reader);
 
-      reader.config = _makeConfig(
+      final cfg = _makeConfig(
         connections: [defaultPresetConnection],
         defaultConnectionId: defaultPresetConnection.id,
       );
+
+      var call = 0;
+      when(
+        () => reader.getConfig<ConnectionConfig>(PresetConfigType.connections),
+      ).thenAnswer((_) async {
+        call++;
+        return call == 1 ? cfg : null;
+      });
+
+      when(
+        () => reader.awaitPendingUpdate<ConnectionConfig>(
+          PresetConfigType.connections,
+        ),
+      ).thenAnswer((_) async {});
+
       await s.fetchConnectionsList();
+
       expect(s.connections, isNotEmpty);
 
-      reader.config = null;
       await s.fetchConnectionsList();
 
       expect(s.connections, isEmpty);
@@ -178,11 +230,15 @@ void main() {
       expect(s.customNetworkOptions, isNull);
       expect(s.defaultConnection, equals(defaultPresetConnection));
       expect(s.defaultSettings, isNull);
+
+      verify(
+        () => reader.getConfig<ConnectionConfig>(PresetConfigType.connections),
+      ).called(2);
     });
 
-    test('customNetworkOptions: when customNetworkOptions provided,'
-        ' types come from options list', () async {
-      final reader = _FakePresetsConfigReader();
+    test('customNetworkOptions: when customNetworkOptions provided, '
+        'types come from options list', () async {
+      final reader = _MockPresetsConfigReader();
       final s = PresetsConnectionService(reader);
 
       final opt1 = CustomNetworkOption.fromJson(<String, dynamic>{
@@ -192,11 +248,21 @@ void main() {
         'networkType': NetworkType.venom.toJson(),
       });
 
-      reader.config = _makeConfig(
+      final cfg = _makeConfig(
         connections: [defaultPresetConnection],
         defaultConnectionId: defaultPresetConnection.id,
         customNetworkOptions: [opt1, opt2],
       );
+
+      when(
+        () => reader.getConfig<ConnectionConfig>(PresetConfigType.connections),
+      ).thenAnswer((_) async => cfg);
+
+      when(
+        () => reader.awaitPendingUpdate<ConnectionConfig>(
+          PresetConfigType.connections,
+        ),
+      ).thenAnswer((_) async {});
 
       await s.fetchConnectionsList();
 
@@ -204,6 +270,10 @@ void main() {
         s.customNetworkOptions,
         equals([NetworkType.ton, NetworkType.venom]),
       );
+
+      verify(
+        () => reader.getConfig<ConnectionConfig>(PresetConfigType.connections),
+      ).called(1);
     });
   });
 }
