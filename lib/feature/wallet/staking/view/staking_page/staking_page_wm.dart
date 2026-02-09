@@ -352,6 +352,7 @@ class StakingPageWidgetModel
   }
 
   Future<void> _prepareStaking() async {
+    _isLoadingState.value = true;
     final info = _infoState.value.data;
     if (info == null) return;
 
@@ -381,9 +382,15 @@ class StakingPageWidgetModel
             : null,
       ),
     );
+
+    Future.delayed(
+      const Duration(milliseconds: 500),
+      () => _isLoadingState.value = false,
+    );
   }
 
   Future<void> _prepareUntaking() async {
+    _isLoadingState.value = true;
     final info = _infoState.value.data;
     if (info == null) return;
 
@@ -410,6 +417,10 @@ class StakingPageWidgetModel
         ),
         notifyReceiver: true,
       ),
+    );
+    Future.delayed(
+      const Duration(milliseconds: 500),
+      () => _isLoadingState.value = false,
     );
   }
 }
