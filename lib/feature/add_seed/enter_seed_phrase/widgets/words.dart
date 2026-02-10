@@ -70,6 +70,7 @@ class EnterSeedPhraseWords extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: DimensSize.d16),
                   child: ListView.separated(
+                    padding: EdgeInsets.zero,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: data.inputs.length,
