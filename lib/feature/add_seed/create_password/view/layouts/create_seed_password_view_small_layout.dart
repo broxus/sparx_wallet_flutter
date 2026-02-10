@@ -41,64 +41,77 @@ class CreateSeedPasswordViewSmallLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeStyle = context.themeStyleV2;
-
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
         minimum: const EdgeInsets.only(bottom: DimensSize.d16),
-        child: ListView(
+        child: CustomScrollView(
           controller: scrollController,
-          children: [
-            const DefaultAppBar(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
+          slivers: [
+            SliverToBoxAdapter(child: const DefaultAppBar()),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      LocaleKeys.confirmPasswordTitle.tr(),
+                      style: themeStyle.textStyles.headingLarge,
+                      textAlign: TextAlign.left,
+                    ),
+                    const SizedBox(height: DimensSize.d8),
+                    PrimaryText(
+                      LocaleKeys.confirmPasswordSubtitle.tr(),
+                      textAlign: TextAlign.left,
+                    ),
+                    const SizedBox(height: DimensSize.d24),
+                    SecureTextField(
+                      focusNode: pwd1focusNode,
+                      hintText: LocaleKeys.confirmSetPasswordHint.tr(),
+                      textEditingController: passwordController,
+                      textInputAction: TextInputAction.next,
+                      isAutofocus: true,
+                      isEnabled: !isLoading,
+                      onSubmit: onPwd1Submit,
+                    ),
+                    const SizedBox(height: DimensSize.d8),
+                    SecureTextField(
+                      focusNode: pwd2focusNode,
+                      hintText: LocaleKeys.confirmRepeatPasswordHint.tr(),
+                      textEditingController: confirmController,
+                      textInputAction: TextInputAction.done,
+                      isEnabled: !isLoading,
+                      onSubmit: onPwd2Submit,
+                    ),
+                    const SizedBox(height: DimensSize.d24),
+                    PasswordInfoSection(
+                      themeStyle: themeStyle,
+                      status: passwordStatus ?? PasswordStatus.initial,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SliverFillRemaining(
+              hasScrollBody: false,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    LocaleKeys.confirmPasswordTitle.tr(),
-                    style: themeStyle.textStyles.headingLarge,
-                    textAlign: TextAlign.left,
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: DimensSize.d24,
+                      horizontal: DimensSize.d16,
+                    ),
+                    child: AccentButton(
+                      title: LocaleKeys.continueWord.tr(),
+                      onPressed: passwordStatus == PasswordStatus.match
+                          ? onSubmit
+                          : null,
+                      isLoading: isLoading,
+                      buttonShape: ButtonShape.pill,
+                    ),
                   ),
-                  const SizedBox(height: DimensSize.d8),
-                  PrimaryText(
-                    LocaleKeys.confirmPasswordSubtitle.tr(),
-                    textAlign: TextAlign.left,
-                  ),
-                  const SizedBox(height: DimensSize.d24),
-                  SecureTextField(
-                    focusNode: pwd1focusNode,
-                    hintText: LocaleKeys.confirmSetPasswordHint.tr(),
-                    textEditingController: passwordController,
-                    textInputAction: TextInputAction.next,
-                    isAutofocus: true,
-                    isEnabled: !isLoading,
-                    onSubmit: onPwd1Submit,
-                  ),
-                  const SizedBox(height: DimensSize.d8),
-                  SecureTextField(
-                    focusNode: pwd2focusNode,
-                    hintText: LocaleKeys.confirmRepeatPasswordHint.tr(),
-                    textEditingController: confirmController,
-                    textInputAction: TextInputAction.done,
-                    isEnabled: !isLoading,
-                    onSubmit: onPwd2Submit,
-                  ),
-                  const SizedBox(height: DimensSize.d24),
-                  PasswordInfoSection(
-                    themeStyle: themeStyle,
-                    status: passwordStatus ?? PasswordStatus.initial,
-                  ),
-                  const SizedBox(height: DimensSize.d24),
-                  AccentButton(
-                    title: LocaleKeys.continueWord.tr(),
-                    onPressed: passwordStatus == PasswordStatus.match
-                        ? onSubmit
-                        : null,
-                    isLoading: isLoading,
-                    buttonShape: ButtonShape.pill,
-                  ),
-                  const SizedBox(height: DimensSize.d24),
                 ],
               ),
             ),
