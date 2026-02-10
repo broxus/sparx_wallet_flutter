@@ -68,7 +68,7 @@ class EnterSeedPhraseWords extends StatelessWidget {
 
               return Flexible(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: DimensSize.d16),
+                  padding: const EdgeInsets.only(bottom: DimensSize.d16),
                   child: ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
