@@ -48,7 +48,7 @@ class CreateSeedPasswordViewSmallLayout extends StatelessWidget {
         child: CustomScrollView(
           controller: scrollController,
           slivers: [
-            SliverToBoxAdapter(child: const DefaultAppBar()),
+            const SliverToBoxAdapter(child: DefaultAppBar()),
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
