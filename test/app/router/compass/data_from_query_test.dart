@@ -41,17 +41,20 @@ class _EmptyRoute extends CompassBaseGoRoute<_EmptyData>
 
 void main() {
   group('CompassRouteDataQueryMixin', () {
-    test('toLocation adds a slash prefix if necessary', () {
-      final route = _QueryRoute();
+    test(
+      'toLocation creates Uri with route path and prefixed query parameters',
+      () {
+        final route = _QueryRoute();
 
-      final uri = route.toLocation(_QueryData(a: '10', b: '20'));
+        final uri = route.toLocation(_QueryData(a: '10', b: '20'));
 
-      expect(uri.path, '/screen');
-      expect(uri.queryParameters, <String, String>{
-        'screen~a': '10',
-        'screen~b': '20',
-      });
-    });
+        expect(uri.path, '/screen');
+        expect(uri.queryParameters, <String, String>{
+          'screen~a': '10',
+          'screen~b': '20',
+        });
+      },
+    );
 
     test('dataFromState extracts only prefixed params and strips prefix', () {
       final route = _QueryRoute();
