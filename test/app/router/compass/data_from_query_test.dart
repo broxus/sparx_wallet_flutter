@@ -5,6 +5,23 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
 
+class _EmptyQueryData implements CompassRouteDataQuery {
+  const _EmptyQueryData();
+
+  @override
+  Map<String, String> toQueryParams() => const {};
+}
+
+class _EmptyQueryRoute extends CompassBaseGoRoute<_EmptyQueryData>
+    with CompassRouteDataQueryMixin<_EmptyQueryData> {
+  _EmptyQueryRoute() : super(path: '/screen', name: 'screen');
+
+  @override
+  _EmptyQueryData fromQueryParams(Map<String, String> queryParams) {
+    return const _EmptyQueryData();
+  }
+}
+
 class _MockGoRouterState extends Mock implements GoRouterState {}
 
 class _QueryData implements CompassRouteDataQuery {
@@ -121,6 +138,29 @@ void main() {
 
       expect(cleared, isNot(same(input)));
       expect(input, <String, String>{'screen~a': '1', 'plain': 'y'});
+    });
+
+    test('toLocation: empty toQueryParams => Uri has no query parameters', () {
+      final route = _EmptyQueryRoute();
+
+      final uri = route.toLocation(const _EmptyQueryData());
+
+      expect(uri.path, '/screen');
+      expect(uri.queryParameters, isEmpty);
+    });
+
+    test('toLocation: query values with special characters are preserved', () {
+      final route = _QueryRoute();
+
+      final uri = route.toLocation(
+        _QueryData(
+          a: 'a b&c=1/2?',
+          b: 'e f✓+%#',
+        ),
+      );
+
+      expect(uri.queryParameters['screen~a'], 'a b&c=1/2?');
+      expect(uri.queryParameters['screen~b'], 'e f✓+%#');
     });
   });
 
