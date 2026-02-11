@@ -19,7 +19,7 @@ void main() {
       );
     });
 
-    test('returns enum when first letter case differs> Lower -> upper', () {
+    test('returns enum when first letter case differs. Lower -> upper', () {
       expect(
         MultisigType.values.byNameNormalize('Multisig2'),
         MultisigType.multisig2,
