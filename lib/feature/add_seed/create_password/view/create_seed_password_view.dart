@@ -107,6 +107,7 @@ class _CreateSeedPasswordViewState extends State<CreateSeedPasswordView> {
               isLoading: widget.isLoading,
               buttonShape: ButtonShape.pill,
             ),
+            const SizedBox(height: DimensSize.d24),
           ],
         ),
       ),

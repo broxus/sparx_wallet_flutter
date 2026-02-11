@@ -77,7 +77,7 @@ class AddNftWidget extends InjectedElementaryWidget<AddNftWidgetModel> {
                 onPressed: wm.onPressedImport,
               ),
             ),
-            const SizedBox(height: DimensSize.d28),
+            const SystemSpace(additionalPadding: DimensSize.d20),
           ],
         ),
       ),

@@ -36,19 +36,22 @@ class CreateSeedPasswordProfilePage
   Widget build(CreateSeedPasswordProfileWidgetModel wm) {
     return GestureDetector(
       onTap: resetFocus,
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        appBar: const DefaultAppBar(),
-        body: DoubleSourceBuilder(
-          firstSource: wm.loadingState,
-          secondSource: wm.passwordStatusState,
-          builder: (_, isLoading, passwordStatus) => CreateSeedPasswordView(
-            needBiometryIfPossible: false,
-            passwordController: wm.passwordController,
-            confirmController: wm.confirmController,
-            onPressedNext: wm.onPressedNext,
-            passwordStatus: passwordStatus,
-            isLoading: isLoading ?? false,
+      child: CustomMediaQuery(
+        viewInsetsBottomAddon: -DimensSize.d16,
+        child: Scaffold(
+          resizeToAvoidBottomInset: true,
+          appBar: const DefaultAppBar(),
+          body: DoubleSourceBuilder(
+            firstSource: wm.loadingState,
+            secondSource: wm.passwordStatusState,
+            builder: (_, isLoading, passwordStatus) => CreateSeedPasswordView(
+              needBiometryIfPossible: false,
+              passwordController: wm.passwordController,
+              confirmController: wm.confirmController,
+              onPressedNext: wm.onPressedNext,
+              passwordStatus: passwordStatus,
+              isLoading: isLoading ?? false,
+            ),
           ),
         ),
       ),

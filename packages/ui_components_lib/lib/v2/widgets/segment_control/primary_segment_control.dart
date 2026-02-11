@@ -47,17 +47,17 @@ class PrimarySegmentControl<T> extends StatelessWidget {
       case SegmentControlSize.large:
         return const EdgeInsets.symmetric(
           vertical: DimensSize.d16,
-          horizontal: DimensSize.d32,
+          horizontal: DimensSize.d16,
         );
       case SegmentControlSize.medium:
         return const EdgeInsets.symmetric(
           vertical: DimensSize.d16,
-          horizontal: DimensSize.d24,
+          horizontal: DimensSize.d12,
         );
       case SegmentControlSize.small:
         return const EdgeInsets.symmetric(
           vertical: DimensSize.d16,
-          horizontal: DimensSize.d16,
+          horizontal: DimensSize.d8,
         );
       case SegmentControlSize.xsmall:
         return const EdgeInsets.symmetric(
