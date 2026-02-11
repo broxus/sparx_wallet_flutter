@@ -60,7 +60,9 @@ class EnterSeedPhraseTabs extends StatelessWidget {
                 title: isDisplay
                     ? LocaleKeys.pasteAll.tr()
                     : LocaleKeys.clearAll.tr(),
-                icon: isDisplay ? LucideIcons.arrowDownToDot : LucideIcons.trash2,
+                icon: isDisplay
+                    ? LucideIcons.arrowDownToDot
+                    : LucideIcons.trash2,
               );
             },
           ),
