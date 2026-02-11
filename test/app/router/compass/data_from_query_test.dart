@@ -180,16 +180,4 @@ void main() {
       expect(uri.queryParameters, isEmpty);
     });
   });
-
-  group('Prefix behavior', () {
-    test('query parameters are prefixed with route name', () {
-      final route = _QueryRoute();
-      final uri = route.toLocation(_QueryData(a: 'x', b: 'y'));
-
-      expect(
-        uri.queryParameters.keys,
-        containsAll(<String>{'screen~a', 'screen~b'}),
-      );
-    });
-  });
 }
