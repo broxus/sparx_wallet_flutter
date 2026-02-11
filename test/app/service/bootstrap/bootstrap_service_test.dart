@@ -87,7 +87,7 @@ void main() {
 
     final ok = await service.init();
 
-    await Future<void>.delayed(const Duration(seconds: 1));
+    await Future<void>.delayed(const Duration(milliseconds: 100));
 
     await sub.cancel();
 
