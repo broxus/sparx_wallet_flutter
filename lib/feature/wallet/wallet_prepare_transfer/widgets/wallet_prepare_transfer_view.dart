@@ -62,26 +62,26 @@ class WalletPrepareTransferView extends StatelessWidget {
                   PrimaryTextField(
                     labelText: LocaleKeys.toInputLabel.tr(),
                     hintText: LocaleKeys.receiverAddress.tr(),
-                    textEditingController: _wm.receiverController,
-                    focusNode: _wm.receiverFocus,
+                    textEditingController: _wm.recipientUi.textController,
+                    focusNode: _wm.recipientUi.focusNode,
                     onSubmit: _wm.onSubmittedReceiverAddress,
-                    inputFormatters: [_wm.addressFilterFormatter],
+                    inputFormatters: _wm.recipientUi.addressFormatters,
                     validator: _wm.validateAddressField,
                     suffixes: [
                       _ScanQRButton(
-                        receiver: _wm.receiverController,
-                        onPressed: _wm.onPressedScan,
+                        receiver: _wm.recipientUi.textController,
+                        onPressed: _wm.recipientUi.onPressedScan,
                       ),
                       ClipboardPasteButton(
-                        value: _wm.receiverController,
-                        onClear: _wm.onPressedReceiverClear,
-                        onPaste: _wm.onPressedPasteAddress,
+                        value: _wm.recipientUi.textController,
+                        onClear: _wm.recipientUi.onPressedReceiverClear,
+                        onPaste: _wm.recipientUi.onPressedPasteAddress,
                       ),
                     ],
                   ),
                   AmountInput(
-                    controller: _wm.amountController,
-                    focusNode: _wm.amountFocus,
+                    controller: _wm.amountUi.amountController,
+                    focusNode: _wm.amountUi.amountFocus,
                     assets: _wm.assetsState,
                     selectedAsset: selectedAsset,
                     onSelectedAssetChanged: _wm.onChangeAsset,
@@ -112,19 +112,19 @@ class WalletPrepareTransferView extends StatelessWidget {
   }
 
   Widget _buildCommentWidget() => StateNotifierBuilder(
-    listenableState: _wm.commentState,
+    listenableState: _wm.commentUi.commentState,
     builder: (context, value) => value ?? false
         ? SeparatedColumn(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               PrimaryTextField(
                 hintText: LocaleKeys.commentWord.tr(),
-                textEditingController: _wm.commentController,
-                focusNode: _wm.commentFocus,
+                textEditingController: _wm.commentUi.commentController,
+                focusNode: _wm.commentUi.commentFocus,
                 onSubmit: (_) => _wm.onPressedNext(),
                 suffixes: [
                   ValueListenableBuilder(
-                    valueListenable: _wm.commentController,
+                    valueListenable: _wm.commentUi.commentController,
                     builder: (_, value, __) {
                       if (value.text.isEmpty) {
                         return const SizedBox.shrink();
@@ -136,7 +136,7 @@ class WalletPrepareTransferView extends StatelessWidget {
                           buttonShape: ButtonShape.square,
                           buttonSize: ButtonSize.small,
                           icon: LucideIcons.x,
-                          onPressed: _wm.onPressedCleanComment,
+                          onPressed: _wm.commentUi.onPressedCleanComment,
                         ),
                       );
                     },
@@ -156,10 +156,7 @@ class WalletPrepareTransferView extends StatelessWidget {
             buttonSize: ButtonSize.medium,
             title: LocaleKeys.addComment.tr(),
             icon: LucideIcons.plus,
-            onPressed: () {
-              _wm.commentState.accept(true);
-              _wm.commentFocus.requestFocus();
-            },
+            onPressed: _wm.commentUi.onPlusPressed,
           ),
   );
 }
