@@ -75,7 +75,7 @@ void main() {
     await platform.dispose();
   });
 
-  group('Lalid link', () {
+  group('Valid link', () {
     test('query link: http/https -> true', () {
       final uri = Uri.parse('any://x?link=https%3A%2F%2Fexample.com%2Fpath');
       expect(service.isValidAppLink(uri), isTrue);
@@ -148,6 +148,44 @@ void main() {
         platform.emitUri(Uri.parse('tc://?bad=1'));
 
         await expectLater(future, throwsA(isA<TimeoutException>()));
+      },
+    );
+
+    test('tc:// valid query emits TonConnectAppLinksData', () async {
+      // Arrange
+      final future = service.tonConnecLinksData.first;
+
+      // Act
+      platform.emitUri(
+        Uri.parse(
+          'tc://?v=2'
+          '&id=some_id'
+          '&r=some_r'
+          '&ret=none',
+        ),
+      );
+
+      final event = await future;
+      expect(event, isA<TonConnectAppLinksData>());
+    });
+
+    test(
+      'l.sparxwallet.com valid query emits TonConnectAppLinksData',
+      () async {
+        final future = service.tonConnecLinksData.first;
+
+        platform.emitUri(
+          Uri.parse(
+            'https://l.sparxwallet.com/anything'
+            '?v=2'
+            '&id=some_id'
+            '&r=some_r'
+            '&ret=none',
+          ),
+        );
+
+        final event = await future;
+        expect(event, isA<TonConnectAppLinksData>());
       },
     );
   });
