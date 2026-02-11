@@ -11,14 +11,16 @@ class WalletPrepareTransferComment extends StatelessWidget {
     required this.focusNode,
     required this.onPressedNext,
     required this.onPressedCleanComment,
+    required this.onPressedPlus,
     super.key,
   });
 
-  final StateNotifier<bool> commentState;
+  final ListenableState<bool> commentState;
   final TextEditingController textEditingController;
   final FocusNode focusNode;
   final VoidCallback onPressedNext;
   final VoidCallback onPressedCleanComment;
+  final VoidCallback onPressedPlus;
 
   @override
   Widget build(BuildContext context) {
@@ -67,10 +69,7 @@ class WalletPrepareTransferComment extends StatelessWidget {
               buttonSize: ButtonSize.medium,
               title: LocaleKeys.addComment.tr(),
               icon: LucideIcons.plus,
-              onPressed: () {
-                commentState.accept(true);
-                focusNode.requestFocus();
-              },
+              onPressed: onPressedPlus,
             ),
     );
   }

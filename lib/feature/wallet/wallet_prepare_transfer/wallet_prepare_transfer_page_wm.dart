@@ -170,6 +170,11 @@ class WalletPrepareTransferPageWidgetModel
     _goNext(address, amnt);
   }
 
+  void onPressedPlus() {
+    _commentUiDelegate.commentState.accept(true);
+    _commentUiDelegate.requestFocus();
+  }
+
   Future<void> setMaxBalance() async {
     final asset = _selectedAsset;
     var available = asset?.balance;

@@ -59,19 +59,21 @@ class WalletPrepareTransferPageSmallLayout extends StatelessWidget {
                             onChangedCustodian: _wm.onChangedCustodian,
                           ),
                         RecipientTextField(
-                          receiverController: _wm.receiverController,
-                          receiverFocus: _wm.receiverFocus,
-                          inputFormatters: _wm.inputFormatters,
+                          receiverController: _wm.recipientUi.textController,
+                          receiverFocus: _wm.recipientUi.focusNode,
+                          inputFormatters: _wm.recipientUi.addressFormatters,
                           validateAddressField: _wm.validateAddressField,
                           onSubmittedReceiverAddress:
                               _wm.onSubmittedReceiverAddress,
-                          onPressedScan: _wm.onPressedScan,
-                          onPressedReceiverClear: _wm.onPressedReceiverClear,
-                          onPressedPasteAddress: _wm.onPressedPasteAddress,
+                          onPressedScan: _wm.recipientUi.onPressedScan,
+                          onPressedReceiverClear:
+                              _wm.recipientUi.onPressedReceiverClear,
+                          onPressedPasteAddress:
+                              _wm.recipientUi.onPressedPasteAddress,
                         ),
                         AmountInput(
-                          controller: _wm.amountController,
-                          focusNode: _wm.amountFocus,
+                          controller: _wm.amountUi.amountController,
+                          focusNode: _wm.amountUi.amountFocus,
                           assets: _wm.assetsState,
                           selectedAsset: selectedAsset,
                           onSelectedAssetChanged: _wm.onChangeAsset,
@@ -79,11 +81,14 @@ class WalletPrepareTransferPageSmallLayout extends StatelessWidget {
                           onSubmitted: _wm.onSubmittedAmountWord,
                         ),
                         WalletPrepareTransferComment(
-                          commentState: _wm.commentState,
-                          textEditingController: _wm.commentController,
-                          focusNode: _wm.commentFocus,
+                          commentState: _wm.commentUi.commentState,
+                          textEditingController:
+                              _wm.commentUi.commentController,
+                          focusNode: _wm.commentUi.commentFocus,
                           onPressedNext: _wm.onPressedNext,
-                          onPressedCleanComment: _wm.onPressedCleanComment,
+                          onPressedPlus: _wm.onPressedPlus,
+                          onPressedCleanComment:
+                              _wm.commentUi.onPressedCleanComment,
                         ),
                       ],
                     ),
@@ -98,6 +103,8 @@ class WalletPrepareTransferPageSmallLayout extends StatelessWidget {
               padding: const EdgeInsets.only(
                 top: DimensSize.d32,
                 bottom: DimensSize.d16,
+                left: DimensSize.d16,
+                right: DimensSize.d16,
               ),
               child: Column(
                 children: [
