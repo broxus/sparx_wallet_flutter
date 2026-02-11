@@ -375,7 +375,8 @@ Text(LocaleKeys.feature_screen_message.tr(args: [userName]))
 - Never mock the class under test
 - Test error scenarios
 - Maintain high test coverage
-- Use **Mocktail** for all dependencies
+- Use **mocktail** for all dependencies
+- Prefer using **mocktail** for mocks instead of handwritten fakes
 - Test Each Layer Separately
 - Run command for test `melos run test`
 - Run Specific Test File `flutter test test/path/to/test_file.dart`
