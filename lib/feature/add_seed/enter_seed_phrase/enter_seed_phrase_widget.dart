@@ -92,6 +92,7 @@ class EnterSeedPhraseWidget
                     onPressed: wm.confirm,
                   ),
                   const ViewInsetsPadding(additionalPadding: DimensSize.d24),
+                  const SystemSpace(),
                 ],
               ),
             ),

@@ -24,45 +24,48 @@ class EnterSeedPhraseTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Flexible(
-          child: Row(
-            children: [
-              Flexible(
-                child: SwitcherSegmentControls<int>(
-                  currentValue: currentValue,
-                  values: [
-                    for (final value in allowedValues)
-                      PrimarySegmentControl(
-                        state: SegmentControlState.normal,
-                        title: LocaleKeys.wordsCount.plural(value),
-                        value: value,
-                        size: SegmentControlSize.medium,
-                      ),
-                  ],
-                  onTabChanged: changeTab,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: DimensSize.d16),
+      child: Row(
+        children: [
+          Flexible(
+            child: Row(
+              children: [
+                Flexible(
+                  child: SwitcherSegmentControls<int>(
+                    currentValue: currentValue,
+                    values: [
+                      for (final value in allowedValues)
+                        PrimarySegmentControl(
+                          state: SegmentControlState.normal,
+                          title: LocaleKeys.wordsCount.plural(value),
+                          value: value,
+                          size: SegmentControlSize.medium,
+                        ),
+                    ],
+                    onTabChanged: changeTab,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        StateNotifierBuilder(
-          listenableState: displayPasteButtonState,
-          builder: (_, bool? isDisplay) {
-            isDisplay ??= true;
-            return GhostButton(
-              buttonShape: ButtonShape.pill,
-              buttonSize: ButtonSize.small,
-              onPressed: isDisplay ? pastePhrase : clearFields,
-              title: isDisplay
-                  ? LocaleKeys.pasteAll.tr()
-                  : LocaleKeys.clearAll.tr(),
-              icon: isDisplay ? LucideIcons.arrowDownToDot : LucideIcons.trash2,
-            );
-          },
-        ),
-      ],
+          StateNotifierBuilder(
+            listenableState: displayPasteButtonState,
+            builder: (_, bool? isDisplay) {
+              isDisplay ??= true;
+              return GhostButton(
+                buttonShape: ButtonShape.pill,
+                buttonSize: ButtonSize.small,
+                onPressed: isDisplay ? pastePhrase : clearFields,
+                title: isDisplay
+                    ? LocaleKeys.pasteAll.tr()
+                    : LocaleKeys.clearAll.tr(),
+                icon: isDisplay ? LucideIcons.arrowDownToDot : LucideIcons.trash2,
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }
