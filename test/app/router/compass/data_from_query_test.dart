@@ -152,12 +152,7 @@ void main() {
     test('toLocation: query values with special characters are preserved', () {
       final route = _QueryRoute();
 
-      final uri = route.toLocation(
-        _QueryData(
-          a: 'a b&c=1/2?',
-          b: 'e f✓+%#',
-        ),
-      );
+      final uri = route.toLocation(_QueryData(a: 'a b&c=1/2?', b: 'e f✓+%#'));
 
       expect(uri.queryParameters['screen~a'], 'a b&c=1/2?');
       expect(uri.queryParameters['screen~b'], 'e f✓+%#');
@@ -187,7 +182,7 @@ void main() {
   });
 
   group('Prefix behavior', () {
-    test('prefix equals', () {
+    test('query parameters are prefixed with route name', () {
       final route = _QueryRoute();
       final uri = route.toLocation(_QueryData(a: 'x', b: 'y'));
 
