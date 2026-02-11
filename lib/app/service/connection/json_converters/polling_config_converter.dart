@@ -2,9 +2,9 @@ import 'package:app/utils/parse_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
-class PollingConfigSecondsConverter
+class PollingConfigConverter
     implements JsonConverter<PollingConfig?, Map<String, dynamic>?> {
-  const PollingConfigSecondsConverter();
+  const PollingConfigConverter();
 
   @override
   PollingConfig? fromJson(Map<String, dynamic>? json) {
@@ -14,6 +14,17 @@ class PollingConfigSecondsConverter
     final token = parseToInt(json['tokenWalletRefreshInterval']);
     final intensive = parseToInt(json['intensivePollingInterval']);
 
+    String? sseBaseUrl;
+    final rawSseBaseUrl = json['sseBaseUrl'];
+    if (rawSseBaseUrl is String && rawSseBaseUrl.isNotEmpty) {
+      final uri = Uri.tryParse(rawSseBaseUrl);
+      if (uri != null &&
+          uri.hasScheme &&
+          uri.hasAuthority &&
+          (uri.scheme == 'http' || uri.scheme == 'https')) {
+        sseBaseUrl = rawSseBaseUrl;
+      }
+    }
     return PollingConfig(
       tonWalletRefreshInterval: ton != null
           ? Duration(seconds: ton)
@@ -24,6 +35,7 @@ class PollingConfigSecondsConverter
       intensivePollingInterval: intensive != null
           ? Duration(seconds: intensive)
           : PollingConfig.defaultConfig.intensivePollingInterval,
+      sseBaseUrl: sseBaseUrl,
     );
   }
 
