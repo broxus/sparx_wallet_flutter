@@ -329,7 +329,7 @@ class EnterSeedPhraseWidgetModel
 
       if (yBottom == null) return;
 
-      if (yBottom < 295) {
+      if (yBottom < 295 || !screenScrollController.hasClients) {
         return;
       }
 
