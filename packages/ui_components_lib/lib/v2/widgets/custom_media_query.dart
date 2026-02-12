@@ -22,13 +22,18 @@ class CustomMediaQuery extends StatelessWidget {
           MediaQuery.of(context).copyWith(
             viewInsets:
                 viewInsets ??
-                MediaQuery.of(context).viewInsets.copyWith(
-                  bottom:
-                      MediaQuery.of(context).viewInsets.bottom +
-                      viewInsetsBottomAddon,
-                ),
+                MediaQuery.of(
+                  context,
+                ).viewInsets.copyWith(bottom: _calculateBottom(context)),
           ),
       child: child,
     );
+  }
+
+  double _calculateBottom(BuildContext context) {
+    final bottom =
+        MediaQuery.of(context).viewInsets.bottom + viewInsetsBottomAddon;
+
+    return bottom < 0 ? 0 : bottom;
   }
 }
