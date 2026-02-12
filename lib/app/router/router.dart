@@ -268,15 +268,17 @@ class CompassRouter {
     if (count <= 0) return;
 
     try {
-      final removed = currentRoutes.toList().reversed.take(count).toList();
+      final removedAll = currentRoutes.toList().reversed.toList();
 
-      var didPop = false;
+      var popped = 0;
       for (var i = 0; i < count; i++) {
         if (!_router.canPop()) break;
         _router.pop(i == count - 1 ? result : null);
-        didPop = true;
+        popped++;
       }
-      if (!didPop) return;
+      if (popped == 0) return;
+
+      final removed = removedAll.take(popped).toList();
 
       await Future<void>.microtask(() {});
       await Future<void>.delayed(Duration.zero);
