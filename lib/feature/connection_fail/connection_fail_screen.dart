@@ -4,6 +4,7 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/components/common/common.dart';
 import 'package:ui_components_lib/dimens.dart';
+import 'package:ui_components_lib/utils/view_utils.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class ConnectionFailScreen
@@ -38,7 +39,7 @@ class ConnectionFailScreen
               ),
             ),
             Positioned(
-              bottom: DimensSize.d34,
+              bottom: isSmallScreenHeight ? DimensSize.d20 : DimensSize.d34,
               left: DimensSize.d16,
               right: DimensSize.d16,
               child: Column(
@@ -53,6 +54,12 @@ class ConnectionFailScreen
                     buttonShape: ButtonShape.pill,
                     title: LocaleKeys.contactUs.tr(),
                     onPressed: wm.onPressedContactUs,
+                  ),
+                  const SizedBox(height: DimensSize.d12),
+                  PrimaryButton(
+                    buttonShape: ButtonShape.pill,
+                    title: LocaleKeys.changeNetwork.tr(),
+                    onPressed: wm.onPressedChangeNetwork,
                   ),
                 ],
               ),
