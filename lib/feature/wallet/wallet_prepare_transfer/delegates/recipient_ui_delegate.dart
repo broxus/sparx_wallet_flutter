@@ -20,11 +20,7 @@ abstract interface class RecipientUi {
 }
 
 class RecipientUiDelegate implements RecipientUi {
-  RecipientUiDelegate(
-    this.context,
-    this._model, {
-    required this.checkIsValidAddress,
-  });
+  RecipientUiDelegate(this.context, this._model);
 
   @override
   late final textController = TextEditingController();
@@ -36,7 +32,6 @@ class RecipientUiDelegate implements RecipientUi {
   final addressFormatters = [FilteringTextInputFormatter.deny(RegExp(r'\s'))];
 
   final BuildContext context;
-  final bool Function(String? value) checkIsValidAddress;
 
   final WalletPrepareTransferPageModel _model;
 

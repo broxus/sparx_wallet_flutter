@@ -74,11 +74,7 @@ class WalletPrepareTransferPageWidgetModel
 
   late final _commentUiDelegate = CommentUiDelegate();
 
-  late final _recipientUiDelegate = RecipientUiDelegate(
-    context,
-    model,
-    checkIsValidAddress: _checkIsValidAddress,
-  );
+  late final _recipientUiDelegate = RecipientUiDelegate(context, model);
 
   AmountUi get amountUi => _amountUiDelegate;
 
@@ -537,14 +533,5 @@ class WalletPrepareTransferPageWidgetModel
             destination: address.isValid ? address : _zeroAddress,
           )
         : null;
-  }
-
-  bool _checkIsValidAddress(String? value) {
-    if (_selectedAsset?.isNative != true &&
-        addressState.value.address == value) {
-      return false;
-    }
-
-    return true;
   }
 }
