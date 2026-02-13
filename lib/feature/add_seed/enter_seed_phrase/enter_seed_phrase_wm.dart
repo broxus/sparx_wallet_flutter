@@ -68,7 +68,10 @@ class EnterSeedPhraseWidgetModel
 
           _checkInputCompletion(i);
         })
-        ..focusNode.addListener(() => _checkInputCompletion(i)),
+        ..focusNode.addListener(() {
+          _calculateOffset();
+          _checkInputCompletion(i);
+        }),
     ),
   );
 
@@ -307,7 +310,6 @@ class EnterSeedPhraseWidgetModel
 
   /// If input with [index] has any text and it's not in focus
   void _checkInputCompletion(int index) {
-    _calculateOffset();
     final data = _inputDataList[index];
 
     if (data.text.isNotEmpty && !data.isFocused) {
@@ -333,8 +335,14 @@ class EnterSeedPhraseWidgetModel
         return;
       }
 
+      final offset = screenScrollController.offset;
+
+      if (offset == screenScrollController.position.maxScrollExtent) {
+        return;
+      }
+
       screenScrollController.position.animateTo(
-        screenScrollController.offset + 50,
+        offset + 50,
         duration: const Duration(milliseconds: 150),
         curve: Curves.linear,
       );
