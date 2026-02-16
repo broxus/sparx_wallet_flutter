@@ -93,8 +93,6 @@ class BrowserGroupMenuWidgetModel
   }
 
   Future<void> onPressedNewGroup() async {
-    // TODO(knightforce): Temp. Compass is expected to be implemented
-
     final groupName = await Navigator.of(context, rootNavigator: true)
         .push<String>(
           MaterialPageRoute(

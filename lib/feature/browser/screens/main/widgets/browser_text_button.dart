@@ -26,11 +26,8 @@ class BrowserTextButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: DimensSize.d32),
           child: Text(
             title,
-            // TODO(knightforce): check style from designer
-            style: themeStyle.textStyles.labelSmall.copyWith(
-              fontWeight: FontWeight.w600,
+            style: themeStyle.textStyles.labelSmallSemibold.copyWith(
               color: themeStyle.colors.content2,
-              height: 1,
             ),
           ),
         ),
