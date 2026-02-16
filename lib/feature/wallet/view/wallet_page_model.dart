@@ -35,32 +35,11 @@ class WalletPageModel extends ElementaryModel {
     _assetsService.updateDefaultAssets();
   }
 
-  bool? isNewUser() {
-    return _storageService.getValue(StorageKey.userWithNewWallet());
-  }
-
-  void resetValueNewUser() {
-    _storageService.delete(StorageKey.userWithNewWallet());
-  }
-
   bool? isShowingNewTokens(KeyAccount account) {
     final address = account.address;
 
     return _storageService.getValue(
       StorageKey.showingNewTokensLabel(address.address),
-    );
-  }
-
-  void hideShowingBadge(KeyAccount account) {
-    final masterPublicKey = _nekotonRepository.seedList
-        .findSeedByAnyPublicKey(account.publicKey)
-        ?.masterPublicKey;
-
-    if (masterPublicKey == null) return;
-
-    return _storageService.addValue(
-      StorageKey.showingManualBackupBadge(masterPublicKey.publicKey),
-      false,
     );
   }
 
@@ -77,4 +56,45 @@ class WalletPageModel extends ElementaryModel {
       .walletsMapStream
       .map((wallets) => wallets[address])
       .distinct();
+
+  bool handleUser(KeyAccount account) {
+    final isNewUser = _storageService.getValue<bool?>(
+      StorageKey.userWithNewWallet(),
+    );
+
+    bool? isShowingNewTokens;
+
+    if (isNewUser == null) {
+      final address = account.address;
+
+      isShowingNewTokens =
+          _storageService.getValue(
+            StorageKey.showingNewTokensLabel(address.address),
+          ) ??
+          true;
+    } else {
+      isShowingNewTokens = true;
+
+      if (!isNewUser) {
+        _hideShowingBadge(account);
+      }
+
+      _storageService.delete(StorageKey.userWithNewWallet());
+    }
+
+    return isShowingNewTokens;
+  }
+
+  void _hideShowingBadge(KeyAccount account) {
+    final masterPublicKey = _nekotonRepository.seedList
+        .findSeedByAnyPublicKey(account.publicKey)
+        ?.masterPublicKey;
+
+    if (masterPublicKey == null) return;
+
+    return _storageService.addValue(
+      StorageKey.showingManualBackupBadge(masterPublicKey.publicKey),
+      false,
+    );
+  }
 }

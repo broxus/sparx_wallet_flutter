@@ -51,7 +51,7 @@ class BrowserTabMenu extends StatefulWidget {
 class _BrowserTabMenuState extends State<BrowserTabMenu> {
   late final _data = widget._data;
 
-  // TODO(knightforce): temp
+  // TODO(knightforce): temp. Pin tab implementation is expected
   // final _items = BrowserTabMenuItemData.values;
   final _items = [
     BrowserTabMenuItemData.copyLink,

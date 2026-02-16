@@ -33,15 +33,14 @@ class CreateSeedPasswordScreen
   Widget build(CreateSeedPasswordScreenWidgetModel wm) {
     return GestureDetector(
       onTap: resetFocus,
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: wm.themeStyle.colors.background0,
-        appBar: const DefaultAppBar(),
-        body: DoubleSourceBuilder<bool, PasswordStatus>(
+      child: CustomMediaQuery(
+        viewInsetsBottomAddon: -DimensSize.d16,
+        child: DoubleSourceBuilder<bool, PasswordStatus>(
           firstSource: wm.loadState,
           secondSource: wm.passwordStatusState,
           builder: (_, isLoading, passwordStatus) {
             return CreateSeedPasswordView(
+              backgroundColor: wm.themeStyle.colors.background0,
               needBiometryIfPossible: true,
               passwordController: wm.passwordController,
               confirmController: wm.confirmController,

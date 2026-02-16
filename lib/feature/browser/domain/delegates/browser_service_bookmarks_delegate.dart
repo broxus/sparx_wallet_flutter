@@ -1,8 +1,7 @@
 import 'package:app/data/models/browser_bookmark_item.dart';
 import 'package:app/feature/browser/domain/delegates/browser_base_delegate.dart';
 import 'package:app/feature/browser/domain/service/storages/browser_bookmarks_storage_service.dart';
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
@@ -47,12 +46,6 @@ class BrowserServiceBookmarksDelegate
   @override
   List<BrowserBookmarkItem> get browserBookmarks =>
       _browserBookmarksSubject.valueOrNull ?? [];
-
-  // TODO(knightsforce): check need it?
-  List<BrowserBookmarkItem> get sortedBookmarks {
-    return [...browserBookmarks]
-      ..sort((a, b) => (b.sortingOrder - a.sortingOrder).sign.toInt());
-  }
 
   void init() {
     _fetchBookmarksFromStorage();
@@ -118,9 +111,10 @@ class BrowserServiceBookmarksDelegate
     if (index > bookmarks.length) {
       index = bookmarks.length;
     }
-
-    // TODO(knightforce): hack for:
-    // https://github.com/flutter/flutter/issues/56821
+    // Hack for:
+    // https://github.com/flutter/flutter/issues/24786
+    // Due to backward compatibility issues,
+    // the development team decided not to fix this issue.
     if (oldIndex < index) {
       index--;
     }

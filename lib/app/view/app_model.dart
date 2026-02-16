@@ -7,15 +7,14 @@ import 'package:app/app/service/biometry_service.dart';
 import 'package:app/app/service/bootstrap/bootstrap_service.dart';
 import 'package:app/app/service/bootstrap/bootstrap_steps.dart';
 import 'package:app/app/service/bootstrap/configurators/logger.dart';
-import 'package:app/app/service/crash_detector/domain/service/crash_detector_service.dart';
 import 'package:app/app/service/navigation_service.dart';
 import 'package:app/app/service/pending_deep_link_service.dart';
 import 'package:app/app/view/app.dart';
 import 'package:app/feature/browser/domain/browser_launcher.dart';
 import 'package:app/feature/browser/screens/main/route.dart';
+import 'package:app/feature/crash_detector/crash_detector.dart';
 import 'package:app/feature/localization/localization.dart';
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/nft/route.dart';
 import 'package:app/feature/profile/route.dart';
 import 'package:app/feature/wallet/route.dart';
@@ -168,14 +167,10 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   }
 
   void _pausePolling() {
-    _nekotonRepository
-      ..pausePolling()
-      ..pausePollingToken();
+    _nekotonRepository.pausePolling();
   }
 
   void _resumePolling() {
-    _nekotonRepository
-      ..resumePolling()
-      ..resumePollingToken();
+    _nekotonRepository.resumePolling();
   }
 }

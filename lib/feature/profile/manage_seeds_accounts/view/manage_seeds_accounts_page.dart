@@ -23,9 +23,11 @@ class ManageSeedsAccountsPage
       resizeToAvoidBottomInset: false,
       appBar: const DefaultAppBar(),
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: DimensSize.d12,
-          horizontal: DimensSize.d16,
+        padding: const EdgeInsets.only(
+          top: DimensSize.d12,
+          bottom: DimensSize.d20,
+          left: DimensSize.d16,
+          right: DimensSize.d16,
         ),
         child: SeparatedColumn(
           spacing: DimensSize.d16,

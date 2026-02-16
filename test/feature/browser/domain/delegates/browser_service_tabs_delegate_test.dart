@@ -1,4 +1,4 @@
-import 'package:app/app/service/app_notifications/domain/service/app_notifications_service.dart';
+import 'package:app/feature/app_notifications/app_notifications.dart';
 import 'package:app/feature/browser/data/groups/browser_group.dart';
 import 'package:app/feature/browser/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser/domain/delegates/browser_service_pages_controllers_delegate.dart';

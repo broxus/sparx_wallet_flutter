@@ -885,7 +885,7 @@ packages:
     source: hosted
     version: "0.6.0"
   flutter_keyboard_visibility:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_keyboard_visibility
       sha256: "98664be7be0e3ffca00de50f7f6a287ab62c763fc8c762e0a21584584a3ff4f8"
@@ -957,10 +957,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_nekoton_bridge
-      sha256: "014bfe5ac08f00329b1f81094cdcc091610674c59c39a6672f9caef64932e89d"
+      sha256: a0df015350da0f81f198ff89f4dbbb02ba0b9cb7d15a238a43a6599944a4c5a9
       url: "https://pub.dev"
     source: hosted
-    version: "5.2.1"
+    version: "5.4.0"
   flutter_plugin_android_lifecycle:
     dependency: "direct overridden"
     description:
@@ -1087,10 +1087,10 @@ packages:
     dependency: "direct main"
     description:
       name: fraud_protection
-      sha256: "3a113563295f9b1779134b0b7054b86fd777eef1ca166494133ea9ae7958143f"
+      sha256: c16bcb1d4f51c245018cd209c3e221482d0203028501f26887926b79f7c3e935
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.0"
+    version: "1.4.0"
   freezed:
     dependency: "direct dev"
     description:
@@ -1569,10 +1569,10 @@ packages:
     dependency: "direct dev"
     description:
       name: melos
-      sha256: ff2da25990d83b0db883eb257e4fa25eb78150a329e7bfab7a379499d0f5f6f7
+      sha256: "7dcc4444d79b538ab8353bb38308f97e90b032984f75e8fd516fedfe8160b35e"
       url: "https://pub.dev"
     source: hosted
-    version: "7.3.0"
+    version: "7.4.0"
   meta:
     dependency: transitive
     description:
@@ -1665,10 +1665,10 @@ packages:
     dependency: "direct main"
     description:
       name: nekoton_repository
-      sha256: "6d9b45a80a03a2da26cc6af6c80237953760b7f8a67e7211253cd0aef0ffcbcb"
+      sha256: db3824e52090e04420a4929fe20712f4acfc7c79713563effd3db9f4c684ac00
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.1"
+    version: "4.0.2"
   nekoton_webview:
     dependency: "direct main"
     description:

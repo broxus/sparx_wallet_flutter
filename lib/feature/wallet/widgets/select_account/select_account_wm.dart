@@ -5,11 +5,12 @@ import 'package:app/feature/wallet/new_account/route.dart';
 import 'package:app/feature/wallet/widgets/select_account/select_account_data.dart';
 import 'package:app/feature/wallet/widgets/select_account/select_account_model.dart';
 import 'package:app/feature/wallet/widgets/select_account/select_account_widget.dart';
+import 'package:app/utils/focus_utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
 class SelectAccountWidgetModel
@@ -23,6 +24,8 @@ class SelectAccountWidgetModel
   );
   late final _listState = createNotifier(_accountsState.value);
   final _balances = <Address, ListenableState<Money?>>{};
+
+  ThemeStyleV2 get theme => context.themeStyleV2;
 
   ListenableState<List<SelectAccountData>> get listState => _listState;
 
@@ -107,4 +110,6 @@ class SelectAccountWidgetModel
       model.getBalance(account),
     );
   }
+
+  void onTapDown(_) => resetFocus();
 }
