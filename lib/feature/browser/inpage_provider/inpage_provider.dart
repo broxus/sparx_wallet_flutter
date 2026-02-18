@@ -505,7 +505,7 @@ class InpageProvider extends ProviderApi {
               ),
             );
             final transport = nekotonRepository.currentTransport.transport;
-            final signatureId = await transport.getSignatureId();
+            final signatureContext = await transport.getSignatureContext();
             final signature = await ledgerService.runWithLedgerIfKeyIsLedger(
               interactionType: LedgerInteractionType.signTransaction,
               publicKey: publicKey,
@@ -515,7 +515,7 @@ class InpageProvider extends ProviderApi {
                   message: unsignedMessage.message,
                   publicKey: publicKey,
                   signInputAuth: signInputAuth,
-                  signatureId: signatureId,
+                  signatureContext: signatureContext,
                 );
               },
             );
@@ -926,7 +926,7 @@ class InpageProvider extends ProviderApi {
         ),
       );
       final transport = nekotonRepository.currentTransport.transport;
-      final signatureId = await transport.getSignatureId();
+      final signatureContext = await transport.getSignatureContext();
       final signature = await ledgerService.runWithLedgerIfKeyIsLedger(
         interactionType: LedgerInteractionType.signTransaction,
         publicKey: publicKey,
@@ -936,7 +936,7 @@ class InpageProvider extends ProviderApi {
             message: unsignedMessage.message,
             publicKey: publicKey,
             signInputAuth: signInputAuth,
-            signatureId: signatureId,
+            signatureContext: signatureContext,
           );
         },
       );
@@ -1038,7 +1038,7 @@ class InpageProvider extends ProviderApi {
         ),
       );
       final transport = nekotonRepository.currentTransport.transport;
-      final signatureId = await transport.getSignatureId();
+      final signatureContext = await transport.getSignatureContext();
       final signature = await ledgerService.runWithLedgerIfKeyIsLedger(
         interactionType: LedgerInteractionType.signTransaction,
         publicKey: publicKey,
@@ -1048,7 +1048,7 @@ class InpageProvider extends ProviderApi {
             message: unsignedMessage.message,
             publicKey: publicKey,
             signInputAuth: signInputAuth,
-            signatureId: signatureId,
+            signatureContext: signatureContext,
           );
         },
       );
@@ -1180,7 +1180,7 @@ class InpageProvider extends ProviderApi {
       );
 
       final transport = nekotonRepository.currentTransport.transport;
-      final signatureId = await transport.getSignatureId();
+      final signatureContext = await transport.getSignatureContext();
       final signature = await ledgerService.runWithLedgerIfKeyIsLedger(
         interactionType: LedgerInteractionType.signTransaction,
         publicKey: key,
@@ -1190,7 +1190,7 @@ class InpageProvider extends ProviderApi {
             message: unsignedMessage.message,
             publicKey: key,
             signInputAuth: signInputAuth,
-            signatureId: signatureId,
+            signatureContext: signatureContext,
           );
         },
       );
@@ -1293,7 +1293,7 @@ class InpageProvider extends ProviderApi {
       );
 
       final transport = nekotonRepository.currentTransport.transport;
-      final signatureId = await transport.getSignatureId();
+      final signatureContext = await transport.getSignatureContext();
       final signature = await ledgerService.runWithLedgerIfKeyIsLedger(
         interactionType: LedgerInteractionType.signTransaction,
         publicKey: key,
@@ -1303,7 +1303,7 @@ class InpageProvider extends ProviderApi {
             message: unsignedMessage.message,
             publicKey: key,
             signInputAuth: signInputAuth,
-            signatureId: signatureId,
+            signatureContext: signatureContext,
           );
         },
       );
@@ -1466,7 +1466,9 @@ class InpageProvider extends ProviderApi {
         wallet: account.account.tonWallet.contract,
       ),
     );
-    final signatureId = await _computeSignatureId(input.withSignatureId);
+    final signatureContext = await _computeSignatureContext(
+      input.withSignatureId,
+    );
     final signedData = await ledgerService.runWithLedgerIfKeyIsLedger(
       interactionType: LedgerInteractionType.sign,
       publicKey: publicKey,
@@ -1474,7 +1476,7 @@ class InpageProvider extends ProviderApi {
         data: input.data,
         publicKey: publicKey,
         signInputAuth: signInputAuth,
-        signatureId: signatureId,
+        signatureContext: signatureContext,
       ),
     );
 
@@ -1508,7 +1510,9 @@ class InpageProvider extends ProviderApi {
         wallet: account.account.tonWallet.contract,
       ),
     );
-    final signatureId = await _computeSignatureId(input.withSignatureId);
+    final signatureContext = await _computeSignatureContext(
+      input.withSignatureId,
+    );
     final signedData = await ledgerService.runWithLedgerIfKeyIsLedger(
       interactionType: LedgerInteractionType.sign,
       publicKey: publicKey,
@@ -1516,7 +1520,7 @@ class InpageProvider extends ProviderApi {
         data: input.data,
         publicKey: publicKey,
         signInputAuth: signInputAuth,
-        signatureId: signatureId,
+        signatureContext: signatureContext,
       ),
     );
 
@@ -1613,12 +1617,14 @@ class InpageProvider extends ProviderApi {
   ) async {
     _checkBasicPermission();
 
-    final signatureId = await _computeSignatureId(input.withSignatureId);
+    final signatureContext = await _computeSignatureContext(
+      input.withSignatureId,
+    );
     final isValid = await nr.verifySignature(
       publicKey: nr.PublicKey(publicKey: input.publicKey),
       data: input.dataHash,
       signature: input.signature,
-      signatureId: signatureId,
+      signatureContext: signatureContext,
     );
 
     return VerifySignatureOutput(isValid);
@@ -1825,14 +1831,53 @@ class InpageProvider extends ProviderApi {
   }
 
   Future<int?> _computeSignatureId(Object? withSignatureId) async {
-    final signatureId = withSignatureId == true
-        ? await nekotonRepository.currentTransport.transport.getSignatureId()
-        : withSignatureId == false
-        ? null
-        : withSignatureId != null && withSignatureId is num
-        ? withSignatureId.toInt()
-        : null;
-    return signatureId;
+    if (withSignatureId is bool) {
+      return withSignatureId
+          ? nekotonRepository.currentTransport.transport.getSignatureId()
+          : null;
+    } else if (withSignatureId is num) {
+      return withSignatureId.toInt();
+    }
+
+    return null;
+  }
+
+  Future<nr.SignatureContext> _computeSignatureContext(
+    Object? withSignatureId,
+  ) async {
+    if (withSignatureId == true) {
+      return nekotonRepository.currentTransport.transport.getSignatureContext();
+    }
+
+    if (withSignatureId == false || withSignatureId == null) {
+      return const nr.SignatureContext(
+        // ignore: avoid_redundant_argument_values
+        globalId: null,
+        signatureType: nr.SignatureType.empty,
+      );
+    }
+
+    if (withSignatureId is num) {
+      final transportContext = await nekotonRepository
+          .currentTransport
+          .transport
+          .getSignatureContext();
+      final signatureType =
+          transportContext.signatureType == nr.SignatureType.empty
+          ? nr.SignatureType.signatureId
+          : transportContext.signatureType;
+
+      return nr.SignatureContext(
+        globalId: withSignatureId.toInt(),
+        signatureType: signatureType,
+      );
+    }
+
+    return const nr.SignatureContext(
+      // ignore: avoid_redundant_argument_values
+      globalId: null,
+      signatureType: nr.SignatureType.empty,
+    );
   }
 
   Future<nr.SignInputAuthLedger> _getLedgerTransferAuthInput({
