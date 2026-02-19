@@ -41,7 +41,7 @@ class LedgerConnectionHandlerImpl implements LedgerConnectionHandler {
     return _appInterface!.sign(
       accountId: accountId,
       message: message,
-      signatureId: signatureContext.globalId,
+      signatureContext: signatureContext,
     );
   }
 
@@ -62,7 +62,7 @@ class LedgerConnectionHandlerImpl implements LedgerConnectionHandler {
       wallet: wallet,
       message: message,
       context: context,
-      signatureId: signatureContext.globalId,
+      signatureContext: signatureContext,
     );
   }
 }

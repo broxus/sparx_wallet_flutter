@@ -118,7 +118,11 @@ void main() {
       );
       when(() => interface.device).thenReturn(_MockBluetoothDevice());
       when(
-        () => interface.sign(accountId: 1, message: [9, 9], signatureId: 7),
+        () => interface.sign(
+          accountId: 1,
+          message: [9, 9],
+          signatureContext: signatureContext,
+        ),
       ).thenAnswer((_) async => Uint8List.fromList([7]));
       await handler.setAppInterface(interface);
 
@@ -132,7 +136,11 @@ void main() {
       // Assert
       expect(result, equals([7]));
       verify(
-        () => interface.sign(accountId: 1, message: [9, 9], signatureId: 7),
+        () => interface.sign(
+          accountId: 1,
+          message: [9, 9],
+          signatureContext: signatureContext,
+        ),
       ).called(1);
     });
 
@@ -151,7 +159,7 @@ void main() {
           wallet: 3,
           message: [1, 2, 3],
           context: context,
-          signatureId: 10,
+          signatureContext: signatureContext,
         ),
       ).thenAnswer((_) async => Uint8List.fromList([0xAA]));
       await handler.setAppInterface(interface);
@@ -173,7 +181,7 @@ void main() {
           wallet: 3,
           message: [1, 2, 3],
           context: context,
-          signatureId: 10,
+          signatureContext: signatureContext,
         ),
       ).called(1);
     });
