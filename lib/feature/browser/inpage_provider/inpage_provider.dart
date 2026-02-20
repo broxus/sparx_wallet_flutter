@@ -1845,27 +1845,16 @@ class InpageProvider extends ProviderApi {
   Future<nr.SignatureContext> _computeSignatureContext(
     Object? withSignatureId,
   ) async {
-    if (withSignatureId == true) {
-      return nekotonRepository.currentTransport.transport.getSignatureContext();
-    }
-
-    if (withSignatureId == false || withSignatureId == null) {
-      return const nr.SignatureContext(signatureType: nr.SignatureType.empty);
+    if (withSignatureId is bool) {
+      withSignatureId
+          ? nekotonRepository.currentTransport.transport.getSignatureContext()
+          : const nr.SignatureContext(signatureType: nr.SignatureType.empty);
     }
 
     if (withSignatureId is num) {
-      final transportContext = await nekotonRepository
-          .currentTransport
-          .transport
-          .getSignatureContext();
-      final signatureType =
-          transportContext.signatureType == nr.SignatureType.empty
-          ? nr.SignatureType.signatureId
-          : transportContext.signatureType;
-
       return nr.SignatureContext(
         globalId: withSignatureId.toInt(),
-        signatureType: signatureType,
+        signatureType: nr.SignatureType.signatureId,
       );
     }
 
