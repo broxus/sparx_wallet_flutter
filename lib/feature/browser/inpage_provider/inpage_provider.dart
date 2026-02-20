@@ -1850,11 +1850,7 @@ class InpageProvider extends ProviderApi {
     }
 
     if (withSignatureId == false || withSignatureId == null) {
-      return const nr.SignatureContext(
-        // ignore: avoid_redundant_argument_values
-        globalId: null,
-        signatureType: nr.SignatureType.empty,
-      );
+      return const nr.SignatureContext(signatureType: nr.SignatureType.empty);
     }
 
     if (withSignatureId is num) {
@@ -1873,11 +1869,7 @@ class InpageProvider extends ProviderApi {
       );
     }
 
-    return const nr.SignatureContext(
-      // ignore: avoid_redundant_argument_values
-      globalId: null,
-      signatureType: nr.SignatureType.empty,
-    );
+    return const nr.SignatureContext(signatureType: nr.SignatureType.empty);
   }
 
   Future<nr.SignInputAuthLedger> _getLedgerTransferAuthInput({

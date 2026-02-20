@@ -89,8 +89,6 @@ void main() {
 
     test('encodes empty mode without globalId bytes', () {
       const signatureContext = SignatureContext(
-        // ignore: avoid_redundant_argument_values
-        globalId: null,
         signatureType: SignatureType.empty,
       );
 

@@ -68,8 +68,6 @@ class TCSignDataModel extends ElementaryModel {
       publicKey: account.publicKey,
       signInputAuth: signInputAuth,
       signatureContext: const SignatureContext(
-        // ignore: avoid_redundant_argument_values
-        globalId: null,
         signatureType: SignatureType.empty,
       ),
     );
