@@ -43,7 +43,7 @@ abstract class ConnectionWorkchain with _$ConnectionWorkchain {
     String? tokenApiBaseUrl,
     String? currencyApiBaseUrl,
     String? gaslessApiBaseUrl,
-    @PollingConfigSecondsConverter() PollingConfig? pollingConfig,
+    @PollingConfigConverter() PollingConfig? pollingConfig,
     @StakingInformationConverter() StakingInformation? stakeInformation,
     NftInformation? nftInformation,
   }) = _ConnectionWorkchain;

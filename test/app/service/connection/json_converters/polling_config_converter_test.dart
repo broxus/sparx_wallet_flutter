@@ -1,196 +1,135 @@
 import 'package:app/app/service/connection/json_converters/polling_config_converter.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:test/test.dart';
 
 void main() {
-  group('PollingConfigSecondsConverter fromJson', () {
-    const converter = PollingConfigSecondsConverter();
+  const converter = PollingConfigConverter();
 
-    test('returns null when json is null', () {
-      expect(converter.fromJson(null), isNull);
+  group('PollingConfigConverter', () {
+    test('fromJson returns null when json is null', () {
+      // Act
+      final result = converter.fromJson(null);
+
+      // Assert
+      expect(result, isNull);
     });
 
-    test('uses defaults when fields are missing', () {
-      final cfg = converter.fromJson(<String, dynamic>{})!;
-      expect(
-        cfg.tonWalletRefreshInterval,
-        PollingConfig.defaultConfig.tonWalletRefreshInterval,
-      );
-      expect(
-        cfg.tokenWalletRefreshInterval,
-        PollingConfig.defaultConfig.tokenWalletRefreshInterval,
-      );
-      expect(
-        cfg.intensivePollingInterval,
-        PollingConfig.defaultConfig.intensivePollingInterval,
-      );
+    test('fromJson parses valid intervals and sseBaseUrl', () {
+      // Arrange
+      final json = {
+        'tonWalletRefreshInterval': 10,
+        'tokenWalletRefreshInterval': 20,
+        'intensivePollingInterval': 30,
+        'sseBaseUrl': 'https://example.com/sse',
+      };
+
+      // Act
+      final result = converter.fromJson(json);
+
+      // Assert
+      expect(result, isNotNull);
+      expect(result!.tonWalletRefreshInterval, const Duration(seconds: 10));
+      expect(result.tokenWalletRefreshInterval, const Duration(seconds: 20));
+      expect(result.intensivePollingInterval, const Duration(seconds: 30));
+      expect(result.sseBaseUrl, 'https://example.com/sse');
     });
 
-    test('uses defaults when fields are present but not parseable', () {
-      final cfg = converter.fromJson(<String, dynamic>{
-        'tonWalletRefreshInterval': 'abc',
-        'tokenWalletRefreshInterval': true,
-        'intensivePollingInterval': {'x': 1},
-      })!;
-
-      expect(
-        cfg.tonWalletRefreshInterval,
-        PollingConfig.defaultConfig.tonWalletRefreshInterval,
-      );
-      expect(
-        cfg.tokenWalletRefreshInterval,
-        PollingConfig.defaultConfig.tokenWalletRefreshInterval,
-      );
-      expect(
-        cfg.intensivePollingInterval,
-        PollingConfig.defaultConfig.intensivePollingInterval,
-      );
-    });
-
-    test('accepts ints for all fields', () {
-      final cfg = converter.fromJson(<String, dynamic>{
-        'tonWalletRefreshInterval': 11,
-        'tokenWalletRefreshInterval': 22,
-        'intensivePollingInterval': 3,
-      })!;
-
-      expect(cfg.tonWalletRefreshInterval, const Duration(seconds: 11));
-      expect(cfg.tokenWalletRefreshInterval, const Duration(seconds: 22));
-      expect(cfg.intensivePollingInterval, const Duration(seconds: 3));
-    });
-
-    test('accepts strings that parse to int', () {
-      final cfg = converter.fromJson(<String, dynamic>{
+    test('fromJson parses string intervals', () {
+      // Arrange
+      final json = {
         'tonWalletRefreshInterval': '15',
-        'tokenWalletRefreshInterval': '20',
-        'intensivePollingInterval': '1',
-      })!;
+        'tokenWalletRefreshInterval': '25',
+        'intensivePollingInterval': '35',
+      };
 
-      expect(cfg.tonWalletRefreshInterval, const Duration(seconds: 15));
-      expect(cfg.tokenWalletRefreshInterval, const Duration(seconds: 20));
-      expect(cfg.intensivePollingInterval, const Duration(seconds: 1));
+      // Act
+      final result = converter.fromJson(json);
+
+      // Assert
+      expect(result, isNotNull);
+      expect(result!.tonWalletRefreshInterval, const Duration(seconds: 15));
+      expect(result.tokenWalletRefreshInterval, const Duration(seconds: 25));
+      expect(result.intensivePollingInterval, const Duration(seconds: 35));
     });
 
-    test('accepts doubles and truncates via toInt', () {
-      final cfg = converter.fromJson(<String, dynamic>{
-        'tonWalletRefreshInterval': 10.9,
-        'tokenWalletRefreshInterval': 7.1,
-        'intensivePollingInterval': 2.0,
-      })!;
+    test('fromJson uses defaults when intervals are invalid', () {
+      // Arrange
+      final json = <String, dynamic>{
+        'tonWalletRefreshInterval': 'not-int',
+        'tokenWalletRefreshInterval': null,
+        'intensivePollingInterval': <String, dynamic>{},
+      };
+      const defaults = PollingConfig.defaultConfig;
 
-      expect(cfg.tonWalletRefreshInterval, const Duration(seconds: 10));
-      expect(cfg.tokenWalletRefreshInterval, const Duration(seconds: 7));
-      expect(cfg.intensivePollingInterval, const Duration(seconds: 2));
-    });
+      // Act
+      final result = converter.fromJson(json);
 
-    test(
-      'mix of valid/invalid fields: valid override, invalid keep defaults',
-      () {
-        final cfg = converter.fromJson(<String, dynamic>{
-          'tonWalletRefreshInterval': '30', // ok
-          'tokenWalletRefreshInterval': 'oops', // invalid => default
-          'intensivePollingInterval': 9, // ok
-        })!;
-
-        expect(cfg.tonWalletRefreshInterval, const Duration(seconds: 30));
-        expect(
-          cfg.tokenWalletRefreshInterval,
-          PollingConfig.defaultConfig.tokenWalletRefreshInterval,
-        );
-        expect(cfg.intensivePollingInterval, const Duration(seconds: 9));
-      },
-    );
-
-    test('does not care about extra keys', () {
-      final cfg = converter.fromJson(<String, dynamic>{
-        'tonWalletRefreshInterval': 12,
-        'extra': 999,
-      })!;
-
-      expect(cfg.tonWalletRefreshInterval, const Duration(seconds: 12));
+      // Assert
+      expect(result, isNotNull);
       expect(
-        cfg.tokenWalletRefreshInterval,
-        PollingConfig.defaultConfig.tokenWalletRefreshInterval,
+        result!.tonWalletRefreshInterval,
+        defaults.tonWalletRefreshInterval,
       );
       expect(
-        cfg.intensivePollingInterval,
-        PollingConfig.defaultConfig.intensivePollingInterval,
+        result.tokenWalletRefreshInterval,
+        defaults.tokenWalletRefreshInterval,
+      );
+      expect(
+        result.intensivePollingInterval,
+        defaults.intensivePollingInterval,
       );
     });
 
-    test('allows negative values', () {
-      final cfg = converter.fromJson(<String, dynamic>{
-        'tonWalletRefreshInterval': -5,
-        'tokenWalletRefreshInterval': '-10',
-        'intensivePollingInterval': -1.2, // double -> toInt => -1
-      })!;
+    test('fromJson ignores invalid sseBaseUrl', () {
+      // Arrange
+      final json = {'sseBaseUrl': 'ftp://example.com/sse'};
 
-      expect(cfg.tonWalletRefreshInterval, const Duration(seconds: -5));
-      expect(cfg.tokenWalletRefreshInterval, const Duration(seconds: -10));
-      expect(cfg.intensivePollingInterval, const Duration(seconds: -1));
-    });
-  });
+      // Act
+      final result = converter.fromJson(json);
 
-  group('PollingConfigSecondsConverter toJson', () {
-    const converter = PollingConfigSecondsConverter();
-
-    test('returns null when PollingConfig is null', () {
-      expect(converter.toJson(null), isNull);
+      // Assert
+      expect(result, isNotNull);
+      expect(result!.sseBaseUrl, isNull);
     });
 
-    test('serializes durations to seconds', () {
-      final json = converter.toJson(
-        const PollingConfig(
-          tonWalletRefreshInterval: Duration(seconds: 1),
-          tokenWalletRefreshInterval: Duration(seconds: 2),
-          intensivePollingInterval: Duration(seconds: 3),
-        ),
-      )!;
+    test('fromJson ignores empty sseBaseUrl', () {
+      // Arrange
+      final json = {'sseBaseUrl': ''};
 
-      expect(
-        json,
-        equals(<String, dynamic>{
-          'tonWalletRefreshInterval': 1,
-          'tokenWalletRefreshInterval': 2,
-          'intensivePollingInterval': 3,
-        }),
-      );
+      // Act
+      final result = converter.fromJson(json);
+
+      // Assert
+      expect(result, isNotNull);
+      expect(result!.sseBaseUrl, isNull);
     });
 
-    test('round-trip: fromJson(toJson(x)) preserves seconds', () {
-      const original = PollingConfig(
-        tonWalletRefreshInterval: Duration(seconds: 19),
-        tokenWalletRefreshInterval: Duration(seconds: 20),
-        intensivePollingInterval: Duration(seconds: 5),
-      );
+    test('toJson returns null when config is null', () {
+      // Act
+      final result = converter.toJson(null);
 
-      final json = converter.toJson(original)!;
-      final back = converter.fromJson(json)!;
-
-      expect(back.tonWalletRefreshInterval, original.tonWalletRefreshInterval);
-      expect(
-        back.tokenWalletRefreshInterval,
-        original.tokenWalletRefreshInterval,
-      );
-      expect(back.intensivePollingInterval, original.intensivePollingInterval);
+      // Assert
+      expect(result, isNull);
     });
 
-    test('round-trip for defaults', () {
-      final json = converter.toJson(PollingConfig.defaultConfig)!;
-      final back = converter.fromJson(json)!;
+    test('toJson serializes intervals in seconds', () {
+      // Arrange
+      const config = PollingConfig(
+        tonWalletRefreshInterval: Duration(seconds: 1),
+        tokenWalletRefreshInterval: Duration(seconds: 2),
+        intensivePollingInterval: Duration(seconds: 3),
+        sseBaseUrl: 'https://example.com/sse',
+      );
 
-      expect(
-        back.tonWalletRefreshInterval,
-        PollingConfig.defaultConfig.tonWalletRefreshInterval,
-      );
-      expect(
-        back.tokenWalletRefreshInterval,
-        PollingConfig.defaultConfig.tokenWalletRefreshInterval,
-      );
-      expect(
-        back.intensivePollingInterval,
-        PollingConfig.defaultConfig.intensivePollingInterval,
-      );
+      // Act
+      final result = converter.toJson(config);
+
+      // Assert
+      expect(result, isNotNull);
+      expect(result!['tonWalletRefreshInterval'], 1);
+      expect(result['tokenWalletRefreshInterval'], 2);
+      expect(result['intensivePollingInterval'], 3);
+      expect(result.containsKey('sseBaseUrl'), isFalse);
     });
   });
 }

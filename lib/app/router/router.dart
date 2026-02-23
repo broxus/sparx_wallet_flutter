@@ -258,6 +258,48 @@ class CompassRouter {
     }
   }
 
+  /// Navigates back to n number of previous routes in the navigation stack.
+  ///
+  /// [result] Optional value to return to the previous screen.
+  Future<void> compassBackCount<T extends Object?>(
+    int count, {
+    T? result,
+  }) async {
+    if (count <= 0) return;
+
+    try {
+      final removedAll = currentRoutes.toList().reversed.toList();
+
+      var popped = 0;
+      for (var i = 0; i < count; i++) {
+        if (!_router.canPop()) break;
+        _router.pop(i == count - 1 ? result : null);
+        popped++;
+      }
+      if (popped == 0) return;
+
+      final removed = removedAll.take(popped).toList();
+
+      await Future<void>.microtask(() {});
+      await Future<void>.delayed(Duration.zero);
+
+      final uriAfterPops = currentUri;
+
+      var qp = uriAfterPops.queryParameters;
+      for (final r in removed) {
+        if (r is CompassRouteDataQueryMixin) {
+          qp = r.clearScreenQueries(qp);
+        }
+      }
+
+      if (!mapEquals(qp, uriAfterPops.queryParameters)) {
+        _router.go(uriAfterPops.replace(queryParameters: qp).toString());
+      }
+    } catch (e, s) {
+      _log.warning('Failed to pop count=$count', e, s);
+    }
+  }
+
   void dispose() {
     // Detach all interceptors
     for (final guard in _guards) {
@@ -502,5 +544,14 @@ extension CompassNavigationContextExtension on BuildContext {
   /// See [CompassRouter.compassBack] for more details.
   Future<void> compassBack<T extends Object?>([T? result]) {
     return _compassRouter().compassBack(result);
+  }
+
+  /// Navigates back to n number of previous routes in the navigation stack.
+  ///
+  /// [result] Optional value to return to the previous screen.
+  ///
+  /// See [CompassRouter.compassBackCount] for more information.
+  Future<void> compassBackCount<T extends Object?>(int count, {T? result}) {
+    return _compassRouter().compassBackCount(count, result: result);
   }
 }
