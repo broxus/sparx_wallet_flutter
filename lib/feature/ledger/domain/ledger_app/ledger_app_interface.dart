@@ -337,7 +337,13 @@ class LedgerAppInterface {
     final globalId = signatureContext.globalId;
 
     final mode = switch (signatureContext.signatureType) {
-      SignatureType.signatureId => _signModeSignatureId,
+      SignatureType.signatureId =>
+        globalId != null
+            ? _signModeSignatureId
+            : throw const LedgerException(
+                'Invalid SignatureContext: '
+                'signatureId requires non-null globalId',
+              ),
       SignatureType.signatureDomain =>
         globalId != null
             ? _signModeSignatureDomain
