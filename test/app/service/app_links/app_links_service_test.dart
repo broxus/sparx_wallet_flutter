@@ -152,10 +152,8 @@ void main() {
     );
 
     test('tc:// valid query emits TonConnectAppLinksData', () async {
-      // Arrange
       final future = service.tonConnecLinksData.first;
 
-      // Act
       platform.emitUri(
         Uri.parse(
           'tc://?v=2'
