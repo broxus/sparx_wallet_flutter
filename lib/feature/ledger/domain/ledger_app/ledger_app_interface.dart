@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:async/async.dart';
 import 'package:buffer/buffer.dart';
 import 'package:convert/convert.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:logging/logging.dart';
 import 'package:mutex/mutex.dart';
