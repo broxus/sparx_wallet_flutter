@@ -115,8 +115,9 @@ void main() {
       );
 
       var call = 0;
-      when(() => reader.getConfig<ConnectionConfig>(PresetConfigType.connections))
-          .thenAnswer((_) async {
+      when(
+        () => reader.getConfig<ConnectionConfig>(PresetConfigType.connections),
+      ).thenAnswer((_) async {
         call++;
         return call == 1 ? cfg1 : cfg2;
       });
@@ -140,12 +141,12 @@ void main() {
       );
 
       verify(
-            () =>
-            reader.getConfig<ConnectionConfig>(PresetConfigType.connections),
+        () => reader.getConfig<ConnectionConfig>(PresetConfigType.connections),
       ).called(2);
     });
 
     test(
+      // ignore: lines_longer_than_80_chars
       'getDefaultActiveAsset: returns assets for matching workchain, else empty',
       () async {
         final reader = _MockPresetsConfigReader();
