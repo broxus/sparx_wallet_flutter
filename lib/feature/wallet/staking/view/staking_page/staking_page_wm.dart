@@ -354,7 +354,10 @@ class StakingPageWidgetModel
   Future<void> _prepareStaking() async {
     _isLoadingState.value = true;
     final info = _infoState.value.data;
-    if (info == null) return;
+    if (info == null) {
+      _isLoadingState.value = false;
+      return;
+    }
 
     final valutAddress = model.staking.stakingValutAddress;
     final amount = _currentValue.minorUnits;
@@ -392,7 +395,10 @@ class StakingPageWidgetModel
   Future<void> _prepareUntaking() async {
     _isLoadingState.value = true;
     final info = _infoState.value.data;
-    if (info == null) return;
+    if (info == null) {
+      _isLoadingState.value = false;
+      return;
+    }
 
     final valutAddress = model.staking.stakingValutAddress;
     final rootContractAddress = model.staking.stakingRootContractAddress;
@@ -418,10 +424,10 @@ class StakingPageWidgetModel
         notifyReceiver: true,
       ),
     );
-    Future.delayed(
-      const Duration(milliseconds: 500),
-      () => _isLoadingState.value = false,
-    );
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (!isMounted) return;
+      _isLoadingState.value = false;
+    });
   }
 }
 
