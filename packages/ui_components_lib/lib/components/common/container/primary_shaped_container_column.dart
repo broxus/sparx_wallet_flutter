@@ -25,10 +25,7 @@ class PrimaryShapedContainerColumn extends StatelessWidget {
       separator: const SizedBox(
         width: double.infinity,
         height: .5,
-        child: ColoredBox(
-          // TODO(knightforce): move to colors
-          color: Color.fromRGBO(128, 128, 128, 0.55),
-        ),
+        child: ColoredBox(color: ColorsResV2.gray55),
       ),
       children: children,
     );

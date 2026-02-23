@@ -2046,12 +2046,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i771.NekotonRepository>(),
       ),
     );
-    gh.factory<_i159.ConnectionConfigurator>(
-      () => _i159.ConnectionConfigurator(
-        gh<_i128.ConnectionService>(),
-        gh<_i771.NekotonRepository>(),
-      ),
-    );
     gh.singleton<_i402.CurrentAccountsService>(
       () => _i402.CurrentAccountsService(
         gh<_i771.NekotonRepository>(),
@@ -2065,6 +2059,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i82.CompassBaseRoute>(instanceName: 'ImportWalletRoute'),
       ),
       instanceName: 'AddExistingWalletRoute',
+    );
+    gh.factory<_i159.ConnectionConfigurator>(
+      () => _i159.ConnectionConfigurator(
+        gh<_i128.ConnectionService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i361.Dio>(),
+      ),
     );
     gh.factory<_i1042.WorkchainSelectorModel>(
       () => _i1042.WorkchainSelectorModel(
