@@ -15,6 +15,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 const _flagWithWalletId = 1 << 0;
 const _flagWithWorkchainId = 1 << 1;
 const _flagWithAddress = 1 << 2;
+const _flagWithChainId = 1 << 3;
 const _signModeEmpty = 0;
 const _signModeSignatureId = 1;
 const _signModeSignatureDomain = 2;
@@ -110,17 +111,7 @@ class LedgerAppInterface {
     await _mutex.acquire();
 
     try {
-      final writer = APDUWriter(ins: ApduIns.getConf);
-      final response = await _transport.exchange(writer.toBytes());
-
-      if (!response.isOk) {
-        throw LedgerException(
-          'Failed to get configuration: SW=${response.sw.toRadixString(16)}',
-        );
-      }
-
-      // Only INS_GET_CONFIG returns data without offset
-      return response.data;
+      return await _getConfigurationNoLock();
     } catch (e, st) {
       _logger.severe('Failed to get configuration: $e', e, st);
       throw LedgerException('Failed to get configuration: $e');
@@ -191,11 +182,28 @@ class LedgerAppInterface {
     await _mutex.acquire();
 
     try {
-      final data =
-          (ByteDataWriter()
-                ..writeUint32(accountId)
-                ..write(message))
-              .toBytes();
+      final configuration = await _getConfigurationNoLock();
+      final isLegacyV1_0 =
+          configuration.length >= 2 &&
+          configuration[0] == 1 &&
+          configuration[1] == 0;
+
+      final writerData = ByteDataWriter()..writeUint32(accountId);
+      if (isLegacyV1_0) {
+        var metadata = 0;
+        final globalId = signatureContext.globalId;
+
+        if (globalId != null) {
+          metadata |= _flagWithChainId;
+          writerData
+            ..writeUint8(metadata)
+            ..writeInt32(globalId, Endian.big);
+        } else {
+          writerData.writeUint8(metadata);
+        }
+      }
+
+      final data = (writerData..write(message)).toBytes();
       final writer = APDUWriter(ins: ApduIns.sign, p1: 0x01)..writeData(data);
 
       final response = await _transport.exchange(writer.toBytes());
@@ -354,6 +362,19 @@ class LedgerAppInterface {
       ..write(message.sublist(4));
 
     return writer.toBytes();
+  }
+
+  Future<Uint8List> _getConfigurationNoLock() async {
+    final writer = APDUWriter(ins: ApduIns.getConf);
+    final response = await _transport.exchange(writer.toBytes());
+
+    if (!response.isOk) {
+      throw LedgerException(
+        'Failed to get configuration: SW=${response.sw.toRadixString(16)}',
+      );
+    }
+
+    return response.data;
   }
 
   Future<void> _waitForApp(CancelableCompleter<bool> completer) async {
