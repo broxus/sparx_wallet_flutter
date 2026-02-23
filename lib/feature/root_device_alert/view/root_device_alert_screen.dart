@@ -64,49 +64,6 @@ class RootDeviceAlertScreen
       ),
     );
   }
-
-  // Widget build(RootDeviceAlertScreenWidgetModel wm) {
-  //   return Scaffold(
-  //     body: Padding(
-  //       padding: const EdgeInsets.all(DimensSize.d20),
-  //       child: Column(
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         crossAxisAlignment: CrossAxisAlignment.stretch,
-  //         children: [
-  //           const Text('TODO App is Root'),
-  //           const SizedBox(height: DimensSize.d8),
-  //           GestureDetector(
-  //             behavior: HitTestBehavior.opaque,
-  //             onTap: wm.onChangedCheckBox,
-  //             child: Row(
-  //               children: [
-  //                 StateNotifierBuilder(
-  //                   listenableState: wm.understandState,
-  //                   builder: (_, bool? isSelected) {
-  //                     return CommonCheckbox(checked: isSelected ?? false);
-  //                   },
-  //                 ),
-  //                 const Text('TODO I understand'),
-  //               ],
-  //             ),
-  //           ),
-  //           const SizedBox(height: DimensSize.d8),
-  //           StateNotifierBuilder(
-  //             listenableState: wm.understandState,
-  //             builder: (_, bool? isSelected) {
-  //               isSelected ??= false;
-  //               return PrimaryButton(
-  //                 buttonShape: ButtonShape.pill,
-  //                 title: 'TODO next',
-  //                 onPressed: isSelected ? wm.onPressedNext : null,
-  //               );
-  //             },
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 }
 
 class _Info extends StatelessWidget {

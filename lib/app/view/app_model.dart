@@ -17,7 +17,7 @@ import 'package:app/feature/localization/localization.dart';
 import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/nft/route.dart';
 import 'package:app/feature/profile/route.dart';
-import 'package:app/feature/root_device_alert/domain/root_device_service.dart';
+import 'package:app/feature/root_device_alert/domain/root_device_delegate.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
