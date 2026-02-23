@@ -277,7 +277,7 @@ void main() {
       tester,
     ) async {
       if (!Platform.isAndroid) {
-        return; // этот тест смысл имеет только на Android
+        return; // this test only makes sense on Android
       }
 
       final original = PermissionHandlerPlatform.instance;
