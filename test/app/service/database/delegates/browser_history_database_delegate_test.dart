@@ -10,7 +10,6 @@ import 'package:path_provider_platform_interface/path_provider_platform_interfac
 
 import '../../../../test_helpers/fake_path_provider_platform.dart';
 
-
 class _ThrowingPathProviderPlatform extends PathProviderPlatform {
   @override
   Future<String?> getApplicationDocumentsPath() {
