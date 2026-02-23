@@ -383,10 +383,10 @@ class StakingPageWidgetModel
       ),
     );
 
-    Future.delayed(
-      const Duration(milliseconds: 500),
-      () => _isLoadingState.value = false,
-    );
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (!isMounted) return;
+      _isLoadingState.value = false;
+    });
   }
 
   Future<void> _prepareUntaking() async {
