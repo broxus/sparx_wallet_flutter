@@ -1,4 +1,5 @@
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/bottom_space.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
@@ -22,7 +23,7 @@ class EmptyTokensWidget extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: DimensSize.d24),
+        const BottomSpace(),
       ],
     );
   }

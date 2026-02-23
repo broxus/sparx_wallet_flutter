@@ -44,7 +44,7 @@ class QaSheet extends InjectedElementaryWidget<QaWidgetModel> {
   @override
   Widget build(QaWidgetModel wm) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: DimensSize.d24),
+      padding: const EdgeInsets.only(bottom: DimensSize.d20),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
