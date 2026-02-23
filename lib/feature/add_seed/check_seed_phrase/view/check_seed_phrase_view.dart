@@ -1,5 +1,6 @@
 import 'package:app/feature/add_seed/check_seed_phrase/check_seed_phrase.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/bottom_space.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
@@ -27,7 +28,6 @@ class CheckSeedPhraseView extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return SafeArea(
-      minimum: const EdgeInsets.only(bottom: DimensSize.d24),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
         child: Column(
@@ -63,6 +63,7 @@ class CheckSeedPhraseView extends StatelessWidget {
               selectedAnswers: userAnswers.map((e) => e.word).toList(),
               selectAnswer: selectAnswer,
             ),
+            const BottomSpace(),
           ],
         ),
       ),
