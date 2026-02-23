@@ -369,7 +369,6 @@ Text(LocaleKeys.feature_screen_message.tr(args: [userName]))
 
 - Follow **Arrange-Act-Assert (AAA)** pattern:
 - Use **given_when_then** format for naming convention
-
 - Write tests for all business logic
 - Mock external dependencies
 - Never mock the class under test
@@ -381,6 +380,7 @@ Text(LocaleKeys.feature_screen_message.tr(args: [userName]))
 - Run command for test `melos run test`
 - Run Specific Test File `flutter test test/path/to/test_file.dart`
 - Run `flutter test test/path/to/test_file.dart -p name="test name"`
+- Explicit comments marking each section (Arrange, Act, Assert) in test files are preferred but not required
 
 ```dart
 class MockRepository extends Mock implements UserRepository {}
