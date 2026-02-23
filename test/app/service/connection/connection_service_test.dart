@@ -69,10 +69,6 @@ Connection _connection({
   );
 }
 
-Future<void> _flush() async {
-  await Future<void>.delayed(const Duration(seconds: 1));
-}
-
 void main() {
   setUpAll(() {
     registerFallbackValue(_FakeTransportStrategy());
@@ -169,7 +165,9 @@ void main() {
       endpoints: const ['https://gql-1'],
     );
 
-    final controller = StreamController<ConnectionWorkchain>.broadcast();
+    final controller = StreamController<ConnectionWorkchain>.broadcast(
+      sync: true,
+    );
 
     when(() => storage.currentWorkchain).thenReturn(wc1);
     when(
@@ -224,11 +222,9 @@ void main() {
 
     await service.setUp();
 
-    controller.add(wc1);
-    await _flush();
-
-    controller.add(wc2);
-    await _flush();
+    controller
+      ..add(wc1)
+      ..add(wc2);
 
     verify(messenger.showConnectionError).called(1);
 
@@ -243,6 +239,7 @@ void main() {
   });
 
   test(
+    // ignore: lines_longer_than_80_chars
     'setUp: if previous already failed, switch failure reverts to baseConnection',
     () async {
       final storage = _MockStorage();
@@ -285,7 +282,9 @@ void main() {
         workchains: [baseWc],
       );
 
-      final controller = StreamController<ConnectionWorkchain>.broadcast();
+      final controller = StreamController<ConnectionWorkchain>.broadcast(
+        sync: true,
+      );
 
       when(() => storage.currentWorkchain).thenReturn(wc1);
       when(
@@ -344,11 +343,9 @@ void main() {
 
       await service.setUp();
 
-      controller.add(wc1);
-      await _flush();
-
-      controller.add(wc2);
-      await _flush();
+      controller
+        ..add(wc1)
+        ..add(wc2);
 
       verify(
         () => storage.saveCurrentConnectionId(
@@ -367,7 +364,6 @@ void main() {
       ).thenThrow(Exception('proto broken'));
 
       controller.add(wc1);
-      await _flush();
 
       verify(
         () => storage.saveCurrentConnectionId(connectionId: 'baseConn'),
