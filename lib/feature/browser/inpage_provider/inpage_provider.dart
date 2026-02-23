@@ -1846,8 +1846,9 @@ class InpageProvider extends ProviderApi {
     Object? withSignatureId,
   ) async {
     if (withSignatureId is bool) {
-      withSignatureId
-          ? nekotonRepository.currentTransport.transport.getSignatureContext()
+      return withSignatureId
+          ? await nekotonRepository.currentTransport.transport
+                .getSignatureContext()
           : const nr.SignatureContext(signatureType: nr.SignatureType.empty);
     }
 
