@@ -44,7 +44,7 @@ class BrowserTabMenuUiDelegate implements BrowserTabMenuUi {
       case BrowserTabMenuItemData.copyLink:
         unawaited(setClipBoardData(tab.url.toString()));
       case BrowserTabMenuItemData.pinTab:
-      // TODO(knightforce): handle
+      // TODO(knightforce): Pin tab implementation is expected
       case BrowserTabMenuItemData.bookmark:
         model.addUrlToBookmark(tab.id);
       case BrowserTabMenuItemData.newTabGroup:

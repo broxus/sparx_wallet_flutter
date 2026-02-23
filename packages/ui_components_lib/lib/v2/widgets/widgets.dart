@@ -1,6 +1,7 @@
 export 'amount_widget.dart';
 export 'buttons/buttons.dart';
 export 'cards/cards.dart';
+export 'custom_media_query.dart';
 export 'expandable_text.dart';
 export 'modals/primary_bottom_sheet_container.dart';
 export 'progress_indicator_widget.dart';

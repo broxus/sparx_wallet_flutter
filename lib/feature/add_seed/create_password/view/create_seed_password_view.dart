@@ -1,9 +1,9 @@
 import 'package:app/feature/add_seed/create_password/model/password_status.dart';
-import 'package:app/feature/add_seed/create_password/widgets/password_info_section.dart';
-import 'package:app/generated/generated.dart';
+import 'package:app/feature/add_seed/create_password/view/layouts/create_seed_password_view_default_layout.dart';
+import 'package:app/feature/add_seed/create_password/view/layouts/create_seed_password_view_small_layout.dart';
 import 'package:app/utils/focus_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/ui_components_lib.dart';
+import 'package:ui_components_lib/utils/view_utils.dart';
 
 class CreateSeedPasswordView extends StatefulWidget {
   const CreateSeedPasswordView({
@@ -13,6 +13,7 @@ class CreateSeedPasswordView extends StatefulWidget {
     required this.onPressedNext,
     required this.isLoading,
     this.passwordStatus,
+    this.backgroundColor,
     super.key,
   });
 
@@ -21,8 +22,9 @@ class CreateSeedPasswordView extends StatefulWidget {
   final TextEditingController passwordController;
   final TextEditingController confirmController;
   final VoidCallback onPressedNext;
-  final PasswordStatus? passwordStatus;
   final bool isLoading;
+  final PasswordStatus? passwordStatus;
+  final Color? backgroundColor;
 
   @override
   State<CreateSeedPasswordView> createState() => _CreateSeedPasswordViewState();
@@ -46,71 +48,33 @@ class _CreateSeedPasswordViewState extends State<CreateSeedPasswordView> {
 
   @override
   Widget build(BuildContext context) {
-    final themeStyle = context.themeStyleV2;
-
-    return SafeArea(
-      minimum: const EdgeInsets.only(bottom: DimensSize.d16),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      LocaleKeys.confirmPasswordTitle.tr(),
-                      style: themeStyle.textStyles.headingLarge,
-                      textAlign: TextAlign.left,
-                    ),
-                    const SizedBox(height: DimensSize.d8),
-                    PrimaryText(
-                      LocaleKeys.confirmPasswordSubtitle.tr(),
-                      textAlign: TextAlign.left,
-                    ),
-                    const SizedBox(height: DimensSize.d24),
-                    SecureTextField(
-                      focusNode: _pwd1focusNode,
-                      hintText: LocaleKeys.confirmSetPasswordHint.tr(),
-                      textEditingController: widget.passwordController,
-                      textInputAction: TextInputAction.next,
-                      isAutofocus: true,
-                      isEnabled: !widget.isLoading,
-                      onSubmit: _onPwd1Submit,
-                    ),
-                    const SizedBox(height: DimensSize.d8),
-                    SecureTextField(
-                      focusNode: _pwd2focusNode,
-                      hintText: LocaleKeys.confirmRepeatPasswordHint.tr(),
-                      textEditingController: widget.confirmController,
-                      textInputAction: TextInputAction.done,
-                      isEnabled: !widget.isLoading,
-                      onSubmit: _onPwd2Submit,
-                    ),
-                    const SizedBox(height: DimensSize.d24),
-                    PasswordInfoSection(
-                      themeStyle: themeStyle,
-                      status: widget.passwordStatus ?? PasswordStatus.initial,
-                    ),
-                    const SizedBox(height: DimensSize.d12),
-                  ],
-                ),
-              ),
-            ),
-            AccentButton(
-              title: LocaleKeys.continueWord.tr(),
-              onPressed: widget.passwordStatus == PasswordStatus.match
-                  ? _onSubmit
-                  : null,
-              isLoading: widget.isLoading,
-              buttonShape: ButtonShape.pill,
-            ),
-          ],
-        ),
-      ),
-    );
+    return isSmallScreenHeight
+        ? CreateSeedPasswordViewSmallLayout(
+            backgroundColor: widget.backgroundColor,
+            scrollController: _scrollController,
+            passwordController: widget.passwordController,
+            confirmController: widget.confirmController,
+            pwd1focusNode: _pwd1focusNode,
+            pwd2focusNode: _pwd2focusNode,
+            isLoading: widget.isLoading,
+            passwordStatus: widget.passwordStatus,
+            onPwd1Submit: _onPwd1Submit,
+            onPwd2Submit: _onPwd2Submit,
+            onSubmit: _onSubmit,
+          )
+        : CreateSeedPasswordViewDefaultLayout(
+            backgroundColor: widget.backgroundColor,
+            scrollController: _scrollController,
+            passwordController: widget.passwordController,
+            confirmController: widget.confirmController,
+            pwd1focusNode: _pwd1focusNode,
+            pwd2focusNode: _pwd2focusNode,
+            isLoading: widget.isLoading,
+            passwordStatus: widget.passwordStatus,
+            onPwd1Submit: _onPwd1Submit,
+            onPwd2Submit: _onPwd2Submit,
+            onSubmit: _onSubmit,
+          );
   }
 
   @override

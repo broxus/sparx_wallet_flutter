@@ -14,6 +14,7 @@ class PrimarySegmentControl<T> extends StatelessWidget {
     this.title,
     this.titleSpan,
     this.customIconColor,
+    this.padding,
     super.key,
   }) : assert(
          title == null || titleSpan == null,
@@ -28,6 +29,7 @@ class PrimarySegmentControl<T> extends StatelessWidget {
   final InlineSpan? titleSpan;
   final T value;
   final Color? customIconColor;
+  final EdgeInsets? padding;
 
   double get _iconSize {
     switch (size) {
@@ -43,28 +45,25 @@ class PrimarySegmentControl<T> extends StatelessWidget {
   }
 
   EdgeInsets get _padding {
-    switch (size) {
-      case SegmentControlSize.large:
-        return const EdgeInsets.symmetric(
-          vertical: DimensSize.d16,
-          horizontal: DimensSize.d32,
-        );
-      case SegmentControlSize.medium:
-        return const EdgeInsets.symmetric(
-          vertical: DimensSize.d16,
-          horizontal: DimensSize.d24,
-        );
-      case SegmentControlSize.small:
-        return const EdgeInsets.symmetric(
-          vertical: DimensSize.d16,
-          horizontal: DimensSize.d16,
-        );
-      case SegmentControlSize.xsmall:
-        return const EdgeInsets.symmetric(
-          vertical: DimensSize.d12,
-          horizontal: DimensSize.d12,
-        );
-    }
+    return padding ??
+        switch (size) {
+          SegmentControlSize.large => const EdgeInsets.symmetric(
+            vertical: DimensSize.d16,
+            horizontal: DimensSize.d16,
+          ),
+          SegmentControlSize.medium => const EdgeInsets.symmetric(
+            vertical: DimensSize.d16,
+            horizontal: DimensSize.d12,
+          ),
+          SegmentControlSize.small => const EdgeInsets.symmetric(
+            vertical: DimensSize.d16,
+            horizontal: DimensSize.d8,
+          ),
+          SegmentControlSize.xsmall => const EdgeInsets.symmetric(
+            vertical: DimensSize.d12,
+            horizontal: DimensSize.d12,
+          ),
+        };
   }
 
   double get _borderRadius {
