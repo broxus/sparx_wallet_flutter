@@ -138,11 +138,7 @@ class _Info extends StatelessWidget {
             label: const Icon(LucideIcons.info, size: DimensSize.d20),
             onPressed: onPressedInfo,
           ),
-          const Divider(
-            height: .5,
-            // TODO(knightforce): Added colors to EWM-626
-            color: Color.fromRGBO(128, 128, 128, 0.55),
-          ),
+          const Divider(height: .5, color: ColorsResV2.gray55),
           _InfoItem(
             padding: const EdgeInsets.symmetric(
               vertical: DimensSize.d14,
