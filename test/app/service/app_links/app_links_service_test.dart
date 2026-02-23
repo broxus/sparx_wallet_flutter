@@ -35,14 +35,8 @@ class FakeAppLinksPlatform extends AppLinksPlatform {
   Future<String?> getLatestLinkString() async => null;
 }
 
-class _ThrowingInitialLinkPlatform extends AppLinksPlatform {
-  final StreamController<Uri> _ctrl = StreamController<Uri>.broadcast();
-
-  @override
-  Stream<Uri> get uriLinkStream => _ctrl.stream;
-
-  @override
-  Stream<String> get stringLinkStream => _ctrl.stream.map((u) => u.toString());
+class _ThrowingInitialLinkPlatform extends FakeAppLinksPlatform {
+  _ThrowingInitialLinkPlatform();
 
   @override
   Future<Uri?> getInitialLink() async => throw Exception('boom');
@@ -218,9 +212,11 @@ void main() {
     });
 
     test('getInitialLink throws -> ignored (no crash, no events)', () async {
-      AppLinksPlatform.instance = _ThrowingInitialLinkPlatform();
+      final throwingPlatform = _ThrowingInitialLinkPlatform();
+      AppLinksPlatform.instance = throwingPlatform;
       final localService = AppLinksService();
       addTearDown(localService.dispose);
+      addTearDown(() async => throwingPlatform.dispose());
 
       final future = localService.browserLinksStream.first.timeout(
         const Duration(milliseconds: 80),
