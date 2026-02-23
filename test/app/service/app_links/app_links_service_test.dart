@@ -110,38 +110,44 @@ void main() {
     });
 
     test('does NOT emit BrowserAppLinksData when link is empty', () async {
-      final future = service.browserLinksStream.first.timeout(
-        const Duration(milliseconds: 80),
-      );
+      final events = <BrowserAppLinksData>[];
+      final sub = service.browserLinksStream.listen(events.add);
+      addTearDown(sub.cancel);
 
       platform.emitUri(Uri.parse('any://x?link='));
 
-      await expectLater(future, throwsA(isA<TimeoutException>()));
+      await pumpEventQueue();
+
+      expect(events, isEmpty);
     });
 
     test(
       'does not emit BrowserAppLinksData when link is not allowed scheme',
       () async {
-        final future = service.browserLinksStream.first.timeout(
-          const Duration(milliseconds: 80),
-        );
+        final events = <BrowserAppLinksData>[];
+        final sub = service.browserLinksStream.listen(events.add);
+        addTearDown(sub.cancel);
 
         platform.emitUri(Uri.parse('any://x?link=ftp%3A%2F%2Fexample.com'));
 
-        await expectLater(future, throwsA(isA<TimeoutException>()));
+        await pumpEventQueue();
+
+        expect(events, isEmpty);
       },
     );
 
     test(
       'tc:// with invalid query does NOT emit TonConnectAppLinksData',
       () async {
-        final future = service.tonConnecLinksData.first.timeout(
-          const Duration(milliseconds: 80),
-        );
+        final events = <TonConnectAppLinksData>[];
+        final sub = service.tonConnecLinksData.listen(events.add);
+        addTearDown(sub.cancel);
 
         platform.emitUri(Uri.parse('tc://?bad=1'));
 
-        await expectLater(future, throwsA(isA<TimeoutException>()));
+        await pumpEventQueue();
+
+        expect(events, isEmpty);
       },
     );
 
@@ -202,13 +208,15 @@ void main() {
     test('null initial link -> no events', () async {
       platform.initialLink = null;
 
-      final future = service.browserLinksStream.first.timeout(
-        const Duration(milliseconds: 80),
-      );
+      final events = <BrowserAppLinksData>[];
+      final sub = service.browserLinksStream.listen(events.add);
+      addTearDown(sub.cancel);
 
       await service.handleInitialLink();
 
-      await expectLater(future, throwsA(isA<TimeoutException>()));
+      await pumpEventQueue();
+
+      expect(events, isEmpty);
     });
 
     test('getInitialLink throws -> ignored (no crash, no events)', () async {
@@ -218,13 +226,15 @@ void main() {
       addTearDown(localService.dispose);
       addTearDown(() async => throwingPlatform.dispose());
 
-      final future = localService.browserLinksStream.first.timeout(
-        const Duration(milliseconds: 80),
-      );
+      final events = <BrowserAppLinksData>[];
+      final sub = localService.browserLinksStream.listen(events.add);
+      addTearDown(sub.cancel);
 
       await localService.handleInitialLink();
 
-      await expectLater(future, throwsA(isA<TimeoutException>()));
+      await pumpEventQueue();
+
+      expect(events, isEmpty);
     });
   });
 
@@ -232,15 +242,17 @@ void main() {
     test('after dispose, incoming links are not handled anymore', () async {
       service.dispose();
 
-      final future = service.browserLinksStream.first.timeout(
-        const Duration(milliseconds: 80),
-      );
+      final events = <BrowserAppLinksData>[];
+      final sub = service.browserLinksStream.listen(events.add);
+      addTearDown(sub.cancel);
 
       platform.emitUri(
         Uri.parse('any://x?link=https%3A%2F%2Fexample.com%2Fafter_dispose'),
       );
 
-      await expectLater(future, throwsA(isA<TimeoutException>()));
+      await pumpEventQueue();
+
+      expect(events, isEmpty);
     });
   });
 }
