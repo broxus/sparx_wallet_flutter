@@ -14,7 +14,7 @@ _TransactionPayload _$TransactionPayloadFromJson(Map<String, dynamic> json) {
           (e) => TransactionPayloadMessage.fromJson(e as Map<String, dynamic>),
         )
         .toList(),
-    validUntil: (json['valid_until'] as num?)?.toInt(),
+    validUntil: const EpochSecondsConverter().fromJson(json['valid_until']),
     network: $enumDecodeNullable(_$TonNetworkEnumMap, json['network']),
     from: json['from'] == null
         ? null
@@ -25,7 +25,7 @@ _TransactionPayload _$TransactionPayloadFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$TransactionPayloadToJson(_TransactionPayload instance) =>
     <String, dynamic>{
       'messages': instance.messages.map((e) => e.toJson()).toList(),
-      'valid_until': ?instance.validUntil,
+      'valid_until': ?const EpochSecondsConverter().toJson(instance.validUntil),
       'network': _$TonNetworkEnumMap[instance.network],
       'from': instance.from?.toJson(),
     };
