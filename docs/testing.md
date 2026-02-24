@@ -76,7 +76,7 @@ class MockDependency extends Mock implements Dependency {}
 
 ### 3. Arrange-Act-Assert Pattern
 
-Each test follows the AAA pattern:
+Each test follows the AAA pattern (explicit comments marking each section (Arrange, Act, Assert) in test files are preferred but not required):
 
 ```dart
 test('returns the latest available version when current version is lower', () {
