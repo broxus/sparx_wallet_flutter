@@ -22,6 +22,7 @@ ModalRoute<void> showRenameSheet({
   return commonBottomSheetRoute(
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
     title: LocaleKeys.enterNewName.tr(),
+    viewInsetsBottomAddon: -DimensSize.d24,
     body: (_, __) => RenameSheet(
       publicKey: publicKey,
       isSeed: isSeed,
@@ -53,7 +54,7 @@ class RenameSheet
 
   @override
   Widget build(RenameSheetWidgetModel wm) {
-    return SeparatedColumn(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       spacing: DimensSize.d24,
       children: [
