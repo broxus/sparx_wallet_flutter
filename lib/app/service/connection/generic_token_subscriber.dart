@@ -86,7 +86,7 @@ class JettonTokenWalletSubscriber extends GenericTokenSubscriber {
         decimals: info?.decimals ?? 0,
         rootTokenContract: info?.address ?? rootTokenContract,
       );
-      _symbolCache[rootTokenContract] = symbol;
+      if (info != null) _symbolCache[rootTokenContract] = symbol;
     }
 
     return symbol;
