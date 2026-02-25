@@ -57,7 +57,7 @@ class CurrenciesService {
   final TonCurrenciesFetchStrategy tonFetchStrategy;
 
   CurrenciesFetchStrategy get fetchStrategy =>
-      nekotonRepository.currentTransport.networkGroup == NetworkType.ton.name
+      nekotonRepository.currentTransport.networkType == NetworkType.ton
       ? tonFetchStrategy
       : defaultFetchStrategy;
 

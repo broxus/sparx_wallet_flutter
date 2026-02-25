@@ -26,6 +26,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
     this.tokenApiBaseUrl,
     this.currencyApiBaseUrl,
     this.gaslessApiBaseUrl,
+    this.tonTokensApiBaseUrl,
     this.nftInformation,
   });
 
@@ -56,6 +57,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
       tokenApiBaseUrl: workchain.tokenApiBaseUrl,
       currencyApiBaseUrl: workchain.currencyApiBaseUrl,
       gaslessApiBaseUrl: workchain.gaslessApiBaseUrl,
+      tonTokensApiBaseUrl: workchain.tonTokensApiBaseUrl,
       nftInformation: workchain.nftInformation,
       pollingConfig: workchain.pollingConfig ?? PollingConfig.defaultConfig,
     );
@@ -120,6 +122,8 @@ class CommonTransportStrategy extends AppTransportStrategy {
   String? currencyApiBaseUrl;
 
   String? gaslessApiBaseUrl;
+
+  String? tonTokensApiBaseUrl;
 
   @override
   String? get nftApiBaseUrl => nftInformation?.apiBaseUrl;
