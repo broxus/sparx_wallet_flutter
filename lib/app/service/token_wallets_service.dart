@@ -224,6 +224,9 @@ class TokenWalletsService {
       methodId: 'walletOf',
       input: {'answerId': 0, 'walletOwner': walletOwner},
       responsible: true,
+      signatureContext: const SignatureContext(
+        signatureType: SignatureType.empty,
+      ),
     );
 
     return walletOf.output?['value0'].toString();
@@ -241,6 +244,9 @@ class TokenWalletsService {
       methodId: 'balance',
       input: {'answerId': 0},
       responsible: true,
+      signatureContext: const SignatureContext(
+        signatureType: SignatureType.empty,
+      ),
     );
 
     return balance.output?['value0'].toString();

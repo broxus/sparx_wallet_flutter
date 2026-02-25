@@ -42,6 +42,7 @@ class LedgerAppInterface {
 
   final _mutex = Mutex();
   late final BleTransport _transport;
+  bool? _cachedIsLegacyV1_0;
 
   Future<void> dispose() => _mutex.protect(() async {
     await _transport.dispose();
@@ -65,6 +66,10 @@ class LedgerAppInterface {
       final writer = APDUWriter(ins: ApduIns.openApp)..writeData(data);
 
       final response = await _transport.exchange(writer.toBytes());
+      if (response.isOk) {
+        // App switch can change protocol capabilities, re-detect lazily.
+        _cachedIsLegacyV1_0 = null;
+      }
 
       return response.isOk;
     } catch (e, st) {
@@ -182,24 +187,57 @@ class LedgerAppInterface {
     await _mutex.acquire();
 
     try {
-      final configuration = await _getConfigurationNoLock();
-      final isLegacyV1_0 =
-          configuration.length >= 2 &&
-          configuration[0] == 1 &&
-          configuration[1] == 0;
+      final isLegacyV1_0 = await _isLegacyV1_0NoLock();
 
       final writerData = ByteDataWriter()..writeUint32(accountId);
-      if (isLegacyV1_0) {
-        var metadata = 0;
-        final globalId = signatureContext.globalId;
+      final globalId = signatureContext.globalId;
 
-        if (globalId != null) {
-          metadata |= _flagWithChainId;
-          writerData
-            ..writeUint8(metadata)
-            ..writeInt32(globalId, Endian.big);
-        } else {
-          writerData.writeUint8(metadata);
+      if (isLegacyV1_0) {
+        // Legacy v1.0 app supports only
+        // "with chain id" flag + big-endian globalId.
+        switch (signatureContext.signatureType) {
+          case SignatureType.empty:
+            writerData.writeUint8(0);
+          case SignatureType.signatureId:
+            if (globalId == null) {
+              throw const LedgerException(
+                'Invalid SignatureContext: '
+                'signatureId requires non-null globalId',
+              );
+            }
+            writerData
+              ..writeUint8(_flagWithChainId)
+              ..writeInt32(globalId, Endian.big);
+          case SignatureType.signatureDomain:
+            throw const LedgerException(
+              'Ledger app v1.0 does not support SignatureDomain in sign()',
+            );
+        }
+      } else {
+        final mode = switch (signatureContext.signatureType) {
+          SignatureType.signatureId =>
+            globalId != null
+                ? _signModeSignatureId
+                : throw const LedgerException(
+                    'Invalid SignatureContext: '
+                    'signatureId requires non-null globalId',
+                  ),
+          SignatureType.signatureDomain =>
+            globalId != null
+                ? _signModeSignatureDomain
+                : throw const LedgerException(
+                    'Invalid SignatureContext: '
+                    'signatureDomain requires non-null globalId',
+                  ),
+          _ => _signModeEmpty,
+        };
+
+        writerData.writeUint8(mode << _signModeShift);
+
+        if (mode == _signModeSignatureId && globalId != null) {
+          writerData.writeInt32(globalId, Endian.big);
+        } else if (mode == _signModeSignatureDomain && globalId != null) {
+          writerData.writeInt32(globalId, Endian.little);
         }
       }
 
@@ -381,6 +419,20 @@ class LedgerAppInterface {
     }
 
     return response.data;
+  }
+
+  Future<bool> _isLegacyV1_0NoLock() async {
+    final cached = _cachedIsLegacyV1_0;
+    if (cached != null) return cached;
+
+    final configuration = await _getConfigurationNoLock();
+    final isLegacyV1_0 =
+        configuration.length >= 2 &&
+        configuration[0] == 1 &&
+        configuration[1] == 0;
+    _cachedIsLegacyV1_0 = isLegacyV1_0;
+
+    return isLegacyV1_0;
   }
 
   Future<void> _waitForApp(CancelableCompleter<bool> completer) async {

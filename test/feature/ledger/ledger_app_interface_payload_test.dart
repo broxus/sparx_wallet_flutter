@@ -121,5 +121,53 @@ void main() {
         ]),
       );
     });
+
+    test('throws for signatureId when globalId is null', () {
+      const signatureContext = SignatureContext(
+        signatureType: SignatureType.signatureId,
+      );
+
+      expect(
+        () => LedgerAppInterface.buildSignTransactionPayload(
+          accountId: 0x01020304,
+          wallet: 0x05,
+          originalWallet: 0x05,
+          message: baseMessage,
+          context: baseContext,
+          signatureContext: signatureContext,
+        ),
+        throwsA(
+          isA<LedgerException>().having(
+            (e) => e.message,
+            'message',
+            contains('signatureId requires non-null globalId'),
+          ),
+        ),
+      );
+    });
+
+    test('throws for signatureDomain when globalId is null', () {
+      const signatureContext = SignatureContext(
+        signatureType: SignatureType.signatureDomain,
+      );
+
+      expect(
+        () => LedgerAppInterface.buildSignTransactionPayload(
+          accountId: 0x01020304,
+          wallet: 0x05,
+          originalWallet: 0x05,
+          message: baseMessage,
+          context: baseContext,
+          signatureContext: signatureContext,
+        ),
+        throwsA(
+          isA<LedgerException>().having(
+            (e) => e.message,
+            'message',
+            contains('signatureDomain requires non-null globalId'),
+          ),
+        ),
+      );
+    });
   });
 }
