@@ -76,7 +76,7 @@ class TokenWalletsService {
       );
 
       if (!success) {
-        if (nekotonRepository.currentTransport.networkName == 'TON') {
+        if (nekotonRepository.currentTransport.networkType == NetworkType.ton) {
           await _searchWithService(contracts.$1, address, subject);
         } else {
           await _searchWithBlockchain(

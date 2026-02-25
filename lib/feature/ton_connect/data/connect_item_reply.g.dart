@@ -28,6 +28,7 @@ Map<String, dynamic> _$TonAddressItemReplyToJson(
 const _$TonNetworkEnumMap = {
   TonNetwork.mainnet: '-239',
   TonNetwork.testnet: '-3',
+  TonNetwork.tetra: '662387',
 };
 
 TonProofItemReplySuccess _$TonProofItemReplySuccessFromJson(

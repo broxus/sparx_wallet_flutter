@@ -5,6 +5,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/utils/utils.dart';
+import 'package:collection/collection.dart';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:elementary/elementary.dart';
@@ -41,6 +42,12 @@ class TCConnectModel extends ElementaryModel {
 
   TransportStrategy get currentTransport => _nekotonRepository.currentTransport;
 
+  TonNetwork get _currentTonNetwork =>
+      TonNetwork.values.firstWhereOrNull(
+        (e) => e.toInt() == currentTransport.transport.networkId,
+      ) ??
+      TonNetwork.mainnet;
+
   Future<Money?> getBalance(KeyAccount account) async {
     final wallet = await _getWallet(account);
     if (wallet == null) return null;
@@ -51,16 +58,11 @@ class TCConnectModel extends ElementaryModel {
     );
   }
 
-  Future<TonWallet?> _getWallet(KeyAccount keyAccount) async =>
-      _nekotonRepository.walletsMap[keyAccount.address]?.wallet ??
-      (await _nekotonRepository.subscribe(keyAccount.account.tonWallet)).wallet;
-
   Future<List<ConnectItemReply>> createReplyItems({
     required SignInputAuth signInputAuth,
     required ConnectRequest request,
     required KeyAccount account,
     required DappManifest manifest,
-    bool isTestnet = false,
   }) async {
     final replyItems = <ConnectItemReply>[];
     final wallet = await _getWallet(account);
@@ -68,7 +70,7 @@ class TCConnectModel extends ElementaryModel {
     for (final item in request.items) {
       final replyItem = switch (item) {
         TonAddressItem() => ConnectItemReply.tonAddress(
-          network: isTestnet ? TonNetwork.testnet : TonNetwork.mainnet,
+          network: _currentTonNetwork,
           address: account.address,
           publicKey: account.publicKey,
           walletStateInit: await wallet?.makeStateInit() ?? '',
@@ -88,6 +90,21 @@ class TCConnectModel extends ElementaryModel {
 
     return replyItems;
   }
+
+  Future<SignInputAuthLedger> getLedgerAuthInput(KeyAccount account) async {
+    final wallet = await _getWallet(account);
+    if (wallet == null) {
+      throw StateError('Wallet not found for ledger auth input');
+    }
+
+    return SignInputAuthLedger(wallet: wallet.walletType);
+  }
+
+  void showMessage(Message message) => _messengerService.show(message);
+
+  Future<TonWallet?> _getWallet(KeyAccount keyAccount) async =>
+      _nekotonRepository.walletsMap[keyAccount.address]?.wallet ??
+      (await _nekotonRepository.subscribe(keyAccount.account.tonWallet)).wallet;
 
   Future<TonProof> _createProof({
     required SignInputAuth signInputAuth,
@@ -149,12 +166,4 @@ class TCConnectModel extends ElementaryModel {
       ),
     );
   }
-
-  Future<SignInputAuthLedger> getLedgerAuthInput(KeyAccount account) async {
-    final wallet = await _getWallet(account);
-
-    return SignInputAuthLedger(wallet: wallet!.walletType);
-  }
-
-  void showMessage(Message message) => _messengerService.show(message);
 }

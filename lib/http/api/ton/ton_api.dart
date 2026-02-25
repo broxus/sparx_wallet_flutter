@@ -5,14 +5,12 @@ import 'package:retrofit/retrofit.dart';
 
 part 'ton_api.g.dart';
 
-const _baseUrl = 'https://ton-tokens-api.broxus.com';
-
 @injectable
-@RestApi(baseUrl: _baseUrl)
+@RestApi()
 // ignore: one_member_abstracts
 abstract class TonApi {
   @factoryMethod
-  factory TonApi(Dio dio) = _TonApi;
+  factory TonApi(Dio dio, {String? baseUrl}) = _TonApi;
 
   @GET('/token/{address}')
   Future<TonTokenInfoDto> getTokenInfo(@Path('address') String address);
