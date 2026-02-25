@@ -853,7 +853,9 @@ class InpageProvider extends ProviderApi {
       throw s.ApprovalsHandleException(LocaleKeys.accountNotDeployed.tr());
     }
 
-    final signatureId = await _computeSignatureId(input.withSignatureId);
+    final signatureContext = await _computeSignatureContext(
+      input.withSignatureId,
+    );
 
     final transport = nekotonRepository.currentTransport.transport;
     final executionOutput = await transport.use(
@@ -864,7 +866,7 @@ class InpageProvider extends ProviderApi {
         methodId: input.functionCall.method,
         input: input.functionCall.params,
         responsible: input.responsible ?? false,
-        signatureId: signatureId,
+        signatureContext: signatureContext,
         libraries: input.libraries,
       ),
     );
@@ -1767,14 +1769,16 @@ class InpageProvider extends ProviderApi {
       throw s.ApprovalsHandleException(LocaleKeys.accountNotDeployed.tr());
     }
 
-    final signatureId = await _computeSignatureId(input.withSignatureId);
+    final signatureContext = await _computeSignatureContext(
+      input.withSignatureId,
+    );
 
     final executionOutput = await nr.runGetter(
       accountStuffBoc: contractState.boc,
       contractAbi: input.getterCall.abi,
       methodId: input.getterCall.getter,
       input: input.getterCall.params,
-      signatureId: signatureId,
+      signatureContext: signatureContext,
     );
 
     return RunGetterOutput(executionOutput.output, executionOutput.code);
@@ -1828,18 +1832,6 @@ class InpageProvider extends ProviderApi {
     }
 
     return list;
-  }
-
-  Future<int?> _computeSignatureId(Object? withSignatureId) async {
-    if (withSignatureId is bool) {
-      return withSignatureId
-          ? nekotonRepository.currentTransport.transport.getSignatureId()
-          : null;
-    } else if (withSignatureId is num) {
-      return withSignatureId.toInt();
-    }
-
-    return null;
   }
 
   Future<nr.SignatureContext> _computeSignatureContext(
