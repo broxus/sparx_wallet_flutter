@@ -189,17 +189,54 @@ class LedgerAppInterface {
           configuration[1] == 0;
 
       final writerData = ByteDataWriter()..writeUint32(accountId);
-      if (isLegacyV1_0) {
-        var metadata = 0;
-        final globalId = signatureContext.globalId;
+      final globalId = signatureContext.globalId;
 
-        if (globalId != null) {
-          metadata |= _flagWithChainId;
-          writerData
-            ..writeUint8(metadata)
-            ..writeInt32(globalId, Endian.big);
-        } else {
-          writerData.writeUint8(metadata);
+      if (isLegacyV1_0) {
+        // Legacy v1.0 app supports only
+        // "with chain id" flag + big-endian globalId.
+        switch (signatureContext.signatureType) {
+          case SignatureType.empty:
+            writerData.writeUint8(0);
+          case SignatureType.signatureId:
+            if (globalId == null) {
+              throw const LedgerException(
+                'Invalid SignatureContext: '
+                'signatureId requires non-null globalId',
+              );
+            }
+            writerData
+              ..writeUint8(_flagWithChainId)
+              ..writeInt32(globalId, Endian.big);
+          case SignatureType.signatureDomain:
+            throw const LedgerException(
+              'Ledger app v1.0 does not support SignatureDomain in sign()',
+            );
+        }
+      } else {
+        final mode = switch (signatureContext.signatureType) {
+          SignatureType.signatureId =>
+            globalId != null
+                ? _signModeSignatureId
+                : throw const LedgerException(
+                    'Invalid SignatureContext: '
+                    'signatureId requires non-null globalId',
+                  ),
+          SignatureType.signatureDomain =>
+            globalId != null
+                ? _signModeSignatureDomain
+                : throw const LedgerException(
+                    'Invalid SignatureContext: '
+                    'signatureDomain requires non-null globalId',
+                  ),
+          _ => _signModeEmpty,
+        };
+
+        writerData.writeUint8(mode << _signModeShift);
+
+        if (mode == _signModeSignatureId && globalId != null) {
+          writerData.writeInt32(globalId, Endian.big);
+        } else if (mode == _signModeSignatureDomain && globalId != null) {
+          writerData.writeInt32(globalId, Endian.little);
         }
       }
 
