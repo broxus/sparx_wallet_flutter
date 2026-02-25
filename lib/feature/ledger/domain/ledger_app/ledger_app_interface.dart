@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:async/async.dart';
 import 'package:buffer/buffer.dart';
 import 'package:convert/convert.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:logging/logging.dart';
 import 'package:mutex/mutex.dart';
@@ -16,6 +16,10 @@ const _flagWithWalletId = 1 << 0;
 const _flagWithWorkchainId = 1 << 1;
 const _flagWithAddress = 1 << 2;
 const _flagWithChainId = 1 << 3;
+const _signModeEmpty = 0;
+const _signModeSignatureId = 1;
+const _signModeSignatureDomain = 2;
+const _signModeShift = 3;
 const _maxChunkSize = 255;
 
 class LedgerAppInterface {
@@ -38,6 +42,7 @@ class LedgerAppInterface {
 
   final _mutex = Mutex();
   late final BleTransport _transport;
+  bool? _cachedIsLegacyV1_0;
 
   Future<void> dispose() => _mutex.protect(() async {
     await _transport.dispose();
@@ -61,6 +66,10 @@ class LedgerAppInterface {
       final writer = APDUWriter(ins: ApduIns.openApp)..writeData(data);
 
       final response = await _transport.exchange(writer.toBytes());
+      if (response.isOk) {
+        // App switch can change protocol capabilities, re-detect lazily.
+        _cachedIsLegacyV1_0 = null;
+      }
 
       return response.isOk;
     } catch (e, st) {
@@ -107,17 +116,7 @@ class LedgerAppInterface {
     await _mutex.acquire();
 
     try {
-      final writer = APDUWriter(ins: ApduIns.getConf);
-      final response = await _transport.exchange(writer.toBytes());
-
-      if (!response.isOk) {
-        throw LedgerException(
-          'Failed to get configuration: SW=${response.sw.toRadixString(16)}',
-        );
-      }
-
-      // Only INS_GET_CONFIG returns data without offset
-      return response.data;
+      return await _getConfigurationNoLock();
     } catch (e, st) {
       _logger.severe('Failed to get configuration: $e', e, st);
       throw LedgerException('Failed to get configuration: $e');
@@ -183,16 +182,66 @@ class LedgerAppInterface {
   Future<Uint8List> sign({
     required int accountId,
     required List<int> message,
-    int? signatureId, // not used in newer versions
+    required SignatureContext signatureContext,
   }) async {
     await _mutex.acquire();
 
     try {
-      final data =
-          (ByteDataWriter()
-                ..writeUint32(accountId)
-                ..write(message))
-              .toBytes();
+      final isLegacyV1_0 = await _isLegacyV1_0NoLock();
+
+      final writerData = ByteDataWriter()..writeUint32(accountId);
+      final globalId = signatureContext.globalId;
+
+      if (isLegacyV1_0) {
+        // Legacy v1.0 app supports only
+        // "with chain id" flag + big-endian globalId.
+        switch (signatureContext.signatureType) {
+          case SignatureType.empty:
+            writerData.writeUint8(0);
+          case SignatureType.signatureId:
+            if (globalId == null) {
+              throw const LedgerException(
+                'Invalid SignatureContext: '
+                'signatureId requires non-null globalId',
+              );
+            }
+            writerData
+              ..writeUint8(_flagWithChainId)
+              ..writeInt32(globalId, Endian.big);
+          case SignatureType.signatureDomain:
+            throw const LedgerException(
+              'Ledger app v1.0 does not support SignatureDomain in sign()',
+            );
+        }
+      } else {
+        final mode = switch (signatureContext.signatureType) {
+          SignatureType.signatureId =>
+            globalId != null
+                ? _signModeSignatureId
+                : throw const LedgerException(
+                    'Invalid SignatureContext: '
+                    'signatureId requires non-null globalId',
+                  ),
+          SignatureType.signatureDomain =>
+            globalId != null
+                ? _signModeSignatureDomain
+                : throw const LedgerException(
+                    'Invalid SignatureContext: '
+                    'signatureDomain requires non-null globalId',
+                  ),
+          _ => _signModeEmpty,
+        };
+
+        writerData.writeUint8(mode << _signModeShift);
+
+        if (mode == _signModeSignatureId && globalId != null) {
+          writerData.writeInt32(globalId, Endian.big);
+        } else if (mode == _signModeSignatureDomain && globalId != null) {
+          writerData.writeInt32(globalId, Endian.little);
+        }
+      }
+
+      final data = (writerData..write(message)).toBytes();
       final writer = APDUWriter(ins: ApduIns.sign, p1: 0x01)..writeData(data);
 
       final response = await _transport.exchange(writer.toBytes());
@@ -221,56 +270,21 @@ class LedgerAppInterface {
     required int wallet,
     required List<int> message,
     required LedgerSignatureContext context,
-    int? signatureId,
+    required SignatureContext signatureContext,
     int? originalWallet,
   }) async {
     await _mutex.acquire();
 
     try {
       originalWallet ??= wallet;
-
-      var metadata = 0;
-      final optional = ByteDataWriter();
-      final writer = ByteDataWriter()
-        ..writeUint32(accountId)
-        ..writeUint8(originalWallet)
-        ..writeUint8(context.decimals);
-
-      final ticker = _getTicker(context.asset);
-      writer
-        ..writeUint8(ticker.length)
-        ..write(ticker);
-
-      if (wallet != originalWallet) {
-        metadata |= _flagWithWalletId;
-        optional.writeUint8(wallet);
-      }
-
-      if (context.workchainId != null) {
-        metadata |= _flagWithWorkchainId;
-        optional.writeUint8(context.workchainId!);
-      }
-
-      if (context.address != null) {
-        if (context.address!.length != 64) {
-          throw const LedgerException('Invalid address format');
-        }
-
-        metadata |= _flagWithAddress;
-        optional.write(hex.decode(context.address!));
-      }
-
-      if (signatureId != null) {
-        metadata |= _flagWithChainId;
-        optional.writeInt32(signatureId);
-      }
-
-      writer
-        ..writeUint8(metadata)
-        ..write(optional.toBytes())
-        ..write(message.sublist(4));
-
-      final data = writer.toBytes();
+      final data = buildSignTransactionPayload(
+        accountId: accountId,
+        wallet: wallet,
+        originalWallet: originalWallet,
+        message: message,
+        context: context,
+        signatureContext: signatureContext,
+      );
       final chunks = _split(data);
       LedgerResponse? response;
 
@@ -318,6 +332,109 @@ class LedgerAppInterface {
     }
   }
 
+  @visibleForTesting
+  static Uint8List buildSignTransactionPayload({
+    required int accountId,
+    required int wallet,
+    required int originalWallet,
+    required List<int> message,
+    required LedgerSignatureContext context,
+    required SignatureContext signatureContext,
+  }) {
+    var metadata = 0;
+    final optional = ByteDataWriter();
+    final writer = ByteDataWriter()
+      ..writeUint32(accountId)
+      ..writeUint8(originalWallet)
+      ..writeUint8(context.decimals);
+
+    final ticker = _formatTicker(context.asset);
+    writer
+      ..writeUint8(ticker.length)
+      ..write(ticker);
+
+    if (wallet != originalWallet) {
+      metadata |= _flagWithWalletId;
+      optional.writeUint8(wallet);
+    }
+
+    if (context.workchainId != null) {
+      metadata |= _flagWithWorkchainId;
+      optional.writeUint8(context.workchainId!);
+    }
+
+    if (context.address != null) {
+      if (context.address!.length != 64) {
+        throw const LedgerException('Invalid address format');
+      }
+
+      metadata |= _flagWithAddress;
+      optional.write(hex.decode(context.address!));
+    }
+
+    final globalId = signatureContext.globalId;
+
+    final mode = switch (signatureContext.signatureType) {
+      SignatureType.signatureId =>
+        globalId != null
+            ? _signModeSignatureId
+            : throw const LedgerException(
+                'Invalid SignatureContext: '
+                'signatureId requires non-null globalId',
+              ),
+      SignatureType.signatureDomain =>
+        globalId != null
+            ? _signModeSignatureDomain
+            : throw const LedgerException(
+                'Invalid SignatureContext: '
+                'signatureDomain requires non-null globalId',
+              ),
+      _ => _signModeEmpty,
+    };
+
+    metadata |= mode << _signModeShift;
+
+    if (mode == _signModeSignatureId && globalId != null) {
+      optional.writeInt32(globalId, Endian.big);
+    } else if (mode == _signModeSignatureDomain && globalId != null) {
+      optional.writeInt32(globalId, Endian.little);
+    }
+
+    writer
+      ..writeUint8(metadata)
+      ..write(optional.toBytes())
+      ..write(message.sublist(4));
+
+    return writer.toBytes();
+  }
+
+  Future<Uint8List> _getConfigurationNoLock() async {
+    final writer = APDUWriter(ins: ApduIns.getConf);
+    final response = await _transport.exchange(writer.toBytes());
+
+    if (!response.isOk) {
+      throw LedgerException(
+        'Failed to get configuration: SW=${response.sw.toRadixString(16)}',
+      );
+    }
+
+    return response.data;
+  }
+
+  Future<bool> _isLegacyV1_0NoLock() async {
+    final cached = _cachedIsLegacyV1_0;
+    if (cached != null) return cached;
+
+    final configuration = await _getConfigurationNoLock();
+    final isLegacyV1_0 =
+        configuration.length >= 2 &&
+        configuration[0] == 1 &&
+        configuration[1] == 0;
+    _cachedIsLegacyV1_0 = isLegacyV1_0;
+
+    return isLegacyV1_0;
+  }
+
   Future<void> _waitForApp(CancelableCompleter<bool> completer) async {
     while (!completer.isCanceled) {
       await device.tryConnect(const Duration(seconds: 5));
@@ -342,7 +459,7 @@ class LedgerAppInterface {
     }
   }
 
-  Uint8List _getTicker(String asset) {
+  static Uint8List _formatTicker(String asset) {
     var value = asset;
 
     if (value.contains('-LP-')) {

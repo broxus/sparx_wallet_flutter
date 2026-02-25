@@ -109,7 +109,7 @@ class WalletDeployConfirmModel extends ElementaryModel
     required SignInputAuth signInputAuth,
   }) async {
     final transport = _nekotonRepository.currentTransport.transport;
-    final signatureId = await transport.getSignatureId();
+    final signatureContext = await transport.getSignatureContext();
     final signature = await _ledgerService.runWithLedgerIfKeyIsLedger(
       interactionType: LedgerInteractionType.signTransaction,
       publicKey: publicKey,
@@ -119,7 +119,7 @@ class WalletDeployConfirmModel extends ElementaryModel
           message: unsigned.message,
           publicKey: publicKey,
           signInputAuth: signInputAuth,
-          signatureId: signatureId,
+          signatureContext: signatureContext,
         );
       },
     );
