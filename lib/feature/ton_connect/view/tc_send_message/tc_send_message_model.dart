@@ -121,7 +121,7 @@ class TCSendMessageModel extends ElementaryModel
         (prev, e) => prev + BigInt.parse(e.amount),
       );
 
-      final signatureId = await transport.getSignatureId();
+      final signatureContext = await transport.getSignatureContext();
       final signature = await _ledgerService.runWithLedgerIfKeyIsLedger(
         interactionType: LedgerInteractionType.signTransaction,
         publicKey: publicKey,
@@ -130,7 +130,7 @@ class TCSendMessageModel extends ElementaryModel
             message: message!.message,
             publicKey: publicKey,
             signInputAuth: signInputAuth,
-            signatureId: signatureId,
+            signatureContext: signatureContext,
           );
         },
       );

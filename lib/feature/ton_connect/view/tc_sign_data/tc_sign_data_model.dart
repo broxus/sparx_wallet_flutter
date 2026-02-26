@@ -67,7 +67,9 @@ class TCSignDataModel extends ElementaryModel {
       data: base64Encode(messageBuffer),
       publicKey: account.publicKey,
       signInputAuth: signInputAuth,
-      signatureId: null,
+      signatureContext: const SignatureContext(
+        signatureType: SignatureType.empty,
+      ),
     );
 
     return SignDataResult(

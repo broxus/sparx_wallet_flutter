@@ -33,6 +33,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.12.32"
+  ansi:
+    dependency: transitive
+    description:
+      name: ansi
+      sha256: "070af96189f9da6f996cee46049682bdcd1d191b483e13f9d2a2600729d8b2a1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.2"
   ansi_styles:
     dependency: transitive
     description:
@@ -282,6 +290,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.1"
+  change_case:
+    dependency: transitive
+    description:
+      name: change_case
+      sha256: f4e08feaa845e75e4f5ad2b0e15f24813d7ea6c27e7b78252f0c17f752cf1157
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   characters:
     dependency: transitive
     description:
@@ -378,6 +394,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  commitlint_cli:
+    dependency: "direct dev"
+    description:
+      name: commitlint_cli
+      sha256: "7882210129f2616d4899ad85073a75ef293deac693dd6f7dc4f0492b0758322b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.1"
   connectivity_plus:
     dependency: transitive
     description:
@@ -885,7 +909,7 @@ packages:
     source: hosted
     version: "0.6.0"
   flutter_keyboard_visibility:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_keyboard_visibility
       sha256: "98664be7be0e3ffca00de50f7f6a287ab62c763fc8c762e0a21584584a3ff4f8"
@@ -957,10 +981,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_nekoton_bridge
-      sha256: "014bfe5ac08f00329b1f81094cdcc091610674c59c39a6672f9caef64932e89d"
+      sha256: "63d11b381a72f32db91028ea2b5a920ea663ea3b71ce3b705f19f2c41203d933"
       url: "https://pub.dev"
     source: hosted
-    version: "5.2.1"
+    version: "5.5.1"
   flutter_plugin_android_lifecycle:
     dependency: "direct overridden"
     description:
@@ -1264,6 +1288,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.0"
+  husky:
+    dependency: "direct dev"
+    description:
+      name: husky
+      sha256: ce4a92b311c03e67ff66b6e354c8d5b8ee7c663ccaedb954e93798658b439bb2
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.7"
   image:
     dependency: transitive
     description:
@@ -1657,18 +1689,18 @@ packages:
     dependency: transitive
     description:
       name: nekoton_bridge
-      sha256: "803e01f3da21bc7e22f38401f64e9337d65651780b80a0f981f7e94b604fc075"
+      sha256: "98c95a174d83824776dcf8d3e41b17de3c2ca9a04ac85271d505854a3f14f987"
       url: "https://pub.dev"
     source: hosted
-    version: "5.2.0"
+    version: "5.3.1"
   nekoton_repository:
     dependency: "direct main"
     description:
       name: nekoton_repository
-      sha256: "6d9b45a80a03a2da26cc6af6c80237953760b7f8a67e7211253cd0aef0ffcbcb"
+      sha256: "90974b535389079471fec0d2379271a5a3893aaa15f0a8ec5e925870b4cc5e5a"
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.1"
+    version: "4.1.1"
   nekoton_webview:
     dependency: "direct main"
     description:
@@ -2596,6 +2628,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
+  verbose:
+    dependency: transitive
+    description:
+      name: verbose
+      sha256: "8e63580e35d58a15e4fca702fe91766430b1d28738c160c466e5cb10c373002a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1"
   very_good_analysis:
     dependency: transitive
     description:

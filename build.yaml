@@ -48,8 +48,6 @@ targets:
           - lib/feature/**/*guard.dart
           - lib/app/router/router.dart
           - lib/app/router/guard.dart
-          - lib/v1/**/*route.dart
-          - lib/v1/**/*guard.dart
           - lib/utils/factories/error_handler/standard_error_handler.dart
       freezed:
         generate_for:
@@ -63,4 +61,3 @@ targets:
           - lib/feature/**/data/**/*.dart
           - lib/feature/**/widget/**/*.dart
           - lib/feature/**/*route.dart
-          - lib/v1/**/*route.dart

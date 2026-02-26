@@ -1,14 +1,16 @@
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_asset.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_data.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/layouts/wallet_prepare_transfer_page_default_layout.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/layouts/wallet_prepare_transfer_page_small_layout.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page_wm.dart';
-import 'package:app/feature/wallet/wallet_prepare_transfer/widgets/wallet_prepare_transfer_view.dart';
 import 'package:app/feature/wallet/widgets/wallet_subscribe_error_widget.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/focus_utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
+import 'package:ui_components_lib/utils/view_utils.dart';
 
 class WalletPrepareTransferPage
     extends
@@ -49,12 +51,34 @@ class WalletPrepareTransferPage
           );
         }
 
-        return _DataBody(
-          wm,
-          account: data.account,
-          selectedCustodian: data.selectedCustodian,
-          localCustodians: data.localCustodians,
-          selectedAsset: data.selectedAsset,
+        final isCustodianSelectionVisible =
+            data.localCustodians != null &&
+            data.localCustodians!.isNotEmpty &&
+            (data.localCustodians!.length > 1 ||
+                data.localCustodians!.first != data.account?.publicKey);
+
+        return GestureDetector(
+          onTap: resetFocus,
+          child: Form(
+            key: wm.formKey,
+            child: isSmallScreenHeight
+                ? WalletPrepareTransferPageSmallLayout(
+                    wm,
+                    isCustodianSelectionVisible: isCustodianSelectionVisible,
+                    account: data.account,
+                    selectedCustodian: data.selectedCustodian,
+                    localCustodians: data.localCustodians,
+                    selectedAsset: data.selectedAsset,
+                  )
+                : WalletPrepareTransferPageDefaultLayout(
+                    wm,
+                    isCustodianSelectionVisible: isCustodianSelectionVisible,
+                    account: data.account,
+                    selectedCustodian: data.selectedCustodian,
+                    localCustodians: data.localCustodians,
+                    selectedAsset: data.selectedAsset,
+                  ),
+          ),
         );
       },
     );
@@ -72,42 +96,6 @@ class _DefaultBody extends StatelessWidget {
   }
 }
 
-class _DataBody extends StatelessWidget {
-  const _DataBody(
-    this._wm, {
-    this.account,
-    this.localCustodians,
-    this.selectedCustodian,
-    this.selectedAsset,
-  });
-
-  final WalletPrepareTransferPageWidgetModel _wm;
-  final KeyAccount? account;
-  final List<PublicKey>? localCustodians;
-  final PublicKey? selectedCustodian;
-  final WalletPrepareTransferAsset? selectedAsset;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        appBar: DefaultAppBar(titleText: LocaleKeys.sendYourFunds.tr()),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
-          child: WalletPrepareTransferView(
-            _wm,
-            account: account,
-            selectedCustodian: selectedCustodian,
-            localCustodians: localCustodians,
-            selectedAsset: selectedAsset,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _EmptyText extends StatelessWidget {
   const _EmptyText({required this.address});
 
@@ -116,10 +104,13 @@ class _EmptyText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(
-        LocaleKeys.accountNotFound.tr(args: [address.address]),
-        style: StyleRes.primaryBold.copyWith(
-          color: context.themeStyle.colors.textPrimary,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
+        child: Text(
+          LocaleKeys.accountNotFound.tr(args: [address.address]),
+          style: StyleRes.primaryBold.copyWith(
+            color: context.themeStyle.colors.textPrimary,
+          ),
         ),
       ),
     );

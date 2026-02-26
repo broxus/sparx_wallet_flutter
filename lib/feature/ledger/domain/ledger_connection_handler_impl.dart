@@ -32,7 +32,7 @@ class LedgerConnectionHandlerImpl implements LedgerConnectionHandler {
   Future<Uint8List> sign({
     required int accountId,
     required List<int> message,
-    int? signatureId,
+    required SignatureContext signatureContext,
   }) {
     if (_appInterface == null) {
       throw const LedgerException('Ledger app interface is not set');
@@ -41,7 +41,7 @@ class LedgerConnectionHandlerImpl implements LedgerConnectionHandler {
     return _appInterface!.sign(
       accountId: accountId,
       message: message,
-      signatureId: signatureId,
+      signatureId: signatureContext.globalId,
     );
   }
 
@@ -51,7 +51,7 @@ class LedgerConnectionHandlerImpl implements LedgerConnectionHandler {
     required int wallet,
     required List<int> message,
     required LedgerSignatureContext context,
-    int? signatureId,
+    required SignatureContext signatureContext,
   }) {
     if (_appInterface == null) {
       throw const LedgerException('Ledger app interface is not set');
@@ -62,7 +62,7 @@ class LedgerConnectionHandlerImpl implements LedgerConnectionHandler {
       wallet: wallet,
       message: message,
       context: context,
-      signatureId: signatureId,
+      signatureContext: signatureContext,
     );
   }
 }
