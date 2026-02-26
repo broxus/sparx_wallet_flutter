@@ -1729,10 +1729,10 @@ packages:
     dependency: "direct main"
     description:
       name: no_screenshot
-      sha256: ec3d86d7ee89a09c3a3939c1003012536ba4b3fcb4f8cbd23d87ada595c99258
+      sha256: "2f8bbb9b35ab815cdc68116008ba7b1af8ced55649af8f02826c4ea538d19ff9"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.1"
+    version: "0.10.0"
   node_preamble:
     dependency: transitive
     description:
