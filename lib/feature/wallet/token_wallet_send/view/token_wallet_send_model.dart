@@ -175,7 +175,7 @@ class _Signer extends TokenTransferSigner {
 
   @override
   Future<SignedMessage> signMessage(UnsignedMessage unsignedMessage) async {
-    final signatureId = await transport.getSignatureId();
+    final signatureContext = await transport.getSignatureContext();
     final signature = await ledgerService.runWithLedgerIfKeyIsLedger(
       interactionType: LedgerInteractionType.signTransaction,
       publicKey: publicKey,
@@ -185,7 +185,7 @@ class _Signer extends TokenTransferSigner {
           message: unsignedMessage.message,
           publicKey: publicKey,
           signInputAuth: signInputAuth,
-          signatureId: signatureId,
+          signatureContext: signatureContext,
         );
       },
     );
@@ -195,12 +195,12 @@ class _Signer extends TokenTransferSigner {
 
   @override
   Future<String> signDataRaw(String data) async {
-    final signatureId = await transport.getSignatureId();
+    final signatureContext = await transport.getSignatureContext();
     final output = await nekotonRepository.seedList.signDataRaw(
       data: data,
       publicKey: publicKey,
       signInputAuth: signInputAuth,
-      signatureId: signatureId,
+      signatureContext: signatureContext,
     );
 
     return output.signature;

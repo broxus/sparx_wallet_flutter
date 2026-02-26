@@ -107,7 +107,7 @@ final class PasswordService {
   Future<bool> checkKeyPassword({
     required PublicKey publicKey,
     required String password,
-    required int? signatureId,
+    required SignatureContext signatureContext,
   }) async {
     final masterKey = _getMasterKey(publicKey);
 
@@ -118,7 +118,7 @@ final class PasswordService {
       final correct = await _nekotonRepository.seedList.checkKeyPassword(
         publicKey: publicKey,
         password: password,
-        signatureId: signatureId,
+        signatureContext: signatureContext,
       );
 
       if (correct) {

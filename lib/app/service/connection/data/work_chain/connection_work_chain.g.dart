@@ -72,6 +72,7 @@ _ConnectionWorkchain _$ConnectionWorkchainFromJson(
   tokenApiBaseUrl: json['tokenApiBaseUrl'] as String?,
   currencyApiBaseUrl: json['currencyApiBaseUrl'] as String?,
   gaslessApiBaseUrl: json['gaslessApiBaseUrl'] as String?,
+  tonTokensApiBaseUrl: json['tonTokensApiBaseUrl'] as String?,
   pollingConfig: const PollingConfigConverter().fromJson(
     json['pollingConfig'] as Map<String, dynamic>?,
   ),
@@ -126,6 +127,7 @@ Map<String, dynamic> _$ConnectionWorkchainToJson(
   'tokenApiBaseUrl': instance.tokenApiBaseUrl,
   'currencyApiBaseUrl': instance.currencyApiBaseUrl,
   'gaslessApiBaseUrl': instance.gaslessApiBaseUrl,
+  'tonTokensApiBaseUrl': instance.tonTokensApiBaseUrl,
   'pollingConfig': const PollingConfigConverter().toJson(
     instance.pollingConfig,
   ),
