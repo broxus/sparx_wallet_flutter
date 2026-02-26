@@ -170,49 +170,25 @@ abstract class BaseButton extends StatelessWidget {
 
   ButtonStyle _getButtonStyle(ThemeStyleV2 themeStyle, AppButtonStyle style) {
     return ButtonStyle(
-      // TODO(MolochkoAndrew): update
-      //ignore: deprecated_member_use
-      elevation: MaterialStateProperty.all(0),
-      // TODO(MolochkoAndrew): update
-      //ignore: deprecated_member_use
-      textStyle: MaterialStateProperty.resolveWith<TextStyle>(
-        // TODO(MolochkoAndrew): update
-        //ignore: deprecated_member_use
-        (Set<MaterialState> states) =>
+      elevation: WidgetStateProperty.all(0),
+      textStyle: WidgetStateProperty.resolveWith<TextStyle>(
+        (Set<WidgetState> states) =>
             _getTextStyle(states, themeStyle.textStyles, buttonSize),
       ),
-      // TODO(MolochkoAndrew): update
-      //ignore: deprecated_member_use
-      shape: MaterialStateProperty.resolveWith<RoundedRectangleBorder>(
-        // TODO(MolochkoAndrew): update
-        //ignore: deprecated_member_use
-        (Set<MaterialState> states) =>
+      shape: WidgetStateProperty.resolveWith<RoundedRectangleBorder>(
+        (Set<WidgetState> states) =>
             _getBorder(states, style, buttonShape, buttonSize),
       ),
-      // TODO(MolochkoAndrew): update
-      //ignore: deprecated_member_use
-      backgroundColor: MaterialStateProperty.resolveWith<Color>(
-        // TODO(MolochkoAndrew): update
-        //ignore: deprecated_member_use
-        (Set<MaterialState> states) => _getColorBackground(states, style),
+      backgroundColor: WidgetStateProperty.resolveWith<Color>(
+        (Set<WidgetState> states) => _getColorBackground(states, style),
       ),
-      // TODO(MolochkoAndrew): update
-      //ignore: deprecated_member_use
-      overlayColor: MaterialStateProperty.resolveWith<Color>(
-        // TODO(MolochkoAndrew): update
-        //ignore: deprecated_member_use
-        (Set<MaterialState> states) => _getColorOverlay(states, style),
+      overlayColor: WidgetStateProperty.resolveWith<Color>(
+        (Set<WidgetState> states) => _getColorOverlay(states, style),
       ),
-      // TODO(MolochkoAndrew): update
-      //ignore: deprecated_member_use
-      foregroundColor: MaterialStateProperty.resolveWith<Color?>(
-        // TODO(MolochkoAndrew): update
-        //ignore: deprecated_member_use
-        (Set<MaterialState> states) => _getColorForeground(states, style),
+      foregroundColor: WidgetStateProperty.resolveWith<Color?>(
+        (Set<WidgetState> states) => _getColorForeground(states, style),
       ),
-      // TODO(MolochkoAndrew): update
-      //ignore: deprecated_member_use
-      padding: MaterialStateProperty.resolveWith(
+      padding: WidgetStateProperty.resolveWith(
         (_) => switch (buttonShape) {
           ButtonShape.circle || ButtonShape.square => EdgeInsets.zero,
           _ => _paddingByButtonSize,
@@ -228,23 +204,17 @@ abstract class BaseButton extends StatelessWidget {
   }
 
   TextStyle _getTextStyle(
-    // TODO(MolochkoAndrew): update
-    //ignore: deprecated_member_use
-    Set<MaterialState> states,
+    Set<WidgetState> states,
     TextStylesV2 styles,
     ButtonSize size,
   ) {
     final color = styles.labelMedium.color;
-    // TODO(MolochkoAndrew): update
-    //ignore: deprecated_member_use
-    if (states.contains(MaterialState.pressed)) {
+    if (states.contains(WidgetState.pressed)) {
       return _getTextStyleBySize(
         styles,
       ).copyWith(color: color?.withAlpha(OpacV2.opac80.toByteInt()));
     }
-    // TODO(MolochkoAndrew): update
-    //ignore: deprecated_member_use
-    if (states.contains(MaterialState.disabled)) {
+    if (states.contains(WidgetState.disabled)) {
       return _getTextStyleBySize(
         styles,
       ).copyWith(color: color?.withAlpha(OpacV2.opac50.toByteInt()));
@@ -253,18 +223,14 @@ abstract class BaseButton extends StatelessWidget {
   }
 
   RoundedRectangleBorder _getBorder(
-    // TODO(MolochkoAndrew): update
-    //ignore: deprecated_member_use
-    Set<MaterialState> states,
+    Set<WidgetState> states,
     AppButtonStyle style,
     ButtonShape shape,
     ButtonSize size,
   ) {
     return RoundedRectangleBorder(
       side: BorderSide(
-        // TODO(MolochkoAndrew): update
-        //ignore: deprecated_member_use
-        color: states.contains(MaterialState.focused)
+        color: states.contains(WidgetState.focused)
             ? style.borderColor
             : Colors.transparent,
         width: DimensSize.d2,
@@ -273,19 +239,14 @@ abstract class BaseButton extends StatelessWidget {
     );
   }
 
-  // TODO(MolochkoAndrew): update
-  //ignore: deprecated_member_use
-  Color _getColorBackground(Set<MaterialState> states, AppButtonStyle style) {
-    // TODO(MolochkoAndrew): update
-    //ignore: deprecated_member_use
-    if (states.contains(MaterialState.pressed)) {
+  Color _getColorBackground(Set<WidgetState> states, AppButtonStyle style) {
+    if (states.contains(WidgetState.pressed)) {
       return style.backgroundColor.withAlpha(
         (style.backgroundColor.a * OpacV2.opac80).toByteInt(),
       );
     }
-    // TODO(MolochkoAndrew): update
-    //ignore: deprecated_member_use
-    if (states.contains(MaterialState.disabled)) {
+
+    if (states.contains(WidgetState.disabled)) {
       return style.backgroundColor.withAlpha(
         (style.backgroundColor.a * OpacV2.opac50).toByteInt(),
       );
@@ -294,28 +255,20 @@ abstract class BaseButton extends StatelessWidget {
     return style.backgroundColor;
   }
 
-  // TODO(MolochkoAndrew): update
-  //ignore: deprecated_member_use
-  Color _getColorForeground(Set<MaterialState> states, AppButtonStyle style) {
-    // TODO(MolochkoAndrew): update
-    //ignore: deprecated_member_use
-    if (states.contains(MaterialState.pressed)) {
+  Color _getColorForeground(Set<WidgetState> states, AppButtonStyle style) {
+    if (states.contains(WidgetState.pressed)) {
       return style.iconColor.withAlpha(OpacV2.opac80.toByteInt());
     }
-    // TODO(MolochkoAndrew): update
-    //ignore: deprecated_member_use
-    if (states.contains(MaterialState.disabled)) {
+
+    if (states.contains(WidgetState.disabled)) {
       return style.iconColor.withAlpha(OpacV2.opac50.toByteInt());
     }
     return style.iconColor;
   }
 
-  // TODO(MolochkoAndrew): update
-  //ignore: deprecated_member_use
-  Color _getColorOverlay(Set<MaterialState> states, AppButtonStyle style) =>
-      style.backgroundColor.withAlpha(
-        (style.backgroundColor.a * OpacV2.opac80).toByteInt(),
-      );
+  Color _getColorOverlay(Set<WidgetState> states, AppButtonStyle style) => style
+      .backgroundColor
+      .withAlpha((style.backgroundColor.a * OpacV2.opac80).toByteInt());
 
   TextStyle _getTextStyleBySize(TextStylesV2 styles) {
     switch (buttonSize) {

@@ -1,7 +1,7 @@
 ---
 name: app
 description: SparX Wallet Flutter app
-version: 2.1.0
+version: 2.3.0
 publish_to: none
 
 environment:
@@ -44,6 +44,7 @@ dependencies:
   flutter_blue_plus: ^2.0.2
   flutter_email_sender: ^8.0.0
   flutter_inappwebview: 6.1.5
+  flutter_keyboard_visibility: ^6.0.0
   flutter_screenutil: 5.9.3
   flutter_secure_storage: ^10.0.0
   flutter_slidable: ^4.0.1
@@ -71,7 +72,7 @@ dependencies:
   money2: ^6.0.0
   mutex: ^3.1.0
   native_dio_adapter: ^1.5.0
-  nekoton_repository: ^3.3.1
+  nekoton_repository: ^4.1.1
   nekoton_webview: ^0.2.0
   no_screenshot: ^0.3.1
   ntp: 2.0.0
@@ -115,6 +116,7 @@ dev_dependencies:
       url: https://github.com/broxus/flutter_templates.git
       ref: main
   build_runner: ^2.7.1
+  commitlint_cli: ^0.8.1
   custom_lint: ^0.8.0
   drift_dev: ^2.29.0
   flutter_gen_runner: ^5.11.0
@@ -123,6 +125,7 @@ dev_dependencies:
     sdk: flutter
   freezed: ^3.2.3
   googleapis_auth: 2.0.0
+  husky: ^0.1.7
   injectable_generator: ^2.8.1
   integration_test:
     sdk: flutter

@@ -9,12 +9,14 @@ import 'package:app/app/service/currency_convert_service.dart';
 import 'package:app/core/sentry.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/token_contract/token_contract_asset.dart';
-import 'package:app/feature/qr_scanner/qr_scanner.dart';
 import 'package:app/feature/wallet/token_wallet_send/route.dart';
 import 'package:app/feature/wallet/ton_wallet_send/route.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_balance_data.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_asset.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_data.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/delegates/amount_ui_delegate.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/delegates/comment_ui_delegate.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/delegates/recipient_ui_delegate.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page_model.dart';
 import 'package:app/generated/generated.dart';
@@ -22,7 +24,6 @@ import 'package:app/widgets/amount_input/amount_input_asset.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -60,30 +61,26 @@ class WalletPrepareTransferPageWidgetModel
   late final screenState = createEntityNotifier<WalletPrepareTransferData?>()
     ..loading(WalletPrepareTransferData());
 
-  late final commentState = createNotifier(false);
   late final _isInitialDataLoadedState = createNotifier(false);
 
   final formKey = GlobalKey<FormState>();
-
-  late final receiverController = createTextEditingController(
-    wmParams.value.destination?.address,
-  );
-  late final receiverFocus = createFocusNode();
-
-  late final amountController = createTextEditingController();
-  late final amountFocus = createFocusNode();
-
-  late final commentController = createTextEditingController();
-  late final commentFocus = createFocusNode();
-
-  final addressFilterFormatter = FilteringTextInputFormatter.deny(
-    RegExp(r'\s'),
-  );
 
   final _assets = <(Address, String), WalletPrepareTransferAsset>{};
   late final _assetsState = createValueNotifier(_assets.values.toList());
 
   late final _sentry = SentryWorker.instance;
+
+  late final _amountUiDelegate = AmountUiDelegate();
+
+  late final _commentUiDelegate = CommentUiDelegate();
+
+  late final _recipientUiDelegate = RecipientUiDelegate(context, model);
+
+  AmountUi get amountUi => _amountUiDelegate;
+
+  CommentUi get commentUi => _commentUiDelegate;
+
+  RecipientUi get recipientUi => _recipientUiDelegate;
 
   WalletPrepareTransferData? get _data => screenState.value.data;
 
@@ -104,8 +101,17 @@ class WalletPrepareTransferPageWidgetModel
   @override
   void initWidgetModel() {
     super.initWidgetModel();
+    _recipientUiDelegate.init(address: wmParams.value.destination?.address);
     _init();
     _initListeners();
+  }
+
+  @override
+  void dispose() {
+    _amountUiDelegate.dispose();
+    _commentUiDelegate.dispose();
+    _recipientUiDelegate.dispose();
+    super.dispose();
   }
 
   String? getSeedName(PublicKey custodian) => model.getSeedName(custodian);
@@ -142,7 +148,7 @@ class WalletPrepareTransferPageWidgetModel
       return;
     }
 
-    final address = Address(address: receiverController.text.trim());
+    final address = _recipientUiDelegate.address;
 
     if (!address.isValid) {
       model.showError(LocaleKeys.addressIsWrong.tr());
@@ -153,11 +159,16 @@ class WalletPrepareTransferPageWidgetModel
     if (!result.isValid) return;
 
     final amnt = Fixed.parse(
-      amountController.text.trim().replaceAll(',', '.'),
+      _amountUiDelegate.amountText.trim().replaceAll(',', '.'),
       decimalDigits: _selectedAsset?.balance.decimalDigits,
     );
 
     _goNext(address, amnt);
+  }
+
+  void onPressedPlus() {
+    _commentUiDelegate.commentState.accept(true);
+    _commentUiDelegate.requestFocus();
   }
 
   Future<void> setMaxBalance() async {
@@ -194,41 +205,12 @@ class WalletPrepareTransferPageWidgetModel
       }
     }
 
-    amountController.text = available.formatImproved();
+    _amountUiDelegate.amountController.text = available.formatImproved();
   }
 
-  void onPressedReceiverClear() => receiverController.clear();
+  void onSubmittedReceiverAddress(_) => _amountUiDelegate.resetFocus();
 
-  void onPressedPasteAddress(String text) {
-    if (text.isEmpty) {
-      model.showError(LocaleKeys.addressIsWrong.tr());
-      return;
-    }
-
-    if (Address(address: text).isValid) {
-      receiverController.text = text;
-      receiverFocus.unfocus();
-    } else {
-      model.showError(LocaleKeys.addressIsWrong.tr());
-    }
-  }
-
-  Future<void> onPressedScan() async {
-    final result = await showQrScanner(context, types: [QrScanType.address]);
-
-    if (!context.mounted) return;
-
-    if (result case QrScanResultAddress(:final value)) {
-      receiverController.text = value.address;
-      receiverFocus.unfocus();
-    } else if (result is QrScanResultInvalid) {
-      model.showError(LocaleKeys.qrScannerError.tr());
-    }
-  }
-
-  void onSubmittedReceiverAddress(_) => amountFocus.requestFocus();
-
-  void onSubmittedAmountWord(_) => commentFocus.requestFocus();
+  void onSubmittedAmountWord(_) => _commentUiDelegate.requestFocus();
 
   String? validateAddressField(String? value) {
     if (value == null || value.isEmpty) {
@@ -250,10 +232,6 @@ class WalletPrepareTransferPageWidgetModel
     }
 
     return null;
-  }
-
-  void onPressedCleanComment() {
-    commentController.clear();
   }
 
   Future<void> _init() async {
@@ -304,7 +282,7 @@ class WalletPrepareTransferPageWidgetModel
     screenState.addListener(() {
       if (prevSelectedAsset?.rootTokenContract !=
           _selectedAsset?.rootTokenContract) {
-        amountController.clear();
+        _amountUiDelegate.amountController.clear();
       }
       prevSelectedAsset = _selectedAsset;
     });
@@ -328,7 +306,7 @@ class WalletPrepareTransferPageWidgetModel
       return;
     }
 
-    final comment = commentController.text.trim();
+    final comment = _commentUiDelegate.text.trim();
 
     final CompassRouteData routeData;
 
@@ -362,7 +340,7 @@ class WalletPrepareTransferPageWidgetModel
 
     final balance =
         await model.getBalance(asset: asset, address: addressState.value) ??
-        _zeroBalance(asset.tokenSymbol);
+        _getZeroBalance(asset.tokenSymbol);
 
     final updatedAsset = asset.copyWith(currency: currency, balance: balance);
 
@@ -380,7 +358,7 @@ class WalletPrepareTransferPageWidgetModel
     final selectedAsset = WalletPrepareTransferAsset(
       rootTokenContract: root,
       isNative: true,
-      balance: _zeroBalance(transport.nativeTokenTicker),
+      balance: _getZeroBalance(transport.nativeTokenTicker),
       tokenSymbol: transport.nativeTokenTicker,
       logoURI: transport.nativeTokenIcon,
       title: transport.nativeTokenTicker,
@@ -408,7 +386,7 @@ class WalletPrepareTransferPageWidgetModel
     final selectedAsset = WalletPrepareTransferAsset(
       rootTokenContract: contract.address,
       isNative: false,
-      balance: _zeroBalance(contract.symbol),
+      balance: _getZeroBalance(contract.symbol),
       logoURI: contract.logoURI,
       tokenSymbol: contract.symbol,
       title: contract.name,
@@ -484,7 +462,7 @@ class WalletPrepareTransferPageWidgetModel
       (e) => WalletPrepareTransferAsset(
         rootTokenContract: e.address,
         isNative: false,
-        balance: _zeroBalance(e.symbol),
+        balance: _getZeroBalance(e.symbol),
         tokenSymbol: e.symbol,
         logoURI: e.logoURI,
         title: e.name,
@@ -510,7 +488,7 @@ class WalletPrepareTransferPageWidgetModel
     _assetsState.value = _assets.values.toList();
   }
 
-  Money _zeroBalance(String symbol) {
+  Money _getZeroBalance(String symbol) {
     return Money.fromBigIntWithCurrency(
       BigInt.zero,
       Currencies()[symbol] ??
@@ -545,7 +523,7 @@ class WalletPrepareTransferPageWidgetModel
   }) async {
     final keyAccount = _data?.account;
     final publicKey = _data?.selectedCustodian;
-    final address = Address(address: receiverController.text.trim());
+    final address = _recipientUiDelegate.address;
 
     return keyAccount != null && publicKey != null
         ? await model.estimateGaslessCommission(

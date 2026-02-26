@@ -112,6 +112,10 @@ void main() {
     test('sign delegates to current interface', () async {
       // Arrange
       final interface = _MockLedgerAppInterface();
+      const signatureContext = SignatureContext(
+        globalId: 7,
+        signatureType: SignatureType.signatureId,
+      );
       when(() => interface.device).thenReturn(_MockBluetoothDevice());
       when(
         () => interface.sign(accountId: 1, message: [9, 9], signatureId: 7),
@@ -122,7 +126,7 @@ void main() {
       final result = await handler.sign(
         accountId: 1,
         message: const [9, 9],
-        signatureId: 7,
+        signatureContext: signatureContext,
       );
 
       // Assert
@@ -136,6 +140,10 @@ void main() {
       // Arrange
       final interface = _MockLedgerAppInterface();
       const context = LedgerSignatureContext(decimals: 9, asset: 'EVER');
+      const signatureContext = SignatureContext(
+        globalId: 10,
+        signatureType: SignatureType.signatureId,
+      );
       when(() => interface.device).thenReturn(_MockBluetoothDevice());
       when(
         () => interface.signTransaction(
@@ -143,7 +151,7 @@ void main() {
           wallet: 3,
           message: [1, 2, 3],
           context: context,
-          signatureId: 10,
+          signatureContext: signatureContext,
         ),
       ).thenAnswer((_) async => Uint8List.fromList([0xAA]));
       await handler.setAppInterface(interface);
@@ -154,7 +162,7 @@ void main() {
         wallet: 3,
         message: const [1, 2, 3],
         context: context,
-        signatureId: 10,
+        signatureContext: signatureContext,
       );
 
       // Assert
@@ -165,7 +173,7 @@ void main() {
           wallet: 3,
           message: [1, 2, 3],
           context: context,
-          signatureId: 10,
+          signatureContext: signatureContext,
         ),
       ).called(1);
     });
