@@ -41,7 +41,7 @@ class LedgerConnectionHandlerImpl implements LedgerConnectionHandler {
     return _appInterface!.sign(
       accountId: accountId,
       message: message,
-      signatureContext: signatureContext,
+      signatureId: signatureContext.globalId,
     );
   }
 

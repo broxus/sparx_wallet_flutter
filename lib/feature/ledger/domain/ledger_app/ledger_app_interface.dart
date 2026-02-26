@@ -182,66 +182,16 @@ class LedgerAppInterface {
   Future<Uint8List> sign({
     required int accountId,
     required List<int> message,
-    required SignatureContext signatureContext,
+    int? signatureId, // not used in newer versions
   }) async {
     await _mutex.acquire();
 
     try {
-      final isLegacyV1_0 = await _isLegacyV1_0NoLock();
-
-      final writerData = ByteDataWriter()..writeUint32(accountId);
-      final globalId = signatureContext.globalId;
-
-      if (isLegacyV1_0) {
-        // Legacy v1.0 app supports only
-        // "with chain id" flag + big-endian globalId.
-        switch (signatureContext.signatureType) {
-          case SignatureType.empty:
-            writerData.writeUint8(0);
-          case SignatureType.signatureId:
-            if (globalId == null) {
-              throw const LedgerException(
-                'Invalid SignatureContext: '
-                'signatureId requires non-null globalId',
-              );
-            }
-            writerData
-              ..writeUint8(_flagWithChainId)
-              ..writeInt32(globalId, Endian.big);
-          case SignatureType.signatureDomain:
-            throw const LedgerException(
-              'Ledger app v1.0 does not support SignatureDomain in sign()',
-            );
-        }
-      } else {
-        final mode = switch (signatureContext.signatureType) {
-          SignatureType.signatureId =>
-            globalId != null
-                ? _signModeSignatureId
-                : throw const LedgerException(
-                    'Invalid SignatureContext: '
-                    'signatureId requires non-null globalId',
-                  ),
-          SignatureType.signatureDomain =>
-            globalId != null
-                ? _signModeSignatureDomain
-                : throw const LedgerException(
-                    'Invalid SignatureContext: '
-                    'signatureDomain requires non-null globalId',
-                  ),
-          _ => _signModeEmpty,
-        };
-
-        writerData.writeUint8(mode << _signModeShift);
-
-        if (mode == _signModeSignatureId && globalId != null) {
-          writerData.writeInt32(globalId, Endian.big);
-        } else if (mode == _signModeSignatureDomain && globalId != null) {
-          writerData.writeInt32(globalId, Endian.little);
-        }
-      }
-
-      final data = (writerData..write(message)).toBytes();
+      final data =
+          (ByteDataWriter()
+                ..writeUint32(accountId)
+                ..write(message))
+              .toBytes();
       final writer = APDUWriter(ins: ApduIns.sign, p1: 0x01)..writeData(data);
 
       final response = await _transport.exchange(writer.toBytes());
