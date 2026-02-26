@@ -50,8 +50,8 @@ class ChangeSeedPasswordModel extends ElementaryModel {
   }) async => _passwordService.checkKeyPassword(
     publicKey: publicKey,
     password: password,
-    signatureId: await _nekotonRepository.currentTransport.transport
-        .getSignatureId(),
+    signatureContext: await _nekotonRepository.currentTransport.transport
+        .getSignatureContext(),
   );
 
   void showMessage(Message message) => _messengerService.show(message);

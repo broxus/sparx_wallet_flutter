@@ -20,6 +20,7 @@ Keep review feedback concise; prefer checklists and links over prose.
 
 ## Testing Expectations
 - Design for testability via DI; prefer AAA style.
+- Explicit comments marking each section (Arrange, Act, Assert) in test files are preferred but not required.
 - Prefer using **mocktail** for mocks instead of handwritten fakes.
 - Highlight missing or weak tests for critical paths (happy + error). Usual commands: `melos run test` or `flutter test path/to/file -p name="test name"`.
 

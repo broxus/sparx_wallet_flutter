@@ -33,6 +33,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.12.32"
+  ansi:
+    dependency: transitive
+    description:
+      name: ansi
+      sha256: "070af96189f9da6f996cee46049682bdcd1d191b483e13f9d2a2600729d8b2a1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.2"
   ansi_styles:
     dependency: transitive
     description:
@@ -282,6 +290,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.1"
+  change_case:
+    dependency: transitive
+    description:
+      name: change_case
+      sha256: f4e08feaa845e75e4f5ad2b0e15f24813d7ea6c27e7b78252f0c17f752cf1157
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   characters:
     dependency: transitive
     description:
@@ -378,6 +394,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  commitlint_cli:
+    dependency: "direct dev"
+    description:
+      name: commitlint_cli
+      sha256: "7882210129f2616d4899ad85073a75ef293deac693dd6f7dc4f0492b0758322b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.1"
   connectivity_plus:
     dependency: transitive
     description:
@@ -957,10 +981,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_nekoton_bridge
-      sha256: a0df015350da0f81f198ff89f4dbbb02ba0b9cb7d15a238a43a6599944a4c5a9
+      sha256: "63d11b381a72f32db91028ea2b5a920ea663ea3b71ce3b705f19f2c41203d933"
       url: "https://pub.dev"
     source: hosted
-    version: "5.4.0"
+    version: "5.5.1"
   flutter_plugin_android_lifecycle:
     dependency: "direct overridden"
     description:
@@ -1079,10 +1103,10 @@ packages:
     dependency: transitive
     description:
       name: form_builder_validators
-      sha256: "1b03c74d1db740890e6af803b43e5ebe56f8fa1ff5609cbf744e8d980dc5f8c6"
+      sha256: cd9a06b35abaed8bf050467c1239e3ee1c8795f42d4cb6568c08dbb8a4d6bd36
       url: "https://pub.dev"
     source: hosted
-    version: "11.2.0"
+    version: "11.3.0"
   fraud_protection:
     dependency: "direct main"
     description:
@@ -1156,10 +1180,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: eff94d2a6fc79fa8b811dde79c7549808c2346037ee107a1121b4a644c745f2a
+      sha256: "7974313e217a7771557add6ff2238acb63f635317c35fa590d348fb238f00896"
       url: "https://pub.dev"
     source: hosted
-    version: "17.0.1"
+    version: "17.1.0"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -1264,6 +1288,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.0"
+  husky:
+    dependency: "direct dev"
+    description:
+      name: husky
+      sha256: ce4a92b311c03e67ff66b6e354c8d5b8ee7c663ccaedb954e93798658b439bb2
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.7"
   image:
     dependency: transitive
     description:
@@ -1489,10 +1521,10 @@ packages:
     dependency: transitive
     description:
       name: lints
-      sha256: a5e2b223cb7c9c8efdc663ef484fdd95bb243bff242ef5b13e26883547fce9a0
+      sha256: "12f842a479589fea194fe5c5a3095abc7be0c1f2ddfa9a0e76aed1dbd26a87df"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.0"
+    version: "6.1.0"
   local_auth:
     dependency: "direct main"
     description:
@@ -1657,18 +1689,18 @@ packages:
     dependency: transitive
     description:
       name: nekoton_bridge
-      sha256: "803e01f3da21bc7e22f38401f64e9337d65651780b80a0f981f7e94b604fc075"
+      sha256: "98c95a174d83824776dcf8d3e41b17de3c2ca9a04ac85271d505854a3f14f987"
       url: "https://pub.dev"
     source: hosted
-    version: "5.2.0"
+    version: "5.3.1"
   nekoton_repository:
     dependency: "direct main"
     description:
       name: nekoton_repository
-      sha256: db3824e52090e04420a4929fe20712f4acfc7c79713563effd3db9f4c684ac00
+      sha256: "90974b535389079471fec0d2379271a5a3893aaa15f0a8ec5e925870b4cc5e5a"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.2"
+    version: "4.1.1"
   nekoton_webview:
     dependency: "direct main"
     description:
@@ -2596,6 +2628,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
+  verbose:
+    dependency: transitive
+    description:
+      name: verbose
+      sha256: "8e63580e35d58a15e4fca702fe91766430b1d28738c160c466e5cb10c373002a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1"
   very_good_analysis:
     dependency: transitive
     description:

@@ -93,7 +93,7 @@ class TonWalletSendModel extends ElementaryModel
     required Address destination,
     required BigInt amount,
   }) async {
-    final signatureId = await transport.transport.getSignatureId();
+    final signatureContext = await transport.transport.getSignatureContext();
     final signature = await _ledgerService.runWithLedgerIfKeyIsLedger(
       interactionType: LedgerInteractionType.signTransaction,
       publicKey: publicKey,
@@ -103,7 +103,7 @@ class TonWalletSendModel extends ElementaryModel
           message: message.message,
           publicKey: publicKey,
           signInputAuth: signInputAuth,
-          signatureId: signatureId,
+          signatureContext: signatureContext,
         );
       },
     );
