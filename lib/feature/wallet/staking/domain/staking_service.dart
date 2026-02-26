@@ -95,6 +95,9 @@ class StakingService {
       methodId: 'encodeDepositPayload',
       input: {'_nonce': _ntpService.now().millisecondsSinceEpoch},
       responsible: false,
+      signatureContext: const SignatureContext(
+        signatureType: SignatureType.empty,
+      ),
     );
 
     return result.output?['depositPayload'] as String? ?? '';
@@ -127,6 +130,9 @@ class StakingService {
       methodId: 'getAccountAddress',
       input: {'answerId': 0, '_user': account.toRaw()},
       responsible: true,
+      signatureContext: const SignatureContext(
+        signatureType: SignatureType.empty,
+      ),
     );
     final address = result.output?.values.firstOrNull as String?;
     if (address == null) return [];
@@ -141,6 +147,9 @@ class StakingService {
         methodId: 'withdrawRequests',
         input: {},
         responsible: false,
+        signatureContext: const SignatureContext(
+          signatureType: SignatureType.empty,
+        ),
       );
       final items = (requestsResult.output?['withdrawRequests'] as List? ?? [])
           .cast<List<dynamic>>();
@@ -174,6 +183,9 @@ class StakingService {
       methodId: 'getDepositStEverAmount',
       input: {'_amount': evers.toString()},
       responsible: false,
+      signatureContext: const SignatureContext(
+        signatureType: SignatureType.empty,
+      ),
     );
     final amount = result.output?.values.firstOrNull as String?;
 
@@ -189,6 +201,9 @@ class StakingService {
       methodId: 'getWithdrawEverAmount',
       input: {'_amount': stEvers.toString()},
       responsible: false,
+      signatureContext: const SignatureContext(
+        signatureType: SignatureType.empty,
+      ),
     );
     final amount = result.output?.values.firstOrNull as String?;
 
@@ -204,6 +219,9 @@ class StakingService {
       methodId: 'getDetails',
       input: {'answerId': 0},
       responsible: true,
+      signatureContext: const SignatureContext(
+        signatureType: SignatureType.empty,
+      ),
     );
     final detailsJson =
         result.output?.values.firstOrNull as Map<String, dynamic>?;

@@ -49,7 +49,7 @@ class EnterPasswordModel extends ElementaryModel {
   }) async => _passwordService.checkKeyPassword(
     publicKey: publicKey,
     password: password,
-    signatureId: await transport.transport.getSignatureId(),
+    signatureContext: await transport.transport.getSignatureContext(),
   );
 
   /// Returns true if face biometry is available, else fingerprint.
