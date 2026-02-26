@@ -694,11 +694,7 @@ import '../feature/wallet/widgets/wallet_backup/manual_backup/manual_back_up_mod
 import '../feature/wallet/widgets/wallet_backup/manual_backup/manual_back_up_wm.dart'
     as _i830;
 import '../feature/wallet/widgets/wallet_backup/wallet_backup.dart' as _i217;
-import '../http/api/gasless/gasless_api.dart' as _i528;
-import '../http/api/nft/nft_api.dart' as _i442;
 import '../http/api/presets/presets_api.dart' as _i249;
-import '../http/api/token/token_api.dart' as _i639;
-import '../http/api/ton/ton_api.dart' as _i162;
 import '../http/dio_module.dart' as _i720;
 import '../http/http.dart' as _i188;
 import '../http/interceptors/app_lifecycle_interceptor.dart' as _i164;
@@ -1640,18 +1636,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i700.TokenRepository>(
       () =>
           _i700.TokenRepository(gh<_i771.NekotonRepository>(), gh<_i361.Dio>()),
-    );
-    gh.factory<_i528.GaslessApi>(
-      () => _i528.GaslessApi(gh<_i361.Dio>(), baseUrl: gh<String>()),
-    );
-    gh.factory<_i442.NftApi>(
-      () => _i442.NftApi(gh<_i361.Dio>(), baseUrl: gh<String>()),
-    );
-    gh.factory<_i639.TokenApi>(
-      () => _i639.TokenApi(gh<_i361.Dio>(), baseUrl: gh<String>()),
-    );
-    gh.factory<_i162.TonApi>(
-      () => _i162.TonApi(gh<_i361.Dio>(), baseUrl: gh<String>()),
     );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i986.AddAccountRoute(
