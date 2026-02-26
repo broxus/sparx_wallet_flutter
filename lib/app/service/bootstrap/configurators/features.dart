@@ -22,6 +22,7 @@ class FeatureServicesConfigurator {
     this._tokenRepository,
     this._nftService,
     this._gaslessRepository,
+    this._tonRepository,
     this._passwordService,
   );
 
@@ -37,6 +38,7 @@ class FeatureServicesConfigurator {
   final TokenRepository _tokenRepository;
   final NftService _nftService;
   final GaslessRepository _gaslessRepository;
+  final TonRepository _tonRepository;
   final PasswordService _passwordService;
 
   final _log = Logger('bootstrap');
@@ -100,5 +102,8 @@ class FeatureServicesConfigurator {
 
     _gaslessRepository.init();
     _log.finest('GaslessRepository initialized');
+
+    _tonRepository.init();
+    _log.finest('TonRepository initialized');
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/nft/nft.dart';
+import 'package:async/async.dart';
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
@@ -221,11 +222,12 @@ class NftService {
     }
 
     if (account != null) {
-      final wallet = await _nekotonRepository.getWallet(
-        account.account.tonWallet,
-      );
+      final walletState = await _nekotonRepository.walletsMapStream
+          .mapNotNull((walletsMap) => walletsMap[account.address])
+          .firstOrNull;
+      final wallet = walletState?.wallet;
 
-      if (wallet.wallet != null) {
+      if (wallet != null) {
         final tracker = TonWalletLatestLtTracker(
           address: account.address,
           networkGroup: _nekotonRepository.currentTransport.networkGroup,
@@ -233,7 +235,7 @@ class NftService {
         );
 
         _nekotonRepository.subscribeToWalletNftTransfers(
-          wallet: wallet.wallet!,
+          wallet: wallet,
           tracker: tracker,
         );
         _currentSubscribedAccount = account;

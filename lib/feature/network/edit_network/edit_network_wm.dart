@@ -9,6 +9,7 @@ import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:uuid/uuid.dart';
 
 @injectable
@@ -20,8 +21,6 @@ class EditNetworkWidgetModel
           String?
         > {
   EditNetworkWidgetModel(super.model);
-
-  String? get _connectionDataId => wmParams.value;
 
   final formKey = GlobalKey<FormState>();
 
@@ -106,6 +105,10 @@ class EditNetworkWidgetModel
   ListenableState<bool> get isManifestLoadingState => _isManifestLoadingState;
 
   ListenableState<String> get manifestErrorState => _manifestErrorState;
+
+  ThemeStyleV2 get theme => context.themeStyleV2;
+
+  String? get _connectionDataId => wmParams.value;
 
   List<TextEditingController>? get _endpointsControllers =>
       _endpointsControllersState.value;

@@ -1,0 +1,9 @@
+include: package:commitlint_cli/commitlint.yaml
+
+rules:
+  scope-enum:
+    - 0
+    - always
+    - - ci
+      - deps
+      - release

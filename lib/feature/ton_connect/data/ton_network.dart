@@ -7,7 +7,9 @@ enum TonNetwork {
   @JsonValue('-239')
   mainnet,
   @JsonValue('-3')
-  testnet;
+  testnet,
+  @JsonValue('662387')
+  tetra;
 
   int toInt() => int.parse(_$TonNetworkEnumMap[this]!);
 }

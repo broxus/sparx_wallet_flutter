@@ -130,7 +130,7 @@ All text styles use the **Inter** font family with:
 
 ### Size and Spacing Tokens
 
-`DimensSizeV2` provides standardized spacing values:
+`DimensSize` provides standardized spacing values:
 
 - **Available sizes**: `d4`, `d8`, `d12`, `d16`, `d24`, `d32`, `d40`, `d48`, `d56`, `d64`
 - **Usage**: Padding, margins, and component sizing
