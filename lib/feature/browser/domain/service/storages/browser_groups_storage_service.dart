@@ -1,36 +1,37 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/browser/data/groups/browser_group.dart';
 import 'package:app/generated/generated.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 
 const _browserGroupsDomain = 'browser_groups';
 
-/// This is a wrapper-class above [GetStorage] that provides methods
+/// This is a wrapper-class above [StorageAdapter] that provides methods
 /// to interact with all browser tabs - related data.
 @singleton
 class BrowserGroupsStorageService extends AbstractStorageService {
-  BrowserGroupsStorageService(@Named(container) this._groupsStorage);
+  BrowserGroupsStorageService(this._storageAdapter)
+    : _storage = _storageAdapter.box(_browserGroupsDomain);
 
   static const container = _browserGroupsDomain;
   static const browserGroupsKey = 'browser_groups_key';
 
-  final GetStorage _groupsStorage;
+  final StorageAdapter _storageAdapter;
+  final StorageBox _storage;
 
   @override
   Future<void> init() async {
-    await GetStorage.init(container);
+    await _storageAdapter.init(container);
   }
 
   @override
   Future<void> clear() async {
     try {
-      await _groupsStorage.erase();
+      await _storage.erase();
     } catch (_) {}
   }
 
   List<BrowserGroup> getGroups() {
-    final groups = _groupsStorage.read<List<dynamic>>(browserGroupsKey);
+    final groups = _storage.read<List<dynamic>>(browserGroupsKey);
 
     if (groups == null) {
       return [];
@@ -51,15 +52,12 @@ class BrowserGroupsStorageService extends AbstractStorageService {
       'isEditable': false,
     };
 
-    _groupsStorage.write(browserGroupsKey, [tabsGroup]);
+    _storage.write(browserGroupsKey, [tabsGroup]);
 
     return [BrowserGroup.fromJson(tabsGroup)];
   }
 
   void saveGroups(List<BrowserGroup> groups) {
-    _groupsStorage.write(
-      browserGroupsKey,
-      groups.map((e) => e.toJson()).toList(),
-    );
+    _storage.write(browserGroupsKey, groups.map((e) => e.toJson()).toList());
   }
 }
