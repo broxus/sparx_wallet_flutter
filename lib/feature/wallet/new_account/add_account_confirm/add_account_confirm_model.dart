@@ -69,8 +69,8 @@ class AddAccountConfirmModel extends ElementaryModel {
     final correct = await _passwordService.checkKeyPassword(
       publicKey: publicKey,
       password: password,
-      signatureId: await _nekotonRepository.currentTransport.transport
-          .getSignatureId(),
+      signatureContext: await _nekotonRepository.currentTransport.transport
+          .getSignatureContext(),
     );
 
     if (_biometryService.isEnabled && correct) {
