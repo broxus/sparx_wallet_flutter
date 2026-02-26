@@ -12,9 +12,6 @@ Future<void> showAddNewLocalAccountSheet({
 }) {
   return showCommonBottomSheet(
     context: context,
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
-    title: LocaleKeys.newAccountName.tr(),
-    subtitle: LocaleKeys.newAccountNameDescription.tr(),
     body: (_, scrollController) => AddNewLocalAccountSheet(
       publicKey: publicKey,
       controller: scrollController,
@@ -54,16 +51,29 @@ class _AddNewLocalAccountSheetState extends State<AddNewLocalAccountSheet> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       controller: widget.controller,
-      child: SeparatedColumn(
+      child: Column(
         mainAxisSize: MainAxisSize.min,
-        spacing: DimensSize.d24,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            LocaleKeys.newAccountName.tr(),
+            style: context.themeStyleV2.textStyles.headingLarge,
+          ),
+          const SizedBox(height: DimensSize.d8),
+          Text(
+            LocaleKeys.newAccountNameDescription.tr(),
+            style: context.themeStyleV2.textStyles.paragraphMedium.copyWith(
+              color: context.themeStyleV2.colors.content1,
+            ),
+          ),
+          const SizedBox(height: DimensSize.d24),
           PrimaryTextField(
             maxLength: maxLengthForMainEntities,
             hintText: LocaleKeys.nameWord.tr(),
             textEditingController: nameController,
             onSubmit: (_) => _goNext(context),
           ),
+          const SizedBox(height: DimensSize.d24),
           PrimaryButton(
             buttonShape: ButtonShape.pill,
             title: LocaleKeys.continueWord.tr(),

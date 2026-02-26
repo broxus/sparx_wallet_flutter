@@ -72,7 +72,8 @@ _ConnectionWorkchain _$ConnectionWorkchainFromJson(
   tokenApiBaseUrl: json['tokenApiBaseUrl'] as String?,
   currencyApiBaseUrl: json['currencyApiBaseUrl'] as String?,
   gaslessApiBaseUrl: json['gaslessApiBaseUrl'] as String?,
-  pollingConfig: const PollingConfigSecondsConverter().fromJson(
+  tonTokensApiBaseUrl: json['tonTokensApiBaseUrl'] as String?,
+  pollingConfig: const PollingConfigConverter().fromJson(
     json['pollingConfig'] as Map<String, dynamic>?,
   ),
   stakeInformation: const StakingInformationConverter().fromJson(
@@ -126,7 +127,8 @@ Map<String, dynamic> _$ConnectionWorkchainToJson(
   'tokenApiBaseUrl': instance.tokenApiBaseUrl,
   'currencyApiBaseUrl': instance.currencyApiBaseUrl,
   'gaslessApiBaseUrl': instance.gaslessApiBaseUrl,
-  'pollingConfig': const PollingConfigSecondsConverter().toJson(
+  'tonTokensApiBaseUrl': instance.tonTokensApiBaseUrl,
+  'pollingConfig': const PollingConfigConverter().toJson(
     instance.pollingConfig,
   ),
   'stakeInformation': const StakingInformationConverter().toJson(

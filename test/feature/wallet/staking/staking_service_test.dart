@@ -39,6 +39,9 @@ void main() {
     );
 
     registerFallbackValue(BigInt.zero);
+    registerFallbackValue(
+      const SignatureContext(signatureType: SignatureType.empty),
+    );
 
     NekotonBridge.initMock(api: bridge);
   });
@@ -111,7 +114,7 @@ void main() {
         methodId: any(named: 'methodId'),
         input: any(named: 'input'),
         responsible: any(named: 'responsible'),
-        signatureId: any(named: 'signatureId'),
+        signatureCtx: any(named: 'signatureCtx'),
         libraries: any(named: 'libraries'),
       ),
     ).thenAnswer((_) async => _executionOutput());
@@ -184,7 +187,7 @@ void main() {
             methodId: 'encodeDepositPayload',
             input: any(named: 'input'),
             responsible: false,
-            signatureId: any(named: 'signatureId'),
+            signatureCtx: any(named: 'signatureCtx'),
             libraries: any(named: 'libraries'),
           ),
         ).thenAnswer(
@@ -243,7 +246,7 @@ void main() {
             methodId: any(named: 'methodId'),
             input: any(named: 'input'),
             responsible: any(named: 'responsible'),
-            signatureId: any(named: 'signatureId'),
+            signatureCtx: any(named: 'signatureCtx'),
             libraries: any(named: 'libraries'),
           ),
         ).thenAnswer((invocation) async {
@@ -288,7 +291,7 @@ void main() {
             methodId: any(named: 'methodId'),
             input: any(named: 'input'),
             responsible: any(named: 'responsible'),
-            signatureId: any(named: 'signatureId'),
+            signatureCtx: any(named: 'signatureCtx'),
             libraries: any(named: 'libraries'),
           ),
         ).thenAnswer((_) async => _executionOutput());
@@ -310,7 +313,7 @@ void main() {
           methodId: 'getDepositStEverAmount',
           input: any(named: 'input'),
           responsible: false,
-          signatureId: any(named: 'signatureId'),
+          signatureCtx: any(named: 'signatureCtx'),
           libraries: any(named: 'libraries'),
         ),
       ).thenAnswer((_) async => _executionOutput({'value': '1234'}));
@@ -331,7 +334,7 @@ void main() {
           methodId: 'getWithdrawEverAmount',
           input: any(named: 'input'),
           responsible: false,
-          signatureId: any(named: 'signatureId'),
+          signatureCtx: any(named: 'signatureCtx'),
           libraries: any(named: 'libraries'),
         ),
       ).thenAnswer((_) async => _executionOutput({'value': '321'}));
@@ -357,7 +360,7 @@ void main() {
           methodId: 'getDetails',
           input: any(named: 'input'),
           responsible: true,
-          signatureId: any(named: 'signatureId'),
+          signatureCtx: any(named: 'signatureCtx'),
           libraries: any(named: 'libraries'),
         ),
       ).thenAnswer((_) async => _executionOutput({'details': detailsJson}));
@@ -380,7 +383,7 @@ void main() {
           methodId: 'getDetails',
           input: any(named: 'input'),
           responsible: true,
-          signatureId: any(named: 'signatureId'),
+          signatureCtx: any(named: 'signatureCtx'),
           libraries: any(named: 'libraries'),
         ),
       ).thenAnswer((_) async => _executionOutput());

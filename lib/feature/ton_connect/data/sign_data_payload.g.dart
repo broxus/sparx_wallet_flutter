@@ -28,6 +28,7 @@ Map<String, dynamic> _$SignDataPayloadCellToJson(
 const _$TonNetworkEnumMap = {
   TonNetwork.mainnet: '-239',
   TonNetwork.testnet: '-3',
+  TonNetwork.tetra: '662387',
 };
 
 SignDataPayloadText _$SignDataPayloadTextFromJson(Map<String, dynamic> json) =>
