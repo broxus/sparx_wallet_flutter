@@ -18,7 +18,7 @@ Future<T?> showPrimaryBottomSheet<T>({
   bool wrapIntoAnimatedSize = true,
   bool useRootNavigator = true,
   bool showBackButton = false,
-  double bottomSpaceSize = DimensSize.d32,
+  double bottomSpaceSize = DimensSize.d20,
 }) {
   return showCustomModalBottomSheet<T>(
     barrierColor: barrierColor,

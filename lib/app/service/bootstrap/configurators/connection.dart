@@ -1,4 +1,5 @@
 import 'package:app/app/service/service.dart';
+import 'package:dio/dio.dart';
 
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
@@ -6,17 +7,21 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
 class ConnectionConfigurator {
-  ConnectionConfigurator(this._connectionService, this._nekotonRepository);
+  ConnectionConfigurator(
+    this._connectionService,
+    this._nekotonRepository,
+    this._dio,
+  );
 
   final ConnectionService _connectionService;
   final NekotonRepository _nekotonRepository;
+  // ignore: unused_field
+  final Dio _dio;
 
   final _log = Logger('bootstrap');
 
   Future<void> configure() async {
     _log.finest('ConnectionService initializating...');
-
-    // TODO(nesquikm): Theoretically, this should be called every time after app
 
     await _connectionService.setUp();
 
@@ -24,6 +29,7 @@ class ConnectionConfigurator {
 
     _nekotonRepository
       ..setupSeedListUpdating()
+      // TODO(komarov): pass Dio when https endpoint is ready
       ..setupWalletsSubscriptions();
     _log.finest('ConnectionService initialized');
   }

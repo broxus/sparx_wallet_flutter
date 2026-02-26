@@ -57,11 +57,9 @@ class CurrenciesService {
   final TonCurrenciesFetchStrategy tonFetchStrategy;
 
   CurrenciesFetchStrategy get fetchStrategy =>
-      // TODO(komarov): change to network type
-      switch (nekotonRepository.currentTransport.networkGroup) {
-        'ton' => tonFetchStrategy,
-        _ => defaultFetchStrategy,
-      };
+      nekotonRepository.currentTransport.networkType == NetworkType.ton
+      ? tonFetchStrategy
+      : defaultFetchStrategy;
 
   /// Get stream of currencies from storage for [group] of network.
   Stream<List<CustomCurrency>> currenciesStream(NetworkGroup group) =>

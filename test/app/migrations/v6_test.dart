@@ -6,9 +6,10 @@ import 'package:app/app/service/database/delegates/migration_delegate.dart';
 import 'package:app/app/service/storage_service/migrations/storage_migrations/v6.dart';
 import 'package:app/data/models/browser_history_item.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
+
+import '../../helpers/helpers.dart';
 
 class _MockPathProviderPlatform extends PathProviderPlatform {
   @override
@@ -37,6 +38,7 @@ void main() {
   late _MockMigrationDelegate migrationApi;
   late _MockHistoryDelegate historyApi;
 
+  late InMemoryStorageAdapter storageAdapter;
   late StorageMigrationV6 sut;
 
   setUpAll(() {
@@ -61,15 +63,16 @@ void main() {
           historyApi.saveHistoryItemsList(any<Iterable<BrowserHistoryItem>>()),
     ).thenAnswer((_) async {});
 
-    sut = StorageMigrationV6(databaseService);
+    storageAdapter = InMemoryStorageAdapter();
+    sut = StorageMigrationV6(databaseService, storageAdapter);
 
-    await GetStorage.init(box);
-    await GetStorage(box).erase();
+    await storageAdapter.init(box);
+    await storageAdapter.box(box).erase();
   });
 
   tearDown(() async {
-    await GetStorage.init(box);
-    await GetStorage(box).erase();
+    await storageAdapter.init(box);
+    await storageAdapter.box(box).erase();
   });
 
   group('StorageMigrationV6.apply', () {
@@ -78,7 +81,7 @@ void main() {
         () => migrationApi.checkHistoryMigration(),
       ).thenAnswer((_) async => true);
 
-      final storage = GetStorage(box);
+      final storage = storageAdapter.box(box);
       await storage.write(key, [
         _validJson(
           id: '1',
@@ -98,7 +101,7 @@ void main() {
     });
 
     test('When list is null accept migration and erase, no save', () async {
-      final storage = GetStorage(box);
+      final storage = storageAdapter.box(box);
 
       await storage.write('test', 1);
       expect(storage.read<Object?>('test'), 1);
@@ -115,7 +118,7 @@ void main() {
     });
 
     test('List is empty - accept migration and erase, no save', () async {
-      final storage = GetStorage(box);
+      final storage = storageAdapter.box(box);
       await storage.write(key, <dynamic>[]);
 
       await sut.apply();
@@ -128,7 +131,7 @@ void main() {
     });
 
     test('Save valid items', () async {
-      final storage = GetStorage(box);
+      final storage = storageAdapter.box(box);
       await storage.write(key, [
         _validJson(
           id: '1',
@@ -167,7 +170,7 @@ void main() {
     });
 
     test('Skip broken items, save only valid items', () async {
-      final storage = GetStorage(box);
+      final storage = storageAdapter.box(box);
 
       await storage.write(key, [
         1,
@@ -201,7 +204,7 @@ void main() {
     });
 
     test('List has only broken items', () async {
-      final storage = GetStorage(box);
+      final storage = storageAdapter.box(box);
 
       await storage.write(key, [
         1,
@@ -221,7 +224,7 @@ void main() {
     test(
       'If db save throws, migration is not accepted and storage is not erased',
       () async {
-        final storage = GetStorage(box);
+        final storage = storageAdapter.box(box);
 
         await storage.write(key, [
           _validJson(
@@ -250,7 +253,7 @@ void main() {
     test(
       'GetStorage returns Map<String, dynamic> entries for history list',
       () async {
-        final storage = GetStorage(box);
+        final storage = storageAdapter.box(box);
 
         await storage.write(key, [
           _validJson(

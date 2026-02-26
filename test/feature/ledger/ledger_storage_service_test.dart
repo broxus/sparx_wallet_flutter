@@ -1,26 +1,33 @@
+import 'package:app/app/service/storage_service/storage_adapter.dart';
 import 'package:app/feature/ledger/ledger.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:test/test.dart';
 
-class _MockGetStorage extends Mock implements GetStorage {}
+class _MockStorageAdapter extends Mock implements StorageAdapter {}
+
+class _MockStorageBox extends Mock implements StorageBox {}
 
 void main() {
   group('LedgerStorageService', () {
     const connectedKey = 'connected_ledgers';
 
     late LedgerStorageService service;
-    late _MockGetStorage storage;
+    late _MockStorageAdapter storageAdapter;
+    late _MockStorageBox storageBox;
 
     setUp(() {
-      storage = _MockGetStorage();
-      service = LedgerStorageService(storage);
+      storageAdapter = _MockStorageAdapter();
+      storageBox = _MockStorageBox();
+      when(
+        () => storageAdapter.box(LedgerStorageService.container),
+      ).thenReturn(storageBox);
+      service = LedgerStorageService(storageAdapter);
 
       when(
-        () => storage.write(any<String>(), any<dynamic>()),
+        () => storageBox.write(any<String>(), any<dynamic>()),
       ).thenAnswer((_) async {});
-      when(() => storage.erase()).thenAnswer((_) async {});
+      when(() => storageBox.erase()).thenAnswer((_) async {});
     });
 
     test('readConnectedLedgers decodes stored list', () {
@@ -31,7 +38,7 @@ void main() {
         deviceModelId: DeviceModelId.nanoX,
       );
       when(
-        () => storage.read<List<dynamic>>(connectedKey),
+        () => storageBox.read<List<dynamic>>(connectedKey),
       ).thenReturn([connected.toJson()]);
 
       // Act
@@ -46,7 +53,7 @@ void main() {
 
     test('addConnectedLedger stores and publishes ledger', () {
       // Arrange
-      when(() => storage.read<List<dynamic>>(connectedKey)).thenReturn([]);
+      when(() => storageBox.read<List<dynamic>>(connectedKey)).thenReturn([]);
       const connected = ConnectedLedger(
         remoteId: 'remote-2',
         masterKey: PublicKey(publicKey: 'master-2'),
@@ -58,12 +65,14 @@ void main() {
 
       // Assert
       expect(service.connected[connected.masterKey], equals(connected));
-      verify(() => storage.write(connectedKey, [connected.toJson()])).called(1);
+      verify(
+        () => storageBox.write(connectedKey, [connected.toJson()]),
+      ).called(1);
     });
 
     test('removeConnectedLedger removes stored entry', () {
       // Arrange
-      when(() => storage.read<List<dynamic>>(connectedKey)).thenReturn([]);
+      when(() => storageBox.read<List<dynamic>>(connectedKey)).thenReturn([]);
       const connected = ConnectedLedger(
         remoteId: 'remote-3',
         masterKey: PublicKey(publicKey: 'master-3'),
@@ -78,7 +87,7 @@ void main() {
       // Assert
       expect(service.connected.containsKey(connected.masterKey), isFalse);
       verify(
-        () => storage.write(connectedKey, <Map<String, dynamic>>[]),
+        () => storageBox.write(connectedKey, <Map<String, dynamic>>[]),
       ).called(1);
     });
   });
