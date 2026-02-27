@@ -352,86 +352,91 @@ class StakingPageWidgetModel
   }
 
   Future<void> _prepareStaking() async {
-    _isLoadingState.value = true;
-    final info = _infoState.value.data;
-    if (info == null) {
-      _isLoadingState.value = false;
-      return;
-    }
-
-    final valutAddress = model.staking.stakingValutAddress;
-    final amount = _currentValue.minorUnits;
-
-    final (payload, fees) = await FutureExt.wait2(
-      model.depositEverBodyPayload(amount),
-      model.computeFees(),
-    );
-
-    final isMultisig = (_wallet?.custodians?.length ?? 0) > 1;
-
-    contextSafe?.compassContinue(
-      TonWalletSendRouteData(
-        address: accountAddress,
-        publicKey: info.wallet.publicKey,
-        payload: payload,
-        destination: valutAddress,
-        amount: amount,
-        attachedAmount: fees.depositAttachedFee,
-        popOnComplete: false,
-        resultMessage: !isMultisig
-            ? LocaleKeys.stEverAppearInMinutes.tr(
-                args: [tokenCurrency?.symbol ?? ''],
-              )
-            : null,
-      ),
-    );
-
-    unawaited(
-      Future(() {
-        if (!isMounted) return;
+    try {
+      _isLoadingState.value = true;
+      final info = _infoState.value.data;
+      if (info == null) {
         _isLoadingState.value = false;
-      }),
-    );
+        return;
+      }
+
+      final valutAddress = model.staking.stakingValutAddress;
+      final amount = _currentValue.minorUnits;
+
+      final (payload, fees) = await FutureExt.wait2(
+        model.depositEverBodyPayload(amount),
+        model.computeFees(),
+      );
+
+      final isMultisig = (_wallet?.custodians?.length ?? 0) > 1;
+
+      contextSafe?.compassContinue(
+        TonWalletSendRouteData(
+          address: accountAddress,
+          publicKey: info.wallet.publicKey,
+          payload: payload,
+          destination: valutAddress,
+          amount: amount,
+          attachedAmount: fees.depositAttachedFee,
+          popOnComplete: false,
+          resultMessage: !isMultisig
+              ? LocaleKeys.stEverAppearInMinutes.tr(
+                  args: [tokenCurrency?.symbol ?? ''],
+                )
+              : null,
+        ),
+      );
+    } finally {
+      unawaited(
+        Future(() {
+          if (!isMounted) return;
+          _isLoadingState.value = false;
+        }),
+      );
+    }
   }
 
   Future<void> _prepareUntaking() async {
-    _isLoadingState.value = true;
-    final info = _infoState.value.data;
-    if (info == null) {
-      _isLoadingState.value = false;
-      return;
-    }
-
-    final valutAddress = model.staking.stakingValutAddress;
-    final rootContractAddress = model.staking.stakingRootContractAddress;
-    final amount = _currentValue.minorUnits;
-
-    final (payload, fees) = await FutureExt.wait2(
-      model.withdrawStEverPayload(),
-      model.computeFees(),
-    );
-
-    contextSafe?.compassContinue(
-      TokenWalletSendRouteData(
-        owner: accountAddress,
-        rootTokenContract: rootContractAddress,
-        publicKey: info.wallet.publicKey,
-        comment: payload,
-        destination: valutAddress,
-        amount: amount,
-        attachedAmount: fees.withdrawAttachedFee,
-        resultMessage: LocaleKeys.withdrawHoursProgress.tr(
-          args: [currency.symbol, info.withdrawHours.toString()],
-        ),
-        notifyReceiver: true,
-      ),
-    );
-    unawaited(
-      Future(() {
-        if (!isMounted) return;
+    try {
+      _isLoadingState.value = true;
+      final info = _infoState.value.data;
+      if (info == null) {
         _isLoadingState.value = false;
-      }),
-    );
+        return;
+      }
+
+      final valutAddress = model.staking.stakingValutAddress;
+      final rootContractAddress = model.staking.stakingRootContractAddress;
+      final amount = _currentValue.minorUnits;
+
+      final (payload, fees) = await FutureExt.wait2(
+        model.withdrawStEverPayload(),
+        model.computeFees(),
+      );
+
+      contextSafe?.compassContinue(
+        TokenWalletSendRouteData(
+          owner: accountAddress,
+          rootTokenContract: rootContractAddress,
+          publicKey: info.wallet.publicKey,
+          comment: payload,
+          destination: valutAddress,
+          amount: amount,
+          attachedAmount: fees.withdrawAttachedFee,
+          resultMessage: LocaleKeys.withdrawHoursProgress.tr(
+            args: [currency.symbol, info.withdrawHours.toString()],
+          ),
+          notifyReceiver: true,
+        ),
+      );
+    } finally {
+      unawaited(
+        Future(() {
+          if (!isMounted) return;
+          _isLoadingState.value = false;
+        }),
+      );
+    }
   }
 }
 
