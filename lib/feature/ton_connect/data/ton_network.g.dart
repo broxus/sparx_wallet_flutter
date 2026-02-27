@@ -9,4 +9,5 @@ part of 'ton_network.dart';
 const _$TonNetworkEnumMap = {
   TonNetwork.mainnet: '-239',
   TonNetwork.testnet: '-3',
+  TonNetwork.tetra: '662387',
 };
