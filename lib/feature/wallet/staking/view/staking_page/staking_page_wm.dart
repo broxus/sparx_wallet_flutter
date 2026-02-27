@@ -386,10 +386,12 @@ class StakingPageWidgetModel
       ),
     );
 
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (!isMounted) return;
-      _isLoadingState.value = false;
-    });
+    unawaited(
+      Future(() {
+        if (!isMounted) return;
+        _isLoadingState.value = false;
+      }),
+    );
   }
 
   Future<void> _prepareUntaking() async {
@@ -424,10 +426,12 @@ class StakingPageWidgetModel
         notifyReceiver: true,
       ),
     );
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (!isMounted) return;
-      _isLoadingState.value = false;
-    });
+    unawaited(
+      Future(() {
+        if (!isMounted) return;
+        _isLoadingState.value = false;
+      }),
+    );
   }
 }
 
