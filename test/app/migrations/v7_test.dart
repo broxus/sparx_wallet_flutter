@@ -26,12 +26,12 @@ void main() {
     late StorageMigrationV7 migration;
     late StorageBox storage;
 
-    setUp(() {
+    setUp(() async {
       storageAdapter = InMemoryStorageAdapter();
       storage = storageAdapter.box(ConnectionsStorageService.container);
       migration = StorageMigrationV7(storageAdapter);
 
-      storageAdapter.init(ConnectionsStorageService.container);
+      await storageAdapter.init(ConnectionsStorageService.container);
     });
 
     tearDown(() async {

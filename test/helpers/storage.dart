@@ -7,7 +7,7 @@ class InMemoryStorageAdapter implements StorageAdapter {
 
   @override
   Future<void> init([String? container]) async {
-    _boxes.putIfAbsent(container ?? 'InMemoryStorage', InMemoryStorageBox.new);
+    // No initialization needed for in-memory storage
   }
 
   @override

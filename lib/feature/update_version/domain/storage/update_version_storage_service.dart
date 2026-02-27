@@ -17,6 +17,7 @@ class UpdateVersionStorageService extends AbstractStorageService {
 
   @override
   Future<void> init() => _storageAdapter.init(container);
+
   @override
   Future<void> clear() async {
     try {
