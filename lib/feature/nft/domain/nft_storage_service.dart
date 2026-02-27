@@ -1,8 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/nft/nft.dart';
-import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' show Address;
 import 'package:rxdart/rxdart.dart';
@@ -11,17 +9,17 @@ const _pendingNftsKey = 'pending_nfts';
 
 @singleton
 class NftStorageService extends AbstractStorageService {
-  NftStorageService(
-    @Named(collectionsContainer) this._collectionsStorage,
-    @Named(generalContainer) this._generalStorage,
-  );
+  NftStorageService(this._storageAdapter)
+    : _collectionsStorage = _storageAdapter.box(collectionsContainer),
+      _generalStorage = _storageAdapter.box(generalContainer);
 
   static const String collectionsContainer = 'nft_storage_service_metadata';
   static const String generalContainer = 'nft_storage_service_general';
   static const containers = [collectionsContainer, generalContainer];
 
-  final GetStorage _collectionsStorage;
-  final GetStorage _generalStorage;
+  final StorageAdapter _storageAdapter;
+  final StorageBox _collectionsStorage;
+  final StorageBox _generalStorage;
 
   final _collectionsSubject =
       BehaviorSubject<Map<Address, List<NftCollectionSettings>>>();
@@ -39,7 +37,7 @@ class NftStorageService extends AbstractStorageService {
 
   @override
   Future<void> init() async {
-    await Future.wait(containers.map(GetStorage.init));
+    await Future.wait(containers.map(_storageAdapter.init));
     _collectionsSubject.add(_readCollections());
     _pendingNftSubject.add(_readPendingNfts());
   }

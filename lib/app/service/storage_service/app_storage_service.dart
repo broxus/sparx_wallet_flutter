@@ -2,20 +2,21 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:app/app/service/service.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 @lazySingleton
 class AppStorageService extends AbstractStorageService {
-  AppStorageService(@Named(container) this._storage);
+  AppStorageService(this._storageAdapter)
+    : _storage = _storageAdapter.box(container);
 
   static const String container = 'app_storage_service';
 
-  final GetStorage _storage;
+  final StorageAdapter _storageAdapter;
+  final StorageBox _storage;
 
   @override
-  Future<void> init() => GetStorage.init(container);
+  Future<void> init() => _storageAdapter.init(container);
 
   @override
   Future<void> clear() async {

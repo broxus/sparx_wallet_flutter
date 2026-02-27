@@ -93,7 +93,7 @@ dependencies:
   rive: ^0.14.0
   rxdart: 0.28.0
   sensitive_clipboard: ^1.1.0
-  sentry_flutter: ^9.6.0
+  sentry_flutter: ^9.11.0
   share_plus: ^12.0.0
   shared_preferences: ^2.5.4
   sqlite3: ^2.9.4
@@ -111,11 +111,12 @@ dependency_overrides:
   money2: 6.0.5
 
 dev_dependencies:
+  app_links_platform_interface: 2.0.2
   broxus_flutter_analysis:
     git:
       url: https://github.com/broxus/flutter_templates.git
       ref: main
-  build_runner: ^2.7.1
+  build_runner: ^2.11.1
   commitlint_cli: ^0.8.1
   custom_lint: ^0.8.0
   drift_dev: ^2.29.0
@@ -133,6 +134,7 @@ dev_dependencies:
   melos: ^7.4.0
   mocktail: 1.0.4
   path_provider_platform_interface: 2.1.2
+  permission_handler_platform_interface: 4.3.0
   plugin_platform_interface: 2.1.8
   retrofit_generator: ^10.0.0
   test: ^1.26.0
