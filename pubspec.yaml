@@ -41,7 +41,7 @@ dependencies:
   favicon: 1.1.2
   flutter:
     sdk: flutter
-  flutter_blue_plus: ^2.0.2
+  flutter_blue_plus: ^2.2.1
   flutter_email_sender: ^8.0.0
   flutter_inappwebview: 6.1.5
   flutter_keyboard_visibility: ^6.0.0
@@ -74,7 +74,7 @@ dependencies:
   native_dio_adapter: ^1.5.0
   nekoton_repository: ^4.1.1
   nekoton_webview: ^0.2.0
-  no_screenshot: ^0.3.1
+  no_screenshot: ^0.10.0
   ntp: 2.0.0
   open_settings_plus: 0.4.0
   package_info_plus: ^9.0.0
@@ -111,14 +111,15 @@ dependency_overrides:
   money2: 6.0.5
 
 dev_dependencies:
+  app_links_platform_interface: 2.0.2
   broxus_flutter_analysis:
     git:
       url: https://github.com/broxus/flutter_templates.git
       ref: main
-  build_runner: ^2.7.1
+  build_runner: ^2.11.1
   commitlint_cli: ^0.8.1
   custom_lint: ^0.8.0
-  drift_dev: ^2.29.0
+  drift_dev: ^2.31.0
   flutter_gen_runner: ^5.11.0
   flutter_native_splash: ^2.4.7
   flutter_test:
@@ -133,6 +134,7 @@ dev_dependencies:
   melos: ^7.4.0
   mocktail: 1.0.4
   path_provider_platform_interface: 2.1.2
+  permission_handler_platform_interface: 4.3.0
   plugin_platform_interface: 2.1.8
   retrofit_generator: ^10.0.0
   test: ^1.26.0

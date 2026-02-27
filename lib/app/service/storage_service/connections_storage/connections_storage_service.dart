@@ -7,7 +7,6 @@ import 'package:app/generated/generated.dart';
 import 'package:app/utils/json/json.dart';
 import 'package:app/utils/parse_utils.dart';
 import 'package:collection/collection.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
@@ -17,21 +16,21 @@ const _connectionsKey = 'connections';
 const _currentConnectionIdKey = 'current_connection_id';
 const _connectionsIdsKey = 'connections_ids';
 
-/// This is a wrapper-class above [GetStorage] that provides methods
+/// This is a wrapper-class above [StorageAdapter] that provides methods
 /// to interact with custom connection - related data.
 @singleton
 class ConnectionsStorageService extends AbstractStorageService {
   ConnectionsStorageService(
-    @Named(container) this._storage,
+    this._storageAdapter,
     this._presetsConnectionService,
     this._messengerService,
-  );
+  ) : _storage = _storageAdapter.box(container);
 
   final _log = Logger('ConnectionsStorageService');
   static const container = _connectionsDomain;
 
-  /// Storage that is used to store data
-  final GetStorage _storage;
+  final StorageAdapter _storageAdapter;
+  final StorageBox _storage;
   final PresetsConnectionService _presetsConnectionService;
   final MessengerService _messengerService;
 
@@ -407,7 +406,7 @@ class ConnectionsStorageService extends AbstractStorageService {
 
   @override
   Future<void> init() async {
-    await GetStorage.init(container);
+    await _storageAdapter.init(container);
     _streamedConnections();
     _currentConnectionIdSubject.add(_readCurrentConnectionId());
     _connectionsIdsSubject.add(_readConnectionsIds());
