@@ -91,6 +91,7 @@ dependencies:
       ref: optional-render-manager
   retrofit: ^4.9.1
   rive: ^0.14.0
+  root_checker_plus: 1.0.0
   rxdart: 0.28.0
   sensitive_clipboard: ^1.1.0
   sentry_flutter: ^9.6.0
@@ -158,6 +159,7 @@ flutter:
     - assets/images/onboarding/layer3/
     - assets/images/onboarding/
     - assets/images/lang_icons/
+    - assets/images/lock_bg/
     - assets/images/stever/
     - assets/images/user_avatar/
     - assets/images/alert_octagon_fill/

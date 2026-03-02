@@ -31,6 +31,7 @@ import '../app/service/approvals_service.dart' as _i654;
 import '../app/service/assets_service.dart' as _i964;
 import '../app/service/balance_service.dart' as _i637;
 import '../app/service/biometry_service.dart' as _i575;
+import '../app/service/bootstrap/bootstrap_navigation_delegate.dart' as _i392;
 import '../app/service/bootstrap/bootstrap_service.dart' as _i468;
 import '../app/service/bootstrap/configurators/biometry.dart' as _i728;
 import '../app/service/bootstrap/configurators/connection.dart' as _i159;
@@ -416,6 +417,12 @@ import '../feature/qr_scanner/view/qr_scanner_wm.dart' as _i569;
 import '../feature/root/domain/root_tab_service.dart' as _i533;
 import '../feature/root/restore_subroutes_guard.dart' as _i331;
 import '../feature/root/view/route.dart' as _i786;
+import '../feature/root_device_alert/domain/root_device_service.dart' as _i279;
+import '../feature/root_device_alert/route.dart' as _i141;
+import '../feature/root_device_alert/view/root_device_alert_screen_model.dart'
+    as _i721;
+import '../feature/root_device_alert/view/root_device_alert_screen_wm.dart'
+    as _i886;
 import '../feature/splash/route.dart' as _i592;
 import '../feature/splash/splash_screen_model.dart' as _i582;
 import '../feature/splash/splash_screen_wm.dart' as _i659;
@@ -732,6 +739,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i877.BrowserServicePagesControllersDelegate>(
       () => _i877.BrowserServicePagesControllersDelegate(),
     );
+    gh.factory<_i279.RootDeviceDelegate>(() => _i279.RootDeviceDelegate());
     gh.factory<_i728.VersionComparator>(() => _i728.VersionComparator());
     gh.singleton<_i830.AppLifecycleService>(() => _i830.AppLifecycleService());
     gh.singleton<_i746.AppLinksService>(
@@ -850,6 +858,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i225.NoInternetRoute(),
       instanceName: 'NoInternetRoute',
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i141.RootDeviceAlertRoute(),
+      instanceName: 'RootDeviceAlertRoute',
     );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i303.AccountDetailRoute(),
@@ -2962,6 +2974,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i9.BootstrapFailedRerunModel>(),
       ),
     );
+    gh.factory<_i392.BootstrapNavigationDelegate>(
+      () => _i392.BootstrapNavigationDelegate(
+        gh<_i771.NekotonRepository>(),
+        gh<_i275.NavigationService>(),
+        gh<_i309.CompassRouter>(),
+      ),
+    );
     gh.singleton<_i533.RootTabService>(
       () => _i533.RootTabService(
         gh<_i309.CompassRouter>(),
@@ -2972,6 +2991,13 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i202.BrowserLauncher(
         gh<_i309.CompassRouter>(),
         gh<_i544.BrowserService>(),
+      ),
+    );
+    gh.factory<_i721.RootDeviceAlertScreenModel>(
+      () => _i721.RootDeviceAlertScreenModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i392.BootstrapNavigationDelegate>(),
+        gh<_i279.RootDeviceDelegate>(),
       ),
     );
     gh.singleton<_i239.PendingDeepLinkService>(
@@ -3000,6 +3026,18 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i202.BrowserLauncher>(),
       ),
     );
+    gh.factory<_i857.NftCollectionPageModel>(
+      () => _i857.NftCollectionPageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i1015.NftService>(),
+        gh<_i1015.NftStorageService>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i553.MessengerService>(),
+        gh<_i202.BrowserLauncher>(),
+        gh<_i393.NftDisplayModeConfigurator>(),
+      ),
+    );
     gh.factory<_i425.AppModel>(
       () => _i425.AppModel(
         gh<_i83.ErrorHandler>(),
@@ -3015,19 +3053,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i771.NekotonRepository>(),
         gh<_i468.BootstrapService>(),
         gh<_i239.PendingDeepLinkService>(),
-        gh<_i275.NavigationService>(),
-      ),
-    );
-    gh.factory<_i857.NftCollectionPageModel>(
-      () => _i857.NftCollectionPageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i1015.NftService>(),
-        gh<_i1015.NftStorageService>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i553.MessengerService>(),
-        gh<_i202.BrowserLauncher>(),
-        gh<_i393.NftDisplayModeConfigurator>(),
+        gh<_i279.RootDeviceDelegate>(),
+        gh<_i392.BootstrapNavigationDelegate>(),
       ),
     );
     gh.factory<_i348.WalletPageModel>(
@@ -3106,6 +3133,11 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i278.CustomBottomNavigationBarModel(
         gh<_i83.ErrorHandler>(),
         gh<_i533.RootTabService>(),
+      ),
+    );
+    gh.factory<_i886.RootDeviceAlertScreenWidgetModel>(
+      () => _i886.RootDeviceAlertScreenWidgetModel(
+        gh<_i721.RootDeviceAlertScreenModel>(),
       ),
     );
     gh.factory<_i328.EditNetworkModel>(

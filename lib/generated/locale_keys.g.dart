@@ -826,4 +826,14 @@ abstract class LocaleKeys {
   static const invalidPayloadError = 'invalidPayloadError';
   static const invalidStateInitError = 'invalidStateInitError';
   static const unsupportedWalletTypeError = 'unsupportedWalletTypeError';
+  static const rootDetectedTitle = 'rootDetectedTitle';
+  static const rootDetectedDescription = 'rootDetectedDescription';
+  static const rootDetectedRisk = 'rootDetectedRisk';
+  static const rootDetectedAccept = 'rootDetectedAccept';
+  static const rootInfoTitle = 'rootInfoTitle';
+  static const rootInfoDescription = 'rootInfoDescription';
+  static const whatYouCanDoTitle = 'whatYouCanDoTitle';
+  static const whatYouCanDoDescription0 = 'whatYouCanDoDescription0';
+  static const whatYouCanDoDescription1 = 'whatYouCanDoDescription1';
+  static const whatYouCanDoDescription2 = 'whatYouCanDoDescription2';
 }

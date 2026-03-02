@@ -2134,6 +2134,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.1"
+  root_checker_plus:
+    dependency: "direct main"
+    description:
+      name: root_checker_plus
+      sha256: beb9064fc7cc9ef3a0046a4a1a9503c94a3fa0d4a7ba4ce7b2da8c8850054435
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   rxdart:
     dependency: "direct main"
     description:
