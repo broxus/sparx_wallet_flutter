@@ -4,8 +4,6 @@ You are working on the SparX Wallet Flutter project. Follow these critical archi
 
 ## Architecture Overview
 
-### Clean Architecture Layers
-
 The project follows Clean Architecture with 5 layers:
 
 1. **Application Layer**: App-level configuration, routing, DI setup
@@ -14,10 +12,7 @@ The project follows Clean Architecture with 5 layers:
 4. **Data Layer**: APIs, storage, repositories, DTOs
 5. **DI Layer**: Dependency injection configuration
 
-### Architecture Patterns
-
-- **All Code**: MUST use Elementary MVVM pattern
-- **Navigation**: MUST use Compass (type-safe navigation) - NEVER raw GoRouter
+All code MUST use Elementary MVVM pattern. Use `@injectable` for DI registration via GetIt.
 
 ## Elementary MVVM Pattern
 
@@ -26,25 +21,15 @@ The project follows Clean Architecture with 5 layers:
 For each feature screen, create exactly these 3 files:
 
 - `feature_screen.dart` - Widget (UI only)
-- `feature_screen_model.dart` - Model (data and state)
-- `feature_screen_wm.dart` - WidgetModel (business logic)
-
-### Implementation Rules
-
-- **Widget**: Pure UI, no business logic
-- **Model**: Data handling, state management, extends `ElementaryModel`, MUST be `@injectable`
-- **WidgetModel**: Business logic, user interactions, MUST be `@injectable`
+- `feature_screen_model.dart` - Model (data and state, extends `ElementaryModel`, `@injectable`)
+- `feature_screen_wm.dart` - WidgetModel (business logic, `@injectable`)
 
 ### Reactive Field Naming Convention
 
 In WidgetModel files, ALL reactive fields must use proper suffixes:
 
-- **All Notifier/Listenable types**: Must end with `State` suffix
-  - Includes: `ValueNotifier`, `ValueListenable`, `StateNotifier`, `ListenableState`, `EntityStateNotifier`
-  - Example: `isLoadingState`, `selectedTabState`, `userDataState`
-- **Stream types**: Must end with `Stream` suffix
-  - Includes: `Stream`, `StreamController`, `BehaviorSubject`
-  - Example: `eventsStream`, `dataStream`
+- **Notifier/Listenable types** (`ValueNotifier`, `ValueListenable`, `StateNotifier`, `ListenableState`, `EntityStateNotifier`): Must end with `State` suffix — e.g. `isLoadingState`, `userDataState`
+- **Stream types** (`Stream`, `StreamController`, `BehaviorSubject`): Must end with `Stream` suffix — e.g. `eventsStream`, `dataStream`
 
 **Private fields must match public getters:**
 
@@ -60,14 +45,11 @@ ValueListenable<bool> get isLoadingState => _isLoading;
 
 ### Base Class Patterns
 
-The project uses two patterns for Elementary MVVM implementation:
+#### 1. Non-Parametrized (CustomWidgetModel + InjectedElementaryWidget)
 
-#### 1. Non-Parametrized Pattern (CustomWidgetModel + InjectedElementaryWidget)
-
-Use when widgets don't need parameters from parent widgets:
+Use when widgets don't need parameters from parent (e.g. feature entry points, modal sheets):
 
 ```dart
-// Widget - extends InjectedElementaryWidget
 class SplashScreen extends InjectedElementaryWidget<SplashScreenWidgetModel> {
   const SplashScreen({super.key});
 
@@ -77,14 +59,11 @@ class SplashScreen extends InjectedElementaryWidget<SplashScreenWidgetModel> {
   }
 }
 
-// WidgetModel - extends CustomWidgetModel
 @injectable
 class SplashScreenWidgetModel extends CustomWidgetModel<SplashScreen, SplashScreenModel> {
   SplashScreenWidgetModel(super.model);
-  // Business logic implementation
 }
 
-// Model - extends ElementaryModel
 @injectable
 class SplashScreenModel extends ElementaryModel {
   SplashScreenModel(
@@ -96,12 +75,11 @@ class SplashScreenModel extends ElementaryModel {
 }
 ```
 
-#### 2. Parametrized Pattern (CustomWidgetModelParametrized + InjectedElementaryParametrizedWidget)
+#### 2. Parametrized (CustomWidgetModelParametrized + InjectedElementaryParametrizedWidget)
 
-Use when widgets need parameters from parent widgets:
+Use when widgets need data from parent (e.g. list items, reusable components):
 
 ```dart
-// Widget - extends InjectedElementaryParametrizedWidget
 class AccountCard extends InjectedElementaryParametrizedWidget<
     AccountCardWidgetModel, KeyAccount> {
   const AccountCard({
@@ -115,28 +93,24 @@ class AccountCard extends InjectedElementaryParametrizedWidget<
   }
 }
 
-// WidgetModel - extends CustomWidgetModelParametrized
 @injectable
 class AccountCardWidgetModel extends CustomWidgetModelParametrized<
     AccountCard, AccountCardModel, KeyAccount> {
   AccountCardWidgetModel(super.model);
   
-  // Access parameter via reactive notifier
   late final ValueListenable<String> accountName =
-      createWmParamsNotifier((account) => account.name);
+      createWmParamsNotifier((account) => account.name); // reactive param access
   
-  // Or access current value directly
-  KeyAccount get currentAccount => wmParams.value;
+  KeyAccount get currentAccount => wmParams.value; // direct param access
 }
 
-// For multiple parameters, create a params class
+// For multiple parameters, create a params class:
 class MyWidgetParams {
   final String title;
   final VoidCallback onTap;
   const MyWidgetParams({required this.title, required this.onTap});
 }
 
-// Widget with multiple parameters
 class MyWidget extends InjectedElementaryParametrizedWidget<
     MyWidgetModel, MyWidgetParams> {
   MyWidget({
@@ -157,79 +131,25 @@ Both base WidgetModel classes provide:
 - Common mixins (`NotifierSubscriptionsMixin`, `ContextWmMixin`)
 - Automatic dependency injection via GetIt
 
-### When to Use Each Pattern
-
-**Use Non-Parametrized Pattern when:**
-
-- Widget is self-contained
-- All data comes from injected services
-- No configuration from parent is needed
-- Examples: App root widget, feature entry points, modal sheets
-
-**Use Parametrized Pattern when:**
-
-- Widget needs data from parent
-- Widget behavior changes based on parameters
-- Widget is reusable with different configurations
-- Examples: List items, reusable components, widgets displaying entity details
-
-## Dependency Injection
-
-### Service Registration
-
-```dart
-// In di.dart
-@injectable
-class YourService {
-  // Implementation
-}
-```
-
 ## Business Logic Components
 
-### Services (Stateful Business Logic)
-
-- Handle complex business operations
-- Maintain state across the application
-- Examples: `CurrentAccountsService`, `BalanceService`
-- MUST be registered in DI as singletons
-
-### Repositories (Data Access)
-
-- Handle external data sources (APIs, storage)
-- Transform DTOs to domain models
-- No business logic - pure data operations
-- Examples: `TokenRepository`, `TonRepository`
-
-### Models and DTOs
-
-- **Domain Models**: Business entities used throughout the app
-- **DTOs**: Data transfer objects for API/storage communication
-- MUST use Freezed for immutable data classes
-- Include proper JSON serialization
+- **Services**: Stateful business logic, registered as DI singletons (e.g. `CurrentAccountsService`, `BalanceService`)
+- **Repositories**: Data access (APIs, storage), DTO→domain transformation, no business logic (e.g. `TokenRepository`, `TonRepository`)
+- **Domain Models**: Business entities — MUST use Freezed for immutable data classes with JSON serialization
+- **DTOs**: Data transfer objects for API/storage communication — also use Freezed
 
 ## Navigation System (Compass)
 
-### Critical Rules
-
-- **NEVER** use raw GoRouter directly
-- **ALWAYS** use Compass navigation methods
+- **NEVER** use raw GoRouter directly — **ALWAYS** use Compass navigation methods
 - **NEVER** use Freezed with RouteData classes (breaks type resolution)
 
 ### Navigation Methods
 
 ```dart
-// Navigate to new route
-context.compassPoint(YourRoute());
-
-// Push onto stack
-context.compassPush(YourRoute());
-
-// Continue navigation flow
-context.compassContinue(YourRoute());
-
-// Navigate back
-context.compassBack();
+context.compassPoint(YourRoute());     // Navigate to new route
+context.compassPush(YourRoute());      // Push onto stack
+context.compassContinue(YourRoute());  // Continue navigation flow
+context.compassBack();                 // Navigate back
 ```
 
 ### Route Definition
@@ -241,7 +161,6 @@ class YourRouteData {
   const YourRouteData({required this.parameter});
 }
 
-// Route implementation
 @AutoRouteConfig.route('/your-path')
 class YourRoute extends CompassRoute {
   final YourRouteData data;
@@ -251,12 +170,7 @@ class YourRoute extends CompassRoute {
 
 ## Error Handling
 
-### Consistent Error Handling
-
 - Use `PrimaryErrorHandler` for all error scenarios
-- Implement proper try-catch blocks in async operations
-- Provide meaningful error messages to users
-- Log errors for debugging but never expose sensitive data
 
 ### EntityStateNotifier Pattern
 
@@ -265,7 +179,6 @@ For async operations with loading states:
 ```dart
 final entityNotifier = EntityStateNotifier<YourData>();
 
-// In WidgetModel
 Future<void> loadData() async {
   await entityNotifier.content(() async {
     return await _service.fetchData();
@@ -275,20 +188,9 @@ Future<void> loadData() async {
 
 ## Code Quality Standards
 
-### Security First
-
 - **NEVER** log or expose secrets, keys, or sensitive data
-- Validate all user inputs
-- Use secure storage for sensitive information
-- Implement proper authentication and authorization
-
-### Clean Code Principles
-
 - Use explicit, descriptive variable names with auxiliary verbs (`isLoading`, `hasError`)
-- Avoid magic numbers - use named constants
-- Keep functions small and focused
-- Implement proper null safety
-- Use const constructors for immutable widgets
+- Avoid magic numbers — use named constants
 
 ### File Organization
 
@@ -303,119 +205,62 @@ Future<void> loadData() async {
 
 ## Blockchain Integration
 
-### Nekoton Integration
-
 - Use `NekotonRepository` for all blockchain operations
-- Handle connection states properly
-- Implement proper error handling for network issues
-- Cache blockchain data when appropriate
-
-### Asset Management
-
 - Use `AssetsService` for token/currency management
-- Implement proper balance calculations
 - Handle multiple token standards (TIP-3, etc.)
 
 ## UI/UX Guidelines
 
 ### Theme System
 
-- **ALWAYS** use v2 theme system (`packages/ui_components_lib/v2/`) - NEVER v1 legacy system
+- **ALWAYS** use v2 theme system (`packages/ui_components_lib/v2/`) — NEVER v1 legacy system
 - **ALWAYS** access themes via `context.themeStyleV2` extension
-- **ALWAYS** use semantic color names (`colors.content0`, `colors.background2`) - NEVER hardcoded colors
-- **ALWAYS** use design tokens (`DimensSize.d16`, `DimensRadius.radius12`) - NEVER magic numbers
+- **ALWAYS** use semantic color names (`colors.content0`, `colors.background2`) — NEVER hardcoded colors
+- **ALWAYS** use design tokens (`DimensSize.d16`, `DimensRadius.radius12`) — NEVER magic numbers
 - **ALWAYS** use pre-built components (`PrimaryButton`, `PrimaryText`) when available
 - **ALWAYS** follow typography hierarchy (`textStyles.headingMedium`, `textStyles.paragraphSmall`)
-- Import pattern: `import 'package:ui_components_lib/ui_components_lib.dart';`
-
-### Responsive Design
-
-- Implement proper responsive layouts
-- Test on different screen sizes
-- Use flexible widgets and constraints
-- Handle orientation changes
+- Import: `import 'package:ui_components_lib/ui_components_lib.dart';`
 
 ## Localization
 
-### Translation Requirements
-
 - **NEVER** hardcode strings in widgets
-- **Storage**: JSON files in `assets/translations/`
-- Use snake_case for all keys
-- Use `easy_localization` package
-- Generate translation keys with `melos run codegen:locale`
-- Provide descriptive keys following hierarchical structure
-
-### Implementation
+- Storage: JSON files in `assets/translations/`, snake_case keys, hierarchical structure
+- Use `easy_localization` package; generate keys with `melos run codegen:locale`
 
 ```dart
-// In widget
 Text(LocaleKeys.feature_screen_title.tr())
-
-// With parameters
 Text(LocaleKeys.feature_screen_message.tr(args: [userName]))
 ```
 
-## Testing Integration
+## Testing
 
-### Testable Architecture
-
-- Design components for easy testing
-- Use dependency injection for mocking
-- Separate business logic from UI
-- Implement proper abstractions
-
-### Test-Driven Development
-
-- Follow **Arrange-Act-Assert (AAA)** pattern:
-- Use **given_when_then** format for naming convention
-- Write tests for all business logic
-- Mock external dependencies
-- Never mock the class under test
-- Test error scenarios
-- Maintain high test coverage
-- Use **mocktail** for all dependencies
-- Prefer using **mocktail** for mocks instead of handwritten fakes
-- Test Each Layer Separately
-- Run command for test `melos run test`
-- Run Specific Test File `flutter test test/path/to/test_file.dart`
-- Run `flutter test test/path/to/test_file.dart -p name="test name"`
-- Explicit comments marking each section (Arrange, Act, Assert) in test files are preferred but not required
+- Use **mocktail** for mocking (never mock the class under test)
+- Follow **Arrange-Act-Assert (AAA)** pattern with **given_when_then** naming convention
+- Test each layer separately; test error scenarios
+- Run tests: `melos run test` or `flutter test test/path/to/test_file.dart`
+- Run specific test: `flutter test test/path/to/test_file.dart -p name="test name"`
 
 ```dart
 class MockRepository extends Mock implements UserRepository {}
-class MockNekotonRepository extends Mock implements NekotonRepository {}
 
 void main() {
-  late ServiceUnderTest serviceUnderTest;
+  late UserService service;
   late MockRepository mockRepository;
   
   setUp(() {
     mockRepository = MockRepository();
-    serviceUnderTest = UserService(mockRepository, MockNekotonRepository());
+    service = UserService(mockRepository);
   });
 
   group('FeatureName', () {
     test('should return expected result when valid input provided', () {
       // Arrange
       final input = 'test_input';
-      final expected = 'expected_output';
-      
       // Act
-      final result = serviceUnderTest.method(input);
-      
+      final result = service.method(input);
       // Assert
-      expect(result, equals(expected));
+      expect(result, equals('expected_output'));
     });
   });
 }
 ```
-
-## Module System
-
-### Feature Modules
-
-- Group related functionality into modules
-- Implement proper boundaries between modules
-- Use dependency injection for inter-module communication
-- Design for modularity and reusability
