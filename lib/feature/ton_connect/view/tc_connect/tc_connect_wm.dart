@@ -90,19 +90,31 @@ class TCConnectWidgetModel
   }
 
   Future<void> onConfirm(SignInputAuth signInputAuth) async {
-    if (selectedState.value == null) return;
+    final account = selectedState.value;
+    if (account == null) return;
 
-    final account = selectedState.value!;
-    final replyItems = await model.createReplyItems(
-      signInputAuth: signInputAuth,
-      account: account,
-      request: wmParams.value.request,
-      manifest: manifest,
-    );
+    try {
+      final replyItems = await model.createReplyItems(
+        signInputAuth: signInputAuth,
+        account: account,
+        request: wmParams.value.request,
+        manifest: manifest,
+      );
 
-    if (contextSafe != null) {
-      final result = TonConnectUiEventResult.data(data: (account, replyItems));
-      Navigator.of(contextSafe!).pop(result);
+      final context = contextSafe;
+      if (context == null || !context.mounted) {
+        return;
+      }
+      final navigator = Navigator.of(context);
+      if (navigator.canPop()) {
+        final result = TonConnectUiEventResult.data(
+          data: (account, replyItems),
+        );
+        navigator.pop(result);
+      }
+    } catch (e, s) {
+      debugPrint('$e');
+      debugPrintStack(stackTrace: s);
     }
   }
 
