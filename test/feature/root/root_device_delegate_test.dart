@@ -36,16 +36,19 @@ void main() {
       },
     );
 
-    test('isShowRootScreen returns false when user has acknowledged root state',
-        () async {
-      SharedPreferences.setMockInitialValues(<String, Object>{
-        RootDeviceDelegate.userKnowsRootKey: true,
-      });
+    test(
+      'isShowRootScreen returns false when user has acknowledged root state',
+      () async {
+        SharedPreferences.setMockInitialValues(<String, Object>{
+          RootDeviceDelegate.userKnowsRootKey: true,
+        });
+        delegate = RootDeviceDelegate();
 
-      final result = await delegate.isShowRootScreen;
+        final result = await delegate.isShowRootScreen;
 
-      expect(result, isFalse);
-    });
+        expect(result, isFalse);
+      },
+    );
 
     test('setUserKnowRoot persists flag and hides root screen', () async {
       final isSaved = await delegate.setUserKnowRoot();
