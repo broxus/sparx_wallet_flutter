@@ -74,6 +74,22 @@ class LedgerAppInterface {
     }
   }
 
+  Future<bool> closeApp() async {
+    await _mutex.acquire();
+
+    try {
+      final writer = APDUWriter(cla: 0xb0, ins: ApduIns.closeApp);
+      final response = await _transport.exchange(writer.toBytes());
+
+      return response.isOk;
+    } catch (e, st) {
+      _logger.severe('Failed to close app: $e', e, st);
+      throw LedgerException('Failed to close app: $e');
+    } finally {
+      _mutex.release();
+    }
+  }
+
   Future<String> getAppName() async {
     await _mutex.acquire();
 

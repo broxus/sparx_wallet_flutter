@@ -1,5 +1,6 @@
 enum ApduIns {
   openApp(0xd8),
+  closeApp(0xa7),
   getApp(0x01),
   getConf(0x01),
   getPk(0x02),

@@ -61,8 +61,11 @@ extension BluetoothDeviceX on BluetoothDevice {
   }
 }
 
-extension AnyhowExceptionX on AnyhowException {
-  bool get isCancelled {
-    return message == 'Operation cancelled';
+// extension AnyhowExceptionX on AnyhowException {
+extension ExceptionLedgerExtension on Exception {
+  bool get isLedgerOperationCancelled {
+    return (this is AnyhowException &&
+            (this as AnyhowException).message == 'Operation cancelled') ||
+        toString().contains('ErrorCode.cancelled');
   }
 }
