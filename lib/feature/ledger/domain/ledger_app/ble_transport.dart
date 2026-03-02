@@ -57,6 +57,7 @@ class BleTransport {
 
   Future<LedgerResponse> exchange(List<int> data) async {
     StreamSubscription<List<int>>? subscription;
+    StreamSubscription<BluetoothAdapterState>? adapterSubscription;
     LedgerDataReader? reader;
 
     await _mutex.acquire();
@@ -76,11 +77,13 @@ class BleTransport {
 
             if (reader!.isCompleted) {
               subscription?.cancel();
+              adapterSubscription?.cancel();
               completer.complete(reader!);
             }
           } catch (e, st) {
             _logger.severe('Error processing received value: $e', e, st);
             subscription?.cancel();
+            adapterSubscription?.cancel();
             completer.completeError(
               LedgerException('Error processing received value: $e'),
               st,
@@ -90,6 +93,7 @@ class BleTransport {
         onError: (Object e, StackTrace st) {
           _logger.severe('Error in subscription: $e', e, st);
           subscription?.cancel();
+          adapterSubscription?.cancel();
           completer.completeError(
             LedgerException('Error in subscription: $e'),
             st,
@@ -97,7 +101,24 @@ class BleTransport {
         },
       );
 
-      _device.cancelWhenDisconnected(subscription);
+      adapterSubscription = FlutterBluePlus.adapterState.listen((state) {
+        if (state == BluetoothAdapterState.off ||
+            state == BluetoothAdapterState.turningOff ||
+            state == BluetoothAdapterState.unauthorized ||
+            state == BluetoothAdapterState.unavailable) {
+          subscription?.cancel();
+          adapterSubscription?.cancel();
+          completer.completeError(
+            const LedgerException(
+              'Bluetooth adapter turned off or became unavailable',
+            ),
+          );
+        }
+      });
+
+      _device
+        ..cancelWhenDisconnected(subscription)
+        ..cancelWhenDisconnected(adapterSubscription);
 
       if (!_notifyCharacteristic.isNotifying) {
         await _notifyCharacteristic.setNotifyValue(true, timeout: 5);
@@ -111,6 +132,7 @@ class BleTransport {
     } catch (e, st) {
       _logger.severe('Failed to write data: $e', e, st);
       await subscription?.cancel();
+      await adapterSubscription?.cancel();
       throw LedgerException('Failed to write data: $e');
     } finally {
       _mutex.release();
