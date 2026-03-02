@@ -61,7 +61,6 @@ extension BluetoothDeviceX on BluetoothDevice {
   }
 }
 
-// extension AnyhowExceptionX on AnyhowException {
 extension ExceptionLedgerExtension on Exception {
   bool get isLedgerOperationCancelled {
     return (this is AnyhowException &&

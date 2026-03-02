@@ -78,26 +78,35 @@ class BleTransport {
             if (reader!.isCompleted) {
               subscription?.cancel();
               adapterSubscription?.cancel();
-              completer.complete(reader!);
+
+              if (!completer.isCompleted) {
+                completer.complete(reader!);
+              }
             }
           } catch (e, st) {
             _logger.severe('Error processing received value: $e', e, st);
             subscription?.cancel();
             adapterSubscription?.cancel();
-            completer.completeError(
-              LedgerException('Error processing received value: $e'),
-              st,
-            );
+
+            if (!completer.isCompleted) {
+              completer.completeError(
+                LedgerException('Error processing received value: $e'),
+                st,
+              );
+            }
           }
         },
         onError: (Object e, StackTrace st) {
           _logger.severe('Error in subscription: $e', e, st);
           subscription?.cancel();
           adapterSubscription?.cancel();
-          completer.completeError(
-            LedgerException('Error in subscription: $e'),
-            st,
-          );
+
+          if (!completer.isCompleted) {
+            completer.completeError(
+              LedgerException('Error in subscription: $e'),
+              st,
+            );
+          }
         },
       );
 
@@ -108,11 +117,14 @@ class BleTransport {
             state == BluetoothAdapterState.unavailable) {
           subscription?.cancel();
           adapterSubscription?.cancel();
-          completer.completeError(
-            const LedgerException(
-              'Bluetooth adapter turned off or became unavailable',
-            ),
-          );
+
+          if (!completer.isCompleted) {
+            completer.completeError(
+              const LedgerException(
+                'Bluetooth adapter turned off or became unavailable',
+              ),
+            );
+          }
         }
       });
 
