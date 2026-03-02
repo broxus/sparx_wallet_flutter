@@ -134,7 +134,7 @@ jobs:
   # iOS deploy
   ios-deploy:
     needs: setup
-    runs-on: macos-15
+    runs-on: macos-26
     if: ${{ inputs.deploy_target == '' || inputs.deploy_target == 'fad' || inputs.deploy_target == 'store' || inputs.deploy_target == 'ios_fad' || inputs.deploy_target == 'ios_store' }}
 
     env:
@@ -148,7 +148,7 @@ jobs:
       
       - uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '16.4'
+          xcode-version: '26.3'
 
       - name: Show Xcode and SDKs
         run: |
