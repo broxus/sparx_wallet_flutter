@@ -206,9 +206,14 @@ class LedgerService {
       await interaction?.finish();
 
       return result;
-    } catch (_) {
+    } on Exception catch (e, st) {
       await interaction?.cancel();
-      rethrow;
+      _logger.severe('Ledger interaction failed', e, st);
+      if (e.isLedgerOperationCancelled) {
+        throw const LedgerOperationCancelledException();
+      }
+      throw (appInterface?.lastError ??
+          const LedgerException('Ledger interaction failed'));
     } finally {
       await interaction?.dispose();
     }

@@ -42,6 +42,34 @@ class LedgerAppInterface {
   final _mutex = Mutex();
   late final BleTransport _transport;
 
+  /// Holds the most recent [LedgerException] produced by an operation on this
+  /// interface.
+  ///
+  /// This field is reset to `null` at the start of each high-level operation
+  /// (for example, [openApp] and other methods that acquire [_mutex]) and is
+  /// set when an operation fails with a [LedgerException] or when a failure is
+  /// wrapped into one.
+  ///
+  /// All writes to this field occur inside sections protected by [_mutex] in
+  /// order to serialize operations on the underlying transport. Reads via the
+  /// public [lastError] getter are not mutex-protected and should therefore be
+  /// treated as a best-effort diagnostic snapshot that may be stale by the
+  /// time it is observed.
+  LedgerException? _lastError;
+
+  /// Returns the last recorded [LedgerException] produced by an operation on
+  /// this interface, or `null` if no error has been recorded since the most
+  /// recent reset.
+  ///
+  /// The value is reset to `null` at the beginning of each operation that
+  /// acquires [_mutex] (such as [openApp]) and is updated when that operation
+  /// fails. Because operations are serialized using [_mutex], this getter is
+  /// suitable for coarse-grained diagnostics (for example, exposing the last
+  /// failure to UI or logging), but callers must not rely on it for
+  /// synchronization or precise control flow: by the time it is read, a
+  /// subsequent operation may already have completed and updated the value.
+  LedgerException? get lastError => _lastError;
+
   Future<void> dispose() => _mutex.protect(() async {
     await _transport.dispose();
 
@@ -58,6 +86,7 @@ class LedgerAppInterface {
 
   Future<bool> openApp(String appName) async {
     await _mutex.acquire();
+    _lastError = null;
 
     try {
       final data = utf8.encode(appName);
@@ -66,9 +95,14 @@ class LedgerAppInterface {
       final response = await _transport.exchange(writer.toBytes());
 
       return response.isOk;
+    } on LedgerException catch (e) {
+      _lastError = e;
+      rethrow;
     } catch (e, st) {
       _logger.severe('Failed to open app: $e', e, st);
-      throw LedgerException('Failed to open app: $e');
+      final error = LedgerException('Failed to open app: $e');
+      _lastError = error;
+      throw error;
     } finally {
       _mutex.release();
     }
@@ -76,15 +110,21 @@ class LedgerAppInterface {
 
   Future<bool> closeApp() async {
     await _mutex.acquire();
+    _lastError = null;
 
     try {
       final writer = APDUWriter(cla: 0xb0, ins: ApduIns.closeApp);
       final response = await _transport.exchange(writer.toBytes());
 
       return response.isOk;
+    } on LedgerException catch (e) {
+      _lastError = e;
+      rethrow;
     } catch (e, st) {
       _logger.severe('Failed to close app: $e', e, st);
-      throw LedgerException('Failed to close app: $e');
+      final error = LedgerException('Failed to close app: $e');
+      _lastError = error;
+      throw error;
     } finally {
       _mutex.release();
     }
@@ -92,6 +132,7 @@ class LedgerAppInterface {
 
   Future<String> getAppName() async {
     await _mutex.acquire();
+    _lastError = null;
 
     try {
       final writer = APDUWriter(cla: 0xb0, ins: ApduIns.getApp);
@@ -114,9 +155,14 @@ class LedgerAppInterface {
       final appName = ascii.decode(reader.read(length));
 
       return appName;
+    } on LedgerException catch (e) {
+      _lastError = e;
+      rethrow;
     } catch (e, st) {
       _logger.severe('Failed to get app name: $e', e, st);
-      throw LedgerException('Failed to get app name: $e');
+      final error = LedgerException('Failed to get app name: $e');
+      _lastError = error;
+      throw error;
     } finally {
       _mutex.release();
     }
@@ -124,12 +170,18 @@ class LedgerAppInterface {
 
   Future<Uint8List> getConfiguration() async {
     await _mutex.acquire();
+    _lastError = null;
 
     try {
       return await _getConfigurationNoLock();
+    } on LedgerException catch (e) {
+      _lastError = e;
+      rethrow;
     } catch (e, st) {
       _logger.severe('Failed to get configuration: $e', e, st);
-      throw LedgerException('Failed to get configuration: $e');
+      final error = LedgerException('Failed to get configuration: $e');
+      _lastError = error;
+      throw error;
     } finally {
       _mutex.release();
     }
@@ -137,6 +189,7 @@ class LedgerAppInterface {
 
   Future<Uint8List> getPublicKey(int accountId) async {
     await _mutex.acquire();
+    _lastError = null;
 
     try {
       final data = ByteData(4)..setUint32(0, accountId);
@@ -151,9 +204,14 @@ class LedgerAppInterface {
       }
 
       return response.dataWithOffset;
+    } on LedgerException catch (e) {
+      _lastError = e;
+      rethrow;
     } catch (e, st) {
       _logger.severe('Failed to get public key: $e', e, st);
-      throw LedgerException('Failed to get public key: $e');
+      final error = LedgerException('Failed to get public key: $e');
+      _lastError = error;
+      throw error;
     } finally {
       _mutex.release();
     }
@@ -164,6 +222,7 @@ class LedgerAppInterface {
     required int wallet,
   }) async {
     await _mutex.acquire();
+    _lastError = null;
 
     try {
       final data = ByteData(5)
@@ -181,9 +240,14 @@ class LedgerAppInterface {
       }
 
       return response.dataWithOffset;
+    } on LedgerException catch (e) {
+      _lastError = e;
+      rethrow;
     } catch (e, st) {
       _logger.severe('Failed to get wallet address: $e', e, st);
-      throw LedgerException('Failed to get wallet address: $e');
+      final error = LedgerException('Failed to get wallet address: $e');
+      _lastError = error;
+      throw error;
     } finally {
       _mutex.release();
     }
@@ -195,6 +259,7 @@ class LedgerAppInterface {
     int? signatureId, // not used in newer versions
   }) async {
     await _mutex.acquire();
+    _lastError = null;
 
     try {
       final data =
@@ -217,9 +282,14 @@ class LedgerAppInterface {
       }
 
       return response.dataWithOffset;
+    } on LedgerException catch (e) {
+      _lastError = e;
+      rethrow;
     } catch (e, st) {
       _logger.severe('Failed to sign message: $e', e, st);
-      throw LedgerException('Failed to sign message: $e');
+      final error = LedgerException('Failed to sign message: $e');
+      _lastError = error;
+      throw error;
     } finally {
       _mutex.release();
     }
@@ -234,6 +304,7 @@ class LedgerAppInterface {
     int? originalWallet,
   }) async {
     await _mutex.acquire();
+    _lastError = null;
 
     try {
       originalWallet ??= wallet;
@@ -282,11 +353,14 @@ class LedgerAppInterface {
       }
 
       return response.dataWithOffset;
-    } on LedgerException {
+    } on LedgerException catch (e) {
+      _lastError = e;
       rethrow;
     } catch (e, st) {
       _logger.severe('Failed to sign transaction: $e', e, st);
-      throw LedgerException('Failed to sign transaction: $e');
+      final error = LedgerException('Failed to sign transaction: $e');
+      _lastError = error;
+      throw error;
     } finally {
       _mutex.release();
     }
