@@ -92,6 +92,10 @@ import '../app/view/app_wm.dart' as _i1017;
 import '../core/app_build_type.dart' as _i32;
 import '../core/sentry.dart' as _i438;
 import '../feature/add_seed/add_existing_wallet/route.dart' as _i852;
+import '../feature/add_seed/add_existing_wallet/view/add_existing_wallet_model.dart'
+    as _i1050;
+import '../feature/add_seed/add_existing_wallet/view/add_existing_wallet_wm.dart'
+    as _i1021;
 import '../feature/add_seed/add_seed.dart' as _i1056;
 import '../feature/add_seed/check_seed_phrase/check_seed_phrase.dart' as _i199;
 import '../feature/add_seed/check_seed_phrase/route.dart' as _i850;
@@ -1790,6 +1794,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i0.BasicTokenTransferDelegate>(),
       ),
     );
+    gh.factory<_i1050.AddExistingWalletModel>(
+      () => _i1050.AddExistingWalletModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+      ),
+    );
     gh.factory<_i321.ManageSeedsAccountsPageModel>(
       () => _i321.ManageSeedsAccountsPageModel(
         gh<_i83.ErrorHandler>(),
@@ -1972,6 +1982,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.BiometryService>(),
         gh<_i128.AppStorageService>(),
         gh<_i128.SecureStringService>(),
+      ),
+    );
+    gh.factory<_i1021.AddExistingWalletWidgetModel>(
+      () => _i1021.AddExistingWalletWidgetModel(
+        gh<_i1056.AddExistingWalletModel>(),
       ),
     );
     gh.factory<_i545.VerifyLedgerWidgetModel>(
