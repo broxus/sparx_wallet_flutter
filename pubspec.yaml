@@ -137,7 +137,7 @@ dev_dependencies:
   permission_handler_platform_interface: 4.3.0
   plugin_platform_interface: 2.1.8
   retrofit_generator: ^10.0.0
-  test: ^1.26.0
+  test: ^1.30.0
   wm_state_properties_lint:
     path: packages/wm_state_properties_lint
 
