@@ -272,6 +272,8 @@ import '../feature/ledger/domain/mixins.dart' as _i213;
 import '../feature/ledger/ledger.dart' as _i865;
 import '../feature/ledger/view/import_ledger/import_ledger_model.dart' as _i572;
 import '../feature/ledger/view/import_ledger/import_ledger_wm.dart' as _i674;
+import '../feature/ledger/view/verify_ledger/verify_ledger_model.dart' as _i625;
+import '../feature/ledger/view/verify_ledger/verify_ledger_wm.dart' as _i545;
 import '../feature/localization/domain/localization_service.dart' as _i221;
 import '../feature/localization/localization.dart' as _i1071;
 import '../feature/localization/widgets/localization/localization_sheet_model.dart'
@@ -1796,6 +1798,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.AppStorageService>(),
       ),
     );
+    gh.factory<_i625.VerifyLedgerModel>(
+      () => _i625.VerifyLedgerModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i865.LedgerService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+      ),
+    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i741.EnterSeedPhraseRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'CreateSeedPasswordRoute'),
@@ -1963,6 +1973,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.AppStorageService>(),
         gh<_i128.SecureStringService>(),
       ),
+    );
+    gh.factory<_i545.VerifyLedgerWidgetModel>(
+      () => _i545.VerifyLedgerWidgetModel(gh<_i865.VerifyLedgerModel>()),
     );
     gh.factory<_i252.TonWalletSendWidgetModel>(
       () => _i252.TonWalletSendWidgetModel(gh<_i946.TonWalletSendModel>()),

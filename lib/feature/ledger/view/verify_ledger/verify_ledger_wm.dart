@@ -1,30 +1,30 @@
 import 'dart:async';
 
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-VerifyLedgerWidgetModel defaultVerifyLedgerWidgetModelFactory(
-  BuildContext context,
-) => VerifyLedgerWidgetModel(
-  VerifyLedgerModel(
-    createPrimaryErrorHandler(context),
-    inject(),
-    inject(),
-    inject(),
-  ),
-);
+class VerifyLedgerWmParams {
+  const VerifyLedgerWmParams({required this.account});
 
+  final KeyAccount account;
+}
+
+@injectable
 class VerifyLedgerWidgetModel
-    extends CustomWidgetModel<VerifyLedgerWidget, VerifyLedgerModel>
+    extends
+        CustomWidgetModelParametrized<
+          VerifyLedgerWidget,
+          VerifyLedgerModel,
+          VerifyLedgerWmParams
+        >
     with BleAvailabilityWmMixin {
   VerifyLedgerWidgetModel(super.model);
 
@@ -32,6 +32,10 @@ class VerifyLedgerWidgetModel
   late final _interactionState = createNotifierFromStream(
     model.interactionStream.switchMap((e) => e.stateStream),
   );
+
+  Address get address => _account.address;
+
+  KeyAccount get _account => wmParams.value.account;
 
   ListenableState<bool> get isVerifyingState => _isVerifyingState;
 
@@ -41,11 +45,11 @@ class VerifyLedgerWidgetModel
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   void onCopy() {
-    setClipBoardData(widget.account.address.address);
+    setClipBoardData(_account.address.address);
     model.showMessage(
       Message.successful(
         message: LocaleKeys.valueCopiedExclamation.tr(
-          args: [widget.account.address.toEllipseString()],
+          args: [_account.address.toEllipseString()],
         ),
       ),
     );
@@ -58,7 +62,7 @@ class VerifyLedgerWidgetModel
     try {
       _isVerifyingState.accept(true);
 
-      await model.verify(widget.account);
+      await model.verify(_account);
     } catch (_) {
       _isVerifyingState.accept(false);
     }
