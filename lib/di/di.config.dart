@@ -162,6 +162,10 @@ import '../feature/browser/approvals_listener/actions/send_message/send_message_
     as _i1050;
 import '../feature/browser/approvals_listener/actions/send_message/send_message_wm.dart'
     as _i769;
+import '../feature/browser/approvals_listener/actions/sign_data/sign_data_model.dart'
+    as _i744;
+import '../feature/browser/approvals_listener/actions/sign_data/sign_data_wm.dart'
+    as _i858;
 import '../feature/browser/approvals_listener/actions/widgets/account_info/account_info_model.dart'
     as _i647;
 import '../feature/browser/approvals_listener/actions/widgets/account_info/account_info_wm.dart'
@@ -1800,6 +1804,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i865.BleAvailabilityModelDelegate>(),
       ),
     );
+    gh.factory<_i744.SignDataModel>(
+      () => _i744.SignDataModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+      ),
+    );
     gh.factory<_i321.ManageSeedsAccountsPageModel>(
       () => _i321.ManageSeedsAccountsPageModel(
         gh<_i83.ErrorHandler>(),
@@ -1830,6 +1840,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i700.BiometryScreenModel>(
       () => _i700.BiometryScreenModel(gh<_i128.BiometryService>()),
+    );
+    gh.factory<_i858.SignDataWidgetModel>(
+      () => _i858.SignDataWidgetModel(gh<_i744.SignDataModel>()),
     );
     gh.factory<_i603.TCSignDataWidgetModel>(
       () => _i603.TCSignDataWidgetModel(gh<_i625.TCSignDataModel>()),

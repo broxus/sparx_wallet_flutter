@@ -1,15 +1,15 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser/approvals_listener/actions/sign_data/sign_data_wm.dart';
 import 'package:app/feature/browser/approvals_listener/actions/widgets/account_info/account_info_widget.dart';
 import 'package:app/feature/browser/approvals_listener/actions/widgets/data_card.dart';
 import 'package:app/feature/browser/approvals_listener/actions/widgets/website_info/website_info_widget.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class SignDataWidget extends ElementaryWidget<SignDataWidgetModel> {
+class SignDataWidget extends InjectedElementaryWidget<SignDataWidgetModel> {
   const SignDataWidget({
     required this.origin,
     required this.account,
@@ -17,9 +17,8 @@ class SignDataWidget extends ElementaryWidget<SignDataWidgetModel> {
     required this.data,
     required this.signInputAuthLedger,
     required this.scrollController,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultSignDataWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  });
 
   final Uri origin;
   final Address account;
