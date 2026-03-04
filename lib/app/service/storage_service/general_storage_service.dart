@@ -4,8 +4,6 @@ import 'dart:collection';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/custom_currency.dart';
 import 'package:app/data/models/token_contract/token_contract_asset.dart';
-import 'package:app/utils/utils.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:path_provider/path_provider.dart';
@@ -26,20 +24,25 @@ const _wasStEverOpenedKey = 'was_stever_opened_key';
 const _alreadyAutoEnabledDefaultActiveAssets =
     'already_auto_enabled_default_active_assets';
 
-/// This is a wrapper-class above [GetStorage] that provides methods
+/// This is a wrapper-class above [StorageAdapter] that provides methods
 /// to interact with general information that is not related to some specified
 /// module.
 /// This storage can be filled with data from the old version of the app via
 /// migration service.
 @singleton
 class GeneralStorageService extends AbstractStorageService {
-  GeneralStorageService(
-    @Named(prefContainer) this._prefStorage,
-    @Named(currenciesContainer) this._currenciesStorage,
-    @Named(systemContractAssetsContainer) this._systemContractAssetsStorage,
-    @Named(customContractAssetsContainer) this._customContractAssetsStorage,
-    @Named(defaultActiveAssetsStorage) this._defaultActiveAssetsStorage,
-  );
+  GeneralStorageService(this._storageAdapter)
+    : _prefStorage = _storageAdapter.box(_preferencesKey),
+      _currenciesStorage = _storageAdapter.box(_currenciesKey),
+      _systemContractAssetsStorage = _storageAdapter.box(
+        _systemContractAssetsKey,
+      ),
+      _customContractAssetsStorage = _storageAdapter.box(
+        _customContractAssetsKey,
+      ),
+      _defaultActiveAssetsStorage = _storageAdapter.box(
+        _defaultActiveAssetsStorageKey,
+      );
 
   static const prefContainer = _preferencesKey;
   static const currenciesContainer = _currenciesKey;
@@ -54,11 +57,12 @@ class GeneralStorageService extends AbstractStorageService {
     defaultActiveAssetsStorage,
   ];
 
-  final GetStorage _prefStorage;
-  final GetStorage _currenciesStorage;
-  final GetStorage _systemContractAssetsStorage;
-  final GetStorage _customContractAssetsStorage;
-  final GetStorage _defaultActiveAssetsStorage;
+  final StorageAdapter _storageAdapter;
+  final StorageBox _prefStorage;
+  final StorageBox _currenciesStorage;
+  final StorageBox _systemContractAssetsStorage;
+  final StorageBox _customContractAssetsStorage;
+  final StorageBox _defaultActiveAssetsStorage;
 
   /// Subject of public keys names
   final _currentKeySubject = BehaviorSubject<PublicKey?>();
@@ -226,7 +230,7 @@ class GeneralStorageService extends AbstractStorageService {
 
   @override
   Future<void> init() async {
-    await Future.wait(containers.map(GetStorage.init));
+    await Future.wait(containers.map(_storageAdapter.init));
     await _initAppDirectories();
     _streamedSystemContractAssets();
     _streamedCustomContractAssets();

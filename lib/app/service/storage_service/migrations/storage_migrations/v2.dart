@@ -1,15 +1,17 @@
-import 'package:app/app/service/storage_service/balance_storage_service.dart';
-import 'package:app/app/service/storage_service/migrations/storage_migrations/storage_migration.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:app/app/service/storage_service/storage_service.dart';
 
 class StorageMigrationV2 implements StorageMigration {
+  StorageMigrationV2(this._storageAdapter);
+
   static const int version = 2;
+
+  final StorageAdapter _storageAdapter;
 
   @override
   Future<void> apply() async {
     for (final container in BalanceStorageService.containers) {
-      await GetStorage.init(container);
-      await GetStorage(container).erase();
+      await _storageAdapter.init(container);
+      await _storageAdapter.box(container).erase();
     }
   }
 
