@@ -270,6 +270,8 @@ import '../feature/ledger/domain/ledger_service.dart' as _i91;
 import '../feature/ledger/domain/ledger_storage_service.dart' as _i820;
 import '../feature/ledger/domain/mixins.dart' as _i213;
 import '../feature/ledger/ledger.dart' as _i865;
+import '../feature/ledger/view/import_ledger/import_ledger_model.dart' as _i572;
+import '../feature/ledger/view/import_ledger/import_ledger_wm.dart' as _i674;
 import '../feature/localization/domain/localization_service.dart' as _i221;
 import '../feature/localization/localization.dart' as _i1071;
 import '../feature/localization/widgets/localization/localization_sheet_model.dart'
@@ -2154,8 +2156,22 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i553.MessengerService>(),
       ),
     );
+    gh.factory<_i572.ImportLedgerModel>(
+      () => _i572.ImportLedgerModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i865.LedgerService>(),
+        gh<_i865.LedgerBleScanner>(),
+        gh<_i128.CurrentKeyService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+      ),
+    );
     gh.factory<_i1068.SeedSettingsWidgetModel>(
       () => _i1068.SeedSettingsWidgetModel(gh<_i767.SeedSettingsModel>()),
+    );
+    gh.factory<_i674.ImportLedgerWidgetModel>(
+      () => _i674.ImportLedgerWidgetModel(gh<_i865.ImportLedgerModel>()),
     );
     gh.factory<_i175.SelectNetworkWidgetModel>(
       () => _i175.SelectNetworkWidgetModel(gh<_i703.SelectNetworkModel>()),
