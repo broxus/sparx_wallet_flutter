@@ -120,7 +120,7 @@ dev_dependencies:
   commitlint_cli: ^0.8.1
   custom_lint: ^0.8.0
   drift_dev: ^2.31.0
-  flutter_gen_runner: ^5.11.0
+  flutter_gen_runner: ^5.13.0
   flutter_native_splash: ^2.4.7
   flutter_test:
     sdk: flutter
