@@ -92,6 +92,10 @@ import '../app/view/app_wm.dart' as _i1017;
 import '../core/app_build_type.dart' as _i32;
 import '../core/sentry.dart' as _i438;
 import '../feature/add_seed/add_existing_wallet/route.dart' as _i852;
+import '../feature/add_seed/add_existing_wallet/view/add_existing_wallet_model.dart'
+    as _i1050;
+import '../feature/add_seed/add_existing_wallet/view/add_existing_wallet_wm.dart'
+    as _i1021;
 import '../feature/add_seed/add_seed.dart' as _i1056;
 import '../feature/add_seed/check_seed_phrase/check_seed_phrase.dart' as _i199;
 import '../feature/add_seed/check_seed_phrase/route.dart' as _i850;
@@ -158,6 +162,10 @@ import '../feature/browser/approvals_listener/actions/send_message/send_message_
     as _i1050;
 import '../feature/browser/approvals_listener/actions/send_message/send_message_wm.dart'
     as _i769;
+import '../feature/browser/approvals_listener/actions/sign_data/sign_data_model.dart'
+    as _i744;
+import '../feature/browser/approvals_listener/actions/sign_data/sign_data_wm.dart'
+    as _i858;
 import '../feature/browser/approvals_listener/actions/widgets/account_info/account_info_model.dart'
     as _i647;
 import '../feature/browser/approvals_listener/actions/widgets/account_info/account_info_wm.dart'
@@ -270,6 +278,10 @@ import '../feature/ledger/domain/ledger_service.dart' as _i91;
 import '../feature/ledger/domain/ledger_storage_service.dart' as _i820;
 import '../feature/ledger/domain/mixins.dart' as _i213;
 import '../feature/ledger/ledger.dart' as _i865;
+import '../feature/ledger/view/import_ledger/import_ledger_model.dart' as _i572;
+import '../feature/ledger/view/import_ledger/import_ledger_wm.dart' as _i674;
+import '../feature/ledger/view/verify_ledger/verify_ledger_model.dart' as _i625;
+import '../feature/ledger/view/verify_ledger/verify_ledger_wm.dart' as _i545;
 import '../feature/localization/domain/localization_service.dart' as _i221;
 import '../feature/localization/localization.dart' as _i1071;
 import '../feature/localization/widgets/localization/localization_sheet_model.dart'
@@ -1786,12 +1798,32 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i0.BasicTokenTransferDelegate>(),
       ),
     );
+    gh.factory<_i1050.AddExistingWalletModel>(
+      () => _i1050.AddExistingWalletModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+      ),
+    );
+    gh.factory<_i744.SignDataModel>(
+      () => _i744.SignDataModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+      ),
+    );
     gh.factory<_i321.ManageSeedsAccountsPageModel>(
       () => _i321.ManageSeedsAccountsPageModel(
         gh<_i83.ErrorHandler>(),
         gh<_i771.NekotonRepository>(),
         gh<_i128.CurrentSeedService>(),
         gh<_i128.AppStorageService>(),
+      ),
+    );
+    gh.factory<_i625.VerifyLedgerModel>(
+      () => _i625.VerifyLedgerModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i865.LedgerService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
       ),
     );
     gh.singleton<_i82.CompassBaseRoute>(
@@ -1808,6 +1840,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i700.BiometryScreenModel>(
       () => _i700.BiometryScreenModel(gh<_i128.BiometryService>()),
+    );
+    gh.factory<_i858.SignDataWidgetModel>(
+      () => _i858.SignDataWidgetModel(gh<_i744.SignDataModel>()),
     );
     gh.factory<_i603.TCSignDataWidgetModel>(
       () => _i603.TCSignDataWidgetModel(gh<_i625.TCSignDataModel>()),
@@ -1961,6 +1996,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.AppStorageService>(),
         gh<_i128.SecureStringService>(),
       ),
+    );
+    gh.factory<_i1021.AddExistingWalletWidgetModel>(
+      () => _i1021.AddExistingWalletWidgetModel(
+        gh<_i1056.AddExistingWalletModel>(),
+      ),
+    );
+    gh.factory<_i545.VerifyLedgerWidgetModel>(
+      () => _i545.VerifyLedgerWidgetModel(gh<_i865.VerifyLedgerModel>()),
     );
     gh.factory<_i252.TonWalletSendWidgetModel>(
       () => _i252.TonWalletSendWidgetModel(gh<_i946.TonWalletSendModel>()),
@@ -2154,8 +2197,22 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i553.MessengerService>(),
       ),
     );
+    gh.factory<_i572.ImportLedgerModel>(
+      () => _i572.ImportLedgerModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i865.LedgerService>(),
+        gh<_i865.LedgerBleScanner>(),
+        gh<_i128.CurrentKeyService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+      ),
+    );
     gh.factory<_i1068.SeedSettingsWidgetModel>(
       () => _i1068.SeedSettingsWidgetModel(gh<_i767.SeedSettingsModel>()),
+    );
+    gh.factory<_i674.ImportLedgerWidgetModel>(
+      () => _i674.ImportLedgerWidgetModel(gh<_i865.ImportLedgerModel>()),
     );
     gh.factory<_i175.SelectNetworkWidgetModel>(
       () => _i175.SelectNetworkWidgetModel(gh<_i703.SelectNetworkModel>()),

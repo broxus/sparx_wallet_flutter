@@ -1,20 +1,20 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class ImportLedgerWidget extends ElementaryWidget<ImportLedgerWidgetModel> {
-  const ImportLedgerWidget({
-    this.name,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultImportLedgerWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final String? name;
+class ImportLedgerWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          ImportLedgerWidgetModel,
+          ImportLedgerWmParams
+        > {
+  ImportLedgerWidget({String? name, super.key})
+    : super(wmFactoryParam: ImportLedgerWmParams(name: name));
 
   @override
   Widget build(ImportLedgerWidgetModel wm) {
