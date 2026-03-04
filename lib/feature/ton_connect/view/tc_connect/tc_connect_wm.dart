@@ -105,14 +105,12 @@ class TCConnectWidgetModel
       if (context == null || !context.mounted) {
         return;
       }
-      final navigator = Navigator.of(context);
-      if (navigator.canPop()) {
-        final result = TonConnectUiEventResult.data(
-          data: (account, replyItems),
-        );
-        navigator.pop(result);
-      }
+
+      await Navigator.of(
+        context,
+      ).maybePop(TonConnectUiEventResult.data(data: (account, replyItems)));
     } catch (e, s) {
+      model.showMessage(Message.error(message: '$e'));
       debugPrint('$e');
       debugPrintStack(stackTrace: s);
     }
