@@ -1,7 +1,7 @@
 ---
 name: app
 description: SparX Wallet Flutter app
-version: 2.3.0
+version: 2.3.1
 publish_to: none
 
 environment:
@@ -37,11 +37,11 @@ dependencies:
   elementary_helper: ^1.0.3
   encrypt: ^5.0.3
   encrypted_storage:  0.1.5
-  equatable: 2.0.7
+  equatable: ^2.0.8
   favicon: 1.1.2
   flutter:
     sdk: flutter
-  flutter_blue_plus: ^2.0.2
+  flutter_blue_plus: ^2.2.1
   flutter_email_sender: ^8.0.0
   flutter_inappwebview: 6.1.5
   flutter_keyboard_visibility: ^6.0.0
@@ -53,7 +53,7 @@ dependencies:
   freezed_annotation: ^3.1.0
   get_it: ^9.0.5
   get_storage: 2.1.1
-  go_router: ^17.0.0
+  go_router: ^17.1.0
   hex: 0.2.0
   image_picker: ^1.2.1
   image_picker_android: ^0.8.13+4
@@ -74,7 +74,7 @@ dependencies:
   native_dio_adapter: ^1.5.0
   nekoton_repository: ^4.1.1
   nekoton_webview: ^0.2.0
-  no_screenshot: ^0.3.1
+  no_screenshot: ^0.10.0
   ntp: 2.0.0
   open_settings_plus: 0.4.0
   package_info_plus: ^9.0.0
@@ -93,7 +93,7 @@ dependencies:
   rive: ^0.14.0
   rxdart: 0.28.0
   sensitive_clipboard: ^1.1.0
-  sentry_flutter: ^9.6.0
+  sentry_flutter: ^9.14.0
   share_plus: ^12.0.0
   shared_preferences: ^2.5.4
   sqlite3: ^2.9.4
@@ -103,7 +103,7 @@ dependencies:
   ui_components_lib:
     path: packages/ui_components_lib
   url_launcher: ^6.3.2
-  uuid: 4.5.2
+  uuid: ^4.5.3
   visibility_detector: 0.4.0+2
 
 dependency_overrides:
@@ -111,19 +111,22 @@ dependency_overrides:
   money2: 6.0.5
 
 dev_dependencies:
+  app_links_platform_interface: 2.0.2
   broxus_flutter_analysis:
     git:
       url: https://github.com/broxus/flutter_templates.git
       ref: main
-  build_runner: ^2.7.1
+  build_runner: ^2.11.1
+  commitlint_cli: ^0.8.1
   custom_lint: ^0.8.0
-  drift_dev: ^2.29.0
+  drift_dev: ^2.31.0
   flutter_gen_runner: ^5.11.0
   flutter_native_splash: ^2.4.7
   flutter_test:
     sdk: flutter
   freezed: ^3.2.3
   googleapis_auth: 2.0.0
+  husky: ^0.1.7
   injectable_generator: ^2.8.1
   integration_test:
     sdk: flutter
@@ -131,6 +134,7 @@ dev_dependencies:
   melos: ^7.4.0
   mocktail: 1.0.4
   path_provider_platform_interface: 2.1.2
+  permission_handler_platform_interface: 4.3.0
   plugin_platform_interface: 2.1.8
   retrofit_generator: ^10.0.0
   test: ^1.26.0

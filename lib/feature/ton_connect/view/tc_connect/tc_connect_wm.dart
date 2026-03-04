@@ -8,6 +8,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logging/logging.dart';
 import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
@@ -40,6 +41,8 @@ class TCConnectWidgetModel
         Currency.create(model.symbol, 0, pattern: moneyPattern(0)),
   );
   final _balances = <Address, ListenableState<Money>>{};
+
+  final _log = Logger('TCConnectWidgetModel');
 
   ValueListenable<TonConnectStep> get stepState => _stepState;
 
@@ -90,19 +93,28 @@ class TCConnectWidgetModel
   }
 
   Future<void> onConfirm(SignInputAuth signInputAuth) async {
-    if (selectedState.value == null) return;
+    final account = selectedState.value;
+    if (account == null) return;
 
-    final account = selectedState.value!;
-    final replyItems = await model.createReplyItems(
-      signInputAuth: signInputAuth,
-      account: account,
-      request: wmParams.value.request,
-      manifest: manifest,
-    );
+    try {
+      final replyItems = await model.createReplyItems(
+        signInputAuth: signInputAuth,
+        account: account,
+        request: wmParams.value.request,
+        manifest: manifest,
+      );
 
-    if (contextSafe != null) {
-      final result = TonConnectUiEventResult.data(data: (account, replyItems));
-      Navigator.of(contextSafe!).pop(result);
+      final context = contextSafe;
+      if (context == null || !context.mounted) {
+        return;
+      }
+
+      await Navigator.of(
+        context,
+      ).maybePop(TonConnectUiEventResult.data(data: (account, replyItems)));
+    } catch (e, s) {
+      model.showMessage(Message.error(message: '$e'));
+      _log.severe('TCConnect confirm error:', '$e', s);
     }
   }
 

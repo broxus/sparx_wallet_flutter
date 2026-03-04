@@ -1,16 +1,14 @@
 import 'package:app/app/service/presets_connection/presets_connection_service.dart';
-import 'package:app/app/service/storage_service/balance_storage_service.dart';
-import 'package:app/app/service/storage_service/general_storage_service.dart';
-import 'package:app/app/service/storage_service/migrations/storage_migrations/storage_migration.dart';
+import 'package:app/app/service/storage_service/storage_service.dart';
 import 'package:app/utils/common_utils.dart';
-import 'package:get_storage/get_storage.dart';
 
 class StorageMigrationV4 implements StorageMigration {
-  StorageMigrationV4(this._presetsConnectionService);
+  StorageMigrationV4(this._presetsConnectionService, this._storageAdapter);
 
   static const int version = 4;
 
   final PresetsConnectionService _presetsConnectionService;
+  final StorageAdapter _storageAdapter;
 
   @override
   Future<void> apply() async {
@@ -29,9 +27,9 @@ class StorageMigrationV4 implements StorageMigration {
     ];
 
     for (final container in containers) {
-      await GetStorage.init(container);
+      await _storageAdapter.init(container);
 
-      final storage = GetStorage(container);
+      final storage = _storageAdapter.box(container);
       final encoded = storage.getEntries();
 
       final connections = _presetsConnectionService.connections;
@@ -63,9 +61,9 @@ class StorageMigrationV4 implements StorageMigration {
 
   Future<void> _migrateBalances() async {
     for (final container in BalanceStorageService.containers) {
-      await GetStorage.init(container);
+      await _storageAdapter.init(container);
 
-      final storage = GetStorage(container);
+      final storage = _storageAdapter.box(container);
       final encoded = storage.getEntries();
 
       for (final entry in encoded.entries) {
