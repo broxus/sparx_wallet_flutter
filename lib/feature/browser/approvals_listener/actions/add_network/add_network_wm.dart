@@ -66,13 +66,9 @@ class AddNetworkWidgetModel
         Navigator.of(contextSafe!).pop(network);
       }
     } on TimeoutException catch (_) {
-      if (contextSafe != null) {
-        model.showError(contextSafe!, LocaleKeys.operationTimeout.tr());
-      }
+      model.showError(LocaleKeys.operationTimeout.tr());
     } catch (e) {
-      if (contextSafe != null) {
-        model.showError(contextSafe!, e.toString());
-      }
+      model.showError(e);
     } finally {
       _loadingState.value = false;
     }

@@ -43,12 +43,8 @@ class AccountSettingsModel extends ElementaryModel {
   void copyAddress(BuildContext context, Address address) {
     setClipBoardData(address.address);
 
-    _messengerService.show(
-      Message.successful(
-        message: LocaleKeys.valueCopiedExclamation.tr(
-          args: [address.toEllipseString()],
-        ),
-      ),
+    _messengerService.showSuccessful(
+      LocaleKeys.valueCopiedExclamation.tr(args: [address.toEllipseString()]),
     );
   }
 

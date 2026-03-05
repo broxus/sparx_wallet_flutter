@@ -14,14 +14,12 @@ import 'package:the_logger/the_logger.dart';
 class ContactSupportModel extends ElementaryModel {
   ContactSupportModel(
     ErrorHandler errorHandler,
-    this._messengerService,
     this._ntpService,
     this._appBuildType,
   ) : super(errorHandler: errorHandler);
 
   static final _logger = Logger('ContactSupportModel');
 
-  final MessengerService _messengerService;
   final NtpService _ntpService;
   final AppBuildType _appBuildType;
 
@@ -33,9 +31,7 @@ class ContactSupportModel extends ElementaryModel {
       logFilePath = await _contactSupportCreateLogfile();
     } catch (e, s) {
       _logger.severe(e, null, s);
-      _messengerService.show(
-        Message.error(message: LocaleKeys.contactSupportCantCreateFile.tr()),
-      );
+      handleError(LocaleKeys.contactSupportCantCreateFile.tr());
       return;
     }
 
@@ -43,7 +39,7 @@ class ContactSupportModel extends ElementaryModel {
       await _contactSupportEmailSend(mode, logFilePath);
     } catch (e, s) {
       _logger.severe(e, null, s);
-      _messengerService.show(
+      handleError(
         Message.error(
           message: LocaleKeys.contactSupportCantFindEmailClient.tr(),
           actionText: LocaleKeys.contactSupportCantFindEmailClientShare.tr(),

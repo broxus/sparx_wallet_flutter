@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/wallet/token_wallet_send/token_wallet_send.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_balance_data.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_asset.dart';
@@ -25,7 +24,6 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._assetsService,
     this._nekotonRepository,
-    this._messengerService,
     this._currenciesService,
     this._tokenTransferDelegateProvider,
     this._blockchainConfigService,
@@ -33,7 +31,6 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
 
   final AssetsService _assetsService;
   final NekotonRepository _nekotonRepository;
-  final MessengerService _messengerService;
   final CurrenciesService _currenciesService;
   final TokenTransferDelegateProvider _tokenTransferDelegateProvider;
   final BlockchainConfigService _blockchainConfigService;
@@ -108,9 +105,7 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
     );
   }
 
-  void showError(String text) {
-    _messengerService.show(Message.error(message: text));
-  }
+  void showError(String text) => handleError(text);
 
   void startListeningBalance({
     required WalletPrepareTransferAsset? contract,

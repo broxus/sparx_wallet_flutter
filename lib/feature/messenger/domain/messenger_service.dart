@@ -27,6 +27,10 @@ class MessengerService {
     _messagesExistSubject.add(true);
   }
 
+  void showSuccessful(String message) {
+    return show(Message.successful(message: message));
+  }
+
   void showError(String message) {
     return show(Message.error(message: message));
   }

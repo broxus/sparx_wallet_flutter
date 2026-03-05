@@ -79,6 +79,7 @@ class WalletAccountActionsWidgetModel
   );
 
   ValueListenable<bool> get sendSpecifiedState => _sendSpecifiedState;
+
   ValueListenable<bool> get disableSensetiveActionsState =>
       _disableSensetiveActionsState;
 
@@ -213,11 +214,7 @@ class WalletAccountActionsWidgetModel
     }
 
     if (_numberUnconfirmedTransactions >= 5) {
-      model.showMessage(
-        Message.error(
-          message: LocaleKeys.errorMessageMaxUnconfirmedTransactions.tr(),
-        ),
-      );
+      model.showError(LocaleKeys.errorMessageMaxUnconfirmedTransactions.tr());
     } else {
       contextSafe?.compassContinue(
         StakingRouteData(accountAddress: wmParams.value.account.address),
@@ -231,11 +228,7 @@ class WalletAccountActionsWidgetModel
 
   void _handleSendAction() {
     if (_numberUnconfirmedTransactions >= 5) {
-      model.showMessage(
-        Message.error(
-          message: LocaleKeys.errorMessageMaxUnconfirmedTransactions.tr(),
-        ),
-      );
+      model.showError(LocaleKeys.errorMessageMaxUnconfirmedTransactions.tr());
       return;
     }
 
@@ -276,7 +269,7 @@ class WalletAccountActionsWidgetModel
   }
 
   void _handleSendLocalCustodiansNeededAction() {
-    model.showMessage(
+    model.showError(
       Message.error(
         message: LocaleKeys.toSendMultisigAddCustodian.tr(),
         actionText: LocaleKeys.addWord.tr(),

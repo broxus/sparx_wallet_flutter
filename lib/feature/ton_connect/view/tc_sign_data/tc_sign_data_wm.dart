@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -62,9 +61,7 @@ class TCSignDataWidgetModel
         Navigator.of(contextSafe!).pop(result);
       }
     } catch (e) {
-      contextSafe?.let(
-        (context) => model.showMessage(Message.error(message: e.toString())),
-      );
+      contextSafe?.let((context) => model.showError(e));
     } finally {
       _isLoadingState.accept(false);
     }

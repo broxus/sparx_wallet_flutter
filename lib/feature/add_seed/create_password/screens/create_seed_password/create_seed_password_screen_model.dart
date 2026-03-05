@@ -4,7 +4,6 @@ import 'package:app/app/service/service.dart';
 import 'package:app/data/models/seed/seed_phrase_model.dart';
 import 'package:app/feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen.dart';
 import 'package:app/feature/constants.dart';
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -20,7 +19,6 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
     this._currentKeyService,
     this._currentAccountService,
     this._connectionsStorageService,
-    this._messengerService,
     this._nekotonRepository,
     this._secureStringService,
   ) : super(errorHandler: errorHandler);
@@ -29,7 +27,6 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
   final CurrentKeyService _currentKeyService;
   final CurrentAccountsService _currentAccountService;
   final ConnectionsStorageService _connectionsStorageService;
-  final MessengerService _messengerService;
   final NekotonRepository _nekotonRepository;
   final SecureStringService _secureStringService;
 
@@ -75,9 +72,9 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
       await _currentAccountService.currentActiveAccountStream.firstWhere(
         (account) => account != null,
       );
-    } catch (e) {
+    } catch (e, s) {
       Logger('CreateSeedPasswordScreenModel').severe(e);
-      _messengerService.show(Message.error(message: e.toString()));
+      handleError(e, stackTrace: s);
     }
   }
 

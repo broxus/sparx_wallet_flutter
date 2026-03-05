@@ -1,5 +1,4 @@
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/profile/widgets/rename_sheet/rename_sheet.dart';
 import 'package:app/feature/profile/widgets/rename_sheet/rename_sheet_model.dart';
 import 'package:app/generated/generated.dart';
@@ -32,14 +31,12 @@ class RenameSheetWidgetModel
 
     model
       ..rename(publicKey: params.publicKey, isSeed: params.isSeed, name: name)
-      ..showMessage(
-        Message.successful(
-          message: params.isSeed
-              ? LocaleKeys.valueRenamed.tr(args: [LocaleKeys.seedPhrase.tr()])
-              : params.isCustodian
-              ? LocaleKeys.custodianRenamed.tr()
-              : LocaleKeys.valueRenamed.tr(args: [LocaleKeys.keyWord.tr()]),
-        ),
+      ..showSuccessful(
+        params.isSeed
+            ? LocaleKeys.valueRenamed.tr(args: [LocaleKeys.seedPhrase.tr()])
+            : params.isCustodian
+            ? LocaleKeys.custodianRenamed.tr()
+            : LocaleKeys.valueRenamed.tr(args: [LocaleKeys.keyWord.tr()]),
       );
 
     Navigator.of(context).pop();

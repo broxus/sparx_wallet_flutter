@@ -1,5 +1,4 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
@@ -11,14 +10,12 @@ class AddAccountConfirmModel extends ElementaryModel {
   AddAccountConfirmModel(
     ErrorHandler errorHandler,
     this._biometryService,
-    this._messengerService,
     this._nekotonRepository,
     this._currentAccountsService,
     this._passwordService,
   ) : super(errorHandler: errorHandler);
 
   final BiometryService _biometryService;
-  final MessengerService _messengerService;
   final NekotonRepository _nekotonRepository;
   final CurrentAccountsService _currentAccountsService;
   final PasswordService _passwordService;
@@ -83,13 +80,7 @@ class AddAccountConfirmModel extends ElementaryModel {
     return correct;
   }
 
-  void showWrongPassword() {
-    _messengerService.show(
-      Message.error(message: LocaleKeys.passwordIsWrong.tr()),
-    );
-  }
+  void showWrongPassword() => handleError(LocaleKeys.passwordIsWrong.tr());
 
-  void showError(String message) {
-    _messengerService.show(Message.error(message: message));
-  }
+  void showError(String message) => handleError(message);
 }

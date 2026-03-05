@@ -4,23 +4,28 @@ import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 @Injectable(as: ErrorHandler)
-class PrimaryErrorHandler extends DefaultDebugErrorHandler {
-  PrimaryErrorHandler(this._messengerService);
+class StandardErrorHandler extends DefaultDebugErrorHandler {
+  StandardErrorHandler(this._messengerService);
 
   final MessengerService _messengerService;
 
   @override
   void handleError(Object error, {StackTrace? stackTrace}) {
-    showError(error.toString());
+    showError(error);
     super.handleError(error, stackTrace: stackTrace);
   }
 
   void showError(
-    String message, {
+    Object messageData, {
     Duration debounceTime = defaultInfoMessageDebounceDuration,
   }) {
     _messengerService.show(
-      Message.error(message: message, debounceTime: debounceTime),
+      messageData is Message
+          ? messageData
+          : Message.error(
+              message: messageData.toString(),
+              debounceTime: debounceTime,
+            ),
     );
   }
 }

@@ -62,5 +62,5 @@ class AccountCardModel extends ElementaryModel {
     }
   }
 
-  void showMessage(Message message) => _messengerService.show(message);
+  void showSuccessful(String text) => _messengerService.showSuccessful(text);
 }

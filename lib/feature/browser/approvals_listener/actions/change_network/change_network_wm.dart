@@ -68,15 +68,10 @@ class ChangeNetworkWidgetModel
         Navigator.of(contextSafe!).pop(strategy);
       }
     } on TimeoutException catch (_) {
-      if (contextSafe != null) {
-        model.showError(contextSafe!, LocaleKeys.operationTimeout.tr());
-      }
+      model.showError(LocaleKeys.operationTimeout.tr());
     } catch (e, st) {
       _logger.severe('Error changing network', e, st);
-
-      if (contextSafe != null) {
-        model.showError(contextSafe!, e.toString());
-      }
+      model.showError(e);
     } finally {
       _loadingState.value = false;
     }

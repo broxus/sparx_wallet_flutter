@@ -16,12 +16,8 @@ class BarcodeAddressModel extends ElementaryModel {
 
   void showSuccess(Address address) {
     setClipBoardData(address.address);
-    _messengerService.show(
-      Message.successful(
-        message: LocaleKeys.valueCopiedExclamation.tr(
-          args: [address.toEllipseString()],
-        ),
-      ),
+    _messengerService.showSuccessful(
+      LocaleKeys.valueCopiedExclamation.tr(args: [address.toEllipseString()]),
     );
   }
 }

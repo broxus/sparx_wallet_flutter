@@ -1,47 +1,37 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
-import 'package:ui_components_lib/constants.dart';
 
 @injectable
 class CheckPhraseModel extends ElementaryModel {
   CheckPhraseModel(
     ErrorHandler errorHandler,
-    this.nekotonRepository,
-    this.messengerService,
-    this.storage,
+    this._nekotonRepository,
+    this._storage,
   ) : super(errorHandler: errorHandler);
 
-  final NekotonRepository nekotonRepository;
-  final MessengerService messengerService;
-  final AppStorageService storage;
+  final NekotonRepository _nekotonRepository;
+  final AppStorageService _storage;
 
   void showValidateError(String message) {
-    messengerService.show(
-      Message.error(
-        message: message,
-        debounceTime: defaultInfoMessageDebounceDuration,
-      ),
-    );
+    handleError(message);
   }
 
   void setShowingBackUpFlag(String address, {required bool isSkipped}) {
-    final account = nekotonRepository.accountsStorage.accounts.firstWhereOrNull(
-      (item) => item.address.address == address,
-    );
+    final account = _nekotonRepository.accountsStorage.accounts
+        .firstWhereOrNull((item) => item.address.address == address);
     final masterPublicKey = account?.let(
-      (account) => nekotonRepository.seedList
+      (account) => _nekotonRepository.seedList
           .findSeedByAnyPublicKey(account.publicKey)
           ?.masterPublicKey,
     );
 
     if (masterPublicKey == null) return;
 
-    storage.addValue(
+    _storage.addValue(
       StorageKey.showingManualBackupBadge(masterPublicKey.publicKey),
       isSkipped,
     );

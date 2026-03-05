@@ -1,5 +1,4 @@
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/widgets/change_seed_password/change_seed_password.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
@@ -47,7 +46,7 @@ class ChangeSeedPasswordWidgetModel
 
     if (_lockState.isLocked) {
       _lockState.getErrorMessage(languageCode)?.let((message) {
-        model.showMessage(Message.error(message: message));
+        model.showError(message);
       });
       return;
     }
@@ -61,13 +60,11 @@ class ChangeSeedPasswordWidgetModel
       if (!correct) {
         final errorMessage = _lockState.getErrorMessage(languageCode);
         if (errorMessage != null) {
-          model.showMessage(Message.error(message: errorMessage));
+          model.showError(errorMessage);
           return;
         }
 
-        model.showMessage(
-          Message.error(message: LocaleKeys.passwordIsWrong.tr()),
-        );
+        model.showError(LocaleKeys.passwordIsWrong.tr());
         return;
       }
 
@@ -77,17 +74,13 @@ class ChangeSeedPasswordWidgetModel
         newPassword: newPassword,
       );
 
-      model.showMessage(
-        Message.successful(message: LocaleKeys.passwordChanged.tr()),
-      );
+      model.showSuccessful(LocaleKeys.passwordChanged.tr());
 
       if (contextSafe != null) {
         Navigator.of(contextSafe!).pop();
       }
     } catch (_) {
-      model.showMessage(
-        Message.error(message: LocaleKeys.passwordIsWrong.tr()),
-      );
+      model.showError(LocaleKeys.passwordIsWrong.tr());
     }
   }
 }

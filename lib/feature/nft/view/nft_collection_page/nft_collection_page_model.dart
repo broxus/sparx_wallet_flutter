@@ -73,9 +73,7 @@ class NftCollectionPageModel extends ElementaryModel {
       collectionAddress: collection,
     );
 
-    _messengerService.show(
-      Message.successful(message: LocaleKeys.nftCollectionHidden.tr()),
-    );
+    _messengerService.showSuccessful(LocaleKeys.nftCollectionHidden.tr());
   }
 
   Future<List<PendingNft>> removePendingNft(Address collection) async {

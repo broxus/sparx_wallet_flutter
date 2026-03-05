@@ -1,5 +1,4 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/qr_scanner/qr_scanner.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
@@ -12,12 +11,10 @@ class QrScannerModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._permissionsService,
     this._lifecycleService,
-    this._messengerService,
   ) : super(errorHandler: errorHandler);
 
   final AppPermissionsService _permissionsService;
   final AppLifecycleService _lifecycleService;
-  final MessengerService _messengerService;
 
   Stream<AppLifecycleState> get appLifecycleStateStream =>
       _lifecycleService.appLifecycleStateStream;
@@ -51,5 +48,5 @@ class QrScannerModel extends ElementaryModel {
 
   Future<void> openSettings() => _permissionsService.openSettings();
 
-  void showMessage(Message message) => _messengerService.show(message);
+  void showError(Object message) => handleError(message);
 }

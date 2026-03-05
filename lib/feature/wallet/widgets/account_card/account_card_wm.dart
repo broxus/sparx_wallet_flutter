@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/account_card/account_card_model.dart';
 import 'package:app/generated/generated.dart';
@@ -39,8 +38,11 @@ class AccountCardWidgetModel
 
   StreamSubscription<TonWalletState?>? _walletSubscription;
   StreamSubscription<void>? _withdrawRequestSubscription;
+
   ListenableState<Money> get balanceState => _balanceState;
+
   ValueListenable<Object?> get errorState => _errorState;
+
   ValueListenable<bool> get isLoadingState => _isLoadingState;
 
   @override
@@ -69,11 +71,9 @@ class AccountCardWidgetModel
 
   void onCopy() {
     setClipBoardData(currentAccountState.value.address.address);
-    model.showMessage(
-      Message.successful(
-        message: LocaleKeys.valueCopiedExclamation.tr(
-          args: [currentAccountState.value.address.toEllipseString()],
-        ),
+    model.showSuccessful(
+      LocaleKeys.valueCopiedExclamation.tr(
+        args: [currentAccountState.value.address.toEllipseString()],
       ),
     );
   }

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
@@ -12,14 +11,12 @@ class NftPrepareTransferModel extends ElementaryModel {
   NftPrepareTransferModel(
     ErrorHandler errorHandler,
     this._nekotonRepository,
-    this._messengerService,
     this._nftService,
   ) : super(errorHandler: errorHandler);
 
   static final _logger = Logger('NftPrepareTransferModel');
 
   final NekotonRepository _nekotonRepository;
-  final MessengerService _messengerService;
   final NftService _nftService;
 
   Future<NftCollection?> getCollection(Address address) =>
@@ -48,7 +45,5 @@ class NftPrepareTransferModel extends ElementaryModel {
     return _nekotonRepository.seedList.findSeedKey(custodian)?.name;
   }
 
-  void showError(String text) {
-    _messengerService.show(Message.error(message: text));
-  }
+  void showError(String text) => handleError(text);
 }

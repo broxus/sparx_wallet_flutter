@@ -1,5 +1,4 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
@@ -13,14 +12,12 @@ class WalletAppBarModel extends ElementaryModel {
     this._currentAccountsService,
     this._storageService,
     this._appLinksService,
-    this._messengerService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final CurrentAccountsService _currentAccountsService;
   final ConnectionsStorageService _storageService;
   final AppLinksService _appLinksService;
-  final MessengerService _messengerService;
 
   Stream<KeyAccount> get currentAccount =>
       _currentAccountsService.currentActiveAccountStream.whereNotNull();
@@ -40,7 +37,5 @@ class WalletAppBarModel extends ElementaryModel {
 
   bool isValidAppLink(Uri uri) => _appLinksService.isValidAppLink(uri);
 
-  void showError(String text) {
-    _messengerService.show(Message.error(message: text));
-  }
+  void showError(String text) => handleError(text);
 }
