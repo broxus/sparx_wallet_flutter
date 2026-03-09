@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:app/feature/ledger/ledger.dart';
+import 'package:async/async.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:logging/logging.dart';
 import 'package:mutex/mutex.dart';
@@ -55,14 +56,20 @@ class BleTransport {
     await _mtuSubscription.cancel();
   }
 
-  Future<LedgerResponse> exchange(List<int> data) async {
+  Future<CancelableOperation<LedgerResponse>> exchange(List<int> data) async {
     StreamSubscription<List<int>>? subscription;
+    StreamSubscription<BluetoothAdapterState>? adapterSubscription;
     LedgerDataReader? reader;
 
     await _mutex.acquire();
 
     try {
-      final completer = Completer<LedgerResponse>();
+      final completer = CancelableCompleter<LedgerResponse>(
+        onCancel: () async {
+          await subscription?.cancel();
+          await adapterSubscription?.cancel();
+        },
+      );
       final packets = _packer.pack(Uint8List.fromList(data), mtu);
 
       subscription = _notifyCharacteristic.onValueReceived.listen(
@@ -76,28 +83,60 @@ class BleTransport {
 
             if (reader!.isCompleted) {
               subscription?.cancel();
-              completer.complete(reader!);
+              adapterSubscription?.cancel();
+
+              if (!completer.isCompleted) {
+                completer.complete(reader);
+              }
             }
           } catch (e, st) {
             _logger.severe('Error processing received value: $e', e, st);
             subscription?.cancel();
-            completer.completeError(
-              LedgerException('Error processing received value: $e'),
-              st,
-            );
+            adapterSubscription?.cancel();
+
+            if (!completer.isCompleted) {
+              completer.completeError(
+                LedgerException('Error processing received value: $e'),
+                st,
+              );
+            }
           }
         },
         onError: (Object e, StackTrace st) {
           _logger.severe('Error in subscription: $e', e, st);
           subscription?.cancel();
-          completer.completeError(
-            LedgerException('Error in subscription: $e'),
-            st,
-          );
+          adapterSubscription?.cancel();
+
+          if (!completer.isCompleted) {
+            completer.completeError(
+              LedgerException('Error in subscription: $e'),
+              st,
+            );
+          }
         },
       );
 
-      _device.cancelWhenDisconnected(subscription);
+      adapterSubscription = FlutterBluePlus.adapterState.listen((state) {
+        if (state == BluetoothAdapterState.off ||
+            state == BluetoothAdapterState.turningOff ||
+            state == BluetoothAdapterState.unauthorized ||
+            state == BluetoothAdapterState.unavailable) {
+          subscription?.cancel();
+          adapterSubscription?.cancel();
+
+          if (!completer.isCompleted) {
+            completer.completeError(
+              const LedgerException(
+                'Bluetooth adapter turned off or became unavailable',
+              ),
+            );
+          }
+        }
+      });
+
+      _device
+        ..cancelWhenDisconnected(subscription)
+        ..cancelWhenDisconnected(adapterSubscription);
 
       if (!_notifyCharacteristic.isNotifying) {
         await _notifyCharacteristic.setNotifyValue(true, timeout: 5);
@@ -107,10 +146,11 @@ class BleTransport {
         await _writeCharacteristic.write(packet, timeout: 5);
       }
 
-      return completer.future;
+      return completer.operation;
     } catch (e, st) {
       _logger.severe('Failed to write data: $e', e, st);
       await subscription?.cancel();
+      await adapterSubscription?.cancel();
       throw LedgerException('Failed to write data: $e');
     } finally {
       _mutex.release();

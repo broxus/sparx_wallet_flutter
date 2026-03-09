@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:ui';
+
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -12,15 +16,21 @@ class LedgerService {
     this._storageService,
     this._connectionHandler,
     this._nekotonRepository,
-  );
+    this._appLifecycleService,
+  ) {
+    _appLifecycleSubscription = _appLifecycleService.appLifecycleStateStream
+        .listen(_handleAppLifecycleState);
+  }
 
   static final _logger = Logger('LedgerService');
 
   final LedgerStorageService _storageService;
   final LedgerConnectionHandlerImpl _connectionHandler;
   final NekotonRepository _nekotonRepository;
+  final AppLifecycleService _appLifecycleService;
 
   final _interactionSubject = BehaviorSubject<LedgerInteraction>();
+  StreamSubscription<AppLifecycleState>? _appLifecycleSubscription;
 
   Stream<LedgerInteraction> get interactionStream => _interactionSubject.stream;
 
@@ -30,6 +40,13 @@ class LedgerService {
       FlutterBluePlus.adapterState;
 
   LedgerAppInterface? get appInterface => _connectionHandler.appInterface;
+
+  @disposeMethod
+  Future<void> dispose() async {
+    await _interactionSubject.close();
+    await _appLifecycleSubscription?.cancel();
+    await closeLedgerConnection();
+  }
 
   Future<bool> checkPermissions() async {
     final state = await FlutterBluePlus.adapterState.firstWhere(
@@ -206,11 +223,22 @@ class LedgerService {
       await interaction?.finish();
 
       return result;
-    } catch (_) {
+    } on Exception catch (e, st) {
       await interaction?.cancel();
-      rethrow;
+      _logger.severe('Ledger interaction failed', e, st);
+      if (e.isLedgerOperationCancelled) {
+        throw const LedgerOperationCancelledException();
+      }
+      throw (appInterface?.lastError ??
+          const LedgerException('Ledger interaction failed'));
     } finally {
       await interaction?.dispose();
+    }
+  }
+
+  Future<void> _handleAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.inactive) {
+      await appInterface?.cancelCurrentOperation();
     }
   }
 }
