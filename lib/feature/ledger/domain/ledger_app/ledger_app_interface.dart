@@ -30,17 +30,36 @@ class LedgerAppInterface {
          device.servicesList.isNotEmpty,
          'BluetoothDevice.discoverServices() has not been called',
        ) {
-    deviceModel = ledgerDevices.firstWhere((d) => d.id == deviceModelId);
+    deviceModel = _resolveDeviceModel(deviceModelId);
     _transport = BleTransport(device: device, deviceModel: deviceModel);
   }
 
+  @visibleForTesting
+  LedgerAppInterface.test({
+    required this.device,
+    required DeviceModelId deviceModelId,
+    required BleTransport transport,
+  }) : assert(device.isConnected, 'Ledger device is not connected'),
+       assert(
+         device.servicesList.isNotEmpty,
+         'BluetoothDevice.discoverServices() has not been called',
+       ) {
+    deviceModel = _resolveDeviceModel(deviceModelId);
+    _transport = transport;
+  }
+
   static final _logger = Logger('LedgerAppInterface');
+
+  static LedgerDeviceModel _resolveDeviceModel(DeviceModelId deviceModelId) =>
+      ledgerDevices.firstWhere((device) => device.id == deviceModelId);
 
   final BluetoothDevice device;
   late final LedgerDeviceModel deviceModel;
 
   final _mutex = Mutex();
   late final BleTransport _transport;
+
+  CancelableOperation<LedgerResponse>? _currentOperation;
 
   /// Holds the most recent [LedgerException] produced by an operation on this
   /// interface.
@@ -71,6 +90,7 @@ class LedgerAppInterface {
   LedgerException? get lastError => _lastError;
 
   Future<void> dispose() => _mutex.protect(() async {
+    await cancelCurrentOperation();
     await _transport.dispose();
 
     if (device.isConnected) {
@@ -78,65 +98,48 @@ class LedgerAppInterface {
     }
   });
 
+  Future<void> cancelCurrentOperation() async {
+    await _currentOperation?.cancel();
+    _currentOperation = null;
+  }
+
   CancelableOperation<bool> waitForApp() {
     final completer = CancelableCompleter<bool>();
     _waitForApp(completer);
     return completer.operation;
   }
 
-  Future<bool> openApp(String appName) async {
-    await _mutex.acquire();
-    _lastError = null;
-
-    try {
+  Future<bool> openApp(String appName) => _runGuarded<bool>(
+    errorMessage: 'Failed to open app',
+    action: () async {
       final data = utf8.encode(appName);
       final writer = APDUWriter(ins: ApduIns.openApp)..writeData(data);
 
-      final response = await _transport.exchange(writer.toBytes());
+      final response = await _exchange(writer);
 
-      return response.isOk;
-    } on LedgerException catch (e) {
-      _lastError = e;
-      rethrow;
-    } catch (e, st) {
-      _logger.severe('Failed to open app: $e', e, st);
-      final error = LedgerException('Failed to open app: $e');
-      _lastError = error;
-      throw error;
-    } finally {
-      _mutex.release();
-    }
-  }
+      return response?.isOk ?? false;
+    },
+  );
 
-  Future<bool> closeApp() async {
-    await _mutex.acquire();
-    _lastError = null;
-
-    try {
+  Future<bool> closeApp() => _runGuarded<bool>(
+    errorMessage: 'Failed to close app',
+    action: () async {
       final writer = APDUWriter(cla: 0xb0, ins: ApduIns.closeApp);
-      final response = await _transport.exchange(writer.toBytes());
+      final response = await _exchange(writer);
 
-      return response.isOk;
-    } on LedgerException catch (e) {
-      _lastError = e;
-      rethrow;
-    } catch (e, st) {
-      _logger.severe('Failed to close app: $e', e, st);
-      final error = LedgerException('Failed to close app: $e');
-      _lastError = error;
-      throw error;
-    } finally {
-      _mutex.release();
-    }
-  }
+      return response?.isOk ?? false;
+    },
+  );
 
-  Future<String> getAppName() async {
-    await _mutex.acquire();
-    _lastError = null;
-
-    try {
+  Future<String> getAppName() => _runGuarded<String>(
+    errorMessage: 'Failed to get app name',
+    action: () async {
       final writer = APDUWriter(cla: 0xb0, ins: ApduIns.getApp);
-      final response = await _transport.exchange(writer.toBytes());
+      final response = await _exchange(writer);
+
+      if (response == null || response.isCanceled) {
+        throw const LedgerOperationCancelledException();
+      }
 
       if (!response.isOk) {
         throw LedgerException(
@@ -155,47 +158,40 @@ class LedgerAppInterface {
       final appName = ascii.decode(reader.read(length));
 
       return appName;
-    } on LedgerException catch (e) {
-      _lastError = e;
-      rethrow;
-    } catch (e, st) {
-      _logger.severe('Failed to get app name: $e', e, st);
-      final error = LedgerException('Failed to get app name: $e');
-      _lastError = error;
-      throw error;
-    } finally {
-      _mutex.release();
-    }
-  }
+    },
+  );
 
-  Future<Uint8List> getConfiguration() async {
-    await _mutex.acquire();
-    _lastError = null;
+  Future<Uint8List> getConfiguration() => _runGuarded<Uint8List>(
+    errorMessage: 'Failed to get configuration',
+    action: () async {
+      final writer = APDUWriter(ins: ApduIns.getConf);
+      final response = await _exchange(writer);
 
-    try {
-      return await _getConfigurationNoLock();
-    } on LedgerException catch (e) {
-      _lastError = e;
-      rethrow;
-    } catch (e, st) {
-      _logger.severe('Failed to get configuration: $e', e, st);
-      final error = LedgerException('Failed to get configuration: $e');
-      _lastError = error;
-      throw error;
-    } finally {
-      _mutex.release();
-    }
-  }
+      if (response == null || response.isCanceled) {
+        throw const LedgerOperationCancelledException();
+      }
 
-  Future<Uint8List> getPublicKey(int accountId) async {
-    await _mutex.acquire();
-    _lastError = null;
+      if (!response.isOk) {
+        throw LedgerException(
+          'Failed to get configuration: SW=${response.sw.toRadixString(16)}',
+        );
+      }
 
-    try {
+      return response.data;
+    },
+  );
+
+  Future<Uint8List> getPublicKey(int accountId) => _runGuarded<Uint8List>(
+    errorMessage: 'Failed to get public key',
+    action: () async {
       final data = ByteData(4)..setUint32(0, accountId);
       final writer = APDUWriter(ins: ApduIns.getPk)..writeByteData(data);
 
-      final response = await _transport.exchange(writer.toBytes());
+      final response = await _exchange(writer);
+
+      if (response == null || response.isCanceled) {
+        throw const LedgerOperationCancelledException();
+      }
 
       if (!response.isOk) {
         throw LedgerException(
@@ -204,34 +200,26 @@ class LedgerAppInterface {
       }
 
       return response.dataWithOffset;
-    } on LedgerException catch (e) {
-      _lastError = e;
-      rethrow;
-    } catch (e, st) {
-      _logger.severe('Failed to get public key: $e', e, st);
-      final error = LedgerException('Failed to get public key: $e');
-      _lastError = error;
-      throw error;
-    } finally {
-      _mutex.release();
-    }
-  }
+    },
+  );
 
   Future<Uint8List> getAddress({
     required int accountId,
     required int wallet,
-  }) async {
-    await _mutex.acquire();
-    _lastError = null;
-
-    try {
+  }) => _runGuarded<Uint8List>(
+    errorMessage: 'Failed to get wallet address',
+    action: () async {
       final data = ByteData(5)
         ..setUint32(0, accountId)
         ..setUint8(4, wallet);
       final writer = APDUWriter(ins: ApduIns.getAddr, p1: 0x01)
         ..writeByteData(data);
 
-      final response = await _transport.exchange(writer.toBytes());
+      final response = await _exchange(writer);
+
+      if (response == null || response.isCanceled) {
+        throw const LedgerOperationCancelledException();
+      }
 
       if (!response.isOk) {
         throw LedgerException(
@@ -240,28 +228,16 @@ class LedgerAppInterface {
       }
 
       return response.dataWithOffset;
-    } on LedgerException catch (e) {
-      _lastError = e;
-      rethrow;
-    } catch (e, st) {
-      _logger.severe('Failed to get wallet address: $e', e, st);
-      final error = LedgerException('Failed to get wallet address: $e');
-      _lastError = error;
-      throw error;
-    } finally {
-      _mutex.release();
-    }
-  }
+    },
+  );
 
   Future<Uint8List> sign({
     required int accountId,
     required List<int> message,
     int? signatureId, // not used in newer versions
-  }) async {
-    await _mutex.acquire();
-    _lastError = null;
-
-    try {
+  }) => _runGuarded<Uint8List>(
+    errorMessage: 'Failed to sign message',
+    action: () async {
       final data =
           (ByteDataWriter()
                 ..writeUint32(accountId)
@@ -269,9 +245,9 @@ class LedgerAppInterface {
               .toBytes();
       final writer = APDUWriter(ins: ApduIns.sign, p1: 0x01)..writeData(data);
 
-      final response = await _transport.exchange(writer.toBytes());
+      final response = await _exchange(writer);
 
-      if (response.isCanceled) {
+      if (response == null || response.isCanceled) {
         throw const LedgerOperationCancelledException();
       }
 
@@ -282,18 +258,8 @@ class LedgerAppInterface {
       }
 
       return response.dataWithOffset;
-    } on LedgerException catch (e) {
-      _lastError = e;
-      rethrow;
-    } catch (e, st) {
-      _logger.severe('Failed to sign message: $e', e, st);
-      final error = LedgerException('Failed to sign message: $e');
-      _lastError = error;
-      throw error;
-    } finally {
-      _mutex.release();
-    }
-  }
+    },
+  );
 
   Future<Uint8List> signTransaction({
     required int accountId,
@@ -302,16 +268,14 @@ class LedgerAppInterface {
     required LedgerSignatureContext context,
     required SignatureContext signatureContext,
     int? originalWallet,
-  }) async {
-    await _mutex.acquire();
-    _lastError = null;
-
-    try {
-      originalWallet ??= wallet;
+  }) => _runGuarded<Uint8List>(
+    errorMessage: 'Failed to sign transaction',
+    action: () async {
+      final resolvedOriginalWallet = originalWallet ?? wallet;
       final data = buildSignTransactionPayload(
         accountId: accountId,
         wallet: wallet,
-        originalWallet: originalWallet,
+        originalWallet: resolvedOriginalWallet,
         message: message,
         context: context,
         signatureContext: signatureContext,
@@ -333,16 +297,12 @@ class LedgerAppInterface {
           p2: p2,
         )..writeData(chunk);
 
-        response = await _transport.exchange(writer.toBytes());
+        response = await _exchange(writer);
 
-        if (!response.isOk) break;
+        if (response == null || !response.isOk) break;
       }
 
-      if (response == null) {
-        throw const LedgerException('No response received from Ledger');
-      }
-
-      if (response.isCanceled) {
+      if (response == null || response.isCanceled) {
         throw const LedgerOperationCancelledException();
       }
 
@@ -353,18 +313,8 @@ class LedgerAppInterface {
       }
 
       return response.dataWithOffset;
-    } on LedgerException catch (e) {
-      _lastError = e;
-      rethrow;
-    } catch (e, st) {
-      _logger.severe('Failed to sign transaction: $e', e, st);
-      final error = LedgerException('Failed to sign transaction: $e');
-      _lastError = error;
-      throw error;
-    } finally {
-      _mutex.release();
-    }
-  }
+    },
+  );
 
   @visibleForTesting
   static Uint8List buildSignTransactionPayload({
@@ -442,19 +392,6 @@ class LedgerAppInterface {
     return writer.toBytes();
   }
 
-  Future<Uint8List> _getConfigurationNoLock() async {
-    final writer = APDUWriter(ins: ApduIns.getConf);
-    final response = await _transport.exchange(writer.toBytes());
-
-    if (!response.isOk) {
-      throw LedgerException(
-        'Failed to get configuration: SW=${response.sw.toRadixString(16)}',
-      );
-    }
-
-    return response.data;
-  }
-
   Future<void> _waitForApp(CancelableCompleter<bool> completer) async {
     while (!completer.isCanceled) {
       await device.tryConnect(const Duration(seconds: 5));
@@ -507,5 +444,35 @@ class LedgerAppInterface {
         lower.startsWith('venom') ||
         lower.startsWith('hamster') ||
         lower.startsWith('tycho');
+  }
+
+  Future<T> _runGuarded<T>({
+    required String errorMessage,
+    required Future<T> Function() action,
+  }) async {
+    await _mutex.acquire();
+    _lastError = null;
+
+    try {
+      return await action();
+    } on LedgerException catch (error) {
+      _lastError = error;
+      rethrow;
+    } catch (error, stackTrace) {
+      _logger.severe('$errorMessage: $error', error, stackTrace);
+      final wrappedError = LedgerException('$errorMessage: $error');
+      _lastError = wrappedError;
+      throw wrappedError;
+    } finally {
+      _currentOperation = null;
+      _mutex.release();
+    }
+  }
+
+  Future<LedgerResponse?> _exchange(APDUWriter writer) async {
+    final operation = await _transport.exchange(writer.toBytes());
+    _currentOperation = operation;
+
+    return operation.valueOrCancellation();
   }
 }

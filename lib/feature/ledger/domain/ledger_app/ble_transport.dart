@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:app/feature/ledger/ledger.dart';
+import 'package:async/async.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:logging/logging.dart';
 import 'package:mutex/mutex.dart';
@@ -55,7 +56,7 @@ class BleTransport {
     await _mtuSubscription.cancel();
   }
 
-  Future<LedgerResponse> exchange(List<int> data) async {
+  Future<CancelableOperation<LedgerResponse>> exchange(List<int> data) async {
     StreamSubscription<List<int>>? subscription;
     StreamSubscription<BluetoothAdapterState>? adapterSubscription;
     LedgerDataReader? reader;
@@ -63,7 +64,12 @@ class BleTransport {
     await _mutex.acquire();
 
     try {
-      final completer = Completer<LedgerResponse>();
+      final completer = CancelableCompleter<LedgerResponse>(
+        onCancel: () async {
+          await subscription?.cancel();
+          await adapterSubscription?.cancel();
+        },
+      );
       final packets = _packer.pack(Uint8List.fromList(data), mtu);
 
       subscription = _notifyCharacteristic.onValueReceived.listen(
@@ -80,7 +86,7 @@ class BleTransport {
               adapterSubscription?.cancel();
 
               if (!completer.isCompleted) {
-                completer.complete(reader!);
+                completer.complete(reader);
               }
             }
           } catch (e, st) {
@@ -140,7 +146,7 @@ class BleTransport {
         await _writeCharacteristic.write(packet, timeout: 5);
       }
 
-      return completer.future;
+      return completer.operation;
     } catch (e, st) {
       _logger.severe('Failed to write data: $e', e, st);
       await subscription?.cancel();
