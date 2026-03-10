@@ -80,6 +80,7 @@ import '../app/service/storage_service/nekoton_repository_service.dart'
 import '../app/service/storage_service/secure_storage_service.dart' as _i679;
 import '../app/service/storage_service/storage_adapter.dart' as _i541;
 import '../app/service/storage_service/storage_manager_service.dart' as _i725;
+import '../app/service/storage_service/storage_service.dart' as _i966;
 import '../app/service/storage_service/token_wallet_storage_service/token_wallet_storage_service.dart'
     as _i738;
 import '../app/service/storage_service/ton_connect_storage_service.dart'
@@ -810,9 +811,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i569.EncryptedStorageConfigurator>(
       () => _i569.EncryptedStorageConfigurator(gh<_i426.EncryptedStorage>()),
     );
-    gh.singleton<_i275.NavigationService>(
-      () => _i275.NavigationService(gh<_i426.EncryptedStorage>()),
-    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i1052.CustodiansSettingsRoute(),
       instanceName: 'CustodiansSettingsRoute',
@@ -1092,7 +1090,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i291.WalletDeploymentService>(
       () => _i291.WalletDeploymentService(gh<_i771.NekotonRepository>()),
     );
-    gh.lazySingleton<_i184.AppStorageService>(
+    gh.singleton<_i184.AppStorageService>(
       () => _i184.AppStorageService(gh<_i128.StorageAdapter>()),
     );
     gh.singleton<_i1020.BalanceStorageService>(
@@ -1532,6 +1530,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i180.StakingInProgressWidgetModel(
         gh<_i402.StakingInProgressModel>(),
       ),
+    );
+    gh.singleton<_i275.NavigationService>(
+      () => _i275.NavigationService(gh<_i966.AppStorageService>()),
     );
     gh.factory<_i147.AppNotificationsWidgetWidgetModel>(
       () => _i147.AppNotificationsWidgetWidgetModel(

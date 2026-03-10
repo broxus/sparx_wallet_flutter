@@ -7,9 +7,6 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 const _passwordsKey = 'passwords_key';
-const _connectionJsonDomain = 'connection_json_domain';
-const _connectionJsonKey = 'connection_json_key';
-const _connectionJsonHashKey = 'connection_json_hash_key';
 const _passwordServiceStateKey = 'password_service_state_key';
 
 /// This is a wrapper-class above [EncryptedStorage] that provides methods
@@ -26,24 +23,8 @@ class SecureStorageService extends AbstractStorageService {
   Future<void> init() => Future.value();
 
   @override
-  Future<void> clear({bool isSaveConnectionJson = true}) async {
-    String? hash;
-    String? json;
-
-    if (isSaveConnectionJson) {
-      hash = await getConnectionJsonHash();
-      json = await getConnectionJson();
-    }
-
+  Future<void> clear() async {
     await _storage.clearAll();
-
-    if (hash != null) {
-      await setConnectionJsonHash(hash);
-    }
-
-    if (json != null) {
-      await setConnectionJson(json);
-    }
   }
 
   /// Get password of public key if it was cached with biometry
@@ -62,20 +43,6 @@ class SecureStorageService extends AbstractStorageService {
 
   /// Clear all passwords of public keys from cache
   Future<void> clearKeyPasswords() => _storage.clearDomain(_passwordsKey);
-
-  Future<String?> getConnectionJson() {
-    return _storage.get(_connectionJsonKey, domain: _connectionJsonDomain);
-  }
-
-  Future<void> setConnectionJson(String json) =>
-      _storage.set(_connectionJsonKey, json, domain: _connectionJsonDomain);
-
-  Future<String?> getConnectionJsonHash() {
-    return _storage.get(_connectionJsonHashKey, domain: _connectionJsonDomain);
-  }
-
-  Future<void> setConnectionJsonHash(String hash) =>
-      _storage.set(_connectionJsonHashKey, hash, domain: _connectionJsonDomain);
 
   /// Generic methods for working with different config types
 
