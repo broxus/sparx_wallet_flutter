@@ -24,6 +24,7 @@
   "saveSeedPhrase": "Save your seed phrase",
   "saveSeedWarning": "It gives access to your wallet, so don’t share it with anyone and store it in a safe place. If you lose it, you will not be able to restore it.",
   "checkSeedPhrase": "Check your phrase",
+  "skip": "Skip",
   "skipTakeRisk": "Skip, I'll take the risk",
   "copiedExclamation": "Copied!",
   "copyWords": "Copy all words",

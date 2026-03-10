@@ -30,6 +30,7 @@ abstract class LocaleKeys {
   static const saveSeedPhrase = 'saveSeedPhrase';
   static const saveSeedWarning = 'saveSeedWarning';
   static const checkSeedPhrase = 'checkSeedPhrase';
+  static const skip = 'skip';
   static const skipTakeRisk = 'skipTakeRisk';
   static const copiedExclamation = 'copiedExclamation';
   static const copyWords = 'copyWords';

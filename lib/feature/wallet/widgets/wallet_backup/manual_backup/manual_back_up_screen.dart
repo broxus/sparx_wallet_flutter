@@ -1,103 +1,97 @@
+import 'package:app/app/service/secure_string_service.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/widgets/widgets.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 
-Future<void> showManualBackupDialog(
-  BuildContext context,
-  List<String> words,
-  String address,
-  ValueChanged<bool> finishedBackupCallback,
-) {
-  return showPrimaryBottomSheet(
-    context: context,
-    title: LocaleKeys.manualBackupTitleDialog.tr(),
-    subtitle: LocaleKeys.manualBackupSubtitleDialog.tr(),
-    content: ProtectedContent(
-      child: ContentManualBackup(
-        words: words,
-        address: address,
-        finishedBackupCallback: finishedBackupCallback,
-      ),
-    ),
-  );
-}
-
-class ContentManualBackup
+class ManualBackupScreen
     extends
         InjectedElementaryParametrizedWidget<
           ManualBackUpWidgetModel,
           ManualBackUpWmParams
         > {
-  ContentManualBackup({
-    required List<String> words,
+  ManualBackupScreen({
+    required SecureString seedPhrase,
     required String address,
-    required ValueChanged<bool> finishedBackupCallback,
     super.key,
   }) : super(
          wmFactoryParam: ManualBackUpWmParams(
-           words: words,
+           seedPhrase: seedPhrase,
            address: address,
-           finishedBackupCallback: finishedBackupCallback,
          ),
        );
 
   @override
   Widget build(ManualBackUpWidgetModel wm) {
-    final theme = wm.themeStyle;
-    return Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: theme.colors.background2,
-            borderRadius: BorderRadius.circular(DimensRadius.radius16),
+    return Scaffold(
+      backgroundColor: wm.colors.background0,
+      appBar: DefaultAppBar(
+        actions: [
+          GhostButton(
+            buttonShape: ButtonShape.pill,
+            title: LocaleKeys.skip.tr(),
+            onPressed: wm.clickSkip,
           ),
-          padding: const EdgeInsets.all(DimensSize.d32),
-          child: ValueListenableBuilder(
-            valueListenable: wm.wordsState,
-            builder: (_, words, __) => _ListWords(words),
+        ],
+      ),
+      body: ProtectedContent(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
+          child: Column(
+            children: [
+              Text(
+                LocaleKeys.manualBackupTitleDialog.tr(),
+                style: wm.textStyle.headingLarge,
+              ),
+              const SizedBox(height: DimensSize.d8),
+              Text(
+                LocaleKeys.manualBackupSubtitleDialog.tr(),
+                style: wm.textStyle.paragraphMedium,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: DimensSize.d24),
+              Container(
+                decoration: BoxDecoration(
+                  color: wm.colors.background1,
+                  borderRadius: BorderRadius.circular(DimensRadius.radius16),
+                ),
+                padding: const EdgeInsets.all(DimensSize.d32),
+                child: StateNotifierBuilder<List<String>>(
+                  listenableState: wm.wordsState,
+                  builder: (_, words) => words == null
+                      ? const SizedBox.shrink()
+                      : _ListWords(words),
+                ),
+              ),
+              const SizedBox(height: DimensSize.d24),
+              EntityStateNotifierBuilder<ManualBackUpData?>(
+                listenableEntityState: wm.screenState,
+                builder: (context, data) {
+                  return GhostButton(
+                    buttonSize: ButtonSize.small,
+                    postfixIcon: LucideIcons.copy,
+                    title: LocaleKeys.copyWords.tr(),
+                    onPressed: wm.copySeed,
+                    buttonShape: ButtonShape.pill,
+                  );
+                },
+              ),
+              const Spacer(),
+              AccentButton(
+                buttonShape: ButtonShape.pill,
+                title: LocaleKeys.checkPhrasesLabel.tr(),
+                postfixIcon: LucideIcons.textCursorInput,
+                onPressed: wm.clickCheckPhrase,
+              ),
+              const SizedBox(height: DimensSize.d12)
+            ],
           ),
         ),
-        const SizedBox(height: DimensSize.d8),
-        EntityStateNotifierBuilder<ManualBackUpData?>(
-          listenableEntityState: wm.screenState,
-          builder: (context, data) {
-            return GhostButton(
-              buttonSize: ButtonSize.small,
-              postfixIcon: LucideIcons.copy,
-              title: LocaleKeys.copyWords.tr(),
-              onPressed: wm.copySeed,
-              buttonShape: ButtonShape.pill,
-            );
-          },
-        ),
-        const SizedBox(height: DimensSize.d24),
-        LayoutBuilder(
-          builder: (context, constraints) {
-            return AccentButton(
-              buttonShape: ButtonShape.pill,
-              title: LocaleKeys.checkPhrasesLabel.tr(),
-              icon: LucideIcons.textCursorInput,
-              onPressed: () => wm.clickCheckPhrase(context),
-            );
-          },
-        ),
-        const SizedBox(height: DimensSize.d8),
-        LayoutBuilder(
-          builder: (context, _) {
-            return PrimaryButton(
-              buttonShape: ButtonShape.pill,
-              title: LocaleKeys.skipTakeRisk.tr(),
-              onPressed: () => wm.clickSkip(context),
-            );
-          },
-        ),
-      ],
+      ),
     );
   }
 }

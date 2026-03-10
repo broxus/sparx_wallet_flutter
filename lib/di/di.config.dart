@@ -685,6 +685,8 @@ import '../feature/wallet/widgets/wallet_backup/check_phrase/check_phrase_model.
     as _i415;
 import '../feature/wallet/widgets/wallet_backup/check_phrase/check_phrase_wm.dart'
     as _i760;
+import '../feature/wallet/widgets/wallet_backup/check_phrase/route.dart'
+    as _i460;
 import '../feature/wallet/widgets/wallet_backup/confirm_action/confirm_action_model.dart'
     as _i352;
 import '../feature/wallet/widgets/wallet_backup/confirm_action/confirm_action_wm.dart'
@@ -693,6 +695,8 @@ import '../feature/wallet/widgets/wallet_backup/manual_backup/manual_back_up_mod
     as _i318;
 import '../feature/wallet/widgets/wallet_backup/manual_backup/manual_back_up_wm.dart'
     as _i830;
+import '../feature/wallet/widgets/wallet_backup/manual_backup/route.dart'
+    as _i963;
 import '../feature/wallet/widgets/wallet_backup/wallet_backup.dart' as _i217;
 import '../http/api/presets/presets_api.dart' as _i249;
 import '../http/dio_module.dart' as _i720;
@@ -840,6 +844,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i225.NoInternetRoute(),
       instanceName: 'NoInternetRoute',
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i460.CheckPhraseRoute(),
+      instanceName: 'CheckPhraseRoute',
     );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i303.AccountDetailRoute(),
@@ -1068,6 +1076,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.AppLifecycleService>(),
         gh<_i553.MessengerService>(),
       ),
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i963.ManualBackupRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'CheckPhraseRoute'),
+      ),
+      instanceName: 'ManualBackupRoute',
     );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i192.WalletMultisigConfigRoute(
@@ -1437,6 +1451,24 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i32.AppBuildType>(),
       ),
     );
+    gh.factory<_i415.CheckPhraseModel>(
+      () => _i415.CheckPhraseModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i553.MessengerService>(),
+        gh<_i128.SecureStringService>(),
+        gh<_i128.AppStorageService>(),
+      ),
+    );
+    gh.factory<_i318.ManualBackUpModel>(
+      () => _i318.ManualBackUpModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i553.MessengerService>(),
+        gh<_i128.SecureStringService>(),
+        gh<_i128.AppStorageService>(),
+      ),
+    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i650.WalletPrepareTransferRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'TonWalletSendRoute'),
@@ -1469,6 +1501,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i894.ContactSupportWidgetModel>(
       () => _i894.ContactSupportWidgetModel(gh<_i915.ContactSupportModel>()),
     );
+    gh.factory<_i830.ManualBackUpWidgetModel>(
+      () => _i830.ManualBackUpWidgetModel(gh<_i217.ManualBackUpModel>()),
+    );
     gh.lazySingleton<_i128.IIdentifyIconsService>(
       () => _i316.IdentifyIconsService(gh<_i128.AppStorageService>()),
     );
@@ -1490,22 +1525,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.AppLifecycleService>(),
         gh<_i771.NekotonRepository>(),
         gh<_i128.PasswordService>(),
-      ),
-    );
-    gh.factory<_i415.CheckPhraseModel>(
-      () => _i415.CheckPhraseModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i553.MessengerService>(),
-        gh<_i128.AppStorageService>(),
-      ),
-    );
-    gh.factory<_i318.ManualBackUpModel>(
-      () => _i318.ManualBackUpModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i553.MessengerService>(),
-        gh<_i128.AppStorageService>(),
       ),
     );
     gh.factory<_i199.AddNewExternalAccountSheetWidgetModel>(
@@ -1795,6 +1814,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1053.WalletDeployStatusModel>(),
       ),
     );
+    gh.factory<_i532.WalletAccountActionsWidgetModel>(
+      () => _i532.WalletAccountActionsWidgetModel(
+        gh<_i801.WalletAccountActionsModel>(),
+      ),
+    );
+    gh.factory<_i903.UserAvatarWidgetModel>(
+      () => _i903.UserAvatarWidgetModel(gh<_i45.UserAvatarModel>()),
+    );
     gh.factory<_i352.ConfirmActionModel>(
       () => _i352.ConfirmActionModel(
         gh<_i83.ErrorHandler>(),
@@ -1803,15 +1830,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.CurrentSeedService>(),
         gh<_i553.MessengerService>(),
         gh<_i128.PasswordService>(),
+        gh<_i128.SecureStringService>(),
       ),
-    );
-    gh.factory<_i532.WalletAccountActionsWidgetModel>(
-      () => _i532.WalletAccountActionsWidgetModel(
-        gh<_i801.WalletAccountActionsModel>(),
-      ),
-    );
-    gh.factory<_i903.UserAvatarWidgetModel>(
-      () => _i903.UserAvatarWidgetModel(gh<_i45.UserAvatarModel>()),
     );
     gh.factory<_i482.UpdateVersionModel>(
       () => _i482.UpdateVersionModel(
@@ -1832,9 +1852,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.BiometryService>(),
         gh<_i128.PasswordService>(),
       ),
-    );
-    gh.factory<_i830.ManualBackUpWidgetModel>(
-      () => _i830.ManualBackUpWidgetModel(gh<_i217.ManualBackUpModel>()),
     );
     gh.factory<_i801.BiometryScreenWidgetModel>(
       () => _i801.BiometryScreenWidgetModel(gh<_i700.BiometryScreenModel>()),
@@ -1939,32 +1956,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i420.SeedDetailPageWidgetModel>(
       () => _i420.SeedDetailPageWidgetModel(gh<_i708.SeedDetailPageModel>()),
-    );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i113.WalletRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'EnableBiometryRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'SelectNewAssetRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'CustodiansSettingsRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'AddAccountRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'TonWalletDetailsRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'TokenWalletDetailsRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'WalletPrepareTransferRoute'),
-        gh<_i82.CompassBaseRoute>(
-          instanceName: 'WalletPrepareSpecifiedTransferRoute',
-        ),
-        gh<_i82.CompassBaseRoute>(instanceName: 'WalletMultisigConfigRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'WalletDeployConfirmRoute'),
-        gh<_i82.CompassBaseRoute>(
-          instanceName: 'ConfirmMultisigTransactionRoute',
-        ),
-        gh<_i82.CompassBaseRoute>(instanceName: 'ConfigureNetworksRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'StakingRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedNameRoute'),
-        gh<_i82.CompassBaseRoute>(
-          instanceName: 'PendingTransactionDetailsRoute',
-        ),
-      ),
-      instanceName: 'WalletRoute',
     );
     gh.factory<_i350.AddNetworkModel>(
       () => _i350.AddNetworkModel(
@@ -2094,6 +2085,33 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i295.SelectWorkchainWidgetModel>(
       () => _i295.SelectWorkchainWidgetModel(gh<_i1011.SelectWorkchainModel>()),
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i113.WalletRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'EnableBiometryRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'SelectNewAssetRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'CustodiansSettingsRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'AddAccountRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'TonWalletDetailsRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'TokenWalletDetailsRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'WalletPrepareTransferRoute'),
+        gh<_i82.CompassBaseRoute>(
+          instanceName: 'WalletPrepareSpecifiedTransferRoute',
+        ),
+        gh<_i82.CompassBaseRoute>(instanceName: 'WalletMultisigConfigRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'WalletDeployConfirmRoute'),
+        gh<_i82.CompassBaseRoute>(
+          instanceName: 'ConfirmMultisigTransactionRoute',
+        ),
+        gh<_i82.CompassBaseRoute>(instanceName: 'ConfigureNetworksRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'StakingRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedNameRoute'),
+        gh<_i82.CompassBaseRoute>(
+          instanceName: 'PendingTransactionDetailsRoute',
+        ),
+        gh<_i82.CompassBaseRoute>(instanceName: 'ManualBackupRoute'),
+      ),
+      instanceName: 'WalletRoute',
     );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i45.ManageSeedsAccountsRoute(

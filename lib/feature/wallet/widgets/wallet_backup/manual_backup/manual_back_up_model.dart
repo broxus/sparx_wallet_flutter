@@ -11,35 +11,40 @@ import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 class ManualBackUpModel extends ElementaryModel {
   ManualBackUpModel(
     ErrorHandler errorHandler,
-    this.nekotonRepository,
-    this.messengerService,
-    this.storage,
+    this._nekotonRepository,
+    this._messengerService,
+    this._secureStringService,
+    this._storage,
   ) : super(errorHandler: errorHandler);
 
-  final NekotonRepository nekotonRepository;
-  final MessengerService messengerService;
-  final AppStorageService storage;
+  final NekotonRepository _nekotonRepository;
+  final MessengerService _messengerService;
+  final SecureStringService _secureStringService;
+  final AppStorageService _storage;
+
+  Future<List<String>> getSeedWords(SecureString secureString) async {
+    return (await _secureStringService.decrypt(secureString)).split(' ');
+  }
 
   void setShowingBackUpFlag(String address) {
-    final account = nekotonRepository.accountsStorage.accounts.firstWhereOrNull(
-      (item) => item.address.address == address,
-    );
+    final account = _nekotonRepository.accountsStorage.accounts
+        .firstWhereOrNull((item) => item.address.address == address);
     final masterPublicKey = account?.let(
-      (account) => nekotonRepository.seedList
+      (account) => _nekotonRepository.seedList
           .findSeedByAnyPublicKey(account.publicKey)
           ?.masterPublicKey,
     );
 
     if (masterPublicKey == null) return;
 
-    storage.addValue(
+    _storage.addValue(
       StorageKey.showingManualBackupBadge(masterPublicKey.publicKey),
       true,
     );
   }
 
   void showMessageAboutCopy() {
-    messengerService.show(
+    _messengerService.show(
       Message.successful(message: LocaleKeys.copiedExclamation.tr()),
     );
   }
