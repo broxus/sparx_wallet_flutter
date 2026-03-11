@@ -7,6 +7,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
+import 'package:ui_components_lib/utils/view_utils.dart';
 
 class ManualBackupScreen
     extends
@@ -43,6 +44,11 @@ class ManualBackupScreen
           padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
           child: Column(
             children: [
+              Image.asset(
+                Assets.images.seedPhraseIcon.path,
+                width: DimensSize.d56,
+                height: DimensSize.d56,
+              ),
               const SizedBox(height: DimensSize.d16),
               Text(
                 LocaleKeys.manualBackupTitleDialog.tr(),
@@ -68,7 +74,7 @@ class ManualBackupScreen
                       : _ListWords(words),
                 ),
               ),
-              const SizedBox(height: DimensSize.d24),
+              if (!isSmallScreenHeight) const SizedBox(height: DimensSize.d24),
               EntityStateNotifierBuilder<ManualBackUpData?>(
                 listenableEntityState: wm.screenState,
                 builder: (context, data) {
@@ -81,14 +87,14 @@ class ManualBackupScreen
                   );
                 },
               ),
-              const Spacer(),
+              if (!isSmallScreenHeight) const Spacer(),
               AccentButton(
                 buttonShape: ButtonShape.pill,
                 title: LocaleKeys.checkPhrasesLabel.tr(),
                 postfixIcon: LucideIcons.textCursorInput,
                 onPressed: wm.clickCheckPhrase,
               ),
-              const SizedBox(height: DimensSize.d12)
+              const SizedBox(height: DimensSize.d12),
             ],
           ),
         ),

@@ -46,6 +46,11 @@ class CheckPhraseScreen
             if (data?.availableAnswers?.isNotEmpty ?? false) {
               return Column(
                 children: [
+                  Image.asset(
+                    Assets.images.circleCheck.path,
+                    width: DimensSize.d56,
+                    height: DimensSize.d56,
+                  ),
                   const SizedBox(height: DimensSize.d16),
                   Text(
                     LocaleKeys.letsCheckSeedPhrase.tr(),

@@ -42,7 +42,7 @@ class ContentConfirmAction
           children: [
             Text(
               LocaleKeys.confirmAction.tr(),
-              style: theme.textStyles.headingLarge,
+              style: theme.textStyles.headingMedium,
             ),
             const SizedBox(height: DimensSize.d24),
             ValueListenableBuilder(
