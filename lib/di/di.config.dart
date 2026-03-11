@@ -72,6 +72,7 @@ import '../app/service/storage_service/account_seed_storage_service.dart'
     as _i747;
 import '../app/service/storage_service/app_storage_service.dart' as _i184;
 import '../app/service/storage_service/balance_storage_service.dart' as _i1020;
+import '../app/service/storage_service/config_storage_service.dart' as _i593;
 import '../app/service/storage_service/connections_storage/connections_storage_service.dart'
     as _i284;
 import '../app/service/storage_service/general_storage_service.dart' as _i747;
@@ -80,6 +81,7 @@ import '../app/service/storage_service/nekoton_repository_service.dart'
 import '../app/service/storage_service/secure_storage_service.dart' as _i679;
 import '../app/service/storage_service/storage_adapter.dart' as _i541;
 import '../app/service/storage_service/storage_manager_service.dart' as _i725;
+import '../app/service/storage_service/storage_service.dart' as _i966;
 import '../app/service/storage_service/token_wallet_storage_service/token_wallet_storage_service.dart'
     as _i738;
 import '../app/service/storage_service/ton_connect_storage_service.dart'
@@ -810,9 +812,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i569.EncryptedStorageConfigurator>(
       () => _i569.EncryptedStorageConfigurator(gh<_i426.EncryptedStorage>()),
     );
-    gh.singleton<_i275.NavigationService>(
-      () => _i275.NavigationService(gh<_i426.EncryptedStorage>()),
-    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i1052.CustodiansSettingsRoute(),
       instanceName: 'CustodiansSettingsRoute',
@@ -1092,11 +1091,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i291.WalletDeploymentService>(
       () => _i291.WalletDeploymentService(gh<_i771.NekotonRepository>()),
     );
-    gh.lazySingleton<_i184.AppStorageService>(
+    gh.singleton<_i184.AppStorageService>(
       () => _i184.AppStorageService(gh<_i128.StorageAdapter>()),
     );
     gh.singleton<_i1020.BalanceStorageService>(
       () => _i1020.BalanceStorageService(gh<_i128.StorageAdapter>()),
+    );
+    gh.singleton<_i593.ConfigStorageService>(
+      () => _i593.ConfigStorageService(gh<_i128.StorageAdapter>()),
     );
     gh.singleton<_i747.GeneralStorageService>(
       () => _i747.GeneralStorageService(gh<_i128.StorageAdapter>()),
@@ -1429,14 +1431,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i747.GeneralStorageService>(),
       ),
     );
-    gh.singleton<_i130.PresetsConfigReader>(
-      () => _i130.PresetsConfigReader(
-        gh<_i249.PresetsApi>(),
-        gh<_i679.SecureStorageService>(),
-        gh<_i104.ResourcesService>(),
-        gh<_i32.AppBuildType>(),
-      ),
-    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i650.WalletPrepareTransferRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'TonWalletSendRoute'),
@@ -1533,6 +1527,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i402.StakingInProgressModel>(),
       ),
     );
+    gh.singleton<_i275.NavigationService>(
+      () => _i275.NavigationService(gh<_i966.AppStorageService>()),
+    );
     gh.factory<_i147.AppNotificationsWidgetWidgetModel>(
       () => _i147.AppNotificationsWidgetWidgetModel(
         gh<_i156.AppNotificationsWidgetModel>(),
@@ -1557,16 +1554,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i313.RenameSheetWidgetModel>(
       () => _i313.RenameSheetWidgetModel(gh<_i815.RenameSheetModel>()),
     );
-    gh.singleton<_i720.UpdateService>(
-      () => _i720.UpdateService(
-        gh<_i130.PresetsConfigReader>(),
-        gh<_i1008.UpdateStatusChecker>(),
-        gh<_i803.LatestVersionFinder>(),
-        gh<_i1030.UpdateVersionStorageService>(),
-        gh<_i143.AppVersionService>(),
-        gh<_i128.NtpService>(),
-      ),
-    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i431.CreateSeedRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'CheckSeedPhraseRoute'),
@@ -1577,6 +1564,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1004.ChangeSeedPasswordWidgetModel>(
       () => _i1004.ChangeSeedPasswordWidgetModel(
         gh<_i56.ChangeSeedPasswordModel>(),
+      ),
+    );
+    gh.singleton<_i130.PresetsConfigReader>(
+      () => _i130.PresetsConfigReader(
+        gh<_i249.PresetsApi>(),
+        gh<_i593.ConfigStorageService>(),
+        gh<_i104.ResourcesService>(),
+        gh<_i32.AppBuildType>(),
       ),
     );
     gh.factory<_i423.NewAccountScreenWidgetModel>(
@@ -1615,10 +1610,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i82.CompassBaseRoute>(instanceName: 'CancelUnstakingRoute'),
       ),
       instanceName: 'StakingRoute',
-    );
-    gh.singleton<_i82.CompassGuard>(
-      () => _i169.UpdateVersionGuard(gh<_i484.UpdateService>()),
-      instanceName: 'UpdateVersionGuard',
     );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i750.TokenWalletDetailsRoute(
@@ -1813,14 +1804,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i903.UserAvatarWidgetModel>(
       () => _i903.UserAvatarWidgetModel(gh<_i45.UserAvatarModel>()),
     );
-    gh.factory<_i482.UpdateVersionModel>(
-      () => _i482.UpdateVersionModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i720.UpdateService>(),
-        gh<_i934.StoreUrlGenerator>(),
-        gh<_i438.SentryWorker>(),
-      ),
-    );
     gh.factory<_i11.SwitchToSeedWidgetModel>(
       () => _i11.SwitchToSeedWidgetModel(gh<_i644.SwitchToSeedModel>()),
     );
@@ -1844,6 +1827,16 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i611.AccountSettingsChangeColorButtonModel>(),
       ),
     );
+    gh.singleton<_i720.UpdateService>(
+      () => _i720.UpdateService(
+        gh<_i130.PresetsConfigReader>(),
+        gh<_i1008.UpdateStatusChecker>(),
+        gh<_i803.LatestVersionFinder>(),
+        gh<_i1030.UpdateVersionStorageService>(),
+        gh<_i143.AppVersionService>(),
+        gh<_i128.NtpService>(),
+      ),
+    );
     gh.factory<_i62.ConfirmActionWidgetModel>(
       () => _i62.ConfirmActionWidgetModel(gh<_i217.ConfirmActionModel>()),
     );
@@ -1864,9 +1857,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i865.BleAvailabilityModelDelegate>(),
         gh<_i128.SecureStringService>(),
       ),
-    );
-    gh.factory<_i596.UpdateVersionWidgetModel>(
-      () => _i596.UpdateVersionWidgetModel(gh<_i482.UpdateVersionModel>()),
     );
     gh.factory<_i479.SelectSeedModel>(
       () => _i479.SelectSeedModel(
@@ -1896,6 +1886,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedPhraseRoute'),
       ),
       instanceName: 'EnterSeedNameRoute',
+    );
+    gh.singleton<_i82.CompassGuard>(
+      () => _i169.UpdateVersionGuard(gh<_i484.UpdateService>()),
+      instanceName: 'UpdateVersionGuard',
     );
     gh.factory<_i252.TonWalletSendWidgetModel>(
       () => _i252.TonWalletSendWidgetModel(gh<_i946.TonWalletSendModel>()),
@@ -2053,6 +2047,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i240.DeriveKeysSheetWidgetModel>(
       () => _i240.DeriveKeysSheetWidgetModel(gh<_i450.DeriveKeysSheetModel>()),
     );
+    gh.factory<_i482.UpdateVersionModel>(
+      () => _i482.UpdateVersionModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i720.UpdateService>(),
+        gh<_i934.StoreUrlGenerator>(),
+        gh<_i438.SentryWorker>(),
+      ),
+    );
     gh.lazySingleton<_i1071.TonConnectHttpBridge>(
       () => _i1071.TonConnectHttpBridge(
         gh<_i625.TonConnectService>(),
@@ -2069,6 +2071,29 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.ConnectionsStorageService>(),
         gh<_i940.DatabaseService>(),
         gh<_i128.StorageAdapter>(),
+      ),
+    );
+    gh.singleton<_i725.StorageManagerService>(
+      () => _i725.StorageManagerService(
+        gh<_i128.SecureStorageService>(),
+        gh<_i128.ConfigStorageService>(),
+        gh<_i128.GeneralStorageService>(),
+        gh<_i752.BrowserGroupsStorageService>(),
+        gh<_i187.BrowserTabsStorageService>(),
+        gh<_i563.BrowserBookmarksStorageService>(),
+        gh<_i614.BrowserPermissionsStorageService>(),
+        gh<_i250.BrowserFaviconURLStorageService>(),
+        gh<_i128.NekotonStorageService>(),
+        gh<_i128.NekotonRepositoryStorageService>(),
+        gh<_i128.TonWalletStorageService>(),
+        gh<_i128.TokenWalletStorageService>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i128.BalanceStorageService>(),
+        gh<_i128.AppStorageService>(),
+        gh<_i128.TonConnectStorageService>(),
+        gh<_i1030.UpdateVersionStorageService>(),
+        gh<_i1015.NftStorageService>(),
+        gh<_i865.LedgerStorageService>(),
       ),
     );
     gh.factory<_i173.ChooseNetworkScreenModel>(
@@ -2105,6 +2130,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i338.SelectSeedWidgetModel>(
       () => _i338.SelectSeedWidgetModel(gh<_i479.SelectSeedModel>()),
     );
+    gh.factory<_i634.StorageConfigurator>(
+      () => _i634.StorageConfigurator(gh<_i128.StorageManagerService>()),
+    );
     gh.factory<_i1055.ConfigureNetworksWidgetModel>(
       () => _i1055.ConfigureNetworksWidgetModel(
         gh<_i385.ConfigureNetworksModel>(),
@@ -2131,33 +2159,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i175.SelectNetworkWidgetModel>(
       () => _i175.SelectNetworkWidgetModel(gh<_i703.SelectNetworkModel>()),
     );
-    gh.singleton<_i725.StorageManagerService>(
-      () => _i725.StorageManagerService(
-        gh<_i128.SecureStorageService>(),
-        gh<_i128.GeneralStorageService>(),
-        gh<_i752.BrowserGroupsStorageService>(),
-        gh<_i187.BrowserTabsStorageService>(),
-        gh<_i563.BrowserBookmarksStorageService>(),
-        gh<_i614.BrowserPermissionsStorageService>(),
-        gh<_i250.BrowserFaviconURLStorageService>(),
-        gh<_i128.NekotonStorageService>(),
-        gh<_i128.NekotonRepositoryStorageService>(),
-        gh<_i128.TonWalletStorageService>(),
-        gh<_i128.TokenWalletStorageService>(),
-        gh<_i128.ConnectionsStorageService>(),
-        gh<_i128.BalanceStorageService>(),
-        gh<_i128.AppStorageService>(),
-        gh<_i128.TonConnectStorageService>(),
-        gh<_i1030.UpdateVersionStorageService>(),
-        gh<_i1015.NftStorageService>(),
-        gh<_i865.LedgerStorageService>(),
-      ),
-    );
     gh.factory<_i269.TonConnectJsBridge>(
       () => _i269.TonConnectJsBridge(
         gh<_i625.TonConnectService>(),
         gh<_i128.TonConnectStorageService>(),
       ),
+    );
+    gh.factory<_i596.UpdateVersionWidgetModel>(
+      () => _i596.UpdateVersionWidgetModel(gh<_i482.UpdateVersionModel>()),
     );
     gh.singleton<_i1052.CurrenciesService>(
       () => _i1052.CurrenciesService(
@@ -2564,9 +2573,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i865.LedgerService>(),
         gh<_i865.BleAvailabilityModelDelegate>(),
       ),
-    );
-    gh.factory<_i634.StorageConfigurator>(
-      () => _i634.StorageConfigurator(gh<_i128.StorageManagerService>()),
     );
     gh.factory<_i656.BrowserTabsListWidgetModel>(
       () => _i656.BrowserTabsListWidgetModel(gh<_i131.BrowserTabsListModel>()),

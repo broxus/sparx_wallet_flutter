@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:app/app/service/resources_service.dart';
-import 'package:app/app/service/storage_service/secure_storage_service.dart';
+import 'package:app/app/service/storage_service/config_storage_service.dart';
 import 'package:app/core/app_build_type.dart';
 import 'package:app/core/sentry.dart';
 import 'package:app/feature/presets_config/data/preset_config_type.dart';
@@ -19,7 +19,7 @@ enum _ConfigSource {
   /// Remote source (API)
   remote,
 
-  /// Cached source (secure storage)
+  /// Cached source (local storage)
   cache,
 
   /// Local source (bundled assets)
@@ -32,7 +32,7 @@ enum _ConfigSource {
 class PresetsConfigReader {
   PresetsConfigReader(
     this._presetsApi,
-    this._secureStorage,
+    this._configStorageService,
     this._resourcesService,
     this._appBuildType,
   );
@@ -40,7 +40,7 @@ class PresetsConfigReader {
   static final _logger = Logger('PresetsConfigReader');
 
   final PresetsApi _presetsApi;
-  final SecureStorageService _secureStorage;
+  final ConfigStorageService _configStorageService;
   final ResourcesService _resourcesService;
   final AppBuildType _appBuildType;
   final _sentry = SentryWorker.instance;
@@ -64,7 +64,7 @@ class PresetsConfigReader {
     try {
       final rawData = await switch (source) {
         _ConfigSource.remote => _fetchRemoteData(configType),
-        _ConfigSource.cache => _secureStorage.getConfigJson(configType),
+        _ConfigSource.cache => _configStorageService.getConfigJson(configType),
         _ConfigSource.local => _fetchLocalData(configType),
       };
 
@@ -154,7 +154,9 @@ class PresetsConfigReader {
   ) async {
     try {
       final currentSha256 = sha256.convert(utf8.encode(data)).toString();
-      final cachedSha256 = await _secureStorage.getConfigJsonHash(configType);
+      final cachedSha256 = await _configStorageService.getConfigJsonHash(
+        configType,
+      );
 
       if (currentSha256 == cachedSha256) {
         _logger.fine('Cache is up to date for ${configType.name}');
@@ -162,8 +164,8 @@ class PresetsConfigReader {
       }
 
       // Update the data first, then the hash
-      await _secureStorage.setConfigJson(configType, data);
-      await _secureStorage.setConfigJsonHash(configType, currentSha256);
+      await _configStorageService.setConfigJson(configType, data);
+      await _configStorageService.setConfigJsonHash(configType, currentSha256);
 
       _logger.fine('Updated cache for ${configType.name}');
     } catch (e, s) {
@@ -184,8 +186,8 @@ class PresetsConfigReader {
 
   Future<void> _cleanUpCache<T>(PresetConfigType<T> configType) async {
     try {
-      await _secureStorage.setConfigJson(configType, '');
-      await _secureStorage.setConfigJsonHash(configType, '');
+      await _configStorageService.setConfigJson(configType, '');
+      await _configStorageService.setConfigJsonHash(configType, '');
     } catch (e, s) {
       _logger.severe('Error cleanup cache for ${configType.name}', e, s);
     }

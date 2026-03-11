@@ -1,22 +1,15 @@
-import 'dart:async';
-import 'package:encrypted_storage/encrypted_storage.dart';
+import 'package:app/app/service/storage_service/storage_service.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
 class NavigationService {
-  NavigationService(this._encryptedStorage);
+  NavigationService(this._storageService);
 
-  static const _domain = 'NavigationService';
-  static const _stateKey = 'statev2';
+  final AppStorageService _storageService;
 
-  final EncryptedStorage _encryptedStorage;
+  String? getSavedState() =>
+      _storageService.getValue<String>(StorageKey.navigationServiceState());
 
-  Future<String?> getSavedState() {
-    return _encryptedStorage.get(_stateKey, domain: _domain);
-  }
-
-  Future<void> saveLastLocation(String location) async {
-    // If it is supposed to be saved, save it to storage
-    await _encryptedStorage.set(_stateKey, location, domain: _domain);
-  }
+  void saveLastLocation(String location) =>
+      _storageService.addValue(StorageKey.navigationServiceState(), location);
 }
