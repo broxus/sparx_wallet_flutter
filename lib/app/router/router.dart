@@ -477,6 +477,10 @@ extension CompassNavigationContextExtension on BuildContext {
     return _compassRouter().currentRoutes;
   }
 
+  bool checkIsCurrentRoute<R extends CompassBaseGoRoute>() {
+    return currentRoutes().lastOrNull is R;
+  }
+
   /// Navigates to a route specified by route data using replace approach.
   ///
   /// [data] The route data containing information needed for navigation.

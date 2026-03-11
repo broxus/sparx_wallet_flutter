@@ -43,6 +43,7 @@ class ManualBackupScreen
           padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
           child: Column(
             children: [
+              const SizedBox(height: DimensSize.d16),
               Text(
                 LocaleKeys.manualBackupTitleDialog.tr(),
                 style: wm.textStyle.headingLarge,

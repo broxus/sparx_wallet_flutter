@@ -59,6 +59,7 @@ class CheckSeedAvailableAnswersWidget extends StatelessWidget {
       child: AccentButton(
         title: answer,
         buttonShape: ButtonShape.pill,
+        buttonSize: .medium,
         onPressed: isSelected ? null : () => selectAnswer(answer),
       ),
     );

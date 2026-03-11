@@ -48,7 +48,7 @@ class ManualBackUpWidgetModel
   }
 
   Future<void> copySeed() async {
-    final phrase = _wordsState.value.join();
+    final phrase = _wordsState.value.join(' ');
 
     if (phrase.isEmpty) {
       return;
@@ -59,16 +59,12 @@ class ManualBackUpWidgetModel
   }
 
   Future<void> clickCheckPhrase() async {
-    final result = await context.compassPush<bool>(
+    context.compassContinue(
       CheckPhraseRouteData(
         seedPhrase: wmParams.value.seedPhrase,
         address: wmParams.value.address,
       ),
     );
-
-    if ((result ?? false) && context.mounted) {
-      unawaited(context.compassBack(result));
-    }
   }
 
   void clickSkip() {

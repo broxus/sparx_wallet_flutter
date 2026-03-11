@@ -2,25 +2,22 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:app/app/router/router.dart';
+import 'package:app/app/service/secure_string_service.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/add_seed/check_seed_phrase/data/check_seed_correct_answer.dart';
+import 'package:app/feature/wallet/widgets/wallet_backup/check_phrase/route.dart';
+import 'package:app/feature/wallet/widgets/wallet_backup/manual_backup/route.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
-import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class CheckPhraseWmParams {
-  const CheckPhraseWmParams({
-    required this.words,
-    required this.address,
-    required this.finishedBackupCallback,
-  });
+  const CheckPhraseWmParams({required this.seedPhrase, required this.address});
 
-  final List<String> words;
+  final SecureString seedPhrase;
   final String address;
-  final ValueChanged<bool> finishedBackupCallback;
 }
 
 const defaultWordsToCheckAmount = 3;
@@ -31,13 +28,17 @@ const defaultCheckAnswersAmount = 9;
 class CheckPhraseWidgetModel
     extends
         CustomWidgetModelParametrized<
-          ContentCheckPhrase,
+          CheckPhraseScreen,
           CheckPhraseModel,
           CheckPhraseWmParams
         > {
   CheckPhraseWidgetModel(super.model);
 
-  ThemeStyleV2 get themeStyle => context.themeStyleV2;
+  ColorsPaletteV2 get colors => _theme.colors;
+
+  TextStylesV2 get textStyle => _theme.textStyles;
+
+  ThemeStyleV2 get _theme => context.themeStyleV2;
 
   late final screenState = createEntityNotifier<CheckPhraseData>()
     ..loading(
@@ -56,10 +57,6 @@ class CheckPhraseWidgetModel
   void initWidgetModel() {
     super.initWidgetModel();
     _init();
-  }
-
-  Future<void> checkPhrase() {
-    return _validate();
   }
 
   void answerQuestion(String answer) {
@@ -84,14 +81,13 @@ class CheckPhraseWidgetModel
 
     if (!isMounted) return;
 
-    params.finishedBackupCallback(false);
-
-    await context.compassBackCount(2);
+    await context.compassBack(false);
   }
 
-  void _init() {
-    final params = wmParams.value;
-    _correctAnswers = _selectCorrectAnswers(params.words);
+  Future<void> _init() async {
+    _correctAnswers = _selectCorrectAnswers(
+      await model.getSeedWords(wmParams.value.seedPhrase),
+    );
     availableAnswers = _generateAnswerWords(_correctAnswers);
     userAnswers = _correctAnswers.map((e) => e.copyWith(word: '')).toList();
     screenState.content(
@@ -114,6 +110,7 @@ class CheckPhraseWidgetModel
           isAllChosen: true,
         ),
       );
+      _validate();
     } else {
       _goNext(nextIndex);
     }
@@ -129,21 +126,23 @@ class CheckPhraseWidgetModel
       }
     }
     if (hasError) {
-      model.showValidateError(LocaleKeys.seedIsMissing.tr());
+      model.showValidateError(LocaleKeys.seedIncorrectTryAgain.tr());
     } else {
       final params = wmParams.value;
 
-      model.setShowingBackUpFlag(params.address, isSkipped: false);
-      params.finishedBackupCallback(true);
+      model
+        ..setShowingBackUpFlag(params.address, isSkipped: false)
+        ..showValidateSuccess(LocaleKeys.seedCorrect.tr());
 
-      await context.compassBackCount(2);
-      _showDialog();
+      Future.delayed(const Duration(seconds: 2), () {
+        if (!context.mounted) {
+          return;
+        }
+        if (context.checkIsCurrentRoute<CheckPhraseRoute>()) {
+          context.compassBackCount(2);
+        }
+      });
     }
-  }
-
-  void _showDialog() {
-    final ctx = contextSafe;
-    if (ctx != null) showGoodJobDialog(ctx);
   }
 
   void _goNext(int nextIndex) {

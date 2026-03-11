@@ -98,7 +98,9 @@ abstract class LocaleKeys {
   static const submitWord = 'submitWord';
   static const passwordChanged = 'passwordChanged';
   static const valueCopiedExclamation = 'valueCopiedExclamation';
+  static const seedCorrect = 'seedCorrect';
   static const seedIsMissing = 'seedIsMissing';
+  static const seedIncorrectTryAgain = 'seedIncorrectTryAgain';
   static const cancelWord = 'cancelWord';
   static const addKey = 'addKey';
   static const myAccounts = 'myAccounts';

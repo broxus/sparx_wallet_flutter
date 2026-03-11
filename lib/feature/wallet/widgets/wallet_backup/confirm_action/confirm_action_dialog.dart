@@ -14,13 +14,11 @@ import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 Future<void> showConfirmActionDialog(
   BuildContext context,
   KeyAccount currentAccount,
-  ValueChanged<bool> finishedBackupCallback,
 ) {
   return showPrimaryBottomSheet(
     context: context,
     content: ProtectedContent(
       child: ContentConfirmAction(
-        finishedBackupCallback: finishedBackupCallback,
         account: currentAccount,
       ),
     ),
@@ -34,12 +32,10 @@ class ContentConfirmAction
           ConfirmActionWmParams
         > {
   ContentConfirmAction({
-    required ValueChanged<bool> finishedBackupCallback,
     required KeyAccount account,
     super.key,
   }) : super(
          wmFactoryParam: ConfirmActionWmParams(
-           finishedBackupCallback: finishedBackupCallback,
            account: account,
          ),
        );

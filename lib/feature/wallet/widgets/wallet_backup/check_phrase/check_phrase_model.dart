@@ -11,37 +11,43 @@ import 'package:ui_components_lib/constants.dart';
 class CheckPhraseModel extends ElementaryModel {
   CheckPhraseModel(
     ErrorHandler errorHandler,
-    this.nekotonRepository,
-    this.messengerService,
-    this.storage,
+    this._nekotonRepository,
+    this._messengerService,
+    this._secureStringService,
+    this._currentAccountsService,
+    this._storage,
   ) : super(errorHandler: errorHandler);
 
-  final NekotonRepository nekotonRepository;
-  final MessengerService messengerService;
-  final AppStorageService storage;
+  final NekotonRepository _nekotonRepository;
+  final MessengerService _messengerService;
+  final SecureStringService _secureStringService;
+  final CurrentAccountsService _currentAccountsService;
+  final AppStorageService _storage;
+
+  Future<List<String>> getSeedWords(SecureString secureString) async {
+    return (await _secureStringService.decrypt(secureString)).split(' ');
+  }
+
+  void showValidateSuccess(String message) {
+    _messengerService.show(Message.successful(message: message));
+  }
 
   void showValidateError(String message) {
-    messengerService.show(
-      Message.error(
-        message: message,
-        debounceTime: defaultInfoMessageDebounceDuration,
-      ),
-    );
+    _messengerService.show(Message.error(message: message));
   }
 
   void setShowingBackUpFlag(String address, {required bool isSkipped}) {
-    final account = nekotonRepository.accountsStorage.accounts.firstWhereOrNull(
-      (item) => item.address.address == address,
-    );
+    final account = _nekotonRepository.accountsStorage.accounts
+        .firstWhereOrNull((item) => item.address.address == address);
     final masterPublicKey = account?.let(
-      (account) => nekotonRepository.seedList
+      (account) => _nekotonRepository.seedList
           .findSeedByAnyPublicKey(account.publicKey)
           ?.masterPublicKey,
     );
 
     if (masterPublicKey == null) return;
 
-    storage.addValue(
+    _storage.addValue(
       StorageKey.showingManualBackupBadge(masterPublicKey.publicKey),
       isSkipped,
     );
