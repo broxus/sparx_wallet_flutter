@@ -83,7 +83,7 @@ class _ContentBottomSheet extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const SizedBox(height: DimensSize.d32),
+                      const SizedBox(height: DimensSize.d56),
                       if (showBackButton)
                         Align(
                           alignment: Alignment.centerLeft,
@@ -154,12 +154,12 @@ class _ContentBottomSheet extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: DimensSize.d6),
-                    width: DimensSize.d36,
-                    height: DimensSize.d5,
+                    margin: const EdgeInsets.only(top: DimensSize.d12),
+                    width: DimensSize.d40,
+                    height: DimensSize.d4,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(DimensSize.d2),
-                      color: theme.colors.primaryA.withValues(alpha: .7),
+                      borderRadius: BorderRadius.circular(DimensSize.d100),
+                      color: theme.colors.primaryA.withValues(alpha: .1),
                     ),
                   ),
                 ],

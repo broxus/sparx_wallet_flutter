@@ -18,9 +18,7 @@ Future<void> showConfirmActionDialog(
   return showPrimaryBottomSheet(
     context: context,
     content: ProtectedContent(
-      child: ContentConfirmAction(
-        account: currentAccount,
-      ),
+      child: ContentConfirmAction(account: currentAccount),
     ),
   );
 }
@@ -31,14 +29,8 @@ class ContentConfirmAction
           ConfirmActionWidgetModel,
           ConfirmActionWmParams
         > {
-  ContentConfirmAction({
-    required KeyAccount account,
-    super.key,
-  }) : super(
-         wmFactoryParam: ConfirmActionWmParams(
-           account: account,
-         ),
-       );
+  ContentConfirmAction({required KeyAccount account, super.key})
+    : super(wmFactoryParam: ConfirmActionWmParams(account: account));
 
   @override
   Widget build(ConfirmActionWidgetModel wm) {
@@ -50,7 +42,7 @@ class ContentConfirmAction
           children: [
             Text(
               LocaleKeys.confirmAction.tr(),
-              style: theme.textStyles.headingMedium,
+              style: theme.textStyles.headingLarge,
             ),
             const SizedBox(height: DimensSize.d24),
             ValueListenableBuilder(
@@ -69,12 +61,12 @@ class ContentConfirmAction
               isAutofocus: true,
               hintText: LocaleKeys.enterYourPassword.tr(),
             ),
-            const SizedBox(height: DimensSize.d28),
+            const SizedBox(height: DimensSize.d24),
             StateNotifierBuilder(
               listenableState: wm.isPasswordLockedState,
               builder: (_, isLocked) => AccentButton(
                 buttonShape: ButtonShape.pill,
-                title: LocaleKeys.confirm.tr(),
+                title: LocaleKeys.continueWord.tr(),
                 isLoading: data?.isLoading ?? false,
                 icon: (isLocked ?? false) ? LucideIcons.lock : null,
                 onPressed: wm.onClickConfirm,
