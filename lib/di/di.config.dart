@@ -681,10 +681,10 @@ import '../feature/wallet/widgets/wallet_app_bar/widgets/workchain_selector/work
     as _i1042;
 import '../feature/wallet/widgets/wallet_app_bar/widgets/workchain_selector/workchain_selector_wm.dart'
     as _i1005;
-import '../feature/wallet/widgets/wallet_backup/check_phrase/check_phrase_model.dart'
-    as _i415;
-import '../feature/wallet/widgets/wallet_backup/check_phrase/check_phrase_wm.dart'
-    as _i760;
+import '../feature/wallet/widgets/wallet_backup/check_phrase/backup_check_phrase_model.dart'
+    as _i1071;
+import '../feature/wallet/widgets/wallet_backup/check_phrase/backup_check_phrase_wm.dart'
+    as _i304;
 import '../feature/wallet/widgets/wallet_backup/check_phrase/route.dart'
     as _i460;
 import '../feature/wallet/widgets/wallet_backup/confirm_action/confirm_action_model.dart'
@@ -1449,6 +1449,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i32.AppBuildType>(),
       ),
     );
+    gh.factory<_i1071.BackupCheckPhraseModel>(
+      () => _i1071.BackupCheckPhraseModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i553.MessengerService>(),
+        gh<_i128.SecureStringService>(),
+        gh<_i128.AppStorageService>(),
+      ),
+    );
     gh.factory<_i318.ManualBackUpModel>(
       () => _i318.ManualBackUpModel(
         gh<_i83.ErrorHandler>(),
@@ -1606,6 +1615,11 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i508.TonConnectRequestValidator(
         gh<_i771.NekotonRepository>(),
         gh<_i68.NtpService>(),
+      ),
+    );
+    gh.factory<_i304.BackupCheckPhraseWidgetModel>(
+      () => _i304.BackupCheckPhraseWidgetModel(
+        gh<_i1071.BackupCheckPhraseModel>(),
       ),
     );
     gh.factory<_i801.WalletAccountActionsModel>(
@@ -2032,16 +2046,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i865.BleAvailabilityModelDelegate>(),
       ),
     );
-    gh.factory<_i415.CheckPhraseModel>(
-      () => _i415.CheckPhraseModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i553.MessengerService>(),
-        gh<_i128.SecureStringService>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i128.AppStorageService>(),
-      ),
-    );
     gh.factory<_i616.DeriveKeysSheetModel>(
       () => _i616.DeriveKeysSheetModel(
         gh<_i83.ErrorHandler>(),
@@ -2344,9 +2348,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.AssetsService>(),
         gh<_i128.NtpService>(),
       ),
-    );
-    gh.factory<_i760.CheckPhraseWidgetModel>(
-      () => _i760.CheckPhraseWidgetModel(gh<_i217.CheckPhraseModel>()),
     );
     gh.singleton<_i299.SessionService>(
       () => _i299.SessionService(

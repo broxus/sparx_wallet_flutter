@@ -5,23 +5,20 @@ import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
-import 'package:ui_components_lib/constants.dart';
 
 @injectable
-class CheckPhraseModel extends ElementaryModel {
-  CheckPhraseModel(
+class BackupCheckPhraseModel extends ElementaryModel {
+  BackupCheckPhraseModel(
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._messengerService,
     this._secureStringService,
-    this._currentAccountsService,
     this._storage,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
   final SecureStringService _secureStringService;
-  final CurrentAccountsService _currentAccountsService;
   final AppStorageService _storage;
 
   Future<List<String>> getSeedWords(SecureString secureString) async {

@@ -1,6 +1,8 @@
-import 'package:app/feature/wallet/widgets/wallet_backup/check_phrase/check_phrase.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
+
+const defaultWordsToCheckAmount = 3;
+const defaultCheckAnswersAmount = 9;
 
 /// {@template check_seed_available_answers_widget}
 /// Widget that allows user to select answers for seed phrase checking.

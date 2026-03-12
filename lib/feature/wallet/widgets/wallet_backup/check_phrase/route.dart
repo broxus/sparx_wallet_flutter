@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/service/secure_string_service.dart';
-import 'package:app/feature/wallet/widgets/wallet_backup/check_phrase/check_phrase_screen.dart';
+import 'package:app/feature/wallet/widgets/wallet_backup/check_phrase/backup_check_phrase_screen.dart';
 import 'package:injectable/injectable.dart';
 
 @named
@@ -11,7 +11,7 @@ class CheckPhraseRoute extends CompassRoute<CheckPhraseRouteData> {
   CheckPhraseRoute()
     : super(
         path: '/check-phrase',
-        builder: (context, data, __) => CheckPhraseScreen(
+        builder: (context, data, __) => BackupCheckPhraseScreen(
           seedPhrase: data.seedPhrase,
           address: data.address,
         ),

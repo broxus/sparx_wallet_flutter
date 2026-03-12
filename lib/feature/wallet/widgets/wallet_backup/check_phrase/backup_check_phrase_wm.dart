@@ -5,34 +5,36 @@ import 'package:app/app/router/router.dart';
 import 'package:app/app/service/secure_string_service.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/add_seed/check_seed_phrase/data/check_seed_correct_answer.dart';
+import 'package:app/feature/add_seed/check_seed_phrase/widgets/check_seed_available_answers_widget.dart';
+import 'package:app/feature/wallet/widgets/wallet_backup/check_phrase/backup_check_phrase_data.dart';
+import 'package:app/feature/wallet/widgets/wallet_backup/check_phrase/backup_check_phrase_model.dart';
+import 'package:app/feature/wallet/widgets/wallet_backup/check_phrase/backup_check_phrase_screen.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/check_phrase/route.dart';
-import 'package:app/feature/wallet/widgets/wallet_backup/manual_backup/route.dart';
-import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class CheckPhraseWmParams {
-  const CheckPhraseWmParams({required this.seedPhrase, required this.address});
+class BackupCheckPhraseWmParams {
+  const BackupCheckPhraseWmParams({
+    required this.seedPhrase,
+    required this.address,
+  });
 
   final SecureString seedPhrase;
   final String address;
 }
 
-const defaultWordsToCheckAmount = 3;
-const defaultCheckAnswersAmount = 9;
-
 //logic in this class was moved from check_seed_phrase_cubit.dart
 @injectable
-class CheckPhraseWidgetModel
+class BackupCheckPhraseWidgetModel
     extends
         CustomWidgetModelParametrized<
-          CheckPhraseScreen,
-          CheckPhraseModel,
-          CheckPhraseWmParams
+          BackupCheckPhraseScreen,
+          BackupCheckPhraseModel,
+          BackupCheckPhraseWmParams
         > {
-  CheckPhraseWidgetModel(super.model);
+  BackupCheckPhraseWidgetModel(super.model);
 
   ColorsPaletteV2 get colors => _theme.colors;
 
@@ -40,9 +42,9 @@ class CheckPhraseWidgetModel
 
   ThemeStyleV2 get _theme => context.themeStyleV2;
 
-  late final screenState = createEntityNotifier<CheckPhraseData>()
+  late final screenState = createEntityNotifier<BackupCheckPhraseData>()
     ..loading(
-      CheckPhraseData(
+      BackupCheckPhraseData(
         userAnswers: userAnswers,
         availableAnswers: availableAnswers,
         currentCheckIndex: currentCheckIndex,
@@ -91,7 +93,7 @@ class CheckPhraseWidgetModel
     availableAnswers = _generateAnswerWords(_correctAnswers);
     userAnswers = _correctAnswers.map((e) => e.copyWith(word: '')).toList();
     screenState.content(
-      CheckPhraseData(
+      BackupCheckPhraseData(
         userAnswers: userAnswers,
         availableAnswers: availableAnswers,
         currentCheckIndex: currentCheckIndex,
@@ -103,7 +105,7 @@ class CheckPhraseWidgetModel
     final nextIndex = _firstEmptyAnswer();
     if (nextIndex == null) {
       screenState.content(
-        CheckPhraseData(
+        BackupCheckPhraseData(
           userAnswers: userAnswers,
           availableAnswers: availableAnswers,
           currentCheckIndex: currentCheckIndex,
@@ -148,7 +150,7 @@ class CheckPhraseWidgetModel
   void _goNext(int nextIndex) {
     currentCheckIndex = nextIndex;
     screenState.content(
-      CheckPhraseData(
+      BackupCheckPhraseData(
         userAnswers: userAnswers,
         availableAnswers: availableAnswers,
         currentCheckIndex: currentCheckIndex,
