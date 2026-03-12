@@ -49,6 +49,7 @@ abstract class LocaleKeys {
   static const wordsCount = 'wordsCount';
   static const fillMissingWords = 'fillMissingWords';
   static const incorrectWordsFormat = 'incorrectWordsFormat';
+  static const seedIncorrectTryAgain = 'seedIncorrectTryAgain';
   static const wrongSeed = 'wrongSeed';
   static const currentSeed = 'currentSeed';
   static const exportSeedPhrase = 'exportSeedPhrase';

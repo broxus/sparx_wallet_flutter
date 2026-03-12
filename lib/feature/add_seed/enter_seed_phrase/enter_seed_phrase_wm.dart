@@ -245,7 +245,7 @@ class EnterSeedPhraseWidgetModel
         count <= seedPhraseWordsCount.max) {
       changeTab(count);
     } else {
-      model.showError(LocaleKeys.incorrectWordsFormat.tr());
+      model.showError(LocaleKeys.seedIncorrectTryAgain.tr());
       return;
     }
 
@@ -262,7 +262,7 @@ class EnterSeedPhraseWidgetModel
 
     if (words.isEmpty) {
       _resetFormAndError();
-      model.showError(LocaleKeys.incorrectWordsFormat.tr());
+      model.showError(LocaleKeys.seedIncorrectTryAgain.tr());
       return;
     }
 
@@ -392,7 +392,7 @@ class EnterSeedPhraseWidgetModel
     if (isEmptyFields) {
       model.showError(LocaleKeys.fillMissingWords.tr());
     } else if (isWrongWords) {
-      model.showError(LocaleKeys.incorrectWordsFormat.tr());
+      model.showError(LocaleKeys.seedIncorrectTryAgain.tr());
     }
 
     return !isEmptyFields && !isWrongWords;
