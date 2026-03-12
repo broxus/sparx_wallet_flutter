@@ -1984,7 +1984,6 @@ extension GetItInjectableX on _i174.GetIt {
           instanceName: 'PendingTransactionDetailsRoute',
         ),
         gh<_i82.CompassBaseRoute>(instanceName: 'ManualBackupRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'CheckPhraseRoute'),
       ),
       instanceName: 'WalletRoute',
     );
