@@ -47,7 +47,6 @@ class WalletRoute extends CompassRouteParameterless<WalletRouteData> {
     @Named.from(PendingTransactionDetailsRoute)
     CompassBaseRoute pendingTransactionDetailsRoute,
     @Named.from(ManualBackupRoute) CompassBaseRoute manualBackupRoute,
-    @Named.from(CheckPhraseRoute) CompassBaseRoute checkPhraseRoute,
   ) : super(
         name: 'wallet',
         path: '/wallet',

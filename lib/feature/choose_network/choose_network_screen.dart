@@ -1,5 +1,4 @@
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/choose_network/choose_network_screen_const.dart';
 import 'package:app/feature/choose_network/choose_network_screen_wm.dart';
 import 'package:app/feature/choose_network/data/choose_network_item_data.dart';
 import 'package:app/feature/choose_network/route.dart';
@@ -9,7 +8,6 @@ import 'package:app/widgets/search/nothing_found.dart';
 import 'package:app/widgets/search/search_bar_header_delegate.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/components/button/app_bar_back_button.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 const chooseNetworkScreenNextStepQuery = 'chooseNetworkNextStep';

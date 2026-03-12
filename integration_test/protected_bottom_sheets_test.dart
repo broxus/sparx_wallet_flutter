@@ -12,8 +12,6 @@ import 'package:app/feature/wallet/widgets/wallet_backup/confirm_action/confirm_
 import 'package:app/feature/wallet/widgets/wallet_backup/confirm_action/confirm_action_dialog.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/confirm_action/confirm_action_model.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/confirm_action/confirm_action_wm.dart';
-import 'package:app/feature/wallet/widgets/wallet_backup/manual_backup/manual_back_up_data.dart';
-import 'package:app/feature/wallet/widgets/wallet_backup/manual_backup/manual_back_up_dialog.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/manual_backup/manual_back_up_model.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/manual_backup/manual_back_up_wm.dart';
 import 'package:app/widgets/protected_content.dart';
