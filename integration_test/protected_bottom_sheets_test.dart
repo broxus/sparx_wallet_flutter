@@ -139,14 +139,10 @@ class FakeChangeSeedPasswordModel extends ChangeSeedPasswordModel {
 class FakeManualBackUpWidgetModel extends ManualBackUpWidgetModel {
   FakeManualBackUpWidgetModel() : super(FakeManualBackUpModel());
 
-  void configure({required ListenableState<List<String>> wordsState}) {
-    _wordsState = wordsState;
-  }
-
-  late ListenableState<List<String>> _wordsState;
+  late ListenableState<List<String>> wordsStateOverride;
 
   @override
-  ListenableState<List<String>> get wordsState => _wordsState;
+  ListenableState<List<String>> get wordsState => wordsStateOverride;
 
   @override
   Future<void> copySeed() async {}
@@ -475,15 +471,13 @@ Future<void> _pumpSheet(
 }
 
 ManualBackUpWidgetModel _buildManualBackUpWm() {
-  final wm = FakeManualBackUpWidgetModel();
-  wm.configure(
-    wordsState: SimpleListenableState<List<String>>([
+  final wm = FakeManualBackUpWidgetModel()
+    ..wordsStateOverride = SimpleListenableState<List<String>>([
       'one',
       'two',
       'three',
       'four',
-    ]),
-  );
+    ]);
   return wm;
 }
 
@@ -503,14 +497,14 @@ ConfirmActionWidgetModel _buildConfirmActionWm() {
 }
 
 AddAccountConfirmWidgetModel _buildAddAccountConfirmWm() {
-  final wm = FakeAddAccountConfirmWidgetModel();
-  wm.configure(
-    theme: getDefaultTheme(),
-    seedName: 'Seed',
-    controller: TextEditingController(),
-    isPasswordLockedState: SimpleListenableState<bool>(false),
-    availableBiometryState: SimpleListenableState<List<BiometricType>>([]),
-  );
+  final wm = FakeAddAccountConfirmWidgetModel()
+    ..configure(
+      theme: getDefaultTheme(),
+      seedName: 'Seed',
+      controller: TextEditingController(),
+      isPasswordLockedState: SimpleListenableState<bool>(false),
+      availableBiometryState: SimpleListenableState<List<BiometricType>>([]),
+    );
   return wm;
 }
 
