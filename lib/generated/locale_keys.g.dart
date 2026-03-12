@@ -52,6 +52,7 @@ abstract class LocaleKeys {
   static const incorrectWordsFormat = 'incorrectWordsFormat';
   static const wrongSeed = 'wrongSeed';
   static const currentSeed = 'currentSeed';
+  static const exportSeed = 'exportSeed';
   static const exportSeedPhrase = 'exportSeedPhrase';
   static const manageSeedsAndAccounts = 'manageSeedsAndAccounts';
   static const currencyWord = 'currencyWord';

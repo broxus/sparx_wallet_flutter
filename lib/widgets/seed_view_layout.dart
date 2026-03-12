@@ -1,5 +1,6 @@
 import 'package:app/generated/generated.dart';
 import 'package:app/widgets/protected_content.dart';
+import 'package:app/widgets/seed_words.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -69,18 +70,11 @@ class SeedViewLayout extends StatelessWidget {
                 const SizedBox(height: DimensSize.d12)
               else
                 const SizedBox(height: DimensSize.d24),
-              Container(
-                decoration: BoxDecoration(
-                  color: colors.background1,
-                  borderRadius: BorderRadius.circular(DimensRadius.radius16),
-                ),
-                padding: const EdgeInsets.all(DimensSize.d32),
-                child: StateNotifierBuilder<List<String>>(
-                  listenableState: wordsState,
-                  builder: (_, words) => words == null
-                      ? const SizedBox.shrink()
-                      : _ListWords(words),
-                ),
+              StateNotifierBuilder<List<String>>(
+                listenableState: wordsState,
+                builder: (_, words) => words == null
+                    ? const SizedBox.shrink()
+                    : SeedWords(words: words),
               ),
               if (!isSmallScreenHeight) const SizedBox(height: DimensSize.d24),
               GhostButton(
@@ -102,80 +96,6 @@ class SeedViewLayout extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _ListWords extends StatelessWidget {
-  const _ListWords(this.words);
-
-  final List<String> words;
-
-  @override
-  Widget build(BuildContext context) {
-    final lengthHalf = words.length ~/ 2;
-    final theme = context.themeStyleV2;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Expanded(
-          child: Column(
-            children: [
-              for (int index = 0; index < lengthHalf; index++)
-                Padding(
-                  //add padding between rows
-                  padding: index != lengthHalf - 1
-                      ? const EdgeInsets.only(bottom: DimensSize.d12)
-                      : EdgeInsets.zero,
-                  child: _Word(theme: theme, word: words[index], index: index),
-                ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Column(
-            children: [
-              for (int index = lengthHalf; index < words.length; index++)
-                Padding(
-                  padding: index != words.length - 1
-                      ? const EdgeInsets.only(bottom: DimensSize.d12)
-                      : EdgeInsets.zero,
-                  child: _Word(theme: theme, word: words[index], index: index),
-                ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _Word extends StatelessWidget {
-  const _Word({required this.theme, required this.word, required this.index});
-
-  final ThemeStyleV2 theme;
-  final String word;
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          '${index + 1}',
-          style: theme.textStyles.labelSmall.copyWith(
-            color: theme.colors.content3,
-          ),
-        ),
-        const SizedBox(width: DimensSize.d8),
-        Text(
-          word,
-          style: theme.textStyles.labelSmall.copyWith(
-            color: theme.colors.content0,
-          ),
-        ),
-      ],
     );
   }
 }

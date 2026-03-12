@@ -52,6 +52,7 @@
   "incorrectWordsFormat": "Incorrect words format",
   "wrongSeed": "The seed phrase is wrong, try again, please",
   "currentSeed": "Current seed",
+  "exportSeed": "Export seed",
   "exportSeedPhrase": "Export seed phrase",
   "manageSeedsAndAccounts": "Manage seeds and accounts",
   "currencyWord": "Currency",

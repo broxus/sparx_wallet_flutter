@@ -353,6 +353,7 @@ void main() {
           (context) => Navigator.of(context).push(
             exportSeedSavePhraseRoute(
               Theme.of(context).textTheme.titleLarge ?? const TextStyle(),
+              Theme.of(context).textTheme.titleMedium ?? const TextStyle(),
               phrase,
             ),
           ),
