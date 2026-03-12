@@ -65,7 +65,6 @@ class WalletAccountBodyWidget
                         _Carousel(
                           items: notifications,
                           account: currentAccount,
-                          onFinishedBackup: wm.onFinishedBackup,
                           onSwitchAccount: wm.onSwitchAccount,
                           onPageChanged: wm.onPageChanged,
                         ),
@@ -93,14 +92,12 @@ class _Carousel extends StatelessWidget {
   const _Carousel({
     required this.items,
     required this.account,
-    required this.onFinishedBackup,
     required this.onSwitchAccount,
     required this.onPageChanged,
   });
 
   final List<NotificationType> items;
   final KeyAccount account;
-  final ValueChanged<bool> onFinishedBackup;
   final VoidCallback onSwitchAccount;
   final void Function(int, CarouselPageChangedReason) onPageChanged;
 
@@ -116,10 +113,7 @@ class _Carousel extends StatelessWidget {
       itemCount: items.length,
       itemBuilder: (_, i, __) {
         final child = switch (items[i]) {
-          .backup => BackUpBadge(
-            currentAccount: account,
-            finishedBackupCallback: onFinishedBackup,
-          ),
+          .backup => BackUpBadge(currentAccount: account),
           .unsupportedWalletType => UnsupportedWalletTypeAlert(
             onSwitchAccount: onSwitchAccount,
           ),

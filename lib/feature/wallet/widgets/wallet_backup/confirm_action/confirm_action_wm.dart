@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/wallet/widgets/wallet_backup/manual_backup/route.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
@@ -14,12 +15,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class ConfirmActionWmParams {
-  const ConfirmActionWmParams({
-    required this.finishedBackupCallback,
-    required this.account,
-  });
+  const ConfirmActionWmParams({required this.account});
 
-  final ValueChanged<bool> finishedBackupCallback;
   final KeyAccount account;
 }
 
@@ -119,15 +116,28 @@ class ConfirmActionWidgetModel
     final seed = model.findSeed(publicKey);
     if (seed != null) {
       try {
+        final params = wmParams.value;
         final phrase = await seed.export(password);
+        final address = params.account.address.address;
 
         await context.compassBack();
-        final params = wmParams.value;
-        await showManualBackupDialog(
-          context,
-          phrase,
-          params.account.address.address,
-          params.finishedBackupCallback,
+
+        // final result = await context.compassPush<bool>(
+        //   ManualBackupRouteData(
+        //     seedPhrase: await model.getSecurePhrase(phrase),
+        //     address: address,
+        //   ),
+        // );
+        //
+        // if (result != null) {
+        //   params.finishedBackupCallback(result);
+        // }
+
+        context.compassContinue(
+          ManualBackupRouteData(
+            seedPhrase: await model.getSecurePhrase(phrase),
+            address: address,
+          ),
         );
       } catch (_) {
         screenState.content(

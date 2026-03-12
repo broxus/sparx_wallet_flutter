@@ -1,5 +1,4 @@
 import 'package:app/feature/add_seed/check_seed_phrase/check_seed_phrase.dart';
-import 'package:app/generated/generated.dart';
 import 'package:app/widgets/bottom_space.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -9,6 +8,8 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// Screen that allows user to check seed phrase for correctness.
 class CheckSeedPhraseView extends StatelessWidget {
   const CheckSeedPhraseView({
+    required this.title,
+    required this.description,
     required this.availableAnswers,
     required this.userAnswers,
     required this.currentAnswerIndex,
@@ -17,6 +18,8 @@ class CheckSeedPhraseView extends StatelessWidget {
     super.key,
   });
 
+  final String title;
+  final String description;
   final List<String> availableAnswers;
   final List<CheckSeedCorrectAnswer> userAnswers;
   final int? currentAnswerIndex;
@@ -38,15 +41,9 @@ class CheckSeedPhraseView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      LocaleKeys.letsCheckSeedPhrase.tr(),
-                      style: theme.textStyles.headingXLarge,
-                    ),
+                    Text(title, style: theme.textStyles.headingXLarge),
                     const SizedBox(height: DimensSize.d12),
-                    Text(
-                      LocaleKeys.checkSeedPhraseCorrectly.tr(),
-                      style: theme.textStyles.paragraphMedium,
-                    ),
+                    Text(description, style: theme.textStyles.paragraphMedium),
                     const SizedBox(height: DimensSize.d24),
                     CheckSeedAnswersWidget(
                       userAnswers: userAnswers,

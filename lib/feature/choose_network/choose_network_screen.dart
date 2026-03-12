@@ -1,5 +1,4 @@
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/choose_network/choose_network_screen_const.dart';
 import 'package:app/feature/choose_network/choose_network_screen_wm.dart';
 import 'package:app/feature/choose_network/data/choose_network_item_data.dart';
 import 'package:app/feature/choose_network/route.dart';
@@ -9,7 +8,6 @@ import 'package:app/widgets/search/nothing_found.dart';
 import 'package:app/widgets/search/search_bar_header_delegate.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/components/button/app_bar_back_button.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 const chooseNetworkScreenNextStepQuery = 'chooseNetworkNextStep';
@@ -28,46 +26,40 @@ class ChooseNetworkScreen
   @override
   Widget build(ChooseNetworkScreenWidgetModel wm) {
     final theme = wm.themeStyleV2;
-    final expandedHeight = wm.screenSize.shortestSide;
 
     return Scaffold(
       backgroundColor: theme.colors.background0,
-      body: RawScrollbar(
+      body: CustomScrollView(
         controller: wm.scrollController,
-        thumbVisibility: true,
-        thumbColor: theme.colors.border1,
-        thickness: DimensSize.d3,
-        minThumbLength: DimensSize.d60,
-        radius: const Radius.circular(DimensSize.d3),
-        // Emulate scrollbar over networks list
-        padding: EdgeInsets.only(
-          top:
-              expandedHeight +
-              SearchBarHeaderDelegate.headerHeight +
-              DimensSize.d16,
-          right: DimensSize.d4,
-        ),
-        child: CustomScrollView(
-          controller: wm.scrollController,
-          slivers: [
-            _AppBar(
-              showAppBarTitle: wm.showAppBarTitleState,
-              onBackPressed: wm.onBackPressed,
-              expandedHeight: expandedHeight,
+        slivers: [
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                const DefaultAppBar(),
+                SizedBox(height: DimensAdaptiveSize.d48.hp),
+                PrimaryText(
+                  LocaleKeys.chooseNetwork.tr(),
+                  type: PrimaryTextType.titleLarge,
+                ),
+                SizedBox(height: DimensAdaptiveSize.d8.hp),
+                PrimaryText(LocaleKeys.selectNetworkNewWalletDescription.tr()),
+                SizedBox(height: DimensAdaptiveSize.d48.hp),
+              ],
             ),
-            _SearchBar(
-              showSearchBar: wm.showSearchBarState,
-              searchController: wm.searchController,
-            ),
-            _NetworksListContent(
-              connectionsState: wm.connectionsState,
-              loadingItemId: wm.loadingItemIdState,
-              onNetworkPressed: wm.onPressedType,
-              scrollController: wm.scrollController,
-            ),
-            SliverToBoxAdapter(child: SizedBox(height: wm.bottomPadding)),
-          ],
-        ),
+          ),
+
+          _SearchBar(
+            showSearchBar: wm.showSearchBarState,
+            searchController: wm.searchController,
+          ),
+          _NetworksListContent(
+            connectionsState: wm.connectionsState,
+            loadingItemId: wm.loadingItemIdState,
+            onNetworkPressed: wm.onPressedType,
+            scrollController: wm.scrollController,
+          ),
+          SliverToBoxAdapter(child: SizedBox(height: wm.bottomPadding)),
+        ],
       ),
     );
   }
@@ -89,7 +81,7 @@ class _SearchBar extends StatelessWidget {
       builder: (context, showSearchBar) {
         if (!(showSearchBar ?? false)) {
           return const SliverToBoxAdapter(
-            child: SizedBox(height: DimensSize.d8),
+            child: SizedBox(height: DimensSize.d16),
           );
         }
 
@@ -98,90 +90,6 @@ class _SearchBar extends StatelessWidget {
           delegate: SearchBarHeaderDelegate(controller: searchController),
         );
       },
-    );
-  }
-}
-
-class _AppBar extends StatelessWidget {
-  const _AppBar({
-    required this.showAppBarTitle,
-    required this.onBackPressed,
-    required this.expandedHeight,
-  });
-
-  final StateNotifier<bool> showAppBarTitle;
-  final VoidCallback onBackPressed;
-  final double expandedHeight;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
-
-    return SliverAppBar(
-      pinned: true,
-      backgroundColor: theme.colors.background0,
-      elevation: 0,
-      surfaceTintColor: theme.colors.background0,
-      toolbarHeight: defaultAppBarHeight,
-      leadingWidth: DimensSize.d64,
-      titleSpacing: DimensSize.d8,
-      leading: Padding(
-        padding: const EdgeInsets.only(
-          top: DimensSize.d12,
-          bottom: DimensSize.d12,
-          left: DimensSize.d16,
-        ),
-        child: AppBarBackButton(onPressed: onBackPressed),
-      ),
-      centerTitle: true,
-      title: StateNotifierBuilder<bool>(
-        listenableState: showAppBarTitle,
-        builder: (context, showTitle) {
-          return AnimatedOpacity(
-            opacity: (showTitle ?? false) ? 1.0 : 0.0,
-            duration: fadeInFadeOutTitleDuration,
-            child: Text(
-              LocaleKeys.chooseNetwork.tr(),
-              textAlign: TextAlign.center,
-              style: theme.textStyles.headingMedium,
-            ),
-          );
-        },
-      ),
-      expandedHeight: expandedHeight,
-      flexibleSpace: const FlexibleSpaceBar(background: _ExpandedTitle()),
-    );
-  }
-}
-
-class _ExpandedTitle extends StatelessWidget {
-  const _ExpandedTitle();
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.topCenter,
-      children: [
-        Assets.images.networkEarth.image(
-          width: double.infinity,
-          fit: BoxFit.fill,
-        ),
-        Container(
-          padding: const EdgeInsets.only(bottom: DimensSize.d24),
-          alignment: Alignment.bottomCenter,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              PrimaryText(
-                LocaleKeys.chooseNetwork.tr(),
-                type: PrimaryTextType.titleLarge,
-              ),
-              SizedBox(height: DimensAdaptiveSize.d8.hp),
-              PrimaryText(LocaleKeys.selectNetworkNewWalletDescription.tr()),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

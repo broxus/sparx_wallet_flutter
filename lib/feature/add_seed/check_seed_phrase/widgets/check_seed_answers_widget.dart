@@ -29,10 +29,14 @@ class CheckSeedAnswersWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SeparatedRow(
+    return Column(
       children: [
-        for (int i = 0; i < userAnswers.length; i++)
-          Expanded(child: _answerBuilder(i, userAnswers[i])),
+        SeparatedRow(
+          children: [
+            for (int i = 0; i < userAnswers.length; i++)
+              Expanded(child: _answerBuilder(i, userAnswers[i])),
+          ],
+        ),
       ],
     );
   }
@@ -55,6 +59,56 @@ class CheckSeedAnswersWidget extends StatelessWidget {
               : SelectionStatus.unfocus,
         );
       },
+    );
+  }
+}
+
+class CheckSeedAnswersCounterWidget extends StatelessWidget {
+  const CheckSeedAnswersCounterWidget({
+    required this.currentIndex,
+    required this.count,
+    super.key,
+  });
+
+  final int currentIndex;
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            height: 1,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerRight,
+                end: Alignment.centerLeft,
+                colors: [ColorsResV2.n70, ColorsResV2.transparentAcaeca],
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d24),
+          child: Text(
+            '${currentIndex + 1} of $count',
+            style: theme.textStyles.paragraphMedium,
+          ),
+        ),
+
+        Expanded(
+          child: Container(
+            height: 1,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [ColorsResV2.n70, ColorsResV2.transparentAcaeca],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

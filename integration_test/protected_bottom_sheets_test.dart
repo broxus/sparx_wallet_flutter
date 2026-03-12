@@ -12,15 +12,14 @@ import 'package:app/feature/wallet/widgets/wallet_backup/confirm_action/confirm_
 import 'package:app/feature/wallet/widgets/wallet_backup/confirm_action/confirm_action_dialog.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/confirm_action/confirm_action_model.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/confirm_action/confirm_action_wm.dart';
-import 'package:app/feature/wallet/widgets/wallet_backup/manual_backup/manual_back_up_data.dart';
-import 'package:app/feature/wallet/widgets/wallet_backup/manual_backup/manual_back_up_dialog.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/manual_backup/manual_back_up_model.dart';
+import 'package:app/feature/wallet/widgets/wallet_backup/manual_backup/manual_back_up_screen.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/manual_backup/manual_back_up_wm.dart';
 import 'package:app/widgets/protected_content.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/foundation.dart';
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -55,6 +54,8 @@ class MockCurrentSeedService extends Mock implements CurrentSeedService {}
 
 class MockSecureStorageService extends Mock implements SecureStorageService {}
 
+class MockSecureStringService extends Mock implements SecureStringService {}
+
 class MockNtpService extends Mock implements NtpService {}
 
 class MockCurrentAccountsService extends Mock
@@ -88,6 +89,7 @@ class FakeManualBackUpModel extends ManualBackUpModel {
         MockErrorHandler(),
         MockNekotonRepository(),
         MockMessengerService(),
+        MockSecureStringService(),
         MockAppStorageService(),
       );
 
@@ -107,6 +109,7 @@ class FakeConfirmActionModel extends ConfirmActionModel {
         MockCurrentSeedService(),
         MockMessengerService(),
         _createTestPasswordService(),
+        MockSecureStringService(),
       );
 }
 
@@ -136,37 +139,19 @@ class FakeChangeSeedPasswordModel extends ChangeSeedPasswordModel {
 class FakeManualBackUpWidgetModel extends ManualBackUpWidgetModel {
   FakeManualBackUpWidgetModel() : super(FakeManualBackUpModel());
 
-  late ThemeStyleV2 _themeStyle;
-  late ValueNotifier<List<String>> _wordsState;
-  late EntityStateNotifier<ManualBackUpData> _screenState;
-
-  void configure({
-    required ThemeStyleV2 themeStyle,
-    required ValueNotifier<List<String>> wordsState,
-    required EntityStateNotifier<ManualBackUpData> screenState,
-  }) {
-    _themeStyle = themeStyle;
-    _wordsState = wordsState;
-    _screenState = screenState;
-  }
+  late ListenableState<List<String>> wordsStateOverride;
 
   @override
-  ThemeStyleV2 get themeStyle => _themeStyle;
-
-  @override
-  ValueListenable<List<String>> get wordsState => _wordsState;
-
-  @override
-  EntityStateNotifier<ManualBackUpData> get screenState => _screenState;
+  ListenableState<List<String>> get wordsState => wordsStateOverride;
 
   @override
   Future<void> copySeed() async {}
 
   @override
-  void clickCheckPhrase(BuildContext context) {}
+  Future<void> clickCheckPhrase() async {}
 
   @override
-  void clickSkip(BuildContext context) {}
+  void clickSkip() {}
 }
 
 class FakeConfirmActionWidgetModel extends ConfirmActionWidgetModel {
@@ -368,6 +353,7 @@ void main() {
           (context) => Navigator.of(context).push(
             exportSeedSavePhraseRoute(
               Theme.of(context).textTheme.titleLarge ?? const TextStyle(),
+              Theme.of(context).textTheme.titleMedium ?? const TextStyle(),
               phrase,
             ),
           ),
@@ -411,20 +397,22 @@ void main() {
     testWidgets('confirm action bottom sheet is protected', (tester) async {
       await _pumpSheet(
         tester,
-        (context) => showConfirmActionDialog(context, FakeKeyAccount(), (_) {}),
+        (context) => showConfirmActionDialog(context, FakeKeyAccount()),
       );
 
       expect(find.byType(ProtectedContent), findsOneWidget);
     });
 
-    testWidgets('manual backup bottom sheet is protected', (tester) async {
+    testWidgets('manual backup route is protected', (tester) async {
       await _pumpSheet(
         tester,
-        (context) => showManualBackupDialog(
-          context,
-          const ['one', 'two', 'three', 'four'],
-          '0:dummy',
-          (_) {},
+        (context) => Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => ManualBackupScreen(
+              seedPhrase: SecureString(iv: IV.fromLength(16), value: ''),
+              address: '0:dummy',
+            ),
+          ),
         ),
       );
 
@@ -484,14 +472,13 @@ Future<void> _pumpSheet(
 }
 
 ManualBackUpWidgetModel _buildManualBackUpWm() {
-  final wm = FakeManualBackUpWidgetModel();
-  final screenState = EntityStateNotifier<ManualBackUpData>()
-    ..content(ManualBackUpData(isCopied: false));
-  wm.configure(
-    themeStyle: getDefaultTheme(),
-    wordsState: ValueNotifier<List<String>>(['one', 'two', 'three', 'four']),
-    screenState: screenState,
-  );
+  final wm = FakeManualBackUpWidgetModel()
+    ..wordsStateOverride = SimpleListenableState<List<String>>([
+      'one',
+      'two',
+      'three',
+      'four',
+    ]);
   return wm;
 }
 

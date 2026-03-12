@@ -56,11 +56,13 @@ class _EnterSeedNameViewState extends State<EnterSeedNameView> {
                     Text(
                       LocaleKeys.enterSeedNameScreenTitle.tr(),
                       style: theme.textStyles.headingXLarge,
+                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: DimensSize.d12),
                     Text(
                       LocaleKeys.enterSeedNameScreenDescription.tr(),
                       style: theme.textStyles.paragraphMedium,
+                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: DimensSize.d24),
                     PrimaryTextField(

@@ -2,19 +2,25 @@ import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
+import 'package:app/widgets/seed_words.dart';
 import 'package:app/widgets/widgets.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Helper method that displays [ExportSeedSavePhrase] sheet.
 ModalRoute<void> exportSeedSavePhraseRoute(
   TextStyle titleTextStyle,
+  TextStyle subtitleStyle,
   List<String> phrase,
 ) {
   return commonBottomSheetRoute(
     titleTextStyle: titleTextStyle,
-    title: LocaleKeys.saveSeedPhrase.tr(),
+    subtitleStyle: subtitleStyle,
+    title: LocaleKeys.exportSeed.tr(),
+    subtitle: LocaleKeys.manualBackupSubtitleDialog.tr(),
+    centerTitle: true,
+    centerSubtitle: true,
     body: (_, controller) => ProtectedContent(
       child: ProtectedContent(
         child: ExportSeedSavePhrase(phrase: phrase, controller: controller),
@@ -36,71 +42,29 @@ class ExportSeedSavePhrase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SeparatedColumn(
+    return Column(
       mainAxisSize: MainAxisSize.min,
-      spacing: DimensSize.d24,
       children: [
         Flexible(
           child: SingleChildScrollView(
             controller: controller,
-            child: _wordsField(),
+            child: SeedWords(
+              words: phrase,
+              backgroundColor: context.themeStyleV2.colors.background2,
+            ),
           ),
         ),
-        _copyButton(),
-      ],
-    );
-  }
-
-  Widget _textPair(String word, int index) {
-    final indexText = NumberFormat('0').format(index);
-
-    return IgnorePointer(
-      child: PrimaryTextField(
-        textEditingController: TextEditingController(text: word),
-        labelText: indexText,
-      ),
-    );
-  }
-
-  Widget _copyButton() {
-    return Builder(
-      builder: (context) {
-        return PrimaryButton(
+        const SizedBox(height: DimensSize.d24),
+        AccentButton(
           buttonShape: ButtonShape.pill,
           title: LocaleKeys.copyWords.tr(),
+          postfixIcon: LucideIcons.copy,
           onPressed: () {
             inject<MessengerService>().show(
               Message.successful(message: LocaleKeys.copiedExclamation.tr()),
             );
             setClipBoardData(phrase.join(' '), isSensitive: true);
           },
-        );
-      },
-    );
-  }
-
-  Widget _wordsField() {
-    final lengthHalf = phrase.length ~/ 2;
-
-    return SeparatedRow(
-      children: [
-        Expanded(
-          child: SeparatedColumn(
-            mainAxisSize: MainAxisSize.min,
-            children: phrase
-                .getRange(0, lengthHalf)
-                .mapIndexed((i, word) => _textPair(word, i + 1))
-                .toList(),
-          ),
-        ),
-        Expanded(
-          child: SeparatedColumn(
-            mainAxisSize: MainAxisSize.min,
-            children: phrase
-                .getRange(lengthHalf, phrase.length)
-                .mapIndexed((i, word) => _textPair(word, i + lengthHalf + 1))
-                .toList(),
-          ),
         ),
       ],
     );

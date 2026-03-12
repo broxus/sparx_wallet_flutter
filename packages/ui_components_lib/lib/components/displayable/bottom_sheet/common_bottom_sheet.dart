@@ -227,7 +227,7 @@ class CommonBottomSheetWidget extends StatelessWidget {
                 right: 0,
                 child: SheetDraggableLine(
                   height: DimensSize.d4,
-                  verticalMargin: DimensSize.d8,
+                  verticalMargin: DimensSize.d6,
                 ),
               ),
             ],

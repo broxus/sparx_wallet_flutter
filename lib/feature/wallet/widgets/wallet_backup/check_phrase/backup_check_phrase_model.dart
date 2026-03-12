@@ -1,6 +1,5 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/messenger/messenger.dart';
-import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
@@ -8,8 +7,8 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
-class ManualBackUpModel extends ElementaryModel {
-  ManualBackUpModel(
+class BackupCheckPhraseModel extends ElementaryModel {
+  BackupCheckPhraseModel(
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._messengerService,
@@ -26,7 +25,15 @@ class ManualBackUpModel extends ElementaryModel {
     return (await _secureStringService.decrypt(secureString)).split(' ');
   }
 
-  void setShowingBackUpFlag(String address) {
+  void showValidateSuccess(String message) {
+    _messengerService.show(Message.successful(message: message));
+  }
+
+  void showValidateError(String message) {
+    _messengerService.show(Message.error(message: message));
+  }
+
+  void setShowingBackUpFlag(String address, {required bool isSkipped}) {
     final account = _nekotonRepository.accountsStorage.accounts
         .firstWhereOrNull((item) => item.address.address == address);
     final masterPublicKey = account?.let(
@@ -39,13 +46,7 @@ class ManualBackUpModel extends ElementaryModel {
 
     _storage.addValue(
       StorageKey.showingManualBackupBadge(masterPublicKey.publicKey),
-      true,
-    );
-  }
-
-  void showMessageAboutCopy() {
-    _messengerService.show(
-      Message.successful(message: LocaleKeys.copiedExclamation.tr()),
+      isSkipped,
     );
   }
 }

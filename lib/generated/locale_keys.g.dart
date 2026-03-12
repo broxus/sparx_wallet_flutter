@@ -30,6 +30,7 @@ abstract class LocaleKeys {
   static const saveSeedPhrase = 'saveSeedPhrase';
   static const saveSeedWarning = 'saveSeedWarning';
   static const checkSeedPhrase = 'checkSeedPhrase';
+  static const skip = 'skip';
   static const skipTakeRisk = 'skipTakeRisk';
   static const copiedExclamation = 'copiedExclamation';
   static const copyWords = 'copyWords';
@@ -51,6 +52,7 @@ abstract class LocaleKeys {
   static const incorrectWordsFormat = 'incorrectWordsFormat';
   static const wrongSeed = 'wrongSeed';
   static const currentSeed = 'currentSeed';
+  static const exportSeed = 'exportSeed';
   static const exportSeedPhrase = 'exportSeedPhrase';
   static const manageSeedsAndAccounts = 'manageSeedsAndAccounts';
   static const currencyWord = 'currencyWord';
@@ -97,7 +99,9 @@ abstract class LocaleKeys {
   static const submitWord = 'submitWord';
   static const passwordChanged = 'passwordChanged';
   static const valueCopiedExclamation = 'valueCopiedExclamation';
+  static const seedCorrect = 'seedCorrect';
   static const seedIsMissing = 'seedIsMissing';
+  static const seedIncorrectTryAgain = 'seedIncorrectTryAgain';
   static const cancelWord = 'cancelWord';
   static const addKey = 'addKey';
   static const myAccounts = 'myAccounts';

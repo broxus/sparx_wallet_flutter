@@ -39,14 +39,10 @@ class _SelectionStatusInputState extends State<SelectionStatusInput> {
         borderColor = theme.colors.borderFocus.withAlpha(
           OpacV2.opac25.toByteInt(),
         );
-        contentColor = isPressed
-            ? theme.colors.content3.withAlpha(OpacV2.opac50.toByteInt())
-            : theme.colors.content3.withAlpha(OpacV2.opac50.toByteInt());
+        contentColor = ColorsResV2.midnightBlue;
       case SelectionStatus.focus:
         borderColor = theme.colors.borderFocus;
-        contentColor = isPressed
-            ? theme.colors.content3
-            : theme.colors.content3;
+        contentColor = theme.colors.content0;
       case SelectionStatus.completed:
         backgroundColor = theme.colors.backgroundAccent;
         contentColor = isPressed
@@ -58,13 +54,16 @@ class _SelectionStatusInputState extends State<SelectionStatusInput> {
       contentColor: contentColor,
       child: SizedBox(
         width: double.infinity,
-        height: commonButtonHeight,
+        height: DimensSize.d44,
         child: Container(
           decoration: BoxDecoration(
             color: backgroundColor ?? Colors.transparent,
             borderRadius: BorderRadius.circular(DimensRadius.theBiggest),
             border: Border.fromBorderSide(
-              BorderSide(color: borderColor ?? Colors.transparent),
+              BorderSide(
+                width: DimensSize.d2,
+                color: borderColor ?? Colors.transparent,
+              ),
             ),
           ),
           child: InkWell(

@@ -50,7 +50,7 @@ class WelcomeScreen extends InjectedElementaryWidget<WelcomeScreenWidgetModel> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: DimensAdaptiveSize.d24.hp),
+                SizedBox(height: DimensAdaptiveSize.d32.hp),
                 AccentButton(
                   title: LocaleKeys.welcomeGetNewWallet.tr(),
                   onPressed: wm.onPressedCreateWallet,
@@ -62,7 +62,7 @@ class WelcomeScreen extends InjectedElementaryWidget<WelcomeScreenWidgetModel> {
                   onPressed: wm.onPressedWalletLogin,
                   buttonShape: ButtonShape.pill,
                 ),
-                SizedBox(height: DimensAdaptiveSize.d16.hp),
+                SizedBox(height: DimensAdaptiveSize.d12.hp),
                 Center(
                   child: Text.rich(
                     TextSpan(
@@ -97,7 +97,7 @@ class WelcomeScreen extends InjectedElementaryWidget<WelcomeScreenWidgetModel> {
                 child: Padding(
                   padding: const EdgeInsets.only(
                     top: DimensSize.d12,
-                    bottom: DimensSize.d50,
+                    bottom: DimensSize.d56,
                     right: DimensSize.d16,
                   ),
                   child: FloatButton(
@@ -109,7 +109,7 @@ class WelcomeScreen extends InjectedElementaryWidget<WelcomeScreenWidgetModel> {
                 ),
               ),
               const SlidingBlockChains(),
-              const SizedBox(height: DimensSize.d38),
+              const SizedBox(height: DimensSize.d44),
             ],
           ),
         ),

@@ -65,15 +65,6 @@ class WalletAccountBodyModel extends ElementaryModel {
     );
   }
 
-  void hideBackupNotification(KeyAccount account, {required bool isCompleted}) {
-    final masterPublicKey = getMasterPublicKey(account);
-
-    return _storageService.addValue(
-      StorageKey.showingManualBackupBadge(masterPublicKey.publicKey),
-      !isCompleted,
-    );
-  }
-
   Stream<TonWalletState?> _getWalletStream(Address address) =>
       _nekotonRepository.walletsMapStream
           .map((wallets) => wallets[address])

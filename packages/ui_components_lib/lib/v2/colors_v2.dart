@@ -216,4 +216,5 @@ class ColorsResV2 {
   static const raspberryRed = Color(0xFFD92346);
   static const electricIndigo = Color(0xFF4C5AF5);
   static const gray55 = Color.fromRGBO(128, 128, 128, 0.55);
+  static const transparentAcaeca = Color(0x00ACAECA);
 }

@@ -2,6 +2,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/add_seed/check_seed_phrase/check_seed_phrase.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/check_seed_layout.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -38,12 +39,12 @@ class CheckSeedPhrasePage
         loadingBuilder: (_, __) => const SizedBox.shrink(),
         builder: (_, data) => data == null
             ? const SizedBox.shrink()
-            : CheckSeedPhraseView(
+            : CheckSeedLayout(
                 availableAnswers: data.availableAnswers,
                 userAnswers: data.userAnswers,
-                currentAnswerIndex: data.currentCheckIndex,
-                selectAnswer: wm.answerQuestion,
+                currentCheckIndex: data.currentCheckIndex ?? 0,
                 clearAnswer: wm.clearAnswer,
+                answerQuestion: wm.answerQuestion,
               ),
       ),
     );
