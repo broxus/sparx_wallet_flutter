@@ -166,11 +166,11 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     });
   }
 
-  void _pausePolling() {
-    _nekotonRepository.pausePolling();
+  Future<void> _pausePolling() async {
+    await _nekotonRepository.pausePolling();
   }
 
-  void _resumePolling() {
-    _nekotonRepository.resumePolling();
+  Future<void> _resumePolling() async {
+    await _nekotonRepository.resumePolling();
   }
 }
