@@ -867,12 +867,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i182.SelectNewAssetRoute(),
       instanceName: 'SelectNewAssetRoute',
     );
-    gh.factory<_i484.CreateSeedModel>(
-      () => _i484.CreateSeedModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i74.SecureStringService>(),
-      ),
-    );
     gh.singleton<_i689.ProtectedContentService>(
       () => _i689.ProtectedContentService(
         gh<_i830.AppLifecycleService>(),
@@ -1251,9 +1245,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'NftItemRoute',
     );
-    gh.factory<_i1016.CreateSeedWidgetModel>(
-      () => _i1016.CreateSeedWidgetModel(gh<_i484.CreateSeedModel>()),
-    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i420.CancelUnstakingRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'TonWalletSendRoute'),
@@ -1290,6 +1281,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i798.BarcodeAddressWidgetModel>(
       () => _i798.BarcodeAddressWidgetModel(gh<_i257.BarcodeAddressModel>()),
+    );
+    gh.factory<_i484.CreateSeedModel>(
+      () => _i484.CreateSeedModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i74.SecureStringService>(),
+        gh<_i553.MessengerService>(),
+      ),
     );
     gh.factory<_i915.ContactSupportModel>(
       () => _i915.ContactSupportModel(
@@ -1697,6 +1695,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i0.GaslessTokenTransferDelegate>(),
         gh<_i0.BasicTokenTransferDelegate>(),
       ),
+    );
+    gh.factory<_i1016.CreateSeedWidgetModel>(
+      () => _i1016.CreateSeedWidgetModel(gh<_i484.CreateSeedModel>()),
     );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i741.EnterSeedPhraseRoute(

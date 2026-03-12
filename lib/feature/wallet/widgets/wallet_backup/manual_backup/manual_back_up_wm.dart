@@ -27,18 +27,9 @@ class ManualBackUpWidgetModel
         > {
   ManualBackUpWidgetModel(super.model);
 
-  late final screenState = createEntityNotifier<ManualBackUpData>()
-    ..loading(ManualBackUpData(isCopied: false));
-
   late final _wordsState = createNotNullNotifier<List<String>>([]);
 
   ListenableState<List<String>> get wordsState => _wordsState;
-
-  ColorsPaletteV2 get colors => _theme.colors;
-
-  TextStylesV2 get textStyle => _theme.textStyles;
-
-  ThemeStyleV2 get _theme => context.themeStyleV2;
 
   @override
   void initWidgetModel() {
