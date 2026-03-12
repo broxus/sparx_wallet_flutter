@@ -6,18 +6,6 @@ class EnterSeedPhraseTabData {
   final int currentValue;
   final List<EnterSeedPhraseInputData> inputs;
 
-  late final fistInputsRange = inputs.getRange(
-    0,
-    currentValue ~/ _gridColumnCount,
-  );
-
-  late final secondInputsRange = inputs.getRange(
-    currentValue ~/ _gridColumnCount,
-    currentValue,
-  );
-
-  static const _gridColumnCount = 2;
-
   EnterSeedPhraseTabData copyWith({
     int? currentValue,
     List<EnterSeedPhraseInputData>? inputs,

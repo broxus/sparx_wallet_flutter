@@ -66,26 +66,40 @@ class EnterSeedPhraseWords extends StatelessWidget {
                 return const SizedBox.shrink();
               }
 
+              final splitIndex = (data.inputs.length / 2).ceil();
+              final leftInputs = data.inputs.take(splitIndex).toList();
+              final rightInputs = data.inputs.skip(splitIndex).toList();
+
               return Flexible(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: DimensSize.d16),
-                  child: ListView.separated(
-                    padding: EdgeInsets.zero,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: data.inputs.length,
-                    separatorBuilder: (_, __) =>
-                        const SizedBox(height: DimensSize.d8),
-                    itemBuilder: (_, index) => _Input(
-                      key: ValueKey(index),
-                      renderManager: renderManager,
-                      theme: themeStyleV2,
-                      data: data.inputs[index],
-                      currentValue: currentValue,
-                      onSuggestions: onSuggestions,
-                      onSuggestionSelected: onSuggestionSelected,
-                      onNext: onNext,
-                    ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: _InputsColumn(
+                          inputs: leftInputs,
+                          renderManager: renderManager,
+                          theme: themeStyleV2,
+                          currentValue: currentValue,
+                          onSuggestions: onSuggestions,
+                          onSuggestionSelected: onSuggestionSelected,
+                          onNext: onNext,
+                        ),
+                      ),
+                      const SizedBox(width: DimensSize.d8),
+                      Expanded(
+                        child: _InputsColumn(
+                          inputs: rightInputs,
+                          renderManager: renderManager,
+                          theme: themeStyleV2,
+                          currentValue: currentValue,
+                          onSuggestions: onSuggestions,
+                          onSuggestionSelected: onSuggestionSelected,
+                          onNext: onNext,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               );
@@ -93,6 +107,47 @@ class EnterSeedPhraseWords extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _InputsColumn extends StatelessWidget {
+  const _InputsColumn({
+    required this.inputs,
+    required this.renderManager,
+    required this.theme,
+    required this.currentValue,
+    required this.onSuggestions,
+    required this.onSuggestionSelected,
+    required this.onNext,
+  });
+
+  final List<EnterSeedPhraseInputData> inputs;
+  final RenderManager<Object> renderManager;
+  final ThemeStyleV2 theme;
+  final int currentValue;
+  final SuggestionsCallback<String> onSuggestions;
+  final SuggestionSelectedCallback onSuggestionSelected;
+  final ValueChanged<int> onNext;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        for (var i = 0; i < inputs.length; i++) ...[
+          _Input(
+            key: ValueKey(inputs[i].index),
+            renderManager: renderManager,
+            theme: theme,
+            data: inputs[i],
+            currentValue: currentValue,
+            onSuggestions: onSuggestions,
+            onSuggestionSelected: onSuggestionSelected,
+            onNext: onNext,
+          ),
+          if (i != inputs.length - 1) const SizedBox(height: DimensSize.d8),
+        ],
+      ],
     );
   }
 }

@@ -119,6 +119,8 @@ class EnterSeedPhraseWidgetModel
 
   List<int> get seedPhraseWordsCount => model.seedPhraseWordsCount;
 
+  bool get isOnboarding => wmParams.value.isOnboarding;
+
   int get _currentValue =>
       _tabState.value?.currentValue ?? model.seedPhraseWordsCount.first;
 
