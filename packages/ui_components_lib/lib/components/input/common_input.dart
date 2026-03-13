@@ -479,130 +479,131 @@ class _CommonInputState extends State<CommonInput> {
 
       return const SizedBox();
     } else {
-      return SizedBox(
-        height: widget.height,
-        child: TypeAheadField<String>(
-          autoFlipDirection: true,
-          hideOnEmpty: true,
-          hideOnError: true,
-          hideOnLoading: true,
-          controller: _controller,
-          focusNode: widget.focusNode,
-          suggestionsCallback: suggestionsCallback,
-          onSelected: onSuggestionSelected,
-          itemSeparatorBuilder: (_, __) => Divider(
-            height: suggestionDividerSize,
-            color: widget.v2Style != null
-                ? widget.v2Style!.borderSuggestionColor
-                : colors.strokeSecondary,
-            thickness: suggestionDividerSize,
-          ),
-          itemBuilder:
-              widget.itemBuilder ??
-              (context, item) =>
-                  _defaultSuggestionItemBuilder(context, item, colors),
-          decorationBuilder: (context, child) => ScrollConfiguration(
-            behavior: ScrollConfiguration.of(
-              context,
-            ).copyWith(scrollbars: false),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: widget.v2Style != null
-                    ? double.infinity
-                    : DimensSize.d168,
-              ),
-              child: Material(
-                type: MaterialType.card,
-                shape: SquircleShapeBorder(
-                  cornerRadius: widget.v2Style != null
-                      ? DimensSize.d12
-                      : DimensRadius.medium,
-                ),
-                color:
-                    widget.suggestionBackground ?? colors.backgroundSecondary,
-                child: child,
-              ),
-            ),
-          ),
-          builder: (context, controller, focusNode) => TextField(
-            style:
-                widget.textStyle ??
-                StyleRes.primaryRegular.copyWith(color: colors.textPrimary),
-            controller: controller,
-            focusNode: focusNode,
-            keyboardType: widget.keyboardType ?? TextInputType.text,
-            onChanged: widget.onChanged,
-            textInputAction: widget.textInputAction ?? TextInputAction.next,
-            cursorColor: widget.textStyle?.color ?? colors.textPrimary,
-            onSubmitted: widget.onSubmitted,
-            autocorrect: widget.autocorrect,
-            enableSuggestions: widget.enableSuggestions,
-            inputFormatters: widget.inputFormatters,
-            maxLength: widget.maxLength,
-            decoration: InputDecoration(
-              errorText: hasError ? '' : null,
-              errorStyle: const TextStyle(fontSize: 0, height: 0),
-              hintText: widget.hintText,
-              hintStyle:
-                  widget.hintStyle ??
-                  StyleRes.primaryRegular.copyWith(color: colors.textSecondary),
-              contentPadding: EdgeInsets.zero,
-              suffixIcon: _buildSuffixIcon(colors),
-              suffixIconConstraints: _suffixIconConstraints(),
-              prefixIconConstraints: widget.prefixIcon == null
-                  ? const BoxConstraints(maxHeight: 0, maxWidth: DimensSize.d16)
-                  : const BoxConstraints(
-                      minHeight: commonInputHeight,
-                      minWidth: DimensSize.d40,
-                    ),
-              prefixIcon:
-                  widget.prefixIcon ?? const SizedBox(width: DimensSize.d16),
-              border: SquircleInputBorder(
-                squircleRadius: widget.v2Style != null
-                    ? DimensRadius.xMedium
-                    : DimensRadius.medium,
-                borderSide: BorderSide(
-                  color: widget.inactiveBorderColor ?? colors.strokePrimary,
-                ),
-              ),
-              enabledBorder: SquircleInputBorder(
-                squircleRadius: widget.v2Style != null
-                    ? DimensRadius.xMedium
-                    : DimensRadius.medium,
-                borderSide: BorderSide(
-                  color: widget.inactiveBorderColor ?? colors.strokePrimary,
-                ),
-              ),
-              focusedBorder: SquircleInputBorder(
-                squircleRadius: widget.v2Style != null
-                    ? DimensRadius.xMedium
-                    : DimensRadius.medium,
-                borderSide: BorderSide(
-                  color: widget.v2Style != null
-                      ? widget.v2Style!.borderColor
-                      : colors.strokeContrast,
-                ),
-              ),
-              errorBorder: SquircleInputBorder(
-                squircleRadius: widget.v2Style != null
-                    ? DimensRadius.xMedium
-                    : DimensRadius.medium,
-                borderSide: BorderSide(
-                  color: widget.errorColor ?? colors.alert,
-                ),
-              ),
-              focusedErrorBorder: SquircleInputBorder(
-                squircleRadius: widget.v2Style != null
-                    ? DimensRadius.xMedium
-                    : DimensRadius.medium,
-                borderSide: BorderSide(
-                  color: widget.errorColor ?? colors.alert,
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
+      return const SizedBox.shrink();
+      // return SizedBox(
+      //   height: widget.height,
+      //   child: TypeAheadField<String>(
+      //     autoFlipDirection: true,
+      //     hideOnEmpty: true,
+      //     hideOnError: true,
+      //     hideOnLoading: true,
+      //     controller: _controller,
+      //     focusNode: widget.focusNode,
+      //     suggestionsCallback: suggestionsCallback,
+      //     onSelected: onSuggestionSelected,
+      //     itemSeparatorBuilder: (_, __) => Divider(
+      //       height: suggestionDividerSize,
+      //       color: widget.v2Style != null
+      //           ? widget.v2Style!.borderSuggestionColor
+      //           : colors.strokeSecondary,
+      //       thickness: suggestionDividerSize,
+      //     ),
+      //     itemBuilder:
+      //         widget.itemBuilder ??
+      //         (context, item) =>
+      //             _defaultSuggestionItemBuilder(context, item, colors),
+      //     decorationBuilder: (context, child) => ScrollConfiguration(
+      //       behavior: ScrollConfiguration.of(
+      //         context,
+      //       ).copyWith(scrollbars: false),
+      //       child: ConstrainedBox(
+      //         constraints: BoxConstraints(
+      //           maxWidth: widget.v2Style != null
+      //               ? double.infinity
+      //               : DimensSize.d168,
+      //         ),
+      //         child: Material(
+      //           type: MaterialType.card,
+      //           shape: SquircleShapeBorder(
+      //             cornerRadius: widget.v2Style != null
+      //                 ? DimensSize.d12
+      //                 : DimensRadius.medium,
+      //           ),
+      //           color:
+      //               widget.suggestionBackground ?? colors.backgroundSecondary,
+      //           child: child,
+      //         ),
+      //       ),
+      //     ),
+      //     builder: (context, controller, focusNode) => TextField(
+      //       style:
+      //           widget.textStyle ??
+      //           StyleRes.primaryRegular.copyWith(color: colors.textPrimary),
+      //       controller: controller,
+      //       focusNode: focusNode,
+      //       keyboardType: widget.keyboardType ?? TextInputType.text,
+      //       onChanged: widget.onChanged,
+      //       textInputAction: widget.textInputAction ?? TextInputAction.next,
+      //       cursorColor: widget.textStyle?.color ?? colors.textPrimary,
+      //       onSubmitted: widget.onSubmitted,
+      //       autocorrect: widget.autocorrect,
+      //       enableSuggestions: widget.enableSuggestions,
+      //       inputFormatters: widget.inputFormatters,
+      //       maxLength: widget.maxLength,
+      //       decoration: InputDecoration(
+      //         errorText: hasError ? '' : null,
+      //         errorStyle: const TextStyle(fontSize: 0, height: 0),
+      //         hintText: widget.hintText,
+      //         hintStyle:
+      //             widget.hintStyle ??
+      //             StyleRes.primaryRegular.copyWith(color: colors.textSecondary),
+      //         contentPadding: EdgeInsets.zero,
+      //         suffixIcon: _buildSuffixIcon(colors),
+      //         suffixIconConstraints: _suffixIconConstraints(),
+      //         prefixIconConstraints: widget.prefixIcon == null
+      //             ? const BoxConstraints(maxHeight: 0, maxWidth: DimensSize.d16)
+      //             : const BoxConstraints(
+      //                 minHeight: commonInputHeight,
+      //                 minWidth: DimensSize.d40,
+      //               ),
+      //         prefixIcon:
+      //             widget.prefixIcon ?? const SizedBox(width: DimensSize.d16),
+      //         border: SquircleInputBorder(
+      //           squircleRadius: widget.v2Style != null
+      //               ? DimensRadius.xMedium
+      //               : DimensRadius.medium,
+      //           borderSide: BorderSide(
+      //             color: widget.inactiveBorderColor ?? colors.strokePrimary,
+      //           ),
+      //         ),
+      //         enabledBorder: SquircleInputBorder(
+      //           squircleRadius: widget.v2Style != null
+      //               ? DimensRadius.xMedium
+      //               : DimensRadius.medium,
+      //           borderSide: BorderSide(
+      //             color: widget.inactiveBorderColor ?? colors.strokePrimary,
+      //           ),
+      //         ),
+      //         focusedBorder: SquircleInputBorder(
+      //           squircleRadius: widget.v2Style != null
+      //               ? DimensRadius.xMedium
+      //               : DimensRadius.medium,
+      //           borderSide: BorderSide(
+      //             color: widget.v2Style != null
+      //                 ? widget.v2Style!.borderColor
+      //                 : colors.strokeContrast,
+      //           ),
+      //         ),
+      //         errorBorder: SquircleInputBorder(
+      //           squircleRadius: widget.v2Style != null
+      //               ? DimensRadius.xMedium
+      //               : DimensRadius.medium,
+      //           borderSide: BorderSide(
+      //             color: widget.errorColor ?? colors.alert,
+      //           ),
+      //         ),
+      //         focusedErrorBorder: SquircleInputBorder(
+      //           squircleRadius: widget.v2Style != null
+      //               ? DimensRadius.xMedium
+      //               : DimensRadius.medium,
+      //           borderSide: BorderSide(
+      //             color: widget.errorColor ?? colors.alert,
+      //           ),
+      //         ),
+      //       ),
+      //     ),
+      //   ),
+      // );
     }
   }
 
