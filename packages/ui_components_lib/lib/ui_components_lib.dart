@@ -1,6 +1,4 @@
 export 'package:flutter_svg/flutter_svg.dart';
-// export 'package:flutter_typeahead/flutter_typeahead.dart';
-
 export 'colors.dart';
 export 'components/button/button.dart';
 export 'components/common/common.dart';

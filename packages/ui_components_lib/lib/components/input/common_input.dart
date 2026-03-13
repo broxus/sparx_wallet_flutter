@@ -8,6 +8,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// Default height for input
 const commonInputHeight = DimensSize.d56;
 const suggestionDividerSize = DimensStroke.small;
+const _suggestionsMaxHeight = 240.0;
 
 typedef SuggestionsCallback<T> = FutureOr<List<T>?> Function(String search);
 
@@ -16,9 +17,9 @@ typedef SuggestionsItemBuilder<T> =
 
 /// {@template common_input}
 /// Defaut input field that could be used in application.
-/// This widget is a combination of default TextField and TypeAheadField.
+/// This widget is a combination of default TextField and inline suggestions.
 ///
-/// To use TypeAheadField, you need to specify [suggestionsCallback],
+/// To use suggestions, you need to specify [suggestionsCallback],
 /// [itemBuilder] and [onSuggestionSelected].
 ///
 /// Also widget supports validation via FormField by [validator].
@@ -211,7 +212,13 @@ class CommonInput extends StatefulWidget {
 
 class _CommonInputState extends State<CommonInput> {
   late TextEditingController _controller;
+  late FocusNode _focusNode;
+  late bool _ownsFocusNode;
+  final LayerLink _suggestionsLink = LayerLink();
+  OverlayEntry? _suggestionsOverlay;
+  List<String> _suggestions = const [];
   bool isEmpty = true;
+  int _suggestionsRequestId = 0;
 
   FormFieldState<String>? field;
 
@@ -219,13 +226,21 @@ class _CommonInputState extends State<CommonInput> {
   void initState() {
     super.initState();
     _controller = widget.controller ?? TextEditingController();
+    _ownsFocusNode = widget.focusNode == null;
+    _focusNode = widget.focusNode ?? FocusNode();
 
     _controller.addListener(_handleDidChange);
+    _focusNode.addListener(_handleFocusChange);
   }
 
   @override
   void dispose() {
     _controller.removeListener(_handleDidChange);
+    _focusNode.removeListener(_handleFocusChange);
+    _removeSuggestionsOverlay();
+    if (_ownsFocusNode) {
+      _focusNode.dispose();
+    }
     super.dispose();
   }
 
@@ -243,6 +258,21 @@ class _CommonInputState extends State<CommonInput> {
       _controller.addListener(_handleDidChange);
     }
 
+    if (widget.focusNode != oldWidget.focusNode) {
+      _focusNode.removeListener(_handleFocusChange);
+      if (_ownsFocusNode) {
+        _focusNode.dispose();
+      }
+
+      _ownsFocusNode = widget.focusNode == null;
+      _focusNode = widget.focusNode ?? FocusNode();
+      _focusNode.addListener(_handleFocusChange);
+
+      if (!_focusNode.hasFocus) {
+        _removeSuggestionsOverlay();
+      }
+    }
+
     return super.didUpdateWidget(oldWidget);
   }
 
@@ -251,6 +281,16 @@ class _CommonInputState extends State<CommonInput> {
     if (!mounted) return;
     _handleInput();
     field?.didChange(value);
+    _updateSuggestions();
+  }
+
+  void _handleFocusChange() {
+    if (!_focusNode.hasFocus) {
+      _removeSuggestionsOverlay();
+      return;
+    }
+
+    _updateSuggestions();
   }
 
   void _handleInput() {
@@ -390,7 +430,7 @@ class _CommonInputState extends State<CommonInput> {
 
   void _clearText() {
     widget.onClearField?.call();
-    widget.focusNode?.unfocus();
+    _focusNode.unfocus();
     _controller.clear();
   }
 
@@ -409,7 +449,7 @@ class _CommonInputState extends State<CommonInput> {
         obscureText: widget.obscureText,
         style: style,
         controller: _controller,
-        focusNode: widget.focusNode,
+        focusNode: _focusNode,
         keyboardType: widget.keyboardType ?? TextInputType.text,
         onChanged: widget.onChanged,
         textInputAction: widget.textInputAction ?? TextInputAction.next,
@@ -466,6 +506,145 @@ class _CommonInputState extends State<CommonInput> {
     );
   }
 
+  Future<void> _updateSuggestions() async {
+    final suggestionsCallback = widget.suggestionsCallback;
+    if (suggestionsCallback == null || !_focusNode.hasFocus) {
+      _removeSuggestionsOverlay();
+      return;
+    }
+
+    final query = _controller.text;
+    if (query.isEmpty) {
+      _removeSuggestionsOverlay();
+      return;
+    }
+
+    final requestId = ++_suggestionsRequestId;
+
+    try {
+      final suggestions = await suggestionsCallback(query) ?? const [];
+      if (!mounted || requestId != _suggestionsRequestId) {
+        return;
+      }
+
+      _suggestions = suggestions;
+      if (_suggestions.isEmpty) {
+        _removeSuggestionsOverlay();
+        return;
+      }
+
+      _showSuggestionsOverlay();
+    } catch (_) {
+      if (requestId == _suggestionsRequestId) {
+        _removeSuggestionsOverlay();
+      }
+    }
+  }
+
+  void _showSuggestionsOverlay() {
+    if (!mounted) {
+      return;
+    }
+
+    if (_suggestionsOverlay == null) {
+      _suggestionsOverlay = OverlayEntry(builder: _buildSuggestionsOverlay);
+      Overlay.of(context, rootOverlay: true).insert(_suggestionsOverlay!);
+    } else {
+      _suggestionsOverlay!.markNeedsBuild();
+    }
+  }
+
+  void _removeSuggestionsOverlay() {
+    _suggestionsOverlay?.remove();
+    _suggestionsOverlay = null;
+    _suggestions = const [];
+  }
+
+  Widget _buildSuggestionsOverlay(BuildContext context) {
+    final colors = context.themeStyle.colors;
+    final renderBox = this.context.findRenderObject() as RenderBox?;
+    if (renderBox == null || !renderBox.attached) {
+      return const SizedBox.shrink();
+    }
+
+    final size = renderBox.size;
+    final itemBuilder =
+        widget.itemBuilder ??
+        (BuildContext context, String item) =>
+            _defaultSuggestionItemBuilder(context, item, colors);
+
+    return Positioned.fill(
+      child: Stack(
+        children: [
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: _focusNode.unfocus,
+          ),
+          CompositedTransformFollower(
+            link: _suggestionsLink,
+            showWhenUnlinked: false,
+            offset: Offset(0, size.height + DimensSize.d4),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: widget.v2Style != null
+                      ? size.width
+                      : DimensSize.d168,
+                  maxHeight: _suggestionsMaxHeight,
+                ),
+                child: Material(
+                  type: MaterialType.card,
+                  shape: SquircleShapeBorder(
+                    cornerRadius: widget.v2Style != null
+                        ? DimensSize.d12
+                        : DimensRadius.medium,
+                  ),
+                  color:
+                      widget.suggestionBackground ?? colors.backgroundSecondary,
+                  child: ScrollConfiguration(
+                    behavior: ScrollConfiguration.of(
+                      context,
+                    ).copyWith(scrollbars: false),
+                    child: ListView.separated(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      itemCount: _suggestions.length,
+                      itemBuilder: (context, index) {
+                        final suggestion = _suggestions[index];
+
+                        return InkWell(
+                          onTap: () => _selectSuggestion(suggestion),
+                          child: itemBuilder(context, suggestion),
+                        );
+                      },
+                      separatorBuilder: (_, __) => Divider(
+                        height: suggestionDividerSize,
+                        color: widget.v2Style != null
+                            ? widget.v2Style!.borderSuggestionColor
+                            : colors.strokeSecondary,
+                        thickness: suggestionDividerSize,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _selectSuggestion(String suggestion) {
+    _controller.value = TextEditingValue(
+      text: suggestion,
+      selection: TextSelection.collapsed(offset: suggestion.length),
+    );
+    widget.onSuggestionSelected?.call(suggestion);
+    _removeSuggestionsOverlay();
+  }
+
   // ignore: long-method
   Widget _suggestionsInputField({
     required ColorsPalette colors,
@@ -475,135 +654,93 @@ class _CommonInputState extends State<CommonInput> {
     final onSuggestionSelected = widget.onSuggestionSelected;
 
     if (onSuggestionSelected == null) {
-      assert(false, 'onSuggestionSelected must be set to use TypeAheadField');
+      assert(false, 'onSuggestionSelected must be set to use suggestions');
 
       return const SizedBox();
     } else {
-      return const SizedBox.shrink();
-      // return SizedBox(
-      //   height: widget.height,
-      //   child: TypeAheadField<String>(
-      //     autoFlipDirection: true,
-      //     hideOnEmpty: true,
-      //     hideOnError: true,
-      //     hideOnLoading: true,
-      //     controller: _controller,
-      //     focusNode: widget.focusNode,
-      //     suggestionsCallback: suggestionsCallback,
-      //     onSelected: onSuggestionSelected,
-      //     itemSeparatorBuilder: (_, __) => Divider(
-      //       height: suggestionDividerSize,
-      //       color: widget.v2Style != null
-      //           ? widget.v2Style!.borderSuggestionColor
-      //           : colors.strokeSecondary,
-      //       thickness: suggestionDividerSize,
-      //     ),
-      //     itemBuilder:
-      //         widget.itemBuilder ??
-      //         (context, item) =>
-      //             _defaultSuggestionItemBuilder(context, item, colors),
-      //     decorationBuilder: (context, child) => ScrollConfiguration(
-      //       behavior: ScrollConfiguration.of(
-      //         context,
-      //       ).copyWith(scrollbars: false),
-      //       child: ConstrainedBox(
-      //         constraints: BoxConstraints(
-      //           maxWidth: widget.v2Style != null
-      //               ? double.infinity
-      //               : DimensSize.d168,
-      //         ),
-      //         child: Material(
-      //           type: MaterialType.card,
-      //           shape: SquircleShapeBorder(
-      //             cornerRadius: widget.v2Style != null
-      //                 ? DimensSize.d12
-      //                 : DimensRadius.medium,
-      //           ),
-      //           color:
-      //               widget.suggestionBackground ?? colors.backgroundSecondary,
-      //           child: child,
-      //         ),
-      //       ),
-      //     ),
-      //     builder: (context, controller, focusNode) => TextField(
-      //       style:
-      //           widget.textStyle ??
-      //           StyleRes.primaryRegular.copyWith(color: colors.textPrimary),
-      //       controller: controller,
-      //       focusNode: focusNode,
-      //       keyboardType: widget.keyboardType ?? TextInputType.text,
-      //       onChanged: widget.onChanged,
-      //       textInputAction: widget.textInputAction ?? TextInputAction.next,
-      //       cursorColor: widget.textStyle?.color ?? colors.textPrimary,
-      //       onSubmitted: widget.onSubmitted,
-      //       autocorrect: widget.autocorrect,
-      //       enableSuggestions: widget.enableSuggestions,
-      //       inputFormatters: widget.inputFormatters,
-      //       maxLength: widget.maxLength,
-      //       decoration: InputDecoration(
-      //         errorText: hasError ? '' : null,
-      //         errorStyle: const TextStyle(fontSize: 0, height: 0),
-      //         hintText: widget.hintText,
-      //         hintStyle:
-      //             widget.hintStyle ??
-      //             StyleRes.primaryRegular.copyWith(color: colors.textSecondary),
-      //         contentPadding: EdgeInsets.zero,
-      //         suffixIcon: _buildSuffixIcon(colors),
-      //         suffixIconConstraints: _suffixIconConstraints(),
-      //         prefixIconConstraints: widget.prefixIcon == null
-      //             ? const BoxConstraints(maxHeight: 0, maxWidth: DimensSize.d16)
-      //             : const BoxConstraints(
-      //                 minHeight: commonInputHeight,
-      //                 minWidth: DimensSize.d40,
-      //               ),
-      //         prefixIcon:
-      //             widget.prefixIcon ?? const SizedBox(width: DimensSize.d16),
-      //         border: SquircleInputBorder(
-      //           squircleRadius: widget.v2Style != null
-      //               ? DimensRadius.xMedium
-      //               : DimensRadius.medium,
-      //           borderSide: BorderSide(
-      //             color: widget.inactiveBorderColor ?? colors.strokePrimary,
-      //           ),
-      //         ),
-      //         enabledBorder: SquircleInputBorder(
-      //           squircleRadius: widget.v2Style != null
-      //               ? DimensRadius.xMedium
-      //               : DimensRadius.medium,
-      //           borderSide: BorderSide(
-      //             color: widget.inactiveBorderColor ?? colors.strokePrimary,
-      //           ),
-      //         ),
-      //         focusedBorder: SquircleInputBorder(
-      //           squircleRadius: widget.v2Style != null
-      //               ? DimensRadius.xMedium
-      //               : DimensRadius.medium,
-      //           borderSide: BorderSide(
-      //             color: widget.v2Style != null
-      //                 ? widget.v2Style!.borderColor
-      //                 : colors.strokeContrast,
-      //           ),
-      //         ),
-      //         errorBorder: SquircleInputBorder(
-      //           squircleRadius: widget.v2Style != null
-      //               ? DimensRadius.xMedium
-      //               : DimensRadius.medium,
-      //           borderSide: BorderSide(
-      //             color: widget.errorColor ?? colors.alert,
-      //           ),
-      //         ),
-      //         focusedErrorBorder: SquircleInputBorder(
-      //           squircleRadius: widget.v2Style != null
-      //               ? DimensRadius.xMedium
-      //               : DimensRadius.medium,
-      //           borderSide: BorderSide(
-      //             color: widget.errorColor ?? colors.alert,
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //   ),
-      // );
+      return CompositedTransformTarget(
+        link: _suggestionsLink,
+        child: SizedBox(
+          height: widget.height,
+          child: TextField(
+            style:
+                widget.textStyle ??
+                StyleRes.primaryRegular.copyWith(color: colors.textPrimary),
+            controller: _controller,
+            focusNode: _focusNode,
+            keyboardType: widget.keyboardType ?? TextInputType.text,
+            onChanged: widget.onChanged,
+            textInputAction: widget.textInputAction ?? TextInputAction.next,
+            cursorColor: widget.textStyle?.color ?? colors.textPrimary,
+            onSubmitted: widget.onSubmitted,
+            autocorrect: widget.autocorrect,
+            enableSuggestions: widget.enableSuggestions,
+            inputFormatters: widget.inputFormatters,
+            maxLength: widget.maxLength,
+            decoration: InputDecoration(
+              errorText: hasError ? '' : null,
+              errorStyle: const TextStyle(fontSize: 0, height: 0),
+              hintText: widget.hintText,
+              hintStyle:
+                  widget.hintStyle ??
+                  StyleRes.primaryRegular.copyWith(color: colors.textSecondary),
+              contentPadding: EdgeInsets.zero,
+              suffixIcon: _buildSuffixIcon(colors),
+              suffixIconConstraints: _suffixIconConstraints(),
+              prefixIconConstraints: widget.prefixIcon == null
+                  ? const BoxConstraints(maxHeight: 0, maxWidth: DimensSize.d16)
+                  : const BoxConstraints(
+                      minHeight: commonInputHeight,
+                      minWidth: DimensSize.d40,
+                    ),
+              prefixIcon:
+                  widget.prefixIcon ?? const SizedBox(width: DimensSize.d16),
+              border: SquircleInputBorder(
+                squircleRadius: widget.v2Style != null
+                    ? DimensRadius.xMedium
+                    : DimensRadius.medium,
+                borderSide: BorderSide(
+                  color: widget.inactiveBorderColor ?? colors.strokePrimary,
+                ),
+              ),
+              enabledBorder: SquircleInputBorder(
+                squircleRadius: widget.v2Style != null
+                    ? DimensRadius.xMedium
+                    : DimensRadius.medium,
+                borderSide: BorderSide(
+                  color: widget.inactiveBorderColor ?? colors.strokePrimary,
+                ),
+              ),
+              focusedBorder: SquircleInputBorder(
+                squircleRadius: widget.v2Style != null
+                    ? DimensRadius.xMedium
+                    : DimensRadius.medium,
+                borderSide: BorderSide(
+                  color: widget.v2Style != null
+                      ? widget.v2Style!.borderColor
+                      : colors.strokeContrast,
+                ),
+              ),
+              errorBorder: SquircleInputBorder(
+                squircleRadius: widget.v2Style != null
+                    ? DimensRadius.xMedium
+                    : DimensRadius.medium,
+                borderSide: BorderSide(
+                  color: widget.errorColor ?? colors.alert,
+                ),
+              ),
+              focusedErrorBorder: SquircleInputBorder(
+                squircleRadius: widget.v2Style != null
+                    ? DimensRadius.xMedium
+                    : DimensRadius.medium,
+                borderSide: BorderSide(
+                  color: widget.errorColor ?? colors.alert,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
     }
   }
 
