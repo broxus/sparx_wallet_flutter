@@ -350,9 +350,7 @@ class EnterSeedPhraseWidgetModel
         'isVisibleKeyboard=$_isVisibleKeyboard, '
         'hasClients=${screenScrollController.hasClients}, '
         'yBottom=$yBottom, '
-        'offset=${screenScrollController.hasClients
-            ? screenScrollController.offset
-            : null}',
+        'offset=${screenScrollController.hasClients ? screenScrollController.offset : null}',
       );
 
       if (yBottom == null) return;
