@@ -344,13 +344,14 @@ class EnterSeedPhraseWidgetModel
       if (node == null) return;
 
       final yBottom = renderManager.getRenderData(node)?.yBottom;
+      final sc = screenScrollController;
       _log.info(
         'ENTER SEED:\n'
         '_calculateOffset: '
         'isVisibleKeyboard=$_isVisibleKeyboard, '
-        'hasClients=${screenScrollController.hasClients}, '
+        'hasClients=${sc.hasClients}, '
         'yBottom=$yBottom, '
-        'offset=${screenScrollController.hasClients ? screenScrollController.offset : null}',
+        'offset=${sc.hasClients ? sc.offset : null}',
       );
 
       if (yBottom == null) return;
