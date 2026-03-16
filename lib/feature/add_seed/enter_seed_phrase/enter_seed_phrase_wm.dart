@@ -391,12 +391,6 @@ class EnterSeedPhraseWidgetModel
       model.showError(LocaleKeys.fillMissingWords.tr());
     } else if (isWrongWords) {
       model.showError(LocaleKeys.incorrectWordsFormat.tr());
-      _clearAllInputs();
-      screenScrollController.position.animateTo(
-        0,
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.linear,
-      );
     }
 
     return !isEmptyFields && !isWrongWords;
