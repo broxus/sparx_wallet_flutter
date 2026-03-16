@@ -83,7 +83,7 @@ class BackupCheckPhraseWidgetModel
 
     if (!isMounted) return;
 
-    await context.compassBack(false);
+    await context.compassBackCount(2);
   }
 
   Future<void> _init() async {
