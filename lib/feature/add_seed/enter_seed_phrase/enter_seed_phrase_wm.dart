@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/service.dart';
@@ -11,13 +10,11 @@ import 'package:app/feature/constants.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:injectable/injectable.dart';
-import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -42,8 +39,6 @@ class EnterSeedPhraseWidgetModel
           EnterSeedWmParams
         > {
   EnterSeedPhraseWidgetModel(super.model);
-
-  final _log = Logger('EnterSeedPhraseWidgetModel');
 
   final formKey = GlobalKey<FormState>();
 
@@ -71,13 +66,6 @@ class EnterSeedPhraseWidgetModel
           _checkInputCompletion(i);
         })
         ..focusNode.addListener(() {
-          if (_inputDataList[i].focusNode.hasFocus) {
-            _log.info(
-              'ENTER SEED:\n'
-              'focus: index=$i, textLength=${_inputDataList[i].text.length}, '
-              'currentValue=$_currentValue',
-            );
-          }
           _calculateOffset();
           _checkInputCompletion(i);
         }),
@@ -141,7 +129,6 @@ class EnterSeedPhraseWidgetModel
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    unawaited(_logDeviceInfo());
     _keyboardSubscription = _keyboardVisibilityController.onChange.listen(
       (bool visible) => _isVisibleKeyboard = visible,
     );
@@ -160,10 +147,6 @@ class EnterSeedPhraseWidgetModel
 
   /// Callback for UI TextField widget
   List<String> onSuggestions(String text) {
-    _log.info(
-      'ENTER SEED:\n'
-      'onSuggestions: textLength=${text.length}',
-    );
     if (text.isEmpty) return [];
     final hints = model.getHints(text);
     if (hints.length == 1 && hints[0] == text) {
@@ -211,11 +194,9 @@ class EnterSeedPhraseWidgetModel
         deriveFromPhrase(phrase: phrase, mnemonicType: _mnemonicType);
 
         await _next(phrase);
-      } on AnyhowException catch (e, s) {
-        _log.severe('ENTER SEED: confirmAction AnyhowException', e, s);
+      } on AnyhowException catch (_) {
         model.showError(LocaleKeys.wrongSeed.tr());
-      } on Exception catch (e, s) {
-        _log.severe('ENTER SEED: confirmAction', e, s);
+      } on Exception catch (e) {
         model.showError(e.toString());
       }
     }
@@ -344,15 +325,6 @@ class EnterSeedPhraseWidgetModel
       if (node == null) return;
 
       final yBottom = renderManager.getRenderData(node)?.yBottom;
-      final sc = screenScrollController;
-      _log.info(
-        'ENTER SEED:\n'
-        '_calculateOffset: '
-        'isVisibleKeyboard=$_isVisibleKeyboard, '
-        'hasClients=${sc.hasClients}, '
-        'yBottom=$yBottom, '
-        'offset=${sc.hasClients ? sc.offset : null}',
-      );
 
       if (yBottom == null) return;
 
@@ -372,33 +344,6 @@ class EnterSeedPhraseWidgetModel
         curve: Curves.linear,
       );
     });
-  }
-
-  Future<void> _logDeviceInfo() async {
-    final mediaQuery = MediaQuery.maybeOf(context);
-    final size = mediaQuery?.size;
-    final dpr = mediaQuery?.devicePixelRatio;
-    final insets = mediaQuery?.viewInsets.bottom;
-
-    if (!Platform.isIOS) {
-      _log.info(
-        'ENTER SEED:\nplatform: isIOS=false, mediaSize=$size, '
-        'devicePixelRatio=$dpr, viewInsetsBottom=$insets',
-      );
-      return;
-    }
-
-    try {
-      final info = await DeviceInfoPlugin().iosInfo;
-      _log.info(
-        'ENTER SEED:\n'
-        'platform: isIOS=true, systemVersion=${info.systemVersion}, '
-        'model=${info.model}, utsnameMachine=${info.utsname.machine}, '
-        'mediaSize=$size, devicePixelRatio=$dpr, viewInsetsBottom=$insets',
-      );
-    } catch (e, s) {
-      _log.warning('ENTER SEED:\nFailed to load iOS device info', e, s);
-    }
   }
 
   Future<void> _next(String phrase) async {
