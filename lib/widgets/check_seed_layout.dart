@@ -27,6 +27,11 @@ class CheckSeedLayout extends StatelessWidget {
 
     final textStyles = theme.textStyles;
 
+    final words = userAnswers
+        .map((e) => e.word)
+        .where((e) => e.isNotEmpty)
+        .toList();
+
     return Column(
       children: [
         Image.asset(
@@ -53,14 +58,14 @@ class CheckSeedLayout extends StatelessWidget {
         ),
         const SizedBox(height: DimensSize.d24),
         CheckSeedAnswersCounterWidget(
-          currentIndex: currentCheckIndex,
+          currentIndex: words.length,
           count: userAnswers.length,
         ),
         const SizedBox(height: DimensSize.d24),
         const Spacer(),
         CheckSeedAvailableAnswersWidget(
           availableAnswers: availableAnswers,
-          selectedAnswers: userAnswers.map((e) => e.word).toList(),
+          selectedAnswers: words,
           selectAnswer: answerQuestion,
         ),
         const SizedBox(height: DimensSize.d16),

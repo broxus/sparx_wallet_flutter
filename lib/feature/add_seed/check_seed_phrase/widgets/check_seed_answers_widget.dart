@@ -76,39 +76,45 @@ class CheckSeedAnswersCounterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
-    return Row(
-      children: [
-        Expanded(
-          child: Container(
-            height: 1,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.centerRight,
-                end: Alignment.centerLeft,
-                colors: [ColorsResV2.n70, ColorsResV2.transparentAcaeca],
+    return AnimatedOpacity(
+      opacity: currentIndex == 0 ? 0 : 1,
+      duration: currentIndex == 0
+          ? Duration.zero
+          : const Duration(milliseconds: 250),
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              height: 1,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerRight,
+                  end: Alignment.centerLeft,
+                  colors: [ColorsResV2.n70, ColorsResV2.transparentAcaeca],
+                ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d24),
-          child: Text(
-            '${currentIndex + 1} of $count',
-            style: theme.textStyles.paragraphMedium,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: DimensSize.d24),
+            child: Text(
+              '$currentIndex of $count',
+              style: theme.textStyles.paragraphMedium,
+            ),
           ),
-        ),
 
-        Expanded(
-          child: Container(
-            height: 1,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [ColorsResV2.n70, ColorsResV2.transparentAcaeca],
+          Expanded(
+            child: Container(
+              height: 1,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [ColorsResV2.n70, ColorsResV2.transparentAcaeca],
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
