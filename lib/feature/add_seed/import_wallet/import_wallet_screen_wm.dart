@@ -144,7 +144,11 @@ class ImportWalletScreenWidgetModel
 
   void onPressedManual() {
     context.compassContinue(
-      const EnterSeedPhraseRouteData(isOnboarding: true, seedName: null),
+      EnterSeedPhraseRouteData(
+        isOnboarding: true,
+        seedName: null,
+        wordsCount: screenState.value.data?.selectedValue,
+      ),
     );
   }
 

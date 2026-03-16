@@ -14,11 +14,13 @@ class EnterSeedPhraseWidget
   EnterSeedPhraseWidget({
     required bool isOnboarding,
     String? seedName,
+    int? wordsCount,
     super.key,
   }) : super(
          wmFactoryParam: EnterSeedWmParams(
            isOnboarding: isOnboarding,
            seedName: seedName,
+           wordsCount: wordsCount,
          ),
        );
 

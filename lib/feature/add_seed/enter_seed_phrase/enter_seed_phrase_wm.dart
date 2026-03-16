@@ -24,10 +24,15 @@ typedef SuggestionSelectedCallback =
     void Function(String suggestion, int index);
 
 class EnterSeedWmParams {
-  EnterSeedWmParams({required this.isOnboarding, required this.seedName});
+  EnterSeedWmParams({
+    required this.isOnboarding,
+    required this.seedName,
+    this.wordsCount,
+  });
 
   final bool isOnboarding;
   final String? seedName;
+  final int? wordsCount;
 }
 
 /// [WidgetModel] для [EnterSeedPhraseWidget]
@@ -77,7 +82,16 @@ class EnterSeedPhraseWidgetModel
 
   late final _displayPasteButtonState = createNotifier<bool>(true);
   late final _tabState = createNotifier<EnterSeedPhraseTabData>(() {
-    final currentValue = model.seedPhraseWordsCount.first;
+    final seedPhraseWordsCount = model.seedPhraseWordsCount;
+    final selectedWordsCount = wmParams.value.wordsCount;
+
+    final index = seedPhraseWordsCount.indexWhere(
+      (value) => value == selectedWordsCount,
+    );
+
+    final currentValue = index == -1
+        ? model.seedPhraseWordsCount.first
+        : model.seedPhraseWordsCount[index];
 
     return EnterSeedPhraseTabData(
       currentValue: currentValue,
