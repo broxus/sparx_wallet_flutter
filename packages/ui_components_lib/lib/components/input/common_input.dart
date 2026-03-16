@@ -8,7 +8,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// Default height for input
 const commonInputHeight = DimensSize.d56;
 const suggestionDividerSize = DimensStroke.small;
-const _suggestionsMaxHeight = 240.0;
+const _maxSuggestionsCount = 5;
 
 typedef SuggestionsCallback<T> = FutureOr<List<T>?> Function(String search);
 
@@ -219,6 +219,7 @@ class _CommonInputState extends State<CommonInput> {
   List<String> _suggestions = const [];
   bool isEmpty = true;
   int _suggestionsRequestId = 0;
+  bool _showSuggestionsAbove = false;
 
   FormFieldState<String>? field;
 
@@ -527,7 +528,7 @@ class _CommonInputState extends State<CommonInput> {
         return;
       }
 
-      _suggestions = suggestions;
+      _suggestions = suggestions.take(_maxSuggestionsCount).toList();
       if (_suggestions.isEmpty) {
         _removeSuggestionsOverlay();
         return;
@@ -546,6 +547,8 @@ class _CommonInputState extends State<CommonInput> {
       return;
     }
 
+    _updateSuggestionsPlacement();
+
     if (_suggestionsOverlay == null) {
       _suggestionsOverlay = OverlayEntry(builder: _buildSuggestionsOverlay);
       Overlay.of(context, rootOverlay: true).insert(_suggestionsOverlay!);
@@ -560,6 +563,41 @@ class _CommonInputState extends State<CommonInput> {
     _suggestions = const [];
   }
 
+  void _updateSuggestionsPlacement() {
+    final renderBox = context.findRenderObject() as RenderBox?;
+    final overlayBox =
+        Overlay.of(context, rootOverlay: true).context.findRenderObject()
+            as RenderBox?;
+
+    if (renderBox == null || overlayBox == null || !renderBox.attached) {
+      _showSuggestionsAbove = false;
+      return;
+    }
+
+    final fieldOffset = renderBox.localToGlobal(
+      Offset.zero,
+      ancestor: overlayBox,
+    );
+    final fieldBottom = fieldOffset.dy + renderBox.size.height;
+    final spaceBelow = overlayBox.size.height - fieldBottom;
+    final estimatedHeight = _estimateSuggestionsHeight();
+
+    _showSuggestionsAbove =
+        spaceBelow < estimatedHeight && fieldOffset.dy > spaceBelow;
+  }
+
+  double _estimateSuggestionsHeight() {
+    final itemCount = _suggestions.length;
+    if (itemCount == 0) {
+      return 0;
+    }
+
+    final itemHeight = widget.v2Style != null ? DimensSize.d48 : DimensSize.d64;
+    final dividersHeight = suggestionDividerSize * (itemCount - 1);
+
+    return (itemHeight * itemCount) + dividersHeight;
+  }
+
   Widget _buildSuggestionsOverlay(BuildContext context) {
     final colors = context.themeStyle.colors;
     final renderBox = this.context.findRenderObject() as RenderBox?;
@@ -567,7 +605,6 @@ class _CommonInputState extends State<CommonInput> {
       return const SizedBox.shrink();
     }
 
-    final size = renderBox.size;
     final itemBuilder =
         widget.itemBuilder ??
         (BuildContext context, String item) =>
@@ -583,49 +620,47 @@ class _CommonInputState extends State<CommonInput> {
           CompositedTransformFollower(
             link: _suggestionsLink,
             showWhenUnlinked: false,
-            offset: Offset(0, size.height + DimensSize.d4),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: widget.v2Style != null
-                      ? size.width
-                      : DimensSize.d168,
-                  maxHeight: _suggestionsMaxHeight,
+            targetAnchor: _showSuggestionsAbove
+                ? Alignment.topLeft
+                : Alignment.bottomLeft,
+            followerAnchor: _showSuggestionsAbove
+                ? Alignment.bottomLeft
+                : Alignment.topLeft,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: widget.v2Style != null
+                    ? renderBox.size.width
+                    : DimensSize.d168,
+              ),
+              child: Material(
+                type: MaterialType.card,
+                clipBehavior: Clip.antiAlias,
+                shape: SquircleShapeBorder(
+                  cornerRadius: widget.v2Style != null
+                      ? DimensSize.d12
+                      : DimensRadius.medium,
                 ),
-                child: Material(
-                  type: MaterialType.card,
-                  shape: SquircleShapeBorder(
-                    cornerRadius: widget.v2Style != null
-                        ? DimensSize.d12
-                        : DimensRadius.medium,
-                  ),
-                  color:
-                      widget.suggestionBackground ?? colors.backgroundSecondary,
-                  child: ScrollConfiguration(
-                    behavior: ScrollConfiguration.of(
-                      context,
-                    ).copyWith(scrollbars: false),
-                    child: ListView.separated(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      itemCount: _suggestions.length,
-                      itemBuilder: (context, index) {
-                        final suggestion = _suggestions[index];
+                color:
+                    widget.suggestionBackground ?? colors.backgroundSecondary,
+                child: ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  itemCount: _suggestions.length,
+                  itemBuilder: (context, index) {
+                    final suggestion = _suggestions[index];
 
-                        return InkWell(
-                          onTap: () => _selectSuggestion(suggestion),
-                          child: itemBuilder(context, suggestion),
-                        );
-                      },
-                      separatorBuilder: (_, __) => Divider(
-                        height: suggestionDividerSize,
-                        color: widget.v2Style != null
-                            ? widget.v2Style!.borderSuggestionColor
-                            : colors.strokeSecondary,
-                        thickness: suggestionDividerSize,
-                      ),
-                    ),
+                    return InkWell(
+                      onTap: () => _selectSuggestion(suggestion),
+                      child: itemBuilder(context, suggestion),
+                    );
+                  },
+                  separatorBuilder: (_, __) => Divider(
+                    height: suggestionDividerSize,
+                    color: widget.v2Style != null
+                        ? widget.v2Style!.borderSuggestionColor
+                        : colors.strokeSecondary,
+                    thickness: suggestionDividerSize,
                   ),
                 ),
               ),
