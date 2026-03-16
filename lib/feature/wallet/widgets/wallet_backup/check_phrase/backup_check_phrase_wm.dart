@@ -91,6 +91,10 @@ class BackupCheckPhraseWidgetModel
       await model.getSeedWords(wmParams.value.seedPhrase),
     );
     availableAnswers = _generateAnswerWords(_correctAnswers);
+    _createAnswers();
+  }
+
+  void _createAnswers() {
     userAnswers = _correctAnswers.map((e) => e.copyWith(word: '')).toList();
     screenState.content(
       BackupCheckPhraseData(
@@ -129,6 +133,8 @@ class BackupCheckPhraseWidgetModel
     }
     if (hasError) {
       model.showValidateError(LocaleKeys.seedIncorrectTryAgain.tr());
+      currentCheckIndex = 0;
+      _createAnswers();
     } else {
       final params = wmParams.value;
 
