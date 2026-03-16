@@ -57,6 +57,8 @@ class CheckSeedAnswersWidget extends StatelessWidget {
               : isSelected
               ? SelectionStatus.completed
               : SelectionStatus.unfocus,
+          focusBorderColor: ColorsResV2.p75,
+          unfocusBorderColor: ColorsResV2.p30,
         );
       },
     );

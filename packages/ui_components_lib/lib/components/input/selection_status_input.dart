@@ -12,6 +12,8 @@ class SelectionStatusInput extends StatefulWidget {
     required this.onPressed,
     required this.status,
     this.icon,
+    this.focusBorderColor,
+    this.unfocusBorderColor,
     super.key,
   });
 
@@ -19,6 +21,8 @@ class SelectionStatusInput extends StatefulWidget {
   final SelectionStatus status;
   final VoidCallback? onPressed;
   final Widget? icon;
+  final Color? focusBorderColor;
+  final Color? unfocusBorderColor;
 
   @override
   State<SelectionStatusInput> createState() => _SelectionStatusInputState();
@@ -36,12 +40,12 @@ class _SelectionStatusInputState extends State<SelectionStatusInput> {
 
     switch (widget.status) {
       case SelectionStatus.unfocus:
-        borderColor = theme.colors.borderFocus.withAlpha(
-          OpacV2.opac25.toByteInt(),
-        );
+        borderColor =
+            widget.unfocusBorderColor ??
+            theme.colors.borderFocus.withAlpha(OpacV2.opac25.toByteInt());
         contentColor = ColorsResV2.midnightBlue;
       case SelectionStatus.focus:
-        borderColor = theme.colors.borderFocus;
+        borderColor = widget.focusBorderColor ?? theme.colors.borderFocus;
         contentColor = theme.colors.content0;
       case SelectionStatus.completed:
         backgroundColor = theme.colors.backgroundAccent;
