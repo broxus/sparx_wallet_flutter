@@ -1,14 +1,14 @@
 import 'package:app/app/service/database/database_service.dart';
-import 'package:app/app/service/storage_service/migrations/storage_migrations/storage_migration.dart';
+import 'package:app/app/service/storage_service/storage_service.dart';
 import 'package:app/data/models/browser_history_item.dart';
-import 'package:get_storage/get_storage.dart';
 
 class StorageMigrationV6 implements StorageMigration {
-  StorageMigrationV6(this._databaseService);
+  StorageMigrationV6(this._databaseService, this._storageAdapter);
 
   static const int version = 6;
 
   final DatabaseService _databaseService;
+  final StorageAdapter _storageAdapter;
 
   @override
   Future<void> apply() async {
@@ -23,8 +23,8 @@ class StorageMigrationV6 implements StorageMigration {
       return;
     }
 
-    await GetStorage.init('browser_history');
-    final storage = GetStorage('browser_history');
+    await _storageAdapter.init('browser_history');
+    final storage = _storageAdapter.box('browser_history');
 
     final list = storage.read<List<dynamic>>('browser_history_key');
 

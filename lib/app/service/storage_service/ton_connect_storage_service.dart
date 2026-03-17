@@ -1,6 +1,5 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/subjects.dart';
@@ -11,13 +10,15 @@ const _connectionsKey = 'connections';
 
 @singleton
 class TonConnectStorageService extends AbstractStorageService {
-  TonConnectStorageService(@Named(container) this._storage);
+  TonConnectStorageService(this._storageAdapter)
+    : _storage = _storageAdapter.box(container);
 
   static const String container = 'ton_connect_storage_service';
 
   static final _logger = Logger('TonConnectStorageService');
 
-  final GetStorage _storage;
+  final StorageAdapter _storageAdapter;
+  final StorageBox _storage;
 
   late var _eventId = _readEventId();
 
@@ -27,7 +28,7 @@ class TonConnectStorageService extends AbstractStorageService {
       _connectionsSubject.stream;
 
   @override
-  Future<void> init() => GetStorage.init(container);
+  Future<void> init() => _storageAdapter.init(container);
 
   @override
   Future<void> clear() => _storage.erase();

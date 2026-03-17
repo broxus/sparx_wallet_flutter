@@ -3,8 +3,9 @@ import 'dart:io';
 import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/app/service/storage_service/migrations/storage_migrations/v3.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
+
+import '../../helpers/helpers.dart';
 
 class _MockPathProviderPlatform extends PathProviderPlatform {
   @override
@@ -21,6 +22,7 @@ void main() {
 
   late StorageMigrationV3 migration;
   late List<String> containers;
+  late InMemoryStorageAdapter storageAdapter;
 
   setUpAll(() {
     containers = [
@@ -31,25 +33,26 @@ void main() {
   });
 
   setUp(() async {
-    migration = StorageMigrationV3();
+    storageAdapter = InMemoryStorageAdapter();
+    migration = StorageMigrationV3(storageAdapter);
 
     for (final c in containers) {
-      await GetStorage.init(c);
-      await GetStorage(c).erase();
+      await storageAdapter.init(c);
+      await storageAdapter.box(c).erase();
     }
   });
 
   tearDown(() async {
     for (final c in containers) {
-      await GetStorage.init(c);
-      await GetStorage(c).erase();
+      await storageAdapter.init(c);
+      await storageAdapter.box(c).erase();
     }
   });
 
   group('StorageMigrationV3.apply', () {
     test('Replace keys on enum-base names', () async {
       for (final c in containers) {
-        final storage = GetStorage(c);
+        final storage = storageAdapter.box(c);
 
         await storage.write('0', 'v0');
         await storage.write('1', 'v1');
@@ -65,7 +68,7 @@ void main() {
       await migration.apply();
 
       for (final c in containers) {
-        final storage = GetStorage(c);
+        final storage = storageAdapter.box(c);
 
         // Not delete old key
         expect(storage.read<String>('0'), 'v0');
@@ -82,7 +85,7 @@ void main() {
 
     test('Other num index to _NetworkType.custom', () async {
       for (final c in containers) {
-        final storage = GetStorage(c);
+        final storage = storageAdapter.box(c);
 
         await storage.write('99', 'vOutOfRange');
 
@@ -92,7 +95,7 @@ void main() {
       await migration.apply();
 
       for (final c in containers) {
-        final storage = GetStorage(c);
+        final storage = storageAdapter.box(c);
 
         // Old key
         expect(storage.read<String>('99'), 'vOutOfRange');

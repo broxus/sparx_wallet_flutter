@@ -1,18 +1,21 @@
 import 'package:app/app/service/ntp_service.dart';
+import 'package:app/app/service/storage_service/storage_adapter.dart';
 import 'package:app/feature/browser/data/groups/browser_group.dart';
 import 'package:app/feature/browser/domain/service/storages/browser_groups_storage_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockGetStorage extends Mock implements GetStorage {}
+class MockStorageAdapter extends Mock implements StorageAdapter {}
+
+class MockStorageBox extends Mock implements StorageBox {}
 
 class MockNtpService extends Mock implements NtpService {}
 
 void main() {
   late BrowserGroupsStorageService browserGroupsStorageService;
-  late MockGetStorage storage;
+  late MockStorageAdapter storageAdapter;
+  late MockStorageBox storageBox;
   late MockNtpService ntpService;
 
   final getIt = GetIt.instance;
@@ -22,11 +25,15 @@ void main() {
   setUp(() async {
     await getIt.reset();
     ntpService = MockNtpService();
-    storage = MockGetStorage();
+    storageAdapter = MockStorageAdapter();
+    storageBox = MockStorageBox();
 
     getIt.registerSingleton<NtpService>(ntpService);
 
-    browserGroupsStorageService = BrowserGroupsStorageService(storage);
+    when(
+      () => storageAdapter.box(BrowserGroupsStorageService.container),
+    ).thenReturn(storageBox);
+    browserGroupsStorageService = BrowserGroupsStorageService(storageAdapter);
 
     when(() => ntpService.now()).thenReturn(now);
   });
@@ -34,7 +41,7 @@ void main() {
   group('groups', () {
     test('get empty groups', () {
       when(
-        () => storage.read<List<dynamic>>(
+        () => storageBox.read<List<dynamic>>(
           BrowserGroupsStorageService.browserGroupsKey,
         ),
       ).thenReturn([]);
@@ -52,7 +59,7 @@ void main() {
       const isEditable = true;
 
       when(
-        () => storage.read<List<dynamic>>(
+        () => storageBox.read<List<dynamic>>(
           BrowserGroupsStorageService.browserGroupsKey,
         ),
       ).thenReturn([
@@ -78,7 +85,7 @@ void main() {
       final tabIds = ['0'];
 
       when(
-        () => storage.write(
+        () => storageBox.write(
           BrowserGroupsStorageService.browserGroupsKey,
           any<List<dynamic>>(),
         ),
@@ -87,7 +94,7 @@ void main() {
       final result = browserGroupsStorageService.initGroups(tabIds);
 
       verify(
-        () => storage.write(
+        () => storageBox.write(
           BrowserGroupsStorageService.browserGroupsKey,
           any<List<Map<String, dynamic>>>(),
         ),
@@ -107,7 +114,7 @@ void main() {
       });
 
       when(
-        () => storage.write(
+        () => storageBox.write(
           BrowserGroupsStorageService.browserGroupsKey,
           any<List<dynamic>>(),
         ),
@@ -117,7 +124,7 @@ void main() {
 
       final captured =
           verify(
-                () => storage.write(
+                () => storageBox.write(
                   BrowserGroupsStorageService.browserGroupsKey,
                   captureAny<List<dynamic>>(),
                 ),

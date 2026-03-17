@@ -1,23 +1,32 @@
+import 'package:app/app/service/storage_service/storage_adapter.dart';
 import 'package:app/feature/browser/domain/service/storages/browser_bookmarks_storage_service.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockGetStorage extends Mock implements GetStorage {}
+class MockStorageAdapter extends Mock implements StorageAdapter {}
+
+class MockStorageBox extends Mock implements StorageBox {}
 
 void main() {
   late BrowserBookmarksStorageService browserBookmarksStorageService;
-  late MockGetStorage storage;
+  late MockStorageAdapter storageAdapter;
+  late MockStorageBox storageBox;
 
   setUp(() {
-    storage = MockGetStorage();
-    browserBookmarksStorageService = BrowserBookmarksStorageService(storage);
+    storageAdapter = MockStorageAdapter();
+    storageBox = MockStorageBox();
+    when(
+      () => storageAdapter.box(BrowserBookmarksStorageService.container),
+    ).thenReturn(storageBox);
+    browserBookmarksStorageService = BrowserBookmarksStorageService(
+      storageAdapter,
+    );
   });
 
   group('bookmarks', () {
     test('get empty bookmarks', () {
       when(
-        () => storage.read<List<dynamic>>('browser_bookmarks_key'),
+        () => storageBox.read<List<dynamic>>('browser_bookmarks_key'),
       ).thenReturn([]);
       final result = browserBookmarksStorageService.getBrowserBookmarks();
 
@@ -31,7 +40,7 @@ void main() {
       const sortingOrder = 1;
 
       when(
-        () => storage.read<List<dynamic>>('browser_bookmarks_key'),
+        () => storageBox.read<List<dynamic>>('browser_bookmarks_key'),
       ).thenReturn([
         {'id': id, 'title': title, 'url': url, 'sortingOrder': sortingOrder},
       ]);

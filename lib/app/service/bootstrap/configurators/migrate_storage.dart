@@ -12,6 +12,7 @@ class MigrateConfigurator {
     this._generalStorageService,
     this._connectionsStorageService,
     this._databaseService,
+    this._storageAdapter,
   );
 
   final EncryptedStorage _encryptedStorage;
@@ -19,6 +20,7 @@ class MigrateConfigurator {
   final GeneralStorageService _generalStorageService;
   final ConnectionsStorageService _connectionsStorageService;
   final DatabaseService _databaseService;
+  final StorageAdapter _storageAdapter;
 
   final _log = Logger('bootstrap');
 
@@ -30,6 +32,7 @@ class MigrateConfigurator {
       _generalStorageService,
       _connectionsStorageService,
       _databaseService,
+      _storageAdapter,
     );
     _log.finest('StorageMigrationService finished');
   }

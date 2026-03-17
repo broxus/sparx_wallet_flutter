@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:app/app/service/service.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
@@ -10,13 +9,15 @@ const _browserFaviconURLDomain = 'browser_favicon_urls';
 
 @singleton
 class BrowserFaviconURLStorageService extends AbstractStorageService {
-  BrowserFaviconURLStorageService(@Named(container) this._storage);
+  BrowserFaviconURLStorageService(this._storageAdapter)
+    : _storage = _storageAdapter.box(_browserFaviconURLDomain);
 
   static final _log = Logger('BrowserFaviconURLStorageService');
 
   static const container = _browserFaviconURLDomain;
 
-  final GetStorage _storage;
+  final StorageAdapter _storageAdapter;
+  final StorageBox _storage;
 
   Future<String?> getFaviconURL(String url) async {
     try {
@@ -45,6 +46,7 @@ class BrowserFaviconURLStorageService extends AbstractStorageService {
   }
 
   @override
-  // ignore: no-empty-block
-  Future<void> init() async {}
+  Future<void> init() async {
+    await _storageAdapter.init(container);
+  }
 }

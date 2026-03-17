@@ -1,23 +1,30 @@
+import 'package:app/app/service/storage_service/storage_adapter.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/browser/domain/service/storages/browser_permissions_storage_service.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
-class MockGetStorage extends Mock implements GetStorage {}
+class MockStorageAdapter extends Mock implements StorageAdapter {}
+
+class MockStorageBox extends Mock implements StorageBox {}
 
 class MockBridge extends Mock implements NekotonBridgeApi {}
 
 void main() {
-  late MockGetStorage storage;
+  late MockStorageAdapter storageAdapter;
+  late MockStorageBox storageBox;
   late BrowserPermissionsStorageService service;
 
   final bridge = MockBridge();
 
   setUp(() {
-    storage = MockGetStorage();
-    service = BrowserPermissionsStorageService(storage);
+    storageAdapter = MockStorageAdapter();
+    storageBox = MockStorageBox();
+    when(
+      () => storageAdapter.box(BrowserPermissionsStorageService.container),
+    ).thenReturn(storageBox);
+    service = BrowserPermissionsStorageService(storageAdapter);
   });
 
   setUpAll(() {
@@ -26,18 +33,12 @@ void main() {
 
   group('permissions', () {
     test('Empty permissions', () {
-      when(
-        () => storage.getKeys<Iterable<String>>(),
-      ).thenReturn(const <String>[]);
-
-      when(
-        () => storage.getValues<Iterable<dynamic>>(),
-      ).thenReturn(const <dynamic>[]);
+      when(() => storageBox.getEntries()).thenReturn({});
 
       final result = service.getPermissions();
 
       expect(result, isEmpty);
-      verify(() => storage.getKeys<Iterable<String>>()).called(1);
+      verify(() => storageBox.getEntries()).called(1);
     });
 
     test('Exist permissions', () {
@@ -52,11 +53,7 @@ void main() {
         },
       };
 
-      when(() => storage.getKeys<Iterable<String>>()).thenReturn([origin]);
-
-      when(
-        () => storage.getValues<Iterable<dynamic>>(),
-      ).thenReturn([permissionsJson]);
+      when(() => storageBox.getEntries()).thenReturn({origin: permissionsJson});
 
       when(
         () => bridge.crateApiMergedNtValidateAddress(
@@ -71,8 +68,7 @@ void main() {
       expect(result[origin], isA<Permissions>());
       expect(result[origin]!.toJson(), equals(permissionsJson));
 
-      verify(() => storage.getKeys<Iterable<String>>()).called(1);
-      verify(() => storage.getValues<Iterable<dynamic>>()).called(1);
+      verify(() => storageBox.getEntries()).called(1);
     });
 
     test('save permissions', () async {
@@ -81,23 +77,23 @@ void main() {
       const permissions = Permissions();
 
       when(
-        () => storage.write(origin, permissions.toJson()),
+        () => storageBox.write(origin, permissions.toJson()),
       ).thenAnswer((_) async {});
 
       service.setPermissions(origin: origin, permissions: permissions);
 
-      verify(() => storage.write(origin, permissions.toJson())).called(1);
+      verify(() => storageBox.write(origin, permissions.toJson())).called(1);
     });
 
     test('Removes permissions', () async {
       const origin = 'https://to-remove.io';
 
-      when(() => storage.remove(origin)).thenAnswer((_) async {});
-      when(() => storage.hasData(origin)).thenReturn(true);
+      when(() => storageBox.remove(origin)).thenAnswer((_) async {});
+      when(() => storageBox.hasData(origin)).thenReturn(true);
 
       service.deletePermissionsForOrigin(origin);
 
-      verify(() => storage.remove(origin)).called(1);
+      verify(() => storageBox.remove(origin)).called(1);
     });
   });
 }
