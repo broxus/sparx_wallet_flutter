@@ -9,6 +9,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 const commonInputHeight = DimensSize.d56;
 const suggestionDividerSize = DimensStroke.small;
 const _maxSuggestionsCount = 5;
+const _suggestionsDebounceDuration = Duration(milliseconds: 300);
 
 typedef SuggestionsCallback<T> = FutureOr<List<T>?> Function(String search);
 
@@ -221,6 +222,8 @@ class _CommonInputState extends State<CommonInput> {
   int _suggestionsRequestId = 0;
   bool _showSuggestionsAbove = false;
   bool _suppressSuggestionUpdateOnce = false;
+  Timer? _suggestionsDebounceTimer;
+  String? _lastSuggestionsQuery;
 
   FormFieldState<String>? field;
 
@@ -239,6 +242,7 @@ class _CommonInputState extends State<CommonInput> {
   void dispose() {
     _controller.removeListener(_handleDidChange);
     _focusNode.removeListener(_handleFocusChange);
+    _suggestionsDebounceTimer?.cancel();
     _removeSuggestionsOverlay();
     if (_ownsFocusNode) {
       _focusNode.dispose();
@@ -515,36 +519,60 @@ class _CommonInputState extends State<CommonInput> {
   Future<void> _updateSuggestions() async {
     final suggestionsCallback = widget.suggestionsCallback;
     if (suggestionsCallback == null || !_focusNode.hasFocus) {
+      _suggestionsDebounceTimer?.cancel();
+      _suggestionsDebounceTimer = null;
+      _lastSuggestionsQuery = null;
       _removeSuggestionsOverlay();
       return;
     }
 
     final query = _controller.text;
     if (query.isEmpty) {
+      _suggestionsDebounceTimer?.cancel();
+      _suggestionsDebounceTimer = null;
+      _lastSuggestionsQuery = null;
       _removeSuggestionsOverlay();
       return;
     }
 
-    final requestId = ++_suggestionsRequestId;
-
-    try {
-      final suggestions = await suggestionsCallback(query) ?? const [];
-      if (!mounted || requestId != _suggestionsRequestId) {
-        return;
-      }
-
-      _suggestions = suggestions.take(_maxSuggestionsCount).toList();
-      if (_suggestions.isEmpty) {
-        _removeSuggestionsOverlay();
-        return;
-      }
-
-      _showSuggestionsOverlay();
-    } catch (_) {
-      if (requestId == _suggestionsRequestId) {
-        _removeSuggestionsOverlay();
-      }
+    if (query == _lastSuggestionsQuery) {
+      return;
     }
+
+    _suggestionsDebounceTimer?.cancel();
+    _suggestionsDebounceTimer = Timer(_suggestionsDebounceDuration, () async {
+      if (!mounted || !_focusNode.hasFocus) {
+        return;
+      }
+
+      final debouncedQuery = _controller.text;
+      if (debouncedQuery.isEmpty || debouncedQuery != query) {
+        return;
+      }
+
+      _lastSuggestionsQuery = debouncedQuery;
+      final requestId = ++_suggestionsRequestId;
+
+      try {
+        final suggestions =
+            await suggestionsCallback(debouncedQuery) ?? const [];
+        if (!mounted || requestId != _suggestionsRequestId) {
+          return;
+        }
+
+        _suggestions = suggestions.take(_maxSuggestionsCount).toList();
+        if (_suggestions.isEmpty) {
+          _removeSuggestionsOverlay();
+          return;
+        }
+
+        _showSuggestionsOverlay();
+      } catch (_) {
+        if (requestId == _suggestionsRequestId) {
+          _removeSuggestionsOverlay();
+        }
+      }
+    });
   }
 
   void _showSuggestionsOverlay() {
@@ -563,6 +591,8 @@ class _CommonInputState extends State<CommonInput> {
   }
 
   void _removeSuggestionsOverlay() {
+    _suggestionsDebounceTimer?.cancel();
+    _suggestionsDebounceTimer = null;
     _suggestionsOverlay?.remove();
     _suggestionsOverlay = null;
     _suggestions = const [];
@@ -679,6 +709,7 @@ class _CommonInputState extends State<CommonInput> {
   void _selectSuggestion(String suggestion) {
     _suggestionsRequestId++;
     _suppressSuggestionUpdateOnce = true;
+    _lastSuggestionsQuery = suggestion;
     _removeSuggestionsOverlay();
     _controller.value = TextEditingValue(
       text: suggestion,
