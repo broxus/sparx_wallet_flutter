@@ -146,6 +146,7 @@ class EnterSeedPhraseWidgetModel
     _keyboardSubscription = _keyboardVisibilityController.onChange.listen(
       (bool visible) => _isVisibleKeyboard = visible,
     );
+    _tabData?.addTextChangeListener(onChangedAnyField);
   }
 
   @override
@@ -216,6 +217,13 @@ class EnterSeedPhraseWidgetModel
     }
   }
 
+  void onChangedAnyField() {
+    if (!(_tabData?.isAllWordsExist ?? false)) {
+      return;
+    }
+    _tryCheckMnemonicType();
+  }
+
   /// [index] starts with 0
   void nextOrConfirm(int index) {
     if (index == _currentValue - 1) {
@@ -275,6 +283,8 @@ class EnterSeedPhraseWidgetModel
       return;
     }
 
+    _tabData?.removeTextChangeListener(onChangedAnyField);
+
     try {
       if (words.length > _inputDataList.length) {
         words.length = _inputDataList.length;
@@ -293,6 +303,7 @@ class EnterSeedPhraseWidgetModel
 
     _tryCheckMnemonicType();
     _validateFormWithError();
+    _tabData?.addTextChangeListener(onChangedAnyField);
   }
 
   void onSeedPhraseFormatChanged(SeedPhraseFormat format) =>
