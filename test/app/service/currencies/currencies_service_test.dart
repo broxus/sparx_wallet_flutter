@@ -278,6 +278,41 @@ void main() {
       },
     );
 
+    test(
+      'getOrFetchNativeCurrency fetches native currency when it is not cached '
+      'and saves it',
+      () async {
+        when(() => storageService.getCurrencies(networkGroup)).thenReturn(
+          [cachedCurrency],
+        );
+        when(
+          () => tonFetchStrategy.fetchCurrency(
+            address: nativeTokenAddress,
+            apiBaseUrl: 'https://currencies',
+            networkType: NetworkType.ton,
+            networkGroup: networkGroup,
+          ),
+        ).thenAnswer((_) async => fetchedNativeCurrency);
+
+        final result = await service.getOrFetchNativeCurrency(transport);
+
+        expect(result, fetchedNativeCurrency);
+        verify(
+          () => tonFetchStrategy.fetchCurrency(
+            address: nativeTokenAddress,
+            apiBaseUrl: 'https://currencies',
+            networkType: NetworkType.ton,
+            networkGroup: networkGroup,
+          ),
+        ).called(1);
+        verify(
+          () => storageService.saveOrUpdateCurrency(
+            currency: fetchedNativeCurrency,
+          ),
+        ).called(1);
+      },
+    );
+
     test('fetchCurrencyForNativeToken uses native token address', () async {
       when(
         () => tonFetchStrategy.fetchCurrency(
