@@ -15,7 +15,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:injectable/injectable.dart';
-import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -45,8 +44,6 @@ class EnterSeedPhraseWidgetModel
           EnterSeedWmParams
         > {
   EnterSeedPhraseWidgetModel(super.model);
-
-  static final _log = Logger('EnterSeedPhraseWidgetModel');
 
   final formKey = GlobalKey<FormState>();
 
@@ -133,6 +130,8 @@ class EnterSeedPhraseWidgetModel
 
   List<int> get seedPhraseWordsCount => model.seedPhraseWordsCount;
 
+  bool get isOnboarding => wmParams.value.isOnboarding;
+
   int get _currentValue =>
       _tabState.value?.currentValue ?? model.seedPhraseWordsCount.first;
 
@@ -209,11 +208,9 @@ class EnterSeedPhraseWidgetModel
         deriveFromPhrase(phrase: phrase, mnemonicType: _mnemonicType);
 
         await _next(phrase);
-      } on AnyhowException catch (e, s) {
-        _log.severe('confirmAction AnyhowException', e, s);
+      } on AnyhowException catch (_) {
         model.showError(LocaleKeys.wrongSeed.tr());
-      } on Exception catch (e, s) {
-        _log.severe('confirmAction', e, s);
+      } on Exception catch (e) {
         model.showError(e.toString());
       }
     }
@@ -257,7 +254,7 @@ class EnterSeedPhraseWidgetModel
         count <= seedPhraseWordsCount.max) {
       changeTab(count);
     } else {
-      model.showError(LocaleKeys.incorrectWordsFormat.tr());
+      model.showError(LocaleKeys.seedIncorrectTryAgain.tr());
       return;
     }
 
@@ -274,7 +271,7 @@ class EnterSeedPhraseWidgetModel
 
     if (words.isEmpty) {
       _resetFormAndError();
-      model.showError(LocaleKeys.incorrectWordsFormat.tr());
+      model.showError(LocaleKeys.seedIncorrectTryAgain.tr());
       return;
     }
 
@@ -404,7 +401,7 @@ class EnterSeedPhraseWidgetModel
     if (isEmptyFields) {
       model.showError(LocaleKeys.fillMissingWords.tr());
     } else if (isWrongWords) {
-      model.showError(LocaleKeys.incorrectWordsFormat.tr());
+      model.showError(LocaleKeys.seedIncorrectTryAgain.tr());
     }
 
     return !isEmptyFields && !isWrongWords;
