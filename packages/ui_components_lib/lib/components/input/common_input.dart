@@ -220,6 +220,7 @@ class _CommonInputState extends State<CommonInput> {
   bool isEmpty = true;
   int _suggestionsRequestId = 0;
   bool _showSuggestionsAbove = false;
+  bool _suppressSuggestionUpdateOnce = false;
 
   FormFieldState<String>? field;
 
@@ -282,6 +283,10 @@ class _CommonInputState extends State<CommonInput> {
     if (!mounted) return;
     _handleInput();
     field?.didChange(value);
+    if (_suppressSuggestionUpdateOnce) {
+      _suppressSuggestionUpdateOnce = false;
+      return;
+    }
     _updateSuggestions();
   }
 
@@ -672,12 +677,14 @@ class _CommonInputState extends State<CommonInput> {
   }
 
   void _selectSuggestion(String suggestion) {
+    _suggestionsRequestId++;
+    _suppressSuggestionUpdateOnce = true;
+    _removeSuggestionsOverlay();
     _controller.value = TextEditingValue(
       text: suggestion,
       selection: TextSelection.collapsed(offset: suggestion.length),
     );
     widget.onSuggestionSelected?.call(suggestion);
-    _removeSuggestionsOverlay();
   }
 
   // ignore: long-method
