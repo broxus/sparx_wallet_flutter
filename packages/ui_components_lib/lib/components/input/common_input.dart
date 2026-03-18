@@ -550,7 +550,6 @@ class _CommonInputState extends State<CommonInput> {
         return;
       }
 
-      _lastSuggestionsQuery = debouncedQuery;
       final requestId = ++_suggestionsRequestId;
 
       try {
@@ -562,13 +561,16 @@ class _CommonInputState extends State<CommonInput> {
 
         _suggestions = suggestions.take(_maxSuggestionsCount).toList();
         if (_suggestions.isEmpty) {
+          _lastSuggestionsQuery = null;
           _removeSuggestionsOverlay();
           return;
         }
 
+        _lastSuggestionsQuery = debouncedQuery;
         _showSuggestionsOverlay();
       } catch (_) {
         if (requestId == _suggestionsRequestId) {
+          _lastSuggestionsQuery = null;
           _removeSuggestionsOverlay();
         }
       }
