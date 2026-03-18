@@ -122,17 +122,6 @@ class ConfirmActionWidgetModel
 
         await context.compassBack();
 
-        // final result = await context.compassPush<bool>(
-        //   ManualBackupRouteData(
-        //     seedPhrase: await model.getSecurePhrase(phrase),
-        //     address: address,
-        //   ),
-        // );
-        //
-        // if (result != null) {
-        //   params.finishedBackupCallback(result);
-        // }
-
         context.compassContinue(
           ManualBackupRouteData(
             seedPhrase: await model.getSecurePhrase(phrase),
