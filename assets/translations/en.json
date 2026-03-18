@@ -8,6 +8,7 @@
   "letsCheckSeedPhrase": "Let’s check your seed phrase",
   "chooseNetwork": "Choose a network",
   "checkSeedPhraseCorrectly": "We’ll verify that you wrote your seed phrase correctly. Please select the correct words to continue.",
+  "checkSeedAnswersCounter": "{} of {}",
   "seedIsWrong": "The seed phrase is wrong",
   "selectNetworkNewWalletDescription": "Select the network for your new wallet.\nThis will determine the blockchain and\ncryptocurrency you'll be using.",
   "wordWord": "Word",

@@ -13,6 +13,7 @@ abstract class LocaleKeys {
   static const letsCheckSeedPhrase = 'letsCheckSeedPhrase';
   static const chooseNetwork = 'chooseNetwork';
   static const checkSeedPhraseCorrectly = 'checkSeedPhraseCorrectly';
+  static const checkSeedAnswersCounter = 'checkSeedAnswersCounter';
   static const seedIsWrong = 'seedIsWrong';
   static const selectNetworkNewWalletDescription =
       'selectNetworkNewWalletDescription';

@@ -100,7 +100,9 @@ class CheckSeedAnswersCounterWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: DimensSize.d24),
             child: Text(
-              '$currentIndex of $count',
+              LocaleKeys.checkSeedAnswersCounter.tr(
+                args: [currentIndex.toString(), count.toString()],
+              ),
               style: theme.textStyles.paragraphMedium,
             ),
           ),
