@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/utils/utils.dart';
@@ -26,7 +27,8 @@ class TCSignDataWidgetModel
           TCSignDataWidget,
           TCSignDataModel,
           TCSignDataWmParams
-        > {
+        >
+    with BleAvailabilityWmMixin {
   TCSignDataWidgetModel(super.model);
 
   late final _connectionState = createWmParamsNotifier((it) => it.connection);
@@ -49,6 +51,11 @@ class TCSignDataWidgetModel
 
     try {
       _isLoadingState.accept(true);
+
+      if (signInputAuth.isLedger) {
+        final isAvailable = await checkBluetoothAvailability();
+        if (!isAvailable) return;
+      }
 
       final signDataResult = await model.signData(
         account: account,

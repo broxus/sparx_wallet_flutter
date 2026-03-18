@@ -1402,14 +1402,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i775.NftApiDataProvider>(
       () => _i775.NftApiDataProvider(gh<_i361.Dio>()),
     );
-    gh.factory<_i845.TCSignDataModel>(
-      () => _i845.TCSignDataModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i553.MessengerService>(),
-        gh<_i68.NtpService>(),
-      ),
-    );
     gh.singleton<_i811.StakingService>(
       () => _i811.StakingService(
         gh<_i771.NekotonRepository>(),
@@ -1592,6 +1584,15 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i1000.BrowserServicePermissionsDelegate(
         gh<_i614.BrowserPermissionsStorageService>(),
         gh<_i940.DatabaseService>(),
+      ),
+    );
+    gh.factory<_i845.TCSignDataModel>(
+      () => _i845.TCSignDataModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i68.NtpService>(),
+        gh<_i865.LedgerService>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
       ),
     );
     gh.lazySingleton<_i508.TonConnectRequestValidator>(
@@ -2123,6 +2124,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1068.SeedSettingsWidgetModel>(
       () => _i1068.SeedSettingsWidgetModel(gh<_i767.SeedSettingsModel>()),
     );
+    gh.factory<_i88.TCConnectModel>(
+      () => _i88.TCConnectModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i128.NtpService>(),
+        gh<_i865.LedgerService>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+      ),
+    );
     gh.factory<_i667.ManageSeedsAccountsPageWidgetModel>(
       () => _i667.ManageSeedsAccountsPageWidgetModel(
         gh<_i321.ManageSeedsAccountsPageModel>(),
@@ -2200,15 +2211,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i82.CompassBaseRoute>(instanceName: 'AddExistingWalletRoute'),
       ),
       instanceName: 'ChooseNetworkRoute',
-    );
-    gh.factory<_i88.TCConnectModel>(
-      () => _i88.TCConnectModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i128.NtpService>(),
-        gh<_i553.MessengerService>(),
-      ),
     );
     gh.factory<_i6.AddNewLocalAccountTypeSheetModel>(
       () => _i6.AddNewLocalAccountTypeSheetModel(

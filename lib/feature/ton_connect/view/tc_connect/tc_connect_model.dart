@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/messenger/messenger.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
@@ -14,19 +14,24 @@ import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
-class TCConnectModel extends ElementaryModel {
+class TCConnectModel extends ElementaryModel with BleAvailabilityModelMixin {
   TCConnectModel(
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._currentAccountsService,
     this._ntpService,
-    this._messengerService,
+    this._ledgerService,
+    this._delegate,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final CurrentAccountsService _currentAccountsService;
   final NtpService _ntpService;
-  final MessengerService _messengerService;
+  final LedgerService _ledgerService;
+  final BleAvailabilityModelDelegate _delegate;
+
+  @override
+  BleAvailabilityModelDelegate get delegate => _delegate;
 
   String get symbol => currentTransport.nativeTokenTicker;
 
@@ -100,8 +105,6 @@ class TCConnectModel extends ElementaryModel {
     return SignInputAuthLedger(wallet: wallet.walletType);
   }
 
-  void showMessage(Message message) => _messengerService.show(message);
-
   Future<TonWallet?> _getWallet(KeyAccount keyAccount) async =>
       _nekotonRepository.walletsMap[keyAccount.address]?.wallet ??
       (await _nekotonRepository.subscribe(keyAccount.account.tonWallet)).wallet;
@@ -147,12 +150,16 @@ class TCConnectModel extends ElementaryModel {
       ...messageHash,
     ];
 
-    final signedData = await _nekotonRepository.seedList.signData(
-      data: base64Encode(bufferToSign),
+    final signedData = await _ledgerService.runWithLedgerIfKeyIsLedger(
+      interactionType: LedgerInteractionType.sign,
       publicKey: account.publicKey,
-      signInputAuth: signInputAuth,
-      signatureContext: const SignatureContext(
-        signatureType: SignatureType.empty,
+      action: () => _nekotonRepository.seedList.signData(
+        data: base64Encode(bufferToSign),
+        publicKey: account.publicKey,
+        signInputAuth: signInputAuth,
+        signatureContext: const SignatureContext(
+          signatureType: SignatureType.empty,
+        ),
       ),
     );
 

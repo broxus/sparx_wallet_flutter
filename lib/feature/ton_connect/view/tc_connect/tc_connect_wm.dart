@@ -1,5 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/generated/generated.dart';
@@ -28,7 +29,8 @@ class TCConnectWidgetModel
           TCConnectWidget,
           TCConnectModel,
           TCConnectWmParams
-        > {
+        >
+    with BleAvailabilityWmMixin {
   TCConnectWidgetModel(super.model);
 
   late final searchController = createTextEditingController();
@@ -40,6 +42,7 @@ class TCConnectWidgetModel
     Currencies()[model.symbol] ??
         Currency.create(model.symbol, 0, pattern: moneyPattern(0)),
   );
+  late final _isLoadingState = createNotifier(false);
   final _balances = <Address, ListenableState<Money>>{};
 
   final _log = Logger('TCConnectWidgetModel');
@@ -49,6 +52,8 @@ class TCConnectWidgetModel
   ListenableState<List<KeyAccount>> get accountsState => _accountsState;
 
   ListenableState<KeyAccount?> get selectedState => _selectedState;
+
+  ListenableState<bool> get isLoadingState => _isLoadingState;
 
   KeyAccount? get _initialSelectedAccount =>
       model.currentAccount ?? model.accounts.firstOrNull;
@@ -97,6 +102,13 @@ class TCConnectWidgetModel
     if (account == null) return;
 
     try {
+      _isLoadingState.accept(true);
+
+      if (signInputAuth.isLedger) {
+        final isAvailable = await checkBluetoothAvailability();
+        if (!isAvailable) return;
+      }
+
       final replyItems = await model.createReplyItems(
         signInputAuth: signInputAuth,
         account: account,
@@ -115,6 +127,8 @@ class TCConnectWidgetModel
     } catch (e, s) {
       model.showMessage(Message.error(message: '$e'));
       _log.severe('TCConnect confirm error:', '$e', s);
+    } finally {
+      _isLoadingState.accept(false);
     }
   }
 

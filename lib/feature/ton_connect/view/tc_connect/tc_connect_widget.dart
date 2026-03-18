@@ -174,11 +174,15 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
             ),
           ),
         ),
-        EnterPasswordWidget.auth(
-          getLedgerAuthInput: wm.getLedgerAuthInput,
-          publicKey: account.publicKey,
-          title: LocaleKeys.allowWord.tr(),
-          onConfirmed: wm.onConfirm,
+        StateNotifierBuilder(
+          listenableState: wm.isLoadingState,
+          builder: (_, isLoading) => EnterPasswordWidget.auth(
+            getLedgerAuthInput: wm.getLedgerAuthInput,
+            publicKey: account.publicKey,
+            title: LocaleKeys.allowWord.tr(),
+            isLoading: isLoading ?? false,
+            onConfirmed: wm.onConfirm,
+          ),
         ),
       ],
     );

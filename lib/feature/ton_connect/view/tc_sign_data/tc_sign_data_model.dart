@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 import 'package:app/app/service/ntp_service.dart';
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/messenger/messenger.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/utils/utils.dart';
 import 'package:convert/convert.dart';
@@ -13,17 +13,22 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
-class TCSignDataModel extends ElementaryModel {
+class TCSignDataModel extends ElementaryModel with BleAvailabilityModelMixin {
   TCSignDataModel(
     ErrorHandler errorHandler,
     this._nekotonRepository,
-    this._messengerService,
     this._ntpService,
+    this._ledgerService,
+    this._delegate,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
-  final MessengerService _messengerService;
   final NtpService _ntpService;
+  final LedgerService _ledgerService;
+  final BleAvailabilityModelDelegate _delegate;
+
+  @override
+  BleAvailabilityModelDelegate get delegate => _delegate;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
@@ -63,12 +68,16 @@ class TCSignDataModel extends ElementaryModel {
       ..._makePayload(payload),
     ];
 
-    final signedData = await _nekotonRepository.seedList.signData(
-      data: base64Encode(messageBuffer),
+    final signedData = await _ledgerService.runWithLedgerIfKeyIsLedger(
+      interactionType: LedgerInteractionType.sign,
       publicKey: account.publicKey,
-      signInputAuth: signInputAuth,
-      signatureContext: const SignatureContext(
-        signatureType: SignatureType.empty,
+      action: () => _nekotonRepository.seedList.signData(
+        data: base64Encode(messageBuffer),
+        publicKey: account.publicKey,
+        signInputAuth: signInputAuth,
+        signatureContext: const SignatureContext(
+          signatureType: SignatureType.empty,
+        ),
       ),
     );
 
@@ -79,10 +88,6 @@ class TCSignDataModel extends ElementaryModel {
       domain: domain,
       payload: payload,
     );
-  }
-
-  void showMessage(Message message) {
-    _messengerService.show(message);
   }
 
   List<int> _makePayload(SignDataPayload payload) => switch (payload) {
