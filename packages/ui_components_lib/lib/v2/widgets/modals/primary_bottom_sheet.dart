@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
+import 'package:ui_components_lib/v2/widgets/modals/modal_bottom_sheet/modal_bottom_sheet.dart';
 
 Future<T?> showPrimaryBottomSheet<T>({
   required BuildContext context,
