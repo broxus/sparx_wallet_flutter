@@ -314,6 +314,7 @@ class ModalBottomSheetState extends State<ModalBottomSheet>
                   builder: (context, _) => CustomSingleChildLayout(
                     delegate: _CustomBottomSheetLayout(bounceAnimation.value),
                     child: GestureDetector(
+                      excludeFromSemantics: true,
                       onVerticalDragUpdate: (details) {
                         _handleDragUpdate(details.delta.dy);
                       },
