@@ -95,6 +95,11 @@ String convertRetrySubscribeErrorToText(Object error) {
     return error.message;
   }
 
+  final msg = error.toString();
+  if (msg.contains('ErrorCode.network')) {
+    return LocaleKeys.internetConnectionError.tr();
+  }
+
   return LocaleKeys.creatingSubscriptionFailed.tr();
 }
 
