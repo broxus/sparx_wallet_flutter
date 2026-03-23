@@ -110,7 +110,7 @@ class TCConnectWidgetModel
         context,
       ).maybePop(TonConnectUiEventResult.data(data: (account, replyItems)));
     } catch (e, s) {
-      model.showMessage(Message.error(message: '$e'));
+      model.showError(e);
       _log.severe('TCConnect confirm error:', '$e', s);
     }
   }

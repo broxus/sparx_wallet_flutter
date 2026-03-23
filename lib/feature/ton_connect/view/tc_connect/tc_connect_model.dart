@@ -97,7 +97,7 @@ class TCConnectModel extends ElementaryModel {
     return SignInputAuthLedger(wallet: wallet.walletType);
   }
 
-  void showError(String text) => handleError(text);
+  void showError(Object data) => handleError(data);
 
   Future<TonWallet?> _getWallet(KeyAccount keyAccount) async =>
       _nekotonRepository.walletsMap[keyAccount.address]?.wallet ??
