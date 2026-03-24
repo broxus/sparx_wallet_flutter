@@ -2,22 +2,23 @@ import 'package:app/app/service/service.dart';
 import 'package:app/core/sentry.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/utils/common_utils.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
 const _browserBookmarksDomain = 'browser_bookmarks';
 const _browserBookmarksKey = 'browser_bookmarks_key';
 
-/// This is a wrapper-class above [GetStorage] that provides methods
+/// This is a wrapper-class above [StorageAdapter] that provides methods
 /// to interact with all browser bookmark - related data.
 @singleton
 class BrowserBookmarksStorageService extends AbstractStorageService {
-  BrowserBookmarksStorageService(@Named(container) this._storage);
+  BrowserBookmarksStorageService(this._storageAdapter)
+    : _storage = _storageAdapter.box(_browserBookmarksDomain);
 
   static const container = _browserBookmarksDomain;
 
-  final GetStorage _storage;
+  final StorageAdapter _storageAdapter;
+  final StorageBox _storage;
 
   final _sentry = SentryWorker.instance;
 
@@ -46,7 +47,7 @@ class BrowserBookmarksStorageService extends AbstractStorageService {
 
   @override
   Future<void> init() async {
-    await GetStorage.init(container);
+    await _storageAdapter.init(container);
   }
 
   @override

@@ -87,9 +87,11 @@ class _CreateSeedPasswordViewState extends State<CreateSeedPasswordView> {
 
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
       if (FocusScope.of(context).hasFocus) {
         Future.delayed(const Duration(milliseconds: 300), () {
-          if (mounted) {
+          if (mounted && _scrollController.hasClients) {
             _scrollController.animateTo(
               _scrollController.position.maxScrollExtent,
               duration: const Duration(milliseconds: 300),

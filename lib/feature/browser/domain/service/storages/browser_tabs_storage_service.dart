@@ -1,21 +1,22 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/browser/data/tabs/browser_tab.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 
 const _browserTabsDomain = 'browser_tabs';
 const browserTabsActiveTabIdKey = 'browser_tabs_active_tab_id_key';
 
-/// This is a wrapper-class above [GetStorage] that provides methods
+/// This is a wrapper-class above [StorageAdapter] that provides methods
 /// to interact with all browser tabs - related data.
 @singleton
 class BrowserTabsStorageService extends AbstractStorageService {
-  BrowserTabsStorageService(@Named(container) this._storage);
+  BrowserTabsStorageService(this._storageAdapter)
+    : _storage = _storageAdapter.box(_browserTabsDomain);
 
   static const container = _browserTabsDomain;
   static const browserTabsKey = 'browser_tabs_key';
 
-  final GetStorage _storage;
+  final StorageAdapter _storageAdapter;
+  final StorageBox _storage;
 
   /// Read active tab from storage
   String? getActiveTabId() => _storage.read(browserTabsActiveTabIdKey);
@@ -45,7 +46,7 @@ class BrowserTabsStorageService extends AbstractStorageService {
 
   @override
   Future<void> init() async {
-    await GetStorage.init(container);
+    await _storageAdapter.init(container);
   }
 
   @override

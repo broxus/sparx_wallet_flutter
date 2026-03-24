@@ -13,7 +13,8 @@ class PresetsConnectionService {
 
   final _presetsConnectionsSubj = BehaviorSubject<ConnectionConfig?>();
 
-  ConnectionConfig? get _connectionConnection => _presetsConnectionsSubj.value;
+  ConnectionConfig? get _connectionConnection =>
+      _presetsConnectionsSubj.valueOrNull;
 
   List<NetworkType>? get customNetworkOptions =>
       _connectionConnection?.customNetworkOptionTypes;

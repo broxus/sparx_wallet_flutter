@@ -1,7 +1,6 @@
 import 'package:app/app/service/database/database_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:encrypted_storage/encrypted_storage.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:logging/logging.dart';
 
 final _logger = Logger('StorageMigrationService');
@@ -16,7 +15,8 @@ class StorageMigrationService {
     this._generalStorageService,
     this._connectionsStorageService,
     this._databaseService,
-  ) : _storage = GetStorage();
+    this._storageAdapter,
+  ) : _storage = _storageAdapter.box();
 
   static Future<void> applyMigrations(
     EncryptedStorage encryptedStorage,
@@ -24,15 +24,18 @@ class StorageMigrationService {
     GeneralStorageService generalStorageService,
     ConnectionsStorageService connectionsStorageService,
     DatabaseService databaseService,
+    StorageAdapter storageAdapter,
   ) async => StorageMigrationService(
     encryptedStorage,
     presetsConnectionService,
     generalStorageService,
     connectionsStorageService,
     databaseService,
+    storageAdapter,
   ).migrate();
 
-  final GetStorage _storage;
+  final StorageAdapter _storageAdapter;
+  final StorageBox _storage;
   final EncryptedStorage _encryptedStorage;
 
   final PresetsConnectionService _presetsConnectionService;
@@ -45,7 +48,7 @@ class StorageMigrationService {
   bool get needMigration => currentVersion < _version;
 
   Future<void> migrate() async {
-    await GetStorage.init();
+    await _storageAdapter.init();
 
     if (!needMigration) return;
 
@@ -65,16 +68,16 @@ class StorageMigrationService {
 
   Iterable<StorageMigration> _getMigrations() sync* {
     if (currentVersion < StorageMigrationV1.version) {
-      yield StorageMigrationV1(encryptedStorage: _encryptedStorage);
+      yield StorageMigrationV1(_encryptedStorage, _storageAdapter);
     }
     if (currentVersion < StorageMigrationV2.version) {
-      yield StorageMigrationV2();
+      yield StorageMigrationV2(_storageAdapter);
     }
     if (currentVersion < StorageMigrationV3.version) {
-      yield StorageMigrationV3();
+      yield StorageMigrationV3(_storageAdapter);
     }
     if (currentVersion < StorageMigrationV4.version) {
-      yield StorageMigrationV4(_presetsConnectionService);
+      yield StorageMigrationV4(_presetsConnectionService, _storageAdapter);
     }
     if (currentVersion < StorageMigrationV5.version) {
       yield StorageMigrationV5(
@@ -83,10 +86,10 @@ class StorageMigrationService {
       );
     }
     if (currentVersion < StorageMigrationV6.version) {
-      yield StorageMigrationV6(_databaseService);
+      yield StorageMigrationV6(_databaseService, _storageAdapter);
     }
     if (currentVersion < StorageMigrationV7.version) {
-      yield StorageMigrationV7();
+      yield StorageMigrationV7(_storageAdapter);
     }
   }
 }
