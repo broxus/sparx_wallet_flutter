@@ -282,9 +282,9 @@ void main() {
       'getOrFetchNativeCurrency fetches native currency when it is not cached '
       'and saves it',
       () async {
-        when(() => storageService.getCurrencies(networkGroup)).thenReturn(
-          [cachedCurrency],
-        );
+        when(
+          () => storageService.getCurrencies(networkGroup),
+        ).thenReturn([cachedCurrency]);
         when(
           () => tonFetchStrategy.fetchCurrency(
             address: nativeTokenAddress,
