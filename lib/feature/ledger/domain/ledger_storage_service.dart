@@ -1,6 +1,5 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
@@ -10,11 +9,13 @@ const _connectedLedgersKey = 'connected_ledgers';
 
 @singleton
 class LedgerStorageService extends AbstractStorageService {
-  LedgerStorageService(@Named(container) this._storage);
+  LedgerStorageService(this._storageAdapter)
+    : _storage = _storageAdapter.box(container);
 
   static const String container = 'ledger_storage_service';
 
-  final GetStorage _storage;
+  final StorageAdapter _storageAdapter;
+  final StorageBox _storage;
 
   final _connectedSubject = BehaviorSubject<Map<PublicKey, ConnectedLedger>>();
 
@@ -26,7 +27,7 @@ class LedgerStorageService extends AbstractStorageService {
 
   @override
   Future<void> init() async {
-    await GetStorage.init(container);
+    await _storageAdapter.init(container);
     _streamedConnectedLedgers();
   }
 

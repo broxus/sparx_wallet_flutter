@@ -3,7 +3,6 @@ import 'package:app/data/models/models.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:money2/money2.dart';
@@ -17,23 +16,22 @@ typedef ByNetwork<T> = Map<NetworkGroup, T>;
 
 @singleton
 class BalanceStorageService extends AbstractStorageService {
-  BalanceStorageService(
-    @Named(overallBalancesContainer) this._overallBalancesStorage,
-    @Named(balancesContainer) this._balancesStorage,
-  );
+  BalanceStorageService(this._storageAdapter)
+    : _overallBalancesStorage = _storageAdapter.box(_overallBalancesDomain),
+      _balancesStorage = _storageAdapter.box(_balancesDomain);
 
   static final _logger = Logger('BalanceStorageService');
   static const overallBalancesContainer = _overallBalancesDomain;
   static const balancesContainer = _balancesDomain;
   static const containers = [overallBalancesContainer, balancesContainer];
 
-  /// Storage that is used to store data
-  final GetStorage _overallBalancesStorage;
-  final GetStorage _balancesStorage;
+  final StorageAdapter _storageAdapter;
+  final StorageBox _overallBalancesStorage;
+  final StorageBox _balancesStorage;
 
   @override
   Future<void> init() async {
-    await Future.wait(containers.map(GetStorage.init));
+    await Future.wait(containers.map(_storageAdapter.init));
     _streamedOverallBalance();
     _streamedBalance();
   }

@@ -1,50 +1,61 @@
+import 'package:app/app/service/storage_service/storage_adapter.dart';
 import 'package:app/feature/browser/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser/domain/service/storages/browser_tabs_storage_service.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockGetStorage extends Mock implements GetStorage {}
+class MockStorageAdapter extends Mock implements StorageAdapter {}
+
+class MockStorageBox extends Mock implements StorageBox {}
 
 void main() {
-  late MockGetStorage storage;
+  late MockStorageAdapter storageAdapter;
+  late MockStorageBox storageBox;
   late BrowserTabsStorageService service;
 
   setUp(() {
-    storage = MockGetStorage();
-    service = BrowserTabsStorageService(storage);
+    storageAdapter = MockStorageAdapter();
+    storageBox = MockStorageBox();
+    when(
+      () => storageAdapter.box(BrowserTabsStorageService.container),
+    ).thenReturn(storageBox);
+    service = BrowserTabsStorageService(storageAdapter);
   });
 
   group('getActiveTabId', () {
     test('null if empty', () {
       when(
-        () => storage.read<String>(browserTabsActiveTabIdKey),
+        () => storageBox.read<String>(browserTabsActiveTabIdKey),
       ).thenReturn(null);
 
       final result = service.getActiveTabId();
 
       expect(result, isNull);
-      verify(() => storage.read<String>(browserTabsActiveTabIdKey)).called(1);
-      verifyNoMoreInteractions(storage);
+      verify(
+        () => storageBox.read<String>(browserTabsActiveTabIdKey),
+      ).called(1);
+      verifyNoMoreInteractions(storageBox);
     });
 
     test('Get saved id', () {
       when(
-        () => storage.read<String>(browserTabsActiveTabIdKey),
+        () => storageBox.read<String>(browserTabsActiveTabIdKey),
       ).thenReturn('tab-1');
 
       final result = service.getActiveTabId();
 
       expect(result, 'tab-1');
-      verify(() => storage.read<String>(browserTabsActiveTabIdKey)).called(1);
-      verifyNoMoreInteractions(storage);
+      verify(
+        () => storageBox.read<String>(browserTabsActiveTabIdKey),
+      ).called(1);
+      verifyNoMoreInteractions(storageBox);
     });
   });
 
   group('getTabs', () {
     test('Empty list if null in storage', () {
       when(
-        () => storage.read<List<dynamic>>(
+        () => storageBox.read<List<dynamic>>(
           BrowserTabsStorageService.browserTabsKey,
         ),
       ).thenReturn(null);
@@ -53,16 +64,16 @@ void main() {
 
       expect(result, isEmpty);
       verify(
-        () => storage.read<List<dynamic>>(
+        () => storageBox.read<List<dynamic>>(
           BrowserTabsStorageService.browserTabsKey,
         ),
       ).called(1);
-      verifyNoMoreInteractions(storage);
+      verifyNoMoreInteractions(storageBox);
     });
 
     test('Empty list if empty list in storage', () {
       when(
-        () => storage.read<List<dynamic>>(
+        () => storageBox.read<List<dynamic>>(
           BrowserTabsStorageService.browserTabsKey,
         ),
       ).thenReturn(<dynamic>[]);
@@ -71,16 +82,16 @@ void main() {
 
       expect(result, isEmpty);
       verify(
-        () => storage.read<List<dynamic>>(
+        () => storageBox.read<List<dynamic>>(
           BrowserTabsStorageService.browserTabsKey,
         ),
       ).called(1);
-      verifyNoMoreInteractions(storage);
+      verifyNoMoreInteractions(storageBox);
     });
 
     test('json list map to BrowserTab list', () {
       when(
-        () => storage.read<List<dynamic>>(
+        () => storageBox.read<List<dynamic>>(
           BrowserTabsStorageService.browserTabsKey,
         ),
       ).thenReturn(<dynamic>[
@@ -104,44 +115,44 @@ void main() {
       expect(result[0], isA<BrowserTab>());
       expect(result[1], isA<BrowserTab>());
       verify(
-        () => storage.read<List<dynamic>>(
+        () => storageBox.read<List<dynamic>>(
           BrowserTabsStorageService.browserTabsKey,
         ),
       ).called(1);
-      verifyNoMoreInteractions(storage);
+      verifyNoMoreInteractions(storageBox);
     });
   });
 
   group('saveBrowserActiveTabId', () {
     test('Save active tab id in storage', () {
       when(
-        () => storage.write(browserTabsActiveTabIdKey, any<dynamic>()),
+        () => storageBox.write(browserTabsActiveTabIdKey, any<dynamic>()),
       ).thenAnswer((_) async {});
 
       service.saveBrowserActiveTabId('tab-42');
 
       verify(
-        () => storage.write(browserTabsActiveTabIdKey, 'tab-42'),
+        () => storageBox.write(browserTabsActiveTabIdKey, 'tab-42'),
       ).called(1);
-      verifyNoMoreInteractions(storage);
+      verifyNoMoreInteractions(storageBox);
     });
 
     test('Save null', () {
       when(
-        () => storage.write(browserTabsActiveTabIdKey, any<dynamic>()),
+        () => storageBox.write(browserTabsActiveTabIdKey, any<dynamic>()),
       ).thenAnswer((_) async {});
 
       service.saveBrowserActiveTabId(null);
 
-      verify(() => storage.write(browserTabsActiveTabIdKey, null)).called(1);
-      verifyNoMoreInteractions(storage);
+      verify(() => storageBox.write(browserTabsActiveTabIdKey, null)).called(1);
+      verifyNoMoreInteractions(storageBox);
     });
   });
 
   group('saveBrowserTabs', () {
     test('Save empty list', () {
       when(
-        () => storage.write(
+        () => storageBox.write(
           BrowserTabsStorageService.browserTabsKey,
           any<dynamic>(),
         ),
@@ -152,17 +163,17 @@ void main() {
       service.saveBrowserTabs(tabs);
 
       verify(
-        () => storage.write(
+        () => storageBox.write(
           BrowserTabsStorageService.browserTabsKey,
           <dynamic>[],
         ),
       ).called(1);
-      verifyNoMoreInteractions(storage);
+      verifyNoMoreInteractions(storageBox);
     });
 
     test('Save json list', () {
       when(
-        () => storage.write(
+        () => storageBox.write(
           BrowserTabsStorageService.browserTabsKey,
           any<dynamic>(),
         ),
@@ -186,12 +197,12 @@ void main() {
       final expectedList = [tab1.toJson(), tab2.toJson()];
 
       verify(
-        () => storage.write(
+        () => storageBox.write(
           BrowserTabsStorageService.browserTabsKey,
           expectedList,
         ),
       ).called(1);
-      verifyNoMoreInteractions(storage);
+      verifyNoMoreInteractions(storageBox);
     });
   });
 }

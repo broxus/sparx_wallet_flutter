@@ -1,20 +1,20 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/utils/utils.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 
 const _browserPermissionsDomain = 'browser_permissions';
 
-/// This is a wrapper-class above [GetStorage] that provides methods
+/// This is a wrapper-class above [StorageAdapter] that provides methods
 /// to interact with all browser permissions - related data.
 @singleton
 class BrowserPermissionsStorageService extends AbstractStorageService {
-  BrowserPermissionsStorageService(@Named(container) this._storage);
+  BrowserPermissionsStorageService(this._storageAdapter)
+    : _storage = _storageAdapter.box(_browserPermissionsDomain);
 
   static const container = _browserPermissionsDomain;
 
-  final GetStorage _storage;
+  final StorageAdapter _storageAdapter;
+  final StorageBox _storage;
 
   /// Get all permissions that user had granted to dapps.
   /// key - url address, value - permissions
@@ -58,6 +58,6 @@ class BrowserPermissionsStorageService extends AbstractStorageService {
 
   @override
   Future<void> init() async {
-    await GetStorage.init(container);
+    await _storageAdapter.init(container);
   }
 }

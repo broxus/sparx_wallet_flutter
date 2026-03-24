@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/presets_connection/presets_connection_service.dart';
 import 'package:app/app/service/storage_service/balance_storage_service.dart';
@@ -7,17 +5,9 @@ import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/app/service/storage_service/migrations/storage_migrations/v4.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 
-class _MockPathProviderPlatform extends PathProviderPlatform {
-  @override
-  Future<String?> getApplicationDocumentsPath() async {
-    final dir = await Directory.systemTemp.createTemp('get_storage_v4_test');
-    return dir.path;
-  }
-}
+import '../../helpers/helpers.dart';
 
 class _MockPresetsConnectionService extends Mock
     implements PresetsConnectionService {}
@@ -25,10 +15,9 @@ class _MockPresetsConnectionService extends Mock
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  PathProviderPlatform.instance = _MockPathProviderPlatform();
-
   late _MockPresetsConnectionService presetsConnectionService;
   late StorageMigrationV4 migration;
+  late InMemoryStorageAdapter storageAdapter;
 
   late List<String> currencyContainers;
   late List<String> balanceContainers;
@@ -45,36 +34,37 @@ void main() {
 
   setUp(() async {
     presetsConnectionService = _MockPresetsConnectionService();
+    storageAdapter = InMemoryStorageAdapter();
 
     when(() => presetsConnectionService.connections).thenReturn(<Connection>[]);
 
-    migration = StorageMigrationV4(presetsConnectionService);
+    migration = StorageMigrationV4(presetsConnectionService, storageAdapter);
 
     for (final c in currencyContainers) {
-      await GetStorage.init(c);
-      await GetStorage(c).erase();
+      await storageAdapter.init(c);
+      await storageAdapter.box(c).erase();
     }
     for (final c in balanceContainers) {
-      await GetStorage.init(c);
-      await GetStorage(c).erase();
+      await storageAdapter.init(c);
+      await storageAdapter.box(c).erase();
     }
   });
 
   tearDown(() async {
     for (final c in currencyContainers) {
-      await GetStorage.init(c);
-      await GetStorage(c).erase();
+      await storageAdapter.init(c);
+      await storageAdapter.box(c).erase();
     }
     for (final c in balanceContainers) {
-      await GetStorage.init(c);
-      await GetStorage(c).erase();
+      await storageAdapter.init(c);
+      await storageAdapter.box(c).erase();
     }
   });
 
   test('Move keys from networkType::id to group::id', () async {
     // given
     for (final container in balanceContainers) {
-      final storage = GetStorage(container);
+      final storage = storageAdapter.box(container);
 
       await storage.write('ever::123', 'val-ever');
       await storage.write('venom::456', 'val-venom');
@@ -88,7 +78,7 @@ void main() {
     await migration.apply();
 
     for (final container in balanceContainers) {
-      final storage = GetStorage(container);
+      final storage = storageAdapter.box(container);
 
       final everGroup = getNetworkGroupByNetworkType('ever');
       final venomGroup = getNetworkGroupByNetworkType('venom');
@@ -112,7 +102,7 @@ void main() {
   });
   test('Update networkGroup', () async {
     for (final container in currencyContainers) {
-      final storage = GetStorage(container);
+      final storage = storageAdapter.box(container);
 
       final value = [
         {'networkType': 'ever'},
@@ -127,7 +117,7 @@ void main() {
     await migration.apply();
 
     for (final container in currencyContainers) {
-      final storage = GetStorage(container);
+      final storage = storageAdapter.box(container);
 
       expect(
         storage.read<List<dynamic>>('custom'),

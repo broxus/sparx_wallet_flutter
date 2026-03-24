@@ -13,9 +13,10 @@ import 'package:app/feature/browser/domain/service/storages/browser_tabs_storage
 import 'package:encrypted_storage/encrypted_storage.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
+
+import '../../helpers/helpers.dart';
 
 class _MockEncryptedStorage extends Mock implements EncryptedStorage {}
 
@@ -34,8 +35,8 @@ void main() {
 
   late _MockEncryptedStorage encryptedStorage;
   late StorageMigrationV1 migration;
-
   late List<String> domainsForCleanup;
+  late InMemoryStorageAdapter storageAdapter;
 
   setUpAll(() {
     domainsForCleanup = [
@@ -51,26 +52,27 @@ void main() {
 
   setUp(() async {
     encryptedStorage = _MockEncryptedStorage();
-    migration = StorageMigrationV1(encryptedStorage: encryptedStorage);
+    storageAdapter = InMemoryStorageAdapter();
+    migration = StorageMigrationV1(encryptedStorage, storageAdapter);
 
     FlutterSecureStorage.setMockInitialValues(<String, String>{});
 
-    await GetStorage.init(AppStorageService.container);
-    await GetStorage(AppStorageService.container).erase();
+    await storageAdapter.init(AppStorageService.container);
+    await storageAdapter.box(AppStorageService.container).erase();
 
     for (final d in domainsForCleanup) {
-      await GetStorage.init(d);
-      await GetStorage(d).erase();
+      await storageAdapter.init(d);
+      await storageAdapter.box(d).erase();
     }
   });
 
   tearDown(() async {
-    await GetStorage.init(AppStorageService.container);
-    await GetStorage(AppStorageService.container).erase();
+    await storageAdapter.init(AppStorageService.container);
+    await storageAdapter.box(AppStorageService.container).erase();
 
     for (final d in domainsForCleanup) {
-      await GetStorage.init(d);
-      await GetStorage(d).erase();
+      await storageAdapter.init(d);
+      await storageAdapter.box(d).erase();
     }
   });
 
@@ -90,7 +92,7 @@ void main() {
 
       await migration.apply();
 
-      final appStorage = GetStorage(AppStorageService.container);
+      final appStorage = storageAdapter.box(AppStorageService.container);
 
       expect(appStorage.hasData('sparx:boolTrue'), isTrue);
       expect(appStorage.read<bool>('sparx:boolTrue'), isTrue);
@@ -125,7 +127,7 @@ void main() {
       expect(capturedDomains, isNotEmpty);
 
       for (final d in capturedDomains.toSet()) {
-        final storage = GetStorage(d);
+        final storage = storageAdapter.box(d);
 
         expect(storage.read<int>('intValue'), 123);
 

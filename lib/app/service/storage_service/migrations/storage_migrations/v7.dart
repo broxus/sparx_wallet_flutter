@@ -1,13 +1,14 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/generated/assets.gen.dart';
 import 'package:app/utils/json/json.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 class StorageMigrationV7 implements StorageMigration {
-  StorageMigrationV7();
+  StorageMigrationV7(this._storageAdapter);
 
   static const int version = 7;
+
+  final StorageAdapter _storageAdapter;
 
   @override
   Future<void> apply() async {
@@ -18,9 +19,9 @@ class StorageMigrationV7 implements StorageMigration {
   Future<void> complete() async {}
 
   Future<void> _migrateIdsGroup() async {
-    await GetStorage.init(ConnectionsStorageService.container);
+    await _storageAdapter.init(ConnectionsStorageService.container);
 
-    final storage = GetStorage(ConnectionsStorageService.container);
+    final storage = _storageAdapter.box(ConnectionsStorageService.container);
 
     final storageData = storage.read<dynamic>('connections');
 

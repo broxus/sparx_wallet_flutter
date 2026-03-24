@@ -1,14 +1,16 @@
 // ignore_for_file: avoid_redundant_argument_values, inference_failure_on_function_invocation, lines_longer_than_80_chars
 
+import 'package:app/app/service/storage_service/storage_adapter.dart';
 import 'package:app/feature/nft/data/nft_collection_settings.dart';
 import 'package:app/feature/nft/data/pending_nft.dart';
 import 'package:app/feature/nft/domain/nft_storage_service.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:test/test.dart';
 
-class _MockGetStorage extends Mock implements GetStorage {}
+class _MockStorageAdapter extends Mock implements StorageAdapter {}
+
+class _MockStorageBox extends Mock implements StorageBox {}
 
 class _MockBridge extends Mock implements NekotonBridgeApi {}
 
@@ -17,8 +19,9 @@ const _pendingNftsKey = 'pending_nfts';
 void main() {
   group('NftStorageService', () {
     late NftStorageService service;
-    late _MockGetStorage collectionsStorage;
-    late _MockGetStorage generalStorage;
+    late _MockStorageAdapter storageAdapter;
+    late _MockStorageBox collectionsStorage;
+    late _MockStorageBox generalStorage;
 
     const networkGroup = 'mainnet';
     const owner = Address(address: '0:owner');
@@ -36,9 +39,16 @@ void main() {
     });
 
     setUp(() {
-      collectionsStorage = _MockGetStorage();
-      generalStorage = _MockGetStorage();
-      service = NftStorageService(collectionsStorage, generalStorage);
+      storageAdapter = _MockStorageAdapter();
+      collectionsStorage = _MockStorageBox();
+      generalStorage = _MockStorageBox();
+      when(
+        () => storageAdapter.box(NftStorageService.collectionsContainer),
+      ).thenReturn(collectionsStorage);
+      when(
+        () => storageAdapter.box(NftStorageService.generalContainer),
+      ).thenReturn(generalStorage);
+      service = NftStorageService(storageAdapter);
 
       when(
         () => collectionsStorage.write(any(), any()),

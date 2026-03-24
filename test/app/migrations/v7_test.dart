@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:app/app/service/storage_service/connections_storage/connections_storage_service.dart';
-import 'package:app/app/service/storage_service/migrations/storage_migrations/v7.dart';
+import 'package:app/app/service/storage_service/storage_service.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+
+import '../../helpers/helpers.dart';
 
 class MockPathProviderPlatform extends Fake
     with MockPlatformInterfaceMixin
@@ -22,16 +22,20 @@ void main() {
   PathProviderPlatform.instance = MockPathProviderPlatform();
 
   group('StorageMigrationV7', () {
-    late GetStorage storage;
+    late InMemoryStorageAdapter storageAdapter;
     late StorageMigrationV7 migration;
+    late StorageBox storage;
 
-    setUpAll(() async {
-      await GetStorage.init(ConnectionsStorageService.container);
+    setUp(() async {
+      storageAdapter = InMemoryStorageAdapter();
+      storage = storageAdapter.box(ConnectionsStorageService.container);
+      migration = StorageMigrationV7(storageAdapter);
+
+      await storageAdapter.init(ConnectionsStorageService.container);
     });
 
-    setUp(() {
-      storage = GetStorage(ConnectionsStorageService.container)..erase();
-      migration = StorageMigrationV7();
+    tearDown(() async {
+      await storageAdapter.box(ConnectionsStorageService.container).erase();
     });
 
     test('version should be 7', () {
