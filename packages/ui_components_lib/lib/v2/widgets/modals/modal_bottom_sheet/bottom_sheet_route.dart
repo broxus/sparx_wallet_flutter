@@ -62,6 +62,7 @@ class _ModalBottomSheetState<T> extends State<_ModalBottomSheet<T>> {
     assert(widget.route._animationController != null);
     final scrollController =
         PrimaryScrollController.maybeOf(context) ??
+        widget.route.scrollController ??
         (_scrollController ??= ScrollController());
 
     return ModalScrollController(
