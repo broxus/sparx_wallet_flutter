@@ -417,7 +417,7 @@ import '../feature/qr_scanner/view/qr_scanner_wm.dart' as _i569;
 import '../feature/root/domain/root_tab_service.dart' as _i533;
 import '../feature/root/restore_subroutes_guard.dart' as _i331;
 import '../feature/root/view/route.dart' as _i786;
-import '../feature/root_device_alert/domain/root_device_service.dart' as _i279;
+import '../feature/root_device_alert/domain/root_device_delegate.dart' as _i612;
 import '../feature/root_device_alert/route.dart' as _i141;
 import '../feature/root_device_alert/view/root_device_alert_screen_model.dart'
     as _i721;
@@ -739,7 +739,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i877.BrowserServicePagesControllersDelegate>(
       () => _i877.BrowserServicePagesControllersDelegate(),
     );
-    gh.factory<_i279.RootDeviceDelegate>(() => _i279.RootDeviceDelegate());
+    gh.factory<_i612.RootDeviceDelegate>(() => _i612.RootDeviceDelegate());
     gh.factory<_i728.VersionComparator>(() => _i728.VersionComparator());
     gh.singleton<_i830.AppLifecycleService>(() => _i830.AppLifecycleService());
     gh.singleton<_i746.AppLinksService>(
@@ -2967,19 +2967,19 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i544.BrowserService>(),
       ),
     );
-    gh.factory<_i721.RootDeviceAlertScreenModel>(
-      () => _i721.RootDeviceAlertScreenModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i392.BootstrapNavigationDelegate>(),
-        gh<_i279.RootDeviceDelegate>(),
-      ),
-    );
     gh.singleton<_i239.PendingDeepLinkService>(
       () => _i239.PendingDeepLinkService(gh<_i202.BrowserLauncher>()),
       dispose: (i) => i.dispose(),
     );
     gh.factory<_i659.SplashScreenWidgetModel>(
       () => _i659.SplashScreenWidgetModel(gh<_i582.SplashScreenModel>()),
+    );
+    gh.factory<_i721.RootDeviceAlertScreenModel>(
+      () => _i721.RootDeviceAlertScreenModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i392.BootstrapNavigationDelegate>(),
+        gh<_i612.RootDeviceDelegate>(),
+      ),
     );
     gh.factory<_i8.AccountSettingsModel>(
       () => _i8.AccountSettingsModel(
@@ -2988,6 +2988,25 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i553.MessengerService>(),
         gh<_i128.CurrentAccountsService>(),
         gh<_i202.BrowserLauncher>(),
+      ),
+    );
+    gh.factory<_i425.AppModel>(
+      () => _i425.AppModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i309.CompassRouter>(),
+        gh<_i850.AppLinksService>(),
+        gh<_i830.AppLifecycleService>(),
+        gh<_i1071.LocalizationService>(),
+        gh<_i575.BiometryService>(),
+        gh<_i553.MessengerService>(),
+        gh<_i1058.CrashDetectorService>(),
+        gh<_i335.LoggerConfigurator>(),
+        gh<_i202.BrowserLauncher>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i468.BootstrapService>(),
+        gh<_i239.PendingDeepLinkService>(),
+        gh<_i612.RootDeviceDelegate>(),
+        gh<_i392.BootstrapNavigationDelegate>(),
       ),
     );
     gh.factory<_i680.NftPageModel>(
@@ -3010,25 +3029,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i553.MessengerService>(),
         gh<_i202.BrowserLauncher>(),
         gh<_i393.NftDisplayModeConfigurator>(),
-      ),
-    );
-    gh.factory<_i425.AppModel>(
-      () => _i425.AppModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i309.CompassRouter>(),
-        gh<_i850.AppLinksService>(),
-        gh<_i830.AppLifecycleService>(),
-        gh<_i1071.LocalizationService>(),
-        gh<_i575.BiometryService>(),
-        gh<_i553.MessengerService>(),
-        gh<_i1058.CrashDetectorService>(),
-        gh<_i335.LoggerConfigurator>(),
-        gh<_i202.BrowserLauncher>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i468.BootstrapService>(),
-        gh<_i239.PendingDeepLinkService>(),
-        gh<_i279.RootDeviceDelegate>(),
-        gh<_i392.BootstrapNavigationDelegate>(),
       ),
     );
     gh.factory<_i348.WalletPageModel>(
