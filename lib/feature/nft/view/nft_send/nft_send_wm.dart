@@ -118,7 +118,7 @@ class NftSendWidgetModel
       _close();
     } on OperationCanceledException catch (_) {
     } on Exception catch (e, s) {
-      if (e is AnyhowException && e.isCancelled) return;
+      if (e.isLedgerOperationCancelled) return;
       _logger.severe('Failed to send transaction', e, s);
       model.showMessage(Message.error(message: e.toString()));
     } finally {

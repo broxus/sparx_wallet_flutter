@@ -68,7 +68,7 @@ class AppWidgetModel extends CustomWidgetModel<App, AppModel> {
       return;
     }
 
-    final savedNavigation = await model.getSavedNavigation();
+    final savedNavigation = model.getSavedNavigation();
 
     if (savedNavigation != null) {
       _logger.info('Initial navigation. Navigate to $savedNavigation');
