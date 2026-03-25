@@ -320,10 +320,7 @@ class _CommonInputState extends State<CommonInput> {
     final suggestionsCallback = widget.suggestionsCallback;
     child = suggestionsCallback == null
         ? _commonInputField(colors: colors, hasError: state.hasError)
-        : _suggestionsInputField(
-            colors: colors,
-            hasError: state.hasError,
-          );
+        : _suggestionsInputField(colors: colors, hasError: state.hasError);
 
     if (widget.outerActions != null) {
       child = SeparatedRow(
@@ -621,8 +618,7 @@ class _CommonInputState extends State<CommonInput> {
     final spaceBelow = overlayBox.size.height - fieldBottom;
     final estimatedHeight = _estimateSuggestionsHeight();
 
-    final showAbove =
-        spaceBelow < estimatedHeight && spaceAbove > spaceBelow;
+    final showAbove = spaceBelow < estimatedHeight && spaceAbove > spaceBelow;
 
     _showSuggestionsAbove = showAbove;
     _suggestionsMaxHeight = showAbove ? spaceAbove : spaceBelow;
