@@ -323,7 +323,6 @@ class _CommonInputState extends State<CommonInput> {
         : _suggestionsInputField(
             colors: colors,
             hasError: state.hasError,
-            suggestionsCallback: suggestionsCallback,
           );
 
     if (widget.outerActions != null) {
@@ -731,7 +730,6 @@ class _CommonInputState extends State<CommonInput> {
   Widget _suggestionsInputField({
     required ColorsPalette colors,
     required bool hasError,
-    required SuggestionsCallback<String> suggestionsCallback,
   }) {
     final onSuggestionSelected = widget.onSuggestionSelected;
 
