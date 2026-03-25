@@ -1,3 +1,6 @@
+import 'dart:ui' show AppLifecycleState;
+
+import 'package:app/app/service/app_lifecycle_service.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -12,6 +15,12 @@ class _MockNekotonRepository extends Mock implements NekotonRepository {}
 
 class _MockTonWallet extends Mock implements TonWallet {}
 
+class _MockAppLifecycleService extends Mock implements AppLifecycleService {
+  @override
+  Stream<AppLifecycleState> get appLifecycleStateStream =>
+      const Stream<AppLifecycleState>.empty();
+}
+
 void main() {
   group('LedgerService.prepareSignatureContext', () {
     late LedgerService service;
@@ -21,6 +30,7 @@ void main() {
         _MockLedgerStorageService(),
         _MockLedgerConnectionHandler(),
         _MockNekotonRepository(),
+        _MockAppLifecycleService(),
       );
     });
 

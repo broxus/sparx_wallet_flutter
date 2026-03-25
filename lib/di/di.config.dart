@@ -1246,13 +1246,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'CancelUnstakingRoute',
     );
-    gh.singleton<_i91.LedgerService>(
-      () => _i91.LedgerService(
-        gh<_i865.LedgerStorageService>(),
-        gh<_i865.LedgerConnectionHandlerImpl>(),
-        gh<_i771.NekotonRepository>(),
-      ),
-    );
     gh.factory<_i484.BrowserServiceFaviconDelegate>(
       () => _i484.BrowserServiceFaviconDelegate(
         gh<_i250.BrowserFaviconURLStorageService>(),
@@ -1334,6 +1327,15 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i399.TonWalletOrdinaryTransactionWidgetWidgetModel(
         gh<_i680.TonWalletOrdinaryTransactionWidgetModel>(),
       ),
+    );
+    gh.singleton<_i91.LedgerService>(
+      () => _i91.LedgerService(
+        gh<_i865.LedgerStorageService>(),
+        gh<_i865.LedgerConnectionHandlerImpl>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.AppLifecycleService>(),
+      ),
+      dispose: (i) => i.dispose(),
     );
     gh.factory<_i227.WalletAccountBodyWidgetModel>(
       () =>
