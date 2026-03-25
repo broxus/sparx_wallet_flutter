@@ -43,30 +43,36 @@ Future<T?> showCommonBottomSheet<T>({
   TextStyle? subtitleStyle,
   bool centerSubtitle = false,
 }) {
+  final bottomSheet = CommonBottomSheetWidget(
+    useAppBackgroundColor: useAppBackgroundColor,
+    openFullScreen: openFullScreen,
+    avoidBottomInsets: avoidBottomInsets,
+    showDragHandle: dismissible,
+    padding: padding,
+    subtitle: subtitle,
+    title: title,
+    centerTitle: centerTitle,
+    centerSubtitle: centerSubtitle,
+    body: body,
+    titleTextStyle: titleTextStyle,
+    subtitleStyle: subtitleStyle,
+    titleMargin: titleMargin,
+    subtitleMargin: subtitleMargin,
+  );
+
   return showCustomModalBottomSheet<T>(
     expand: expand,
     context: context,
     isDismissible: dismissible,
+    enableDrag: dismissible,
     useRootNavigator: useRootNavigator,
     barrierColor:
         barrierColor ?? Colors.black.withAlpha(Opac.large.toByteInt()),
     containerWidget: (context, animation, child) =>
         _ContainerWidget(animated: wrapIntoAnimatedSize, child: child),
-    builder: (_) => CommonBottomSheetWidget(
-      useAppBackgroundColor: useAppBackgroundColor,
-      openFullScreen: openFullScreen,
-      avoidBottomInsets: avoidBottomInsets,
-      padding: padding,
-      subtitle: subtitle,
-      title: title,
-      centerTitle: centerTitle,
-      centerSubtitle: centerSubtitle,
-      body: body,
-      titleTextStyle: titleTextStyle,
-      subtitleStyle: subtitleStyle,
-      titleMargin: titleMargin,
-      subtitleMargin: subtitleMargin,
-    ),
+    builder: (_) => dismissible
+        ? bottomSheet
+        : PopScope<void>(canPop: false, child: bottomSheet),
   );
 }
 
@@ -107,24 +113,30 @@ ModalSheetRoute<T> commonBottomSheetRoute<T>({
   bool centerSubtitle = false,
   double viewInsetsBottomAddon = 0,
 }) {
+  final bottomSheet = CommonBottomSheetWidget(
+    useAppBackgroundColor: useAppBackgroundColor,
+    openFullScreen: openFullScreen,
+    avoidBottomInsets: avoidBottomInsets,
+    showDragHandle: dismissible,
+    padding: padding,
+    subtitle: subtitle,
+    title: title,
+    body: body,
+    centerTitle: centerTitle,
+    titleTextStyle: titleTextStyle,
+    subtitleStyle: subtitleStyle,
+    titleMargin: titleMargin,
+    subtitleMargin: subtitleMargin,
+    centerSubtitle: centerSubtitle,
+  );
+
   return ModalSheetRoute<T>(
-    builder: (_) => CommonBottomSheetWidget(
-      useAppBackgroundColor: useAppBackgroundColor,
-      openFullScreen: openFullScreen,
-      avoidBottomInsets: avoidBottomInsets,
-      padding: padding,
-      subtitle: subtitle,
-      title: title,
-      body: body,
-      centerTitle: centerTitle,
-      titleTextStyle: titleTextStyle,
-      subtitleStyle: subtitleStyle,
-      titleMargin: titleMargin,
-      subtitleMargin: subtitleMargin,
-      centerSubtitle: centerSubtitle,
-    ),
+    builder: (_) => dismissible
+        ? bottomSheet
+        : PopScope<void>(canPop: false, child: bottomSheet),
     expanded: expand,
     isDismissible: dismissible,
+    enableDrag: dismissible,
     modalBarrierColor: barrierColor,
     containerBuilder: (context, animation, child) {
       final mq = MediaQuery.of(context);
@@ -148,6 +160,7 @@ class CommonBottomSheetWidget extends StatelessWidget {
     required this.avoidBottomInsets,
     required this.openFullScreen,
     required this.useAppBackgroundColor,
+    required this.showDragHandle,
     required this.centerTitle,
     required this.centerSubtitle,
     this.title,
@@ -166,6 +179,7 @@ class CommonBottomSheetWidget extends StatelessWidget {
   final bool avoidBottomInsets;
   final bool openFullScreen;
   final bool useAppBackgroundColor;
+  final bool showDragHandle;
   final bool centerTitle;
   final TextStyle? titleTextStyle;
   final TextStyle? subtitleStyle;
@@ -221,15 +235,16 @@ class CommonBottomSheetWidget extends StatelessWidget {
                 Positioned.fill(child: bodyWidget)
               else
                 bodyWidget,
-              const Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: SheetDraggableLine(
-                  height: DimensSize.d4,
-                  verticalMargin: DimensSize.d8,
+              if (showDragHandle)
+                const Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: SheetDraggableLine(
+                    height: DimensSize.d4,
+                    verticalMargin: DimensSize.d8,
+                  ),
                 ),
-              ),
             ],
           ),
         ),

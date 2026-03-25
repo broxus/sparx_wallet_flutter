@@ -14,6 +14,7 @@ import 'package:injectable/injectable.dart';
 class StorageManagerService {
   StorageManagerService(
     SecureStorageService secure,
+    ConfigStorageService config,
     GeneralStorageService general,
     BrowserGroupsStorageService browserGroups,
     BrowserTabsStorageService browserTabs,
@@ -33,6 +34,7 @@ class StorageManagerService {
     LedgerStorageService ledgerStorageService,
   ) : _storages = [
         secure,
+        config,
         general,
         browserGroups,
         browserTabs,

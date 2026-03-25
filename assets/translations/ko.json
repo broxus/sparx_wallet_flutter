@@ -791,5 +791,6 @@
   "passwordLockedUntil": "Password locked until {}",
   "invalidPayloadError": "Payload is invalid",
   "invalidStateInitError": "StateInit is invalid",
-  "unsupportedWalletTypeError": "Unsupported wallet type"
+  "unsupportedWalletTypeError": "Unsupported wallet type",
+  "internetConnectionError": "Internet connection error"
 }
