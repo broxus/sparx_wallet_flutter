@@ -207,7 +207,7 @@ melos:
 
     analyze_subpackages:
       description: Analyze a specific package in this project.
-      exec: flutter analyze . && (grep -q "custom_lint:" pubspec.yaml && dart run
+      exec: flutter analyze --no-pub . && (grep -q "custom_lint:" pubspec.yaml && dart run
         custom_lint || true)
       failFast: true
 
