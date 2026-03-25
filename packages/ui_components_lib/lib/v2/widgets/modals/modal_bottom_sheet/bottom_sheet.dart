@@ -86,8 +86,12 @@ class ModalBottomSheetState extends State<ModalBottomSheet>
 
   double? get _childHeight {
     final childContext = _childKey.currentContext;
-    final renderBox = childContext?.findRenderObject() as RenderBox;
-    return renderBox.size.height;
+    if (childContext == null) return null;
+
+    final renderObject = childContext.findRenderObject();
+    if (renderObject is! RenderBox || !renderObject.hasSize) return null;
+
+    return renderObject.size.height;
   }
 
   bool get _dismissUnderway =>
