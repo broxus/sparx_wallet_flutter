@@ -3,15 +3,12 @@ import 'dart:async';
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/browser/approvals_listener/actions/add_network/add_network_model.dart';
 import 'package:app/feature/browser/approvals_listener/actions/change_network/change_network_model.dart';
-import 'package:app/feature/messenger/domain/messenger_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 class _MockErrorHandler extends Mock implements ErrorHandler {}
-
-class _MockMessengerService extends Mock implements MessengerService {}
 
 class _MockConnectionsStorageService extends Mock
     implements ConnectionsStorageService {}
@@ -23,7 +20,6 @@ class _MockConnectionService extends Mock implements ConnectionService {}
 class _MockTransportStrategy extends Mock implements CommonTransportStrategy {}
 
 void main() {
-  late _MockMessengerService messengerService;
   late _MockConnectionsStorageService connectionsStorageService;
   late _MockNekotonRepository nekotonRepository;
   late _MockConnectionService connectionService;
@@ -33,7 +29,6 @@ void main() {
   late StreamController<TransportStrategy> transportController;
 
   setUp(() {
-    messengerService = _MockMessengerService();
     connectionsStorageService = _MockConnectionsStorageService();
     nekotonRepository = _MockNekotonRepository();
     connectionService = _MockConnectionService();
@@ -52,14 +47,12 @@ void main() {
 
     changeNetworkModel = ChangeNetworkModel(
       errorHandler,
-      messengerService,
       connectionsStorageService,
       nekotonRepository,
     );
 
     addNetworkModel = AddNetworkModel(
       errorHandler,
-      messengerService,
       connectionsStorageService,
       connectionService,
       nekotonRepository,
