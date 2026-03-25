@@ -100,7 +100,7 @@ class ModalBottomSheetState extends State<ModalBottomSheet>
   bool isDragging = false;
 
   bool get hasReachedWillPopThreshold =>
-      widget.animationController.value < _willPopThreshold;
+      widget.animationController.value < widget.preventPopThreshold;
 
   bool get hasReachedCloseThreshold =>
       widget.animationController.value < widget.closeProgressThreshold;
