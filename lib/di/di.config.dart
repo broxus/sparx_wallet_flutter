@@ -90,6 +90,7 @@ import '../app/service/token_wallets_service.dart' as _i877;
 import '../app/view/app_model.dart' as _i425;
 import '../app/view/app_wm.dart' as _i1017;
 import '../core/app_build_type.dart' as _i32;
+import '../core/error_handler/standard_error_handler.dart' as _i109;
 import '../core/sentry.dart' as _i438;
 import '../feature/add_seed/add_existing_wallet/route.dart' as _i852;
 import '../feature/add_seed/add_existing_wallet/view/add_existing_wallet_model.dart'
@@ -839,6 +840,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.NetworkConnectionService>(),
         gh<_i128.SecureStringService>(),
       ),
+    );
+    gh.factory<_i83.ErrorHandler>(
+      () => _i109.StandardErrorHandler(gh<_i553.MessengerService>()),
     );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i693.ConfirmMultisigTransactionRoute(),
