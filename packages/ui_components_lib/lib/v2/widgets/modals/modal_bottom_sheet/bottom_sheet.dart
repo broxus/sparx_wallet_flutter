@@ -137,9 +137,14 @@ class ModalBottomSheetState extends State<ModalBottomSheet>
     assert(widget.enableDrag, 'Dragging is disabled');
 
     if (_dismissUnderway) return;
+    if (primaryDelta == 0) return;
+
+    final childHeight = _childHeight;
+    if (childHeight == null || childHeight == 0) return;
+
     isDragging = true;
 
-    final progress = primaryDelta / (_childHeight ?? primaryDelta);
+    final progress = primaryDelta / childHeight;
 
     if (widget.shouldClose != null && hasReachedWillPopThreshold) {
       _cancelClose();
