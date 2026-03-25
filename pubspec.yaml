@@ -231,7 +231,7 @@ melos:
 
     test:flutter:
       description: Run Flutter tests for a specific package in this project.
-      exec: flutter test test
+      exec: flutter test --no-pub test
       concurrency: 1
       failFast: true
       packageFilters:
@@ -239,9 +239,9 @@ melos:
         dirExists: test
 
     test:integration:
-      description: Run Flutter teintegration teststs for a specific package in this
+      description: Run Flutter integration tests for a specific package in this
         project.
-      exec: flutter test --flavor production integration_test
+      exec: flutter test --no-pub --flavor production integration_test
       concurrency: 1
       failFast: true
       packageFilters:
