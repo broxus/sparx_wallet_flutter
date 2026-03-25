@@ -151,6 +151,7 @@ class EnterSeedPhraseWidgetModel
 
   @override
   void dispose() {
+    _tabData?.removeTextChangeListener(onChangedAnyField);
     for (final c in _inputDataList) {
       c.dispose();
     }
@@ -174,11 +175,13 @@ class EnterSeedPhraseWidgetModel
   void changeTab(int value) {
     if (value == _currentValue) return;
 
-    final tabData = _tabData;
+    final previousTabData = _tabData;
 
-    if (tabData == null) {
+    if (previousTabData == null) {
       return;
     }
+
+    previousTabData.removeTextChangeListener(onChangedAnyField);
 
     _clearAllInputs();
     _resetErrors();
@@ -186,11 +189,12 @@ class EnterSeedPhraseWidgetModel
     formKey.currentState?.reset();
 
     _tabState.accept(
-      tabData.copyWith(
+      previousTabData.copyWith(
         currentValue: value,
         inputs: _inputDataList.take(value).toList(),
       ),
     );
+    _tabData?.addTextChangeListener(onChangedAnyField);
 
     _displayPasteButtonState.accept(true);
   }
@@ -455,7 +459,13 @@ class EnterSeedPhraseWidgetModel
       inputs = _inputDataList.take(_currentValue).toList();
     }
 
+    if (identical(inputs, data.inputs)) {
+      return;
+    }
+
+    data.removeTextChangeListener(onChangedAnyField);
     _tabState.accept(data.copyWith(inputs: inputs));
+    _tabData?.addTextChangeListener(onChangedAnyField);
   }
 
   void _clearAllInputs() {
