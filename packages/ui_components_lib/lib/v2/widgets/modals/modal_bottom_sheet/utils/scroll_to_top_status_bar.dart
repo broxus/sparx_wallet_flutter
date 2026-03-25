@@ -24,8 +24,14 @@ class _StatusBarGestureDetectorState extends State<StatusBarGestureDetector> {
 
   @override
   void initState() {
-    controller.show();
     super.initState();
+    controller.show();
+  }
+
+  @override
+  void dispose() {
+    controller.hide();
+    super.dispose();
   }
 
   @override
