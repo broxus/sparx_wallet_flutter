@@ -101,9 +101,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   Future<bool> checkCrashDetected() =>
       _crashDetectorService.checkCrashDetected();
 
-  Future<String?> getSavedNavigation() {
-    return _navigationService.getSavedState();
-  }
+  String? getSavedNavigation() => _navigationService.getSavedState();
 
   void _onStateChanged(AppLifecycleState state) {
     switch (state) {
