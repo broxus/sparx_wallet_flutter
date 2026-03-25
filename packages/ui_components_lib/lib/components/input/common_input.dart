@@ -221,6 +221,7 @@ class _CommonInputState extends State<CommonInput> {
   bool isEmpty = true;
   int _suggestionsRequestId = 0;
   bool _showSuggestionsAbove = false;
+  double _suggestionsMaxHeight = 0;
   bool _suppressSuggestionUpdateOnce = false;
   Timer? _suggestionsDebounceTimer;
   String? _lastSuggestionsQuery;
@@ -608,6 +609,7 @@ class _CommonInputState extends State<CommonInput> {
 
     if (renderBox == null || overlayBox == null || !renderBox.attached) {
       _showSuggestionsAbove = false;
+      _suggestionsMaxHeight = 0;
       return;
     }
 
@@ -615,12 +617,16 @@ class _CommonInputState extends State<CommonInput> {
       Offset.zero,
       ancestor: overlayBox,
     );
+    final spaceAbove = fieldOffset.dy;
     final fieldBottom = fieldOffset.dy + renderBox.size.height;
     final spaceBelow = overlayBox.size.height - fieldBottom;
     final estimatedHeight = _estimateSuggestionsHeight();
 
-    _showSuggestionsAbove =
-        spaceBelow < estimatedHeight && fieldOffset.dy > spaceBelow;
+    final showAbove =
+        spaceBelow < estimatedHeight && spaceAbove > spaceBelow;
+
+    _showSuggestionsAbove = showAbove;
+    _suggestionsMaxHeight = showAbove ? spaceAbove : spaceBelow;
   }
 
   double _estimateSuggestionsHeight() {
@@ -668,6 +674,7 @@ class _CommonInputState extends State<CommonInput> {
                 maxWidth: widget.v2Style != null
                     ? renderBox.size.width
                     : DimensSize.d168,
+                maxHeight: _suggestionsMaxHeight,
               ),
               child: Material(
                 type: MaterialType.card,
@@ -680,7 +687,7 @@ class _CommonInputState extends State<CommonInput> {
                 color:
                     widget.suggestionBackground ?? colors.backgroundSecondary,
                 child: ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
                   itemCount: _suggestions.length,
