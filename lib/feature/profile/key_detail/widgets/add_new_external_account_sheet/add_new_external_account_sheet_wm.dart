@@ -1,5 +1,4 @@
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/profile/key_detail/widgets/add_new_external_account_sheet/add_new_external_account_sheet.dart';
 import 'package:app/feature/profile/key_detail/widgets/add_new_external_account_sheet/add_new_external_account_sheet_model.dart';
 import 'package:app/feature/wallet/new_account/add_account_result/add_account_result_sheet.dart';
@@ -37,7 +36,7 @@ class AddNewExternalAccountSheetWidgetModel
       addressController.text = text;
       focusNode.unfocus();
     } else {
-      model.showMessage(Message.error(message: LocaleKeys.addressIsWrong.tr()));
+      model.showError(LocaleKeys.addressIsWrong.tr());
     }
   }
 
@@ -49,9 +48,7 @@ class AddNewExternalAccountSheetWidgetModel
 
     try {
       if (!address.isValid) {
-        model.showMessage(
-          Message.error(message: LocaleKeys.addressIsWrong.tr()),
-        );
+        model.showError(LocaleKeys.addressIsWrong.tr());
         return;
       }
 
@@ -68,9 +65,7 @@ class AddNewExternalAccountSheetWidgetModel
         showNewAccountResultSheet(context: context, address: address);
       });
     } catch (e) {
-      model.showMessage(
-        Message.error(message: LocaleKeys.keyIsNotCustodian.tr()),
-      );
+      model.showError(LocaleKeys.keyIsNotCustodian.tr());
     } finally {
       _isLoadingState.value = false;
     }

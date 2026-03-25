@@ -1,6 +1,5 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/generated/generated.dart';
 import 'package:collection/collection.dart';
@@ -61,9 +60,7 @@ class TCConnectWidgetModel
 
     if (account == null) return;
     if (request.hasTonProofItem && !_isTonWalletType(account)) {
-      model.showMessage(
-        Message.error(message: LocaleKeys.unsupportedWalletTypeError.tr()),
-      );
+      model.showError(LocaleKeys.unsupportedWalletTypeError.tr());
       return;
     }
 
@@ -113,7 +110,7 @@ class TCConnectWidgetModel
         context,
       ).maybePop(TonConnectUiEventResult.data(data: (account, replyItems)));
     } catch (e, s) {
-      model.showMessage(Message.error(message: '$e'));
+      model.showError(e);
       _log.severe('TCConnect confirm error:', '$e', s);
     }
   }

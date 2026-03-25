@@ -1,6 +1,5 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_status/route.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_status/wallet_deploy_status_model.dart';
@@ -38,15 +37,13 @@ class WalletDeployStatusWidgetModel
         amount: routeData.amount,
       );
 
-      model.showMessage(
-        Message.successful(message: LocaleKeys.walletDeployedSuccessfully.tr()),
-      );
+      model.showSuccessful(LocaleKeys.walletDeployedSuccessfully.tr());
 
       await minDelay;
       navigateToWallet();
     } catch (e, s) {
       _logger.severe('Error during deployment', e, s);
-      model.showMessage(Message.error(message: e.toString()));
+      model.showError(e, s);
     }
   }
 

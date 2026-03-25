@@ -1,5 +1,8 @@
 ---
 include: package:broxus_flutter_analysis/analysis_options.yaml
+linter:
+  rules:
+    parameter_assignments: false
 analyzer:
   exclude: [lib/di/di.config.dart, '**.reflectable.dart']
   plugins: [custom_lint]

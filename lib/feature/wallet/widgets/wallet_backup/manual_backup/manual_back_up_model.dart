@@ -11,36 +11,33 @@ import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 class ManualBackUpModel extends ElementaryModel {
   ManualBackUpModel(
     ErrorHandler errorHandler,
-    this.nekotonRepository,
-    this.messengerService,
-    this.storage,
+    this._nekotonRepository,
+    this._messengerService,
+    this._storage,
   ) : super(errorHandler: errorHandler);
 
-  final NekotonRepository nekotonRepository;
-  final MessengerService messengerService;
-  final AppStorageService storage;
+  final NekotonRepository _nekotonRepository;
+  final MessengerService _messengerService;
+  final AppStorageService _storage;
 
   void setShowingBackUpFlag(String address) {
-    final account = nekotonRepository.accountsStorage.accounts.firstWhereOrNull(
-      (item) => item.address.address == address,
-    );
+    final account = _nekotonRepository.accountsStorage.accounts
+        .firstWhereOrNull((item) => item.address.address == address);
     final masterPublicKey = account?.let(
-      (account) => nekotonRepository.seedList
+      (account) => _nekotonRepository.seedList
           .findSeedByAnyPublicKey(account.publicKey)
           ?.masterPublicKey,
     );
 
     if (masterPublicKey == null) return;
 
-    storage.addValue(
+    _storage.addValue(
       StorageKey.showingManualBackupBadge(masterPublicKey.publicKey),
       true,
     );
   }
 
   void showMessageAboutCopy() {
-    messengerService.show(
-      Message.successful(message: LocaleKeys.copiedExclamation.tr()),
-    );
+    _messengerService.showSuccessful(LocaleKeys.copiedExclamation.tr());
   }
 }
