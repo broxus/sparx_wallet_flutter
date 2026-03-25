@@ -791,5 +791,15 @@
   "passwordLockedUntil": "Password locked until {}",
   "invalidPayloadError": "Payload is invalid",
   "invalidStateInitError": "StateInit is invalid",
-  "unsupportedWalletTypeError": "Unsupported wallet type"
+  "unsupportedWalletTypeError": "Unsupported wallet type",
+  "rootDetectedTitle": "Root / Jailbreak detected",
+  "rootDetectedDescription": "This device has a modified security environment. Wallet security cannot be guaranteed.",
+  "rootDetectedRisk": "By continuing, you acknowledge\nand accept the associated risks",
+  "rootDetectedAccept": "I understand and accept the risks",
+  "rootInfoTitle": "Why this matters",
+  "rootInfoDescription": "Root/Jailbreak weakens system security restrictions, allowing other apps or system modifications to interfere with the wallet’s operation",
+  "whatYouCanDoTitle": "What you can do:",
+  "whatYouCanDoDescription0": "Use a device without root/jailbreak",
+  "whatYouCanDoDescription1": "Disable root/jailbreak and reboot the device",
+  "whatYouCanDoDescription2": "Use a separate “clean” device for the wallet"
 }

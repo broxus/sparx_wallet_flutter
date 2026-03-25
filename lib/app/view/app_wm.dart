@@ -1,25 +1,20 @@
 import 'dart:async';
 
-import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/service/bootstrap/bootstrap_steps.dart';
 import 'package:app/app/view/app.dart';
 import 'package:app/app/view/app_model.dart';
 import 'package:app/app/view/message_viewer.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/onboarding/route.dart';
-import 'package:app/feature/wallet/route.dart';
+import 'package:app/feature/root_device_alert/route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
-import 'package:logging/logging.dart';
 
 /// [WidgetModel] для [App]
 @injectable
 class AppWidgetModel extends CustomWidgetModel<App, AppModel> {
   AppWidgetModel(super.model);
-
-  final _logger = Logger('AppWidgetModel');
 
   late final _messageViewer = MessageViewer(
     messagesExistStream: model.messagesExistStream,
@@ -62,23 +57,10 @@ class AppWidgetModel extends CustomWidgetModel<App, AppModel> {
     await _bootstrapStepsSubs?.cancel();
     _bootstrapStepsSubs = null;
 
-    if (model.hasSeeds == false) {
-      _logger.info('Initial navigation. Navigate to onboarding');
-      router.compassPoint(const OnBoardingRouteData());
-      return;
-    }
-
-    final savedNavigation = await model.getSavedNavigation();
-
-    if (savedNavigation != null) {
-      _logger.info('Initial navigation. Navigate to $savedNavigation');
-      // Use CompassRouter methods for all navigation to maintain consistency
-      router.compassPoint(
-        UnsafeRedirectCompassRouteData(route: savedNavigation),
-      );
+    if (await model.isShowRootScreen) {
+      router.compassPoint(const RootDeviceAlertRouteData());
     } else {
-      _logger.info('Initial navigation. Navigate to wallet');
-      router.compassPoint(const WalletRouteData());
+      model.next();
     }
   }
 }

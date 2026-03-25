@@ -359,6 +359,9 @@ class $AssetsImagesGen {
   AssetGenImage get lockBackup =>
       const AssetGenImage('assets/images/lock_backup.webp');
 
+  /// Directory path: assets/images/lock_bg
+  $AssetsImagesLockBgGen get lockBg => const $AssetsImagesLockBgGen();
+
   /// File path: assets/images/lock_fill.svg
   SvgGenImage get lockFill => const SvgGenImage('assets/images/lock_fill.svg');
 
@@ -704,6 +707,17 @@ class $AssetsImagesLangIconsGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [english, korean];
+}
+
+class $AssetsImagesLockBgGen {
+  const $AssetsImagesLockBgGen();
+
+  /// File path: assets/images/lock_bg/lock.webp
+  AssetGenImage get lock =>
+      const AssetGenImage('assets/images/lock_bg/lock.webp');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [lock];
 }
 
 class $AssetsImagesNftPlaceholderGen {

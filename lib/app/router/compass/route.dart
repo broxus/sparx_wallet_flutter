@@ -47,3 +47,5 @@ abstract class CompassBaseRoute {
   /// Top-level routes are registered directly with the root GoRouter instance.
   final bool isTopLevel;
 }
+
+abstract interface class IndependentSeedRoute {}
