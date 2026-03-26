@@ -67,7 +67,12 @@ class _Visitor extends SimpleAstVisitor<void> {
       final suggestedName = ReactiveTypeMatcher.suggestNotifierName(name);
       rule.reportAtToken(
         node.name,
-        arguments: [name, typeString, 'State or Notifier', suggestedName],
+        arguments: [
+          name,
+          typeString,
+          'State, Notifier, or Stream',
+          suggestedName,
+        ],
       );
     }
 
