@@ -118,7 +118,6 @@ dev_dependencies:
       ref: main
   build_runner: ^2.13.1
   commitlint_cli: ^0.8.1
-  custom_lint: ^0.8.0
   drift_dev: ^2.31.0
   flutter_gen_runner: ^5.13.0+1
   flutter_native_splash: ^2.4.7
@@ -207,8 +206,7 @@ melos:
 
     analyze_subpackages:
       description: Analyze a specific package in this project.
-      exec: flutter analyze --no-pub . && (grep -q "custom_lint:" pubspec.yaml && dart run
-        custom_lint || true)
+      exec: flutter analyze --no-pub .
       failFast: true
 
     check-format:

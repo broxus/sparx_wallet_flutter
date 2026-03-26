@@ -54,15 +54,17 @@ Add the package to your `pubspec.yaml`:
 dev_dependencies:
   wm_state_properties_lint:
     path: packages/wm_state_properties_lint
-  custom_lint: ^0.6.0
 ```
 
 Then add to your `analysis_options.yaml`:
 
 ```yaml
-analyzer:
-  plugins:
-    - custom_lint
+plugins:
+  wm_state_properties_lint:
+    path: packages/wm_state_properties_lint
+    diagnostics:
+      wm_public_getter_naming: true
+      wm_private_field_naming: true
 ```
 
 ## Configuration
@@ -80,7 +82,7 @@ Descriptive names that clearly indicate reactive behavior are acceptable.
 
 ## Quick Fixes
 
-The package provides quick fixes to automatically rename fields with incorrect suffixes. Use your IDE's quick fix feature (usually Alt+Enter or Cmd+.) to apply the suggested fixes.
+Quick fixes/assists are not included in this version.
 
 ## Development
 
