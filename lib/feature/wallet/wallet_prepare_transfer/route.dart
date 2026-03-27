@@ -34,7 +34,7 @@ class WalletPrepareTransferRoute
   WalletPrepareTransferRouteData fromQueryParams(
     Map<String, String> queryParams,
   ) {
-    final address = Address(address: queryParams[_addressQueryParam]!);
+    final address = Address(address: queryParams.require(_addressQueryParam));
 
     final destination = queryParams[_destinationQueryParam]?.let(
       (address) => Address(address: address),
@@ -93,13 +93,13 @@ class WalletPrepareSpecifiedTransferRoute
   WalletPrepareSpecifiedTransferRouteData fromQueryParams(
     Map<String, String> queryParams,
   ) {
-    final address = Address(address: queryParams[_addressQueryParam]!);
+    final address = Address(address: queryParams.require(_addressQueryParam));
 
     final rootTokenContract = Address(
-      address: queryParams[_rootTokenAddressQueryParam]!,
+      address: queryParams.require(_rootTokenAddressQueryParam),
     );
 
-    final tokenSymbol = queryParams[_symbolQueryParam]!;
+    final tokenSymbol = queryParams.require(_symbolQueryParam);
 
     return WalletPrepareSpecifiedTransferRouteData(
       address: address,
