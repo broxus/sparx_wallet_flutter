@@ -185,10 +185,7 @@ void main() {
     test('throws ArgumentError for empty map', () {
       final params = <String, String>{};
 
-      expect(
-        () => params.require('any'),
-        throwsA(isA<ArgumentError>()),
-      );
+      expect(() => params.require('any'), throwsA(isA<ArgumentError>()));
     });
   });
 

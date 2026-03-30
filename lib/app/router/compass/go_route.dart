@@ -1,8 +1,7 @@
 import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/route.dart';
+import 'package:app/app/router/compass_error_redirect.dart';
 import 'package:app/core/sentry.dart';
-import 'package:app/feature/error/error.dart';
-import 'package:app/feature/onboarding/route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
@@ -124,7 +123,8 @@ abstract class CompassBaseGoRoute<T extends CompassRouteData>
     final data = _tryDataFromState(state);
 
     if (data == null) {
-      return ErrorPage(isOnboarding: this is OnBoardingRoute);
+      final isOnboarding = state.fullPath?.startsWith('/onboarding') ?? false;
+      return CompassErrorRedirect(isOnboarding: isOnboarding);
     }
 
     return builder!(context, data, state);
@@ -134,11 +134,12 @@ abstract class CompassBaseGoRoute<T extends CompassRouteData>
     final data = _tryDataFromState(state);
 
     if (data == null) {
+      final isOnboarding = state.fullPath?.startsWith('/onboarding') ?? false;
       return NoTransitionPage<void>(
         key: state.pageKey,
         name: state.name,
         restorationId: state.pageKey.value,
-        child: ErrorPage(isOnboarding: this is OnBoardingRoute),
+        child: CompassErrorRedirect(isOnboarding: isOnboarding),
       );
     }
 
