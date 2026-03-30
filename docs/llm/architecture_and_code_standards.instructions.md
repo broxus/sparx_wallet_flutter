@@ -4,25 +4,36 @@ You are working on the SparX Wallet Flutter project. Follow these critical archi
 
 ## Architecture Overview
 
-The project follows Clean Architecture with 5 layers:
+The project follows Clean Architecture with these practical layers:
 
-1. **Application Layer**: App-level configuration, routing, DI setup
-2. **Core Layer**: Shared utilities, exceptions, base classes
-3. **Service Layer**: Business logic, state management (stateful components)
-4. **Data Layer**: APIs, storage, repositories, DTOs
-5. **DI Layer**: Dependency injection configuration
+1. **Presentation Layer**: Screens, widgets, WidgetModels, and feature UI code in `lib/feature/**` and `lib/widgets/**`
+2. **Application Layer**: App-level bootstrap, routing, guards, and cross-feature orchestration in `lib/app/**`
+3. **Core Layer**: Shared primitives, utilities, exceptions, base classes, and error handling in `lib/core/**`
+4. **Service Layer**: Stateful business logic in `lib/app/service/**` and `lib/feature/**/domain/**`
+5. **Data Layer**: Repositories, APIs, storage, DTOs, and persistence in `lib/data/**` and `lib/feature/**/data/**`
+6. **DI Layer**: Dependency injection configuration in `lib/di/**`
 
-All code MUST use Elementary MVVM pattern. Use `@injectable` for DI registration via GetIt.
+Keep dependencies one-way: presentation -> application/core/service -> data -> di. Do not place business logic inside repositories.
+
+Use Injectable/GetIt annotations that match the lifecycle you need (`@injectable`, `@singleton`, `@lazySingleton`, `@Singleton(as: ...)`, `@named`).
 
 ## Elementary MVVM Pattern
 
 ### File Structure
 
-For each feature screen, create exactly these 3 files:
+Stateful screens should follow the Elementary split and keep UI, model, and WM files together. The repo currently uses both flat and nested layouts, for example:
 
-- `feature_screen.dart` - Widget (UI only)
-- `feature_screen_model.dart` - Model (data and state, extends `ElementaryModel`, `@injectable`)
-- `feature_screen_wm.dart` - WidgetModel (business logic, `@injectable`)
+- `lib/feature/choose_network/choose_network_screen.dart`
+- `lib/feature/onboarding/screen/welcome/welcome_screen.dart`
+- `lib/feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen.dart`
+
+For screens, keep the required trio together:
+
+- `*_screen.dart` - Widget/UI
+- `*_screen_model.dart` - Model (`ElementaryModel`)
+- `*_screen_wm.dart` - WidgetModel
+
+Reusable stateful widgets may follow the analogous `*_widget.dart` / `*_model.dart` / `*_wm.dart` split. Add a barrel export file only when the feature exposes multiple public entry points.
 
 ### Reactive Field Naming Convention
 
@@ -47,7 +58,7 @@ ValueListenable<bool> get isLoadingState => _isLoading;
 
 #### 1. Non-Parametrized (CustomWidgetModel + InjectedElementaryWidget)
 
-Use when widgets don't need parameters from parent (e.g. feature entry points, modal sheets):
+Use when widgets don't need parameters from parent (for example feature entry points and modal sheets):
 
 ```dart
 class SplashScreen extends InjectedElementaryWidget<SplashScreenWidgetModel> {
@@ -77,7 +88,7 @@ class SplashScreenModel extends ElementaryModel {
 
 #### 2. Parametrized (CustomWidgetModelParametrized + InjectedElementaryParametrizedWidget)
 
-Use when widgets need data from parent (e.g. list items, reusable components):
+Use when widgets need data from parent (for example list items and reusable components):
 
 ```dart
 class AccountCard extends InjectedElementaryParametrizedWidget<
@@ -133,38 +144,83 @@ Both base WidgetModel classes provide:
 
 ## Business Logic Components
 
-- **Services**: Stateful business logic, registered as DI singletons (e.g. `CurrentAccountsService`, `BalanceService`)
-- **Repositories**: Data access (APIs, storage), DTO→domain transformation, no business logic (e.g. `TokenRepository`, `TonRepository`)
-- **Domain Models**: Business entities — MUST use Freezed for immutable data classes with JSON serialization
-- **DTOs**: Data transfer objects for API/storage communication — also use Freezed
+- **Services**: Stateful business logic, registered as DI singletons (for example `CurrentAccountsService`, `BalanceService`)
+- **Repositories**: Data access, API/storage orchestration, and DTO -> domain transformation only; no business logic
+- **Domain Models / DTOs**: Prefer Freezed plus JSON serialization where appropriate, but do not use Freezed for Compass route data classes
 
 ## Navigation System (Compass)
 
-- **NEVER** use raw GoRouter directly — **ALWAYS** use Compass navigation methods
-- **NEVER** use Freezed with RouteData classes (breaks type resolution)
+- **NEVER** use raw GoRouter directly from feature code — navigate with Compass route data objects
+- **NEVER** use Freezed with Compass route data classes (breaks type-based route resolution)
+- Use `CompassRouteParameterless<T extends CompassRouteData>` for routes without query parameters
+- Use `CompassRoute<T extends CompassRouteDataQuery>` for routes that serialize data into query parameters
 
 ### Navigation Methods
 
 ```dart
-context.compassPoint(YourRoute());     // Navigate to new route
-context.compassPush(YourRoute());      // Push onto stack
-context.compassContinue(YourRoute());  // Continue navigation flow
-context.compassBack();                 // Navigate back
+context.compassPoint(const OnBoardingRouteData());
+await context.compassPush<ChooseNetworkRouteData, bool>(
+  const ChooseNetworkRouteData(
+    nextStep: ChooseNetworkNextStep.createSeedPassword,
+  ),
+);
+context.compassContinue(
+  const ChooseNetworkRouteData(
+    nextStep: ChooseNetworkNextStep.addExistingWallet,
+  ),
+);
+context.compassBack();
 ```
 
 ### Route Definition
 
 ```dart
-// Route data class (NO Freezed!)
-class YourRouteData {
-  final String parameter;
-  const YourRouteData({required this.parameter});
+const _userIdQueryParam = 'userId';
+
+class ProfileRouteData implements CompassRouteDataQuery {
+  const ProfileRouteData({required this.userId});
+
+  final String userId;
+
+  @override
+  Map<String, String> toQueryParams() => {
+    _userIdQueryParam: userId,
+  };
 }
 
-@AutoRouteConfig.route('/your-path')
-class YourRoute extends CompassRoute {
-  final YourRouteData data;
-  YourRoute({required this.data});
+@named
+@Singleton(as: CompassBaseRoute)
+class ProfileRoute extends CompassRoute<ProfileRouteData> {
+  ProfileRoute()
+    : super(
+        path: '/profile',
+        builder: (context, data, _) => ProfileScreen(userId: data.userId),
+      );
+
+  @override
+  ProfileRouteData fromQueryParams(Map<String, String> queryParams) {
+    return ProfileRouteData(
+      userId: queryParams.require(_userIdQueryParam),
+    );
+  }
+}
+
+class OnBoardingRouteData implements CompassRouteData {
+  const OnBoardingRouteData();
+}
+
+@named
+@Singleton(as: CompassBaseRoute)
+class OnBoardingRoute extends CompassRouteParameterless<OnBoardingRouteData> {
+  OnBoardingRoute()
+    : super(
+        path: '/onboarding',
+        builder: (context, _, _) => const WelcomeScreen(),
+        isTopLevel: true,
+      );
+
+  @override
+  OnBoardingRouteData createData() => const OnBoardingRouteData();
 }
 ```
 
@@ -213,19 +269,19 @@ Future<void> loadData() async {
 
 ### Theme System
 
-- **ALWAYS** use v2 theme system (`packages/ui_components_lib/v2/`) — NEVER v1 legacy system
-- **ALWAYS** access themes via `context.themeStyleV2` extension
-- **ALWAYS** use semantic color names (`colors.content0`, `colors.background2`) — NEVER hardcoded colors
-- **ALWAYS** use design tokens (`DimensSize.d16`, `DimensRadius.radius12`) — NEVER magic numbers
-- **ALWAYS** use pre-built components (`PrimaryButton`, `PrimaryText`) when available
-- **ALWAYS** follow typography hierarchy (`textStyles.headingMedium`, `textStyles.paragraphSmall`)
-- Import: `import 'package:ui_components_lib/ui_components_lib.dart';`
+- **ALWAYS** use the v2 theme/tokens exported from `package:ui_components_lib/ui_components_lib.dart`
+- **ALWAYS** access themes via `context.themeStyleV2`
+- **ALWAYS** use semantic colors (`colors.content0`, `colors.background2`) instead of hardcoded colors
+- **ALWAYS** use design tokens (`DimensSize.d16`, `DimensRadius.radius12`) instead of magic numbers
+- **ALWAYS** prefer pre-built components when they cover the use case
+- **ALWAYS** follow the established typography hierarchy from `themeStyleV2.textStyles`
 
 ## Localization
 
 - **NEVER** hardcode strings in widgets
-- Storage: JSON files in `assets/translations/`, snake_case keys, hierarchical structure
-- Use `easy_localization` package; generate keys with `melos run codegen:locale`
+- Storage: JSON files in `assets/translations/`; this repo currently uses camelCase keys such as `createNewWallet` and `enterSeedNameScreenTitle`
+- Preserve the existing key style in the surrounding translation file instead of introducing a new naming convention mid-file
+- Use `easy_localization`; generate keys with `melos run codegen:locale` or `melos run codegen`
 
 ```dart
 Text(LocaleKeys.feature_screen_title.tr())

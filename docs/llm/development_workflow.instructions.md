@@ -17,8 +17,9 @@ You are working on the SparX Wallet Flutter project. Follow these critical workf
 ### Commit Messages
 
 - **MUST** follow conventional commits format: `<type>[optional scope]: <description>`
-- **ALWAYS** include YouTrack ticket ID in scope: `feat(EWM-511): Add route navigation`
-- Valid types: `feat`, `fix`, `BREAKING CHANGE`, `build`, `chore`, `ci`, `docs`, `style`, `refactor`, `perf`, `test`
+- **ALWAYS** include YouTrack ticket ID in scope when the change is tied to a task: `feat(EWM-511): add route navigation`
+- Common types in this repo: `feat`, `fix`, `build`, `chore`, `ci`, `docs`, `style`, `refactor`, `perf`, `test`
+- For breaking changes, use `!` after the type or scope and/or a `BREAKING CHANGE:` footer instead of using `BREAKING CHANGE` as the commit type
 - **NEVER** add co-authored blocks or Claude Code attribution in commit messages
 - Keep commit messages concise - for small changes, use short descriptive messages
 
