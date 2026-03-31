@@ -207,18 +207,30 @@ class _Pages extends StatelessWidget {
                   children: List.generate(maxCount, (i) {
                     final index = i + startIndexOffset;
 
-                    return PressScaleWidget(
-                      onPressed: () => onPage(index),
-                      child: Container(
-                        height: DimensSize.d40,
-                        width: DimensSize.d40,
-                        alignment: Alignment.center,
-                        child: Text(
-                          '${index + 1}',
-                          style: StyleRes.button.copyWith(
-                            color: index == currentPageIndex
-                                ? theme.colors.content0
-                                : theme.colors.content3,
+                    return Semantics(
+                      button: true,
+                      selected: index == currentPageIndex,
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          excludeFromSemantics: true,
+                          onTap: () => onPage(index),
+                          borderRadius: BorderRadius.circular(
+                            DimensRadius.radius12,
+                          ),
+                          child: SizedBox(
+                            height: DimensSize.d40,
+                            width: DimensSize.d40,
+                            child: Center(
+                              child: Text(
+                                '${index + 1}',
+                                style: StyleRes.button.copyWith(
+                                  color: index == currentPageIndex
+                                      ? theme.colors.content0
+                                      : theme.colors.content3,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -261,28 +273,59 @@ class _Item extends StatelessWidget {
     final colors = context.themeStyle.colors;
     final theme = context.themeStyleV2;
     final disabled = derivedKey.publicKey == masterKey;
+    final title = name ?? derivedKey.publicKey.toEllipseString();
+    final onTap = disabled
+        ? null
+        : () => isSelected ? onUnchecked(derivedKey) : onChecked(derivedKey);
 
-    return CommonListTile(
-      // ignore: avoid_redundant_argument_values
-      height: _itemHeight,
-      leading: CommonBackgroundedIconWidget.svg(
-        svg: Assets.images.key.path,
-        backgroundColor: theme.colors.backgroundAlpha,
+    return Semantics(
+      button: !disabled,
+      enabled: !disabled,
+      selected: isSelected,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          excludeFromSemantics: true,
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(DimensRadius.radius16),
+          child: SizedBox(
+            height: _itemHeight,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: DimensSize.d8),
+              child: Row(
+                children: [
+                  CommonBackgroundedIconWidget.svg(
+                    svg: Assets.images.key.path,
+                    backgroundColor: theme.colors.backgroundAlpha,
+                  ),
+                  const SizedBox(width: DimensSize.d8),
+                  Expanded(
+                    child: Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textStyles.labelMedium.copyWith(
+                        color: theme.colors.content0,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: DimensSize.d8),
+                  CommonIconWidget.svg(
+                    svg: isSelected
+                        ? Assets.images.checkSquare.path
+                        : Assets.images.checkEmpty.path,
+                    color: disabled
+                        ? colors.textSecondary
+                        : isSelected
+                        ? colors.textPrimary
+                        : colors.strokePrimary,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
-      titleText: name ?? derivedKey.publicKey.toEllipseString(),
-      trailing: CommonIconWidget.svg(
-        svg: isSelected
-            ? Assets.images.checkSquare.path
-            : Assets.images.checkEmpty.path,
-        color: disabled
-            ? colors.textSecondary
-            : isSelected
-            ? colors.textPrimary
-            : colors.strokePrimary,
-      ),
-      onPressed: disabled
-          ? null
-          : () => isSelected ? onUnchecked(derivedKey) : onChecked(derivedKey),
     );
   }
 }

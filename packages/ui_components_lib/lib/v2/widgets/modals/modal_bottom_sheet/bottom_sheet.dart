@@ -80,6 +80,22 @@ class ModalBottomSheetState extends State<ModalBottomSheet>
     with TickerProviderStateMixin {
   final GlobalKey _childKey = GlobalKey(debugLabel: 'BottomSheet child');
 
+  String _getRouteLabel(
+    BuildContext context,
+    MaterialLocalizations localizations,
+  ) {
+    switch (Theme.of(context).platform) {
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+        return '';
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        return localizations.dialogLabel;
+    }
+  }
+
   ScrollController get _scrollController => widget.scrollController;
 
   late AnimationController _bounceDragController;
@@ -291,6 +307,8 @@ class ModalBottomSheetState extends State<ModalBottomSheet>
 
   @override
   Widget build(BuildContext context) {
+    final localizations = MaterialLocalizations.of(context);
+    final routeLabel = _getRouteLabel(context, localizations);
     final bounceAnimation = CurvedAnimation(
       parent: _bounceDragController,
       curve: Curves.easeOutSine,
@@ -342,10 +360,19 @@ class ModalBottomSheetState extends State<ModalBottomSheet>
                 ),
               );
 
-        return ClipRect(
-          child: CustomSingleChildLayout(
-            delegate: _ModalBottomSheetLayout(animationValue, widget.expanded),
-            child: draggableChild,
+        return Semantics(
+          scopesRoute: true,
+          namesRoute: true,
+          label: routeLabel,
+          explicitChildNodes: true,
+          child: ClipRect(
+            child: CustomSingleChildLayout(
+              delegate: _ModalBottomSheetLayout(
+                animationValue,
+                widget.expanded,
+              ),
+              child: draggableChild,
+            ),
           ),
         );
       },
