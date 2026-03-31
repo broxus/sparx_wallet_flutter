@@ -3,6 +3,7 @@
 // ignore_for_file: prefer_asserts_with_message
 
 import 'dart:async';
+import 'dart:ui' show SemanticsHitTestBehavior;
 
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/widgets/modals/modal_bottom_sheet/bottom_sheet.dart';
@@ -172,7 +173,7 @@ class ModalSheetRoute<T> extends PageRoute<T> {
     Animation<double> animation,
     Animation<double> secondaryAnimation,
   ) {
-    return MediaQuery.removePadding(
+    final bottomSheet = MediaQuery.removePadding(
       context: context,
       child: _ModalBottomSheet<T>(
         closeProgressThreshold: closeProgressThreshold,
@@ -183,6 +184,11 @@ class ModalSheetRoute<T> extends PageRoute<T> {
         enableDrag: enableDrag,
         animationCurve: animationCurve,
       ),
+    );
+
+    return Semantics(
+      hitTestBehavior: SemanticsHitTestBehavior.opaque,
+      child: bottomSheet,
     );
   }
 

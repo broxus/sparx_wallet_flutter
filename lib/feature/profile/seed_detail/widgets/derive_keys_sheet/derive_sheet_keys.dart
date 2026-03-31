@@ -161,10 +161,9 @@ class _Pages extends StatelessWidget {
       color: theme.colors.background1,
       child: SeparatedRow(
         children: [
-          CommonIconButton.svg(
+          _PageArrowButton(
             svg: Assets.images.caretLeft24.path,
-            buttonType: EverButtonType.ghost,
-            onPressed: canPrevPage ? onPrevPage : null,
+            onTap: canPrevPage ? onPrevPage : null,
           ),
           Expanded(
             child: LayoutBuilder(
@@ -208,8 +207,12 @@ class _Pages extends StatelessWidget {
                     final index = i + startIndexOffset;
 
                     return Semantics(
+                      container: true,
+                      explicitChildNodes: true,
+                      excludeSemantics: true,
                       button: true,
                       selected: index == currentPageIndex,
+                      label: '${index + 1}',
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
@@ -240,12 +243,44 @@ class _Pages extends StatelessWidget {
               },
             ),
           ),
-          CommonIconButton.svg(
+          _PageArrowButton(
             svg: Assets.images.caretRight24.path,
-            buttonType: EverButtonType.ghost,
-            onPressed: canNextPage ? onNextPage : null,
+            onTap: canNextPage ? onNextPage : null,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _PageArrowButton extends StatelessWidget {
+  const _PageArrowButton({required this.svg, required this.onTap});
+
+  final String svg;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      container: true,
+      explicitChildNodes: true,
+      excludeSemantics: true,
+      button: true,
+      enabled: onTap != null,
+      child: Material(
+        color: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(DimensRadius.max),
+        ),
+        child: InkWell(
+          excludeFromSemantics: true,
+          borderRadius: BorderRadius.circular(DimensRadius.max),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(DimensSize.d18),
+            child: CommonIconWidget.svg(svg: svg),
+          ),
+        ),
       ),
     );
   }
@@ -279,9 +314,13 @@ class _Item extends StatelessWidget {
         : () => isSelected ? onUnchecked(derivedKey) : onChecked(derivedKey);
 
     return Semantics(
+      container: true,
+      explicitChildNodes: true,
+      excludeSemantics: true,
       button: !disabled,
       enabled: !disabled,
       selected: isSelected,
+      label: title,
       child: Material(
         color: Colors.transparent,
         child: InkWell(
