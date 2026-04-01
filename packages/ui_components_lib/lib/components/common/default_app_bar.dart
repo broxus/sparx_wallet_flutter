@@ -178,14 +178,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
             leadingWidth: isShowLeadingClose ? DimensSize.d48 : leadingWidth,
             leading: leading == null
                 ? null
-                : Align(
-                    alignment: Alignment.centerLeft,
-                    child: Semantics(
-                      identifier: 'appbar_back_button',
-                      button: true,
-                      child: leading,
-                    ),
-                  ),
+                : Align(alignment: Alignment.centerLeft, child: leading),
             actions: _hasAnyActions ? _actionsWidget(context) : null,
             title: title,
             systemOverlayStyle: systemOverlayStyle,
