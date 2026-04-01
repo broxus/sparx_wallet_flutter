@@ -1,3 +1,4 @@
+import 'package:app/app/service/storage_service/abstract_storage_service.dart';
 import 'package:app/app/service/storage_service/account_seed_storage_service.dart';
 import 'package:app/app/service/storage_service/app_storage_service.dart';
 import 'package:app/app/service/storage_service/balance_storage_service.dart';
@@ -6,8 +7,8 @@ import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/app/service/storage_service/nekoton_repository_service.dart';
 import 'package:app/app/service/storage_service/secure_storage_service.dart';
 import 'package:app/app/service/storage_service/storage_manager_service.dart';
-import 'package:app/app/service/storage_service/ton_connect_storage_service.dart';
 import 'package:app/app/service/storage_service/token_wallet_storage_service/token_wallet_storage_service.dart';
+import 'package:app/app/service/storage_service/ton_connect_storage_service.dart';
 import 'package:app/app/service/storage_service/ton_wallet_storage_service/ton_wallet_storage_service.dart';
 import 'package:app/feature/browser/domain/service/storages/browser_bookmarks_storage_service.dart';
 import 'package:app/feature/browser/domain/service/storages/browser_favicon_url_storage_service.dart';
@@ -72,55 +73,93 @@ class _MockLedgerStorageService extends Mock implements LedgerStorageService {}
 
 void main() {
   group('StorageManagerService', () {
-    late List<dynamic> storages;
+    late _MockSecureStorageService secureStorageService;
+    late _MockGeneralStorageService generalStorageService;
+    late _MockBrowserGroupsStorageService browserGroupsStorageService;
+    late _MockBrowserTabsStorageService browserTabsStorageService;
+    late _MockBrowserBookmarksStorageService browserBookmarksStorageService;
+    late _MockBrowserPermissionsStorageService browserPermissionsStorageService;
+    late _MockBrowserFaviconURLStorageService browserFaviconUrlStorageService;
+    late _MockNekotonStorageService nekotonStorageService;
+    late _MockNekotonRepositoryStorageService nekotonRepositoryStorageService;
+    late _MockTonWalletStorageService tonWalletStorageService;
+    late _MockTokenWalletStorageService tokenWalletStorageService;
+    late _MockConnectionsStorageService connectionsStorageService;
+    late _MockBalanceStorageService balanceStorageService;
+    late _MockAppStorageService appStorageService;
+    late _MockTonConnectStorageService tonConnectStorageService;
+    late _MockUpdateVersionStorageService updateVersionStorageService;
+    late _MockNftStorageService nftStorageService;
+    late _MockLedgerStorageService ledgerStorageService;
+    late List<AbstractStorageService> storages;
     late StorageManagerService service;
 
     setUp(() {
+      secureStorageService = _MockSecureStorageService();
+      generalStorageService = _MockGeneralStorageService();
+      browserGroupsStorageService = _MockBrowserGroupsStorageService();
+      browserTabsStorageService = _MockBrowserTabsStorageService();
+      browserBookmarksStorageService = _MockBrowserBookmarksStorageService();
+      browserPermissionsStorageService =
+          _MockBrowserPermissionsStorageService();
+      browserFaviconUrlStorageService = _MockBrowserFaviconURLStorageService();
+      nekotonStorageService = _MockNekotonStorageService();
+      nekotonRepositoryStorageService = _MockNekotonRepositoryStorageService();
+      tonWalletStorageService = _MockTonWalletStorageService();
+      tokenWalletStorageService = _MockTokenWalletStorageService();
+      connectionsStorageService = _MockConnectionsStorageService();
+      balanceStorageService = _MockBalanceStorageService();
+      appStorageService = _MockAppStorageService();
+      tonConnectStorageService = _MockTonConnectStorageService();
+      updateVersionStorageService = _MockUpdateVersionStorageService();
+      nftStorageService = _MockNftStorageService();
+      ledgerStorageService = _MockLedgerStorageService();
+
       storages = [
-        _MockSecureStorageService(),
-        _MockGeneralStorageService(),
-        _MockBrowserGroupsStorageService(),
-        _MockBrowserTabsStorageService(),
-        _MockBrowserBookmarksStorageService(),
-        _MockBrowserPermissionsStorageService(),
-        _MockBrowserFaviconURLStorageService(),
-        _MockNekotonStorageService(),
-        _MockNekotonRepositoryStorageService(),
-        _MockTonWalletStorageService(),
-        _MockTokenWalletStorageService(),
-        _MockConnectionsStorageService(),
-        _MockBalanceStorageService(),
-        _MockAppStorageService(),
-        _MockTonConnectStorageService(),
-        _MockUpdateVersionStorageService(),
-        _MockNftStorageService(),
-        _MockLedgerStorageService(),
+        secureStorageService,
+        generalStorageService,
+        browserGroupsStorageService,
+        browserTabsStorageService,
+        browserBookmarksStorageService,
+        browserPermissionsStorageService,
+        browserFaviconUrlStorageService,
+        nekotonStorageService,
+        nekotonRepositoryStorageService,
+        tonWalletStorageService,
+        tokenWalletStorageService,
+        connectionsStorageService,
+        balanceStorageService,
+        appStorageService,
+        tonConnectStorageService,
+        updateVersionStorageService,
+        nftStorageService,
+        ledgerStorageService,
       ];
 
       for (final storage in storages) {
-        when(() => storage.init()).thenAnswer((_) async {});
-        when(() => storage.clear()).thenAnswer((_) async {});
+        when(storage.init).thenAnswer((_) async {});
+        when(storage.clear).thenAnswer((_) async {});
       }
 
       service = StorageManagerService(
-        storages[0] as SecureStorageService,
-        storages[1] as GeneralStorageService,
-        storages[2] as BrowserGroupsStorageService,
-        storages[3] as BrowserTabsStorageService,
-        storages[4] as BrowserBookmarksStorageService,
-        storages[5] as BrowserPermissionsStorageService,
-        storages[6] as BrowserFaviconURLStorageService,
-        storages[7] as NekotonStorageService,
-        storages[8] as NekotonRepositoryStorageService,
-        storages[9] as TonWalletStorageService,
-        storages[10] as TokenWalletStorageService,
-        storages[11] as ConnectionsStorageService,
-        storages[12] as BalanceStorageService,
-        storages[13] as AppStorageService,
-        storages[14] as TonConnectStorageService,
-        storages[15] as UpdateVersionStorageService,
-        storages[16] as NftStorageService,
-        storages[17] as LedgerStorageService,
+        secureStorageService,
+        generalStorageService,
+        browserGroupsStorageService,
+        browserTabsStorageService,
+        browserBookmarksStorageService,
+        browserPermissionsStorageService,
+        browserFaviconUrlStorageService,
+        nekotonStorageService,
+        nekotonRepositoryStorageService,
+        tonWalletStorageService,
+        tokenWalletStorageService,
+        connectionsStorageService,
+        balanceStorageService,
+        appStorageService,
+        tonConnectStorageService,
+        updateVersionStorageService,
+        nftStorageService,
+        ledgerStorageService,
       );
     });
 
@@ -128,7 +167,7 @@ void main() {
       await service.init();
 
       for (final storage in storages) {
-        verify(() => storage.init()).called(1);
+        verify(storage.init).called(1);
       }
     });
 
@@ -136,7 +175,7 @@ void main() {
       await service.clear();
 
       for (final storage in storages) {
-        verify(() => storage.clear()).called(1);
+        verify(storage.clear).called(1);
       }
     });
   });

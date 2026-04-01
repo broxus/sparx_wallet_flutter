@@ -10,7 +10,7 @@ import '../../../helpers/helpers.dart';
 
 class _MockAccountBalanceModel extends Mock implements AccountBalanceModel {}
 
-final _currency = Currency.create('USD', 2, symbol: r'$', pattern: 'S0.00');
+final _currency = Currency.create('USD', 2, pattern: 'S0.00');
 
 final _accountAddress = Address(address: '0:${'a' * 64}');
 final _rootTokenContract = Address(address: '0:${'b' * 64}');
@@ -97,7 +97,7 @@ void main() {
 
         when(() => oldBalance.rootTokenContract).thenReturn(_rootTokenContract);
         when(() => oldBalance.isNative).thenReturn(false);
-        when(() => oldBalance.toJson()).thenReturn({
+        when(oldBalance.toJson).thenReturn({
           'rootTokenContract': _rootTokenContract.address,
           'fiatBalance': _moneyJson(1000),
           'tokenBalance': _moneyJson(100),
@@ -106,7 +106,7 @@ void main() {
 
         when(() => newBalance.rootTokenContract).thenReturn(_rootTokenContract);
         when(() => newBalance.isNative).thenReturn(false);
-        when(() => newBalance.toJson()).thenReturn({
+        when(newBalance.toJson).thenReturn({
           'rootTokenContract': _rootTokenContract.address,
           'fiatBalance': _moneyJson(2500),
           'tokenBalance': _moneyJson(250),
@@ -114,16 +114,17 @@ void main() {
         });
 
         await service.init();
-        service.setBalances(
-          group: 'mainnet',
-          accountAddress: _accountAddress,
-          balance: oldBalance,
-        );
-        service.setBalances(
-          group: 'mainnet',
-          accountAddress: _accountAddress,
-          balance: newBalance,
-        );
+        service
+          ..setBalances(
+            group: 'mainnet',
+            accountAddress: _accountAddress,
+            balance: oldBalance,
+          )
+          ..setBalances(
+            group: 'mainnet',
+            accountAddress: _accountAddress,
+            balance: newBalance,
+          );
 
         final balances = service.getBalances('mainnet')[_accountAddress];
 
@@ -156,21 +157,22 @@ void main() {
 
     test('clear erases both balance containers', () async {
       await service.init();
-      service.setOverallBalance(
-        group: 'mainnet',
-        accountAddress: _accountAddress,
-        balance: Fixed.parse('5.00'),
-      );
-      service.setBalances(
-        group: 'mainnet',
-        accountAddress: _accountAddress,
-        balance: AccountBalanceModel(
-          rootTokenContract: _rootTokenContract,
-          fiatBalance: Money.fromIntWithCurrency(100, _currency),
-          tokenBalance: Money.fromIntWithCurrency(50, _currency),
-          isNative: false,
-        ),
-      );
+      service
+        ..setOverallBalance(
+          group: 'mainnet',
+          accountAddress: _accountAddress,
+          balance: Fixed.parse('5.00'),
+        )
+        ..setBalances(
+          group: 'mainnet',
+          accountAddress: _accountAddress,
+          balance: AccountBalanceModel(
+            rootTokenContract: _rootTokenContract,
+            fiatBalance: Money.fromIntWithCurrency(100, _currency),
+            tokenBalance: Money.fromIntWithCurrency(50, _currency),
+            isNative: false,
+          ),
+        );
 
       await service.clear();
 

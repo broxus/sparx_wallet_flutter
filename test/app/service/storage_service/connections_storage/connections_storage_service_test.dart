@@ -126,56 +126,54 @@ void main() {
       expect(service.currentWorkchain.parentConnectionId, 'default');
     });
 
-    test(
-      'readConnections merges presets with custom connections and removes duplicate preset',
-      () async {
-        await storageAdapter.box(ConnectionsStorageService.container).write(
-          'connections',
-          [defaultConnection.toJson(), customConnection.toJson()],
-        );
+    test('readConnections merges presets with custom connections '
+        'and removes duplicate preset', () async {
+      await storageAdapter.box(ConnectionsStorageService.container).write(
+        'connections',
+        [defaultConnection.toJson(), customConnection.toJson()],
+      );
 
-        final result = service.readConnections();
+      final result = service.readConnections();
 
-        expect(result, hasLength(2));
-        expect(result.map((e) => e.id), ['default', 'custom']);
-      },
-    );
+      expect(result, hasLength(2));
+      expect(result.map((e) => e.id), ['default', 'custom']);
+    });
 
-    test(
-      'saveCurrentConnectionId falls back to default workchain for unknown workchain',
-      () async {
-        await storageAdapter.box(ConnectionsStorageService.container).write(
-          'connections',
-          [customConnection.toJson()],
-        );
-        when(
-          () => presetsConnectionService.connections,
-        ).thenReturn([defaultConnection, customConnection]);
+    test('saveCurrentConnectionId falls back to default workchain '
+        'for unknown workchain', () async {
+      await storageAdapter.box(ConnectionsStorageService.container).write(
+        'connections',
+        [customConnection.toJson()],
+      );
+      when(
+        () => presetsConnectionService.connections,
+      ).thenReturn([defaultConnection, customConnection]);
 
-        await service.init();
+      await service.init();
 
-        service.saveCurrentConnectionId(
-          connectionId: 'custom',
-          workchainId: 999,
-        );
+      service.saveCurrentConnectionId(connectionId: 'custom', workchainId: 999);
 
-        expect(service.currentConnectionIds, ('custom', 0));
-      },
-    );
+      expect(service.currentConnectionIds, ('custom', 0));
+    });
 
     test('updateConnectionsIds merges new ids into stored map', () async {
       await service.init();
 
-      service.updateConnectionsIds([
-        ConnectionIdsData(
-          connectionId: 'default',
-          workchainId: 0,
-          networkId: 1,
-        ),
-      ]);
-      service.updateConnectionsIds([
-        ConnectionIdsData(connectionId: 'custom', workchainId: 1, networkId: 2),
-      ]);
+      service
+        ..updateConnectionsIds([
+          ConnectionIdsData(
+            connectionId: 'default',
+            workchainId: 0,
+            networkId: 1,
+          ),
+        ])
+        ..updateConnectionsIds([
+          ConnectionIdsData(
+            connectionId: 'custom',
+            workchainId: 1,
+            networkId: 2,
+          ),
+        ]);
 
       expect(service.connectionsIds.keys, containsAll(['default0', 'custom1']));
       expect(
@@ -216,9 +214,10 @@ void main() {
         );
 
         await service.init();
-        service.saveCurrentConnectionId(connectionId: 'custom');
 
-        service.removeConnection('custom');
+        service
+          ..saveCurrentConnectionId(connectionId: 'custom')
+          ..removeConnection('custom');
 
         expect(service.connections.map((e) => e.id), ['default']);
         expect(service.currentConnectionIds, ('default', 0));
@@ -256,6 +255,7 @@ void main() {
       );
 
       await service.init();
+
       service.removeConnection('custom');
 
       final message =
@@ -333,6 +333,7 @@ void main() {
     test(
       'getWorkchainsByNetworkId resolves ids from cache and callback',
       () async {
+        final resolvedWorkchainIds = <String>[];
         final second = _connection(
           id: 'second',
           name: 'Second',
@@ -351,21 +352,34 @@ void main() {
         );
         when(
           () => presetsConnectionService.connections,
-        ).thenReturn([defaultConnection, second]);
+        ).thenReturn([defaultConnection]);
         await storageAdapter.box(ConnectionsStorageService.container).write(
           'connections',
           [second.toJson()],
         );
 
         await service.init();
-        await expectLater(
-          () => service.getWorkchainsByNetworkId(
+        service.updateConnectionsIds([
+          ConnectionIdsData(
+            connectionId: 'default',
+            workchainId: 0,
             networkId: 42,
-            getNetworkId: (workchain) async =>
-                workchain.parentConnectionId == 'second' ? 42 : null,
           ),
-          throwsA(isA<Error>()),
+        ]);
+
+        final result = await service.getWorkchainsByNetworkId(
+          networkId: 42,
+          getNetworkId: (workchain) async {
+            resolvedWorkchainIds.add(workchain.parentConnectionId);
+            return workchain.parentConnectionId == 'second' ? 42 : null;
+          },
         );
+
+        expect(result.map((workchain) => workchain.parentConnectionId), [
+          'default',
+          'second',
+        ]);
+        expect(resolvedWorkchainIds, ['second']);
       },
     );
   });

@@ -28,7 +28,6 @@ Transaction _transaction(DateTime createdAt) => Transaction(
 TransactionWithData<TransactionAdditionalInfo?> _tx(DateTime createdAt) =>
     TransactionWithData<TransactionAdditionalInfo?>(
       transaction: _transaction(createdAt),
-      data: null,
     );
 
 PendingTransactionWithData _pending({

@@ -109,7 +109,7 @@ void main() {
 
         when(() => existing.address).thenReturn(address);
         when(() => existing.networkGroup).thenReturn('mainnet');
-        when(() => existing.toJson()).thenReturn({
+        when(existing.toJson).thenReturn({
           'address': _rawAddress,
           'price': '1.00',
           'networkType': 'ever',
@@ -118,7 +118,7 @@ void main() {
 
         when(() => updated.address).thenReturn(address);
         when(() => updated.networkGroup).thenReturn('mainnet');
-        when(() => updated.toJson()).thenReturn({
+        when(updated.toJson).thenReturn({
           'address': _rawAddress,
           'price': '2.00',
           'networkType': 'ever',
@@ -126,8 +126,9 @@ void main() {
         });
 
         await service.init();
-        service.saveOrUpdateCurrency(currency: existing);
-        service.saveOrUpdateCurrency(currency: updated);
+        service
+          ..saveOrUpdateCurrency(currency: existing)
+          ..saveOrUpdateCurrency(currency: updated);
 
         expect(service.getCurrencies('mainnet'), hasLength(1));
         expect(service.getCurrencies('mainnet').single.price, '2.00');
@@ -153,7 +154,7 @@ void main() {
 
       when(() => asset.address).thenReturn(address);
       when(() => asset.networkGroup).thenReturn('mainnet');
-      when(() => asset.toJson()).thenReturn({
+      when(asset.toJson).thenReturn({
         'name': 'Custom Token',
         'symbol': 'CSTM',
         'decimals': 9,
@@ -164,8 +165,9 @@ void main() {
       });
 
       await service.init();
-      service.addCustomTokenContractAsset(asset);
-      service.addCustomTokenContractAsset(asset);
+      service
+        ..addCustomTokenContractAsset(asset)
+        ..addCustomTokenContractAsset(asset);
 
       expect(service.getCustomTokenContractAssets('mainnet'), hasLength(1));
       expect(
@@ -212,22 +214,23 @@ void main() {
       await service.init();
 
       when(() => first.address).thenReturn(address);
-      when(() => first.toJson()).thenReturn({
+      when(first.toJson).thenReturn({
         'address': _rawAddress,
         'price': '1.00',
         'networkType': 'ever',
         'networkGroup': 'mainnet',
       });
       when(() => second.address).thenReturn(address);
-      when(() => second.toJson()).thenReturn({
+      when(second.toJson).thenReturn({
         'address': _rawAddress,
         'price': '2.00',
         'networkType': 'ever',
         'networkGroup': 'mainnet',
       });
 
-      service.saveOrUpdateCurrencies(group: 'mainnet', currencies: [first]);
-      service.saveOrUpdateCurrencies(group: 'mainnet', currencies: [second]);
+      service
+        ..saveOrUpdateCurrencies(group: 'mainnet', currencies: [first])
+        ..saveOrUpdateCurrencies(group: 'mainnet', currencies: [second]);
 
       expect(service.getCurrencies('mainnet'), hasLength(1));
       expect(service.getCurrencies('mainnet').single.price, '2.00');
@@ -241,7 +244,7 @@ void main() {
         final second = _MockTokenContractAsset();
 
         when(() => first.networkGroup).thenReturn('mainnet');
-        when(() => first.toJson()).thenReturn({
+        when(first.toJson).thenReturn({
           'name': 'A',
           'symbol': 'A',
           'decimals': 9,
@@ -252,7 +255,7 @@ void main() {
         });
 
         when(() => second.networkGroup).thenReturn('ton-mainnet');
-        when(() => second.toJson()).thenReturn({
+        when(second.toJson).thenReturn({
           'name': 'B',
           'symbol': 'B',
           'decimals': 9,
@@ -321,8 +324,9 @@ void main() {
       () async {
         await service.init();
 
-        service.updateDefaultActiveAssets('account-1', ['a', 'b']);
-        service.updateDefaultActiveAssets('account-1', ['b', 'c']);
+        service
+          ..updateDefaultActiveAssets('account-1', ['a', 'b'])
+          ..updateDefaultActiveAssets('account-1', ['b', 'c']);
 
         expect(service.getDefaultActiveAssets('account-1').toSet(), {
           'a',

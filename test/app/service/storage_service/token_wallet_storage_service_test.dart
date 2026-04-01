@@ -29,7 +29,6 @@ Transaction _transaction(DateTime createdAt) => Transaction(
 TransactionWithData<TokenWalletTransaction?> _tx(DateTime createdAt) =>
     TransactionWithData<TokenWalletTransaction?>(
       transaction: _transaction(createdAt),
-      data: null,
     );
 
 void main() {
