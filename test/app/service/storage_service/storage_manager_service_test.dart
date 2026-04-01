@@ -2,6 +2,7 @@ import 'package:app/app/service/storage_service/abstract_storage_service.dart';
 import 'package:app/app/service/storage_service/account_seed_storage_service.dart';
 import 'package:app/app/service/storage_service/app_storage_service.dart';
 import 'package:app/app/service/storage_service/balance_storage_service.dart';
+import 'package:app/app/service/storage_service/config_storage_service.dart';
 import 'package:app/app/service/storage_service/connections_storage/connections_storage_service.dart';
 import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/app/service/storage_service/nekoton_repository_service.dart';
@@ -71,6 +72,8 @@ class _MockNftStorageService extends Mock implements NftStorageService {}
 
 class _MockLedgerStorageService extends Mock implements LedgerStorageService {}
 
+class _MockConfigStorageService extends Mock implements ConfigStorageService {}
+
 void main() {
   group('StorageManagerService', () {
     late _MockSecureStorageService secureStorageService;
@@ -91,6 +94,7 @@ void main() {
     late _MockUpdateVersionStorageService updateVersionStorageService;
     late _MockNftStorageService nftStorageService;
     late _MockLedgerStorageService ledgerStorageService;
+    late _MockConfigStorageService configStorageService;
     late List<AbstractStorageService> storages;
     late StorageManagerService service;
 
@@ -114,6 +118,7 @@ void main() {
       updateVersionStorageService = _MockUpdateVersionStorageService();
       nftStorageService = _MockNftStorageService();
       ledgerStorageService = _MockLedgerStorageService();
+      configStorageService = _MockConfigStorageService();
 
       storages = [
         secureStorageService,
@@ -134,6 +139,7 @@ void main() {
         updateVersionStorageService,
         nftStorageService,
         ledgerStorageService,
+        configStorageService,
       ];
 
       for (final storage in storages) {
@@ -143,6 +149,7 @@ void main() {
 
       service = StorageManagerService(
         secureStorageService,
+        configStorageService,
         generalStorageService,
         browserGroupsStorageService,
         browserTabsStorageService,
