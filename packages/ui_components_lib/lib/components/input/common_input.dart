@@ -73,7 +73,10 @@ class CommonInput extends StatefulWidget {
     this.enabled = true,
     this.v2Style,
     this.radius = DimensRadius.medium,
-  });
+  }) : assert(
+         suggestionsCallback == null || onSuggestionSelected != null,
+         'onSuggestionSelected must be set if suggestionsCallback is provided',
+       );
 
   /// Height of input field
   final double height;
@@ -727,97 +730,85 @@ class _CommonInputState extends State<CommonInput> {
     required ColorsPalette colors,
     required bool hasError,
   }) {
-    final onSuggestionSelected = widget.onSuggestionSelected;
-
-    if (onSuggestionSelected == null) {
-      assert(false, 'onSuggestionSelected must be set to use suggestions');
-
-      return const SizedBox();
-    } else {
-      return CompositedTransformTarget(
-        link: _suggestionsLink,
-        child: SizedBox(
-          height: widget.height,
-          child: TextField(
-            style:
-                widget.textStyle ??
-                StyleRes.primaryRegular.copyWith(color: colors.textPrimary),
-            controller: _controller,
-            focusNode: _focusNode,
-            keyboardType: widget.keyboardType ?? TextInputType.text,
-            onChanged: widget.onChanged,
-            textInputAction: widget.textInputAction ?? TextInputAction.next,
-            cursorColor: widget.textStyle?.color ?? colors.textPrimary,
-            onSubmitted: widget.onSubmitted,
-            autocorrect: widget.autocorrect,
-            enableSuggestions: widget.enableSuggestions,
-            inputFormatters: widget.inputFormatters,
-            maxLength: widget.maxLength,
-            decoration: InputDecoration(
-              errorText: hasError ? '' : null,
-              errorStyle: const TextStyle(fontSize: 0, height: 0),
-              hintText: widget.hintText,
-              hintStyle:
-                  widget.hintStyle ??
-                  StyleRes.primaryRegular.copyWith(color: colors.textSecondary),
-              contentPadding: EdgeInsets.zero,
-              suffixIcon: _buildSuffixIcon(colors),
-              suffixIconConstraints: _suffixIconConstraints(),
-              prefixIconConstraints: widget.prefixIcon == null
-                  ? const BoxConstraints(maxHeight: 0, maxWidth: DimensSize.d16)
-                  : const BoxConstraints(
-                      minHeight: commonInputHeight,
-                      minWidth: DimensSize.d40,
-                    ),
-              prefixIcon:
-                  widget.prefixIcon ?? const SizedBox(width: DimensSize.d16),
-              border: SquircleInputBorder(
-                squircleRadius: widget.v2Style != null
-                    ? DimensRadius.xMedium
-                    : DimensRadius.medium,
-                borderSide: BorderSide(
-                  color: widget.inactiveBorderColor ?? colors.strokePrimary,
-                ),
+    return CompositedTransformTarget(
+      link: _suggestionsLink,
+      child: SizedBox(
+        height: widget.height,
+        child: TextField(
+          style:
+              widget.textStyle ??
+              StyleRes.primaryRegular.copyWith(color: colors.textPrimary),
+          controller: _controller,
+          focusNode: _focusNode,
+          keyboardType: widget.keyboardType ?? TextInputType.text,
+          onChanged: widget.onChanged,
+          textInputAction: widget.textInputAction ?? TextInputAction.next,
+          cursorColor: widget.textStyle?.color ?? colors.textPrimary,
+          onSubmitted: widget.onSubmitted,
+          autocorrect: widget.autocorrect,
+          enableSuggestions: widget.enableSuggestions,
+          inputFormatters: widget.inputFormatters,
+          maxLength: widget.maxLength,
+          decoration: InputDecoration(
+            errorText: hasError ? '' : null,
+            errorStyle: const TextStyle(fontSize: 0, height: 0),
+            hintText: widget.hintText,
+            hintStyle:
+                widget.hintStyle ??
+                StyleRes.primaryRegular.copyWith(color: colors.textSecondary),
+            contentPadding: EdgeInsets.zero,
+            suffixIcon: _buildSuffixIcon(colors),
+            suffixIconConstraints: _suffixIconConstraints(),
+            prefixIconConstraints: widget.prefixIcon == null
+                ? const BoxConstraints(maxHeight: 0, maxWidth: DimensSize.d16)
+                : const BoxConstraints(
+                    minHeight: commonInputHeight,
+                    minWidth: DimensSize.d40,
+                  ),
+            prefixIcon:
+                widget.prefixIcon ?? const SizedBox(width: DimensSize.d16),
+            border: SquircleInputBorder(
+              squircleRadius: widget.v2Style != null
+                  ? DimensRadius.xMedium
+                  : DimensRadius.medium,
+              borderSide: BorderSide(
+                color: widget.inactiveBorderColor ?? colors.strokePrimary,
               ),
-              enabledBorder: SquircleInputBorder(
-                squircleRadius: widget.v2Style != null
-                    ? DimensRadius.xMedium
-                    : DimensRadius.medium,
-                borderSide: BorderSide(
-                  color: widget.inactiveBorderColor ?? colors.strokePrimary,
-                ),
+            ),
+            enabledBorder: SquircleInputBorder(
+              squircleRadius: widget.v2Style != null
+                  ? DimensRadius.xMedium
+                  : DimensRadius.medium,
+              borderSide: BorderSide(
+                color: widget.inactiveBorderColor ?? colors.strokePrimary,
               ),
-              focusedBorder: SquircleInputBorder(
-                squircleRadius: widget.v2Style != null
-                    ? DimensRadius.xMedium
-                    : DimensRadius.medium,
-                borderSide: BorderSide(
-                  color: widget.v2Style != null
-                      ? widget.v2Style!.borderColor
-                      : colors.strokeContrast,
-                ),
+            ),
+            focusedBorder: SquircleInputBorder(
+              squircleRadius: widget.v2Style != null
+                  ? DimensRadius.xMedium
+                  : DimensRadius.medium,
+              borderSide: BorderSide(
+                color: widget.v2Style != null
+                    ? widget.v2Style!.borderColor
+                    : colors.strokeContrast,
               ),
-              errorBorder: SquircleInputBorder(
-                squircleRadius: widget.v2Style != null
-                    ? DimensRadius.xMedium
-                    : DimensRadius.medium,
-                borderSide: BorderSide(
-                  color: widget.errorColor ?? colors.alert,
-                ),
-              ),
-              focusedErrorBorder: SquircleInputBorder(
-                squircleRadius: widget.v2Style != null
-                    ? DimensRadius.xMedium
-                    : DimensRadius.medium,
-                borderSide: BorderSide(
-                  color: widget.errorColor ?? colors.alert,
-                ),
-              ),
+            ),
+            errorBorder: SquircleInputBorder(
+              squircleRadius: widget.v2Style != null
+                  ? DimensRadius.xMedium
+                  : DimensRadius.medium,
+              borderSide: BorderSide(color: widget.errorColor ?? colors.alert),
+            ),
+            focusedErrorBorder: SquircleInputBorder(
+              squircleRadius: widget.v2Style != null
+                  ? DimensRadius.xMedium
+                  : DimensRadius.medium,
+              borderSide: BorderSide(color: widget.errorColor ?? colors.alert),
             ),
           ),
         ),
-      );
-    }
+      ),
+    );
   }
 
   /// Default builder for suggestions item

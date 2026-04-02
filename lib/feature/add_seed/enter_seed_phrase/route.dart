@@ -65,7 +65,7 @@ class EnterSeedPhraseRouteData implements CompassRouteDataQuery {
     return {
       _isOnboardingQueryParam: isOnboarding.toString(),
       if (seedName != null) _seedNameQueryParam: seedName,
-      _wordsCount: wordsCount?.toString() ?? '',
+      if (wordsCount != null) _wordsCount: wordsCount!.toString(),
     };
   }
 }
