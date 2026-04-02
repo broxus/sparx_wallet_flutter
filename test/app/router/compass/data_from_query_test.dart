@@ -159,6 +159,36 @@ void main() {
     });
   });
 
+  group('QueryParamsMapX.require', () {
+    test('returns the value when the parameter is present', () {
+      final params = <String, String>{'foo': 'bar', 'baz': '42'};
+
+      expect(params.require('foo'), 'bar');
+      expect(params.require('baz'), '42');
+    });
+
+    test('throws ArgumentError when the parameter is missing', () {
+      final params = <String, String>{'foo': 'bar'};
+
+      expect(
+        () => params.require('missing'),
+        throwsA(
+          isA<ArgumentError>().having(
+            (e) => e.message,
+            'message',
+            'Missing query parameter: missing',
+          ),
+        ),
+      );
+    });
+
+    test('throws ArgumentError for empty map', () {
+      final params = <String, String>{};
+
+      expect(() => params.require('any'), throwsA(isA<ArgumentError>()));
+    });
+  });
+
   group('EmptyRouteDataMixin', () {
     test('dataFromState returns createData result', () {
       final route = _EmptyRoute();

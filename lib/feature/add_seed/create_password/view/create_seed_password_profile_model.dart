@@ -108,7 +108,7 @@ class CreateSeedPasswordProfileModel extends ElementaryModel
       return publicKey;
     } catch (e, s) {
       Logger('CreateSeedPasswordProfileModel').severe(e, s);
-      messengerService.show(Message.error(message: e.toString()));
+      handleError(e, stackTrace: s);
       return null;
     }
   }

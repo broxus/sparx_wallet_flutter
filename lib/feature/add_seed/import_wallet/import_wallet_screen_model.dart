@@ -5,7 +5,6 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
-import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
 class ImportWalletScreenModel extends ElementaryModel with ConnectionMixin {
@@ -31,14 +30,7 @@ class ImportWalletScreenModel extends ElementaryModel with ConnectionMixin {
 
   NetworkType get networkType => nekotonRepository.currentTransport.networkType;
 
-  void showValidateError(BuildContext context, String message) {
-    messengerService.show(
-      Message.error(
-        message: message,
-        debounceTime: defaultInfoMessageDebounceDuration,
-      ),
-    );
-  }
+  void showValidateError(String message) => handleError(message);
 
   List<int> get allowedValues {
     try {

@@ -22,12 +22,18 @@ class NftSendRoute extends CompassRoute<NftSendRouteData> {
 
   @override
   NftSendRouteData fromQueryParams(Map<String, String> queryParams) {
+    final ownerAddress = queryParams.require(_ownerAddressQueryParam);
+    final nftAddress = queryParams.require(_nftAddressQueryParam);
+    final collectionAddress = queryParams.require(_collectionAddressQueryParam);
+    final destination = queryParams.require(_destinationQueryParam);
+    final publicKey = queryParams.require(_publicKeyQueryParam);
+
     return NftSendRouteData(
-      owner: Address(address: queryParams[_ownerAddressQueryParam]!),
-      address: Address(address: queryParams[_nftAddressQueryParam]!),
-      collection: Address(address: queryParams[_collectionAddressQueryParam]!),
-      destination: Address(address: queryParams[_destinationQueryParam]!),
-      publicKey: PublicKey(publicKey: queryParams[_publicKeyQueryParam]!),
+      owner: Address(address: ownerAddress),
+      address: Address(address: nftAddress),
+      collection: Address(address: collectionAddress),
+      destination: Address(address: destination),
+      publicKey: PublicKey(publicKey: publicKey),
       amount: queryParams[_amountQueryParam]?.let(BigInt.parse),
     );
   }

@@ -1,6 +1,5 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
@@ -12,12 +11,10 @@ class SelectNewAssetPageModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._assetsService,
     this._nekotonRepository,
-    this._messengerService,
   ) : super(errorHandler: errorHandler);
 
   final AssetsService _assetsService;
   final NekotonRepository _nekotonRepository;
-  final MessengerService _messengerService;
 
   Stream<KeyAccount?> accountStreamForAddress(Address address) =>
       _nekotonRepository.seedListStream.map(
@@ -60,8 +57,6 @@ class SelectNewAssetPageModel extends ElementaryModel {
       );
 
   void showInvalidRootTokenContractError() {
-    _messengerService.show(
-      Message.error(message: LocaleKeys.invalidRootTokenContract.tr()),
-    );
+    handleError(LocaleKeys.invalidRootTokenContract.tr());
   }
 }

@@ -1,7 +1,10 @@
 import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/route.dart';
+import 'package:app/app/router/compass_error_redirect.dart';
+import 'package:app/core/sentry.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logging/logging.dart';
 
 /// Base abstraction for creating GoRoute instances with default values.
 ///
@@ -24,6 +27,8 @@ abstract class CompassBaseGoRoute<T extends CompassRouteData>
     this.redirect,
     this.parentNavigatorKey,
   });
+
+  static final _logger = Logger('CompassBaseGoRoute');
 
   /// The runtime type of route data this route expects.
   ///
@@ -105,16 +110,54 @@ abstract class CompassBaseGoRoute<T extends CompassRouteData>
   late final GoRoute route = GoRoute(
     path: path,
     name: name,
-    builder: builder != null
-        ? (context, state) => builder!(context, dataFromState(state), state)
-        : null,
-    pageBuilder: pageBuilder != null
-        ? (context, state) => pageBuilder!(context, dataFromState(state), state)
-        : null,
+    builder: builder != null ? _buildRouteWidget : null,
+    pageBuilder: pageBuilder != null ? _buildRoutePage : null,
     redirect: redirect,
     routes: routes,
     parentNavigatorKey: parentNavigatorKey,
   );
 
   String get pathWithoutLeadingSlash => path.substring(1);
+
+  Widget _buildRouteWidget(BuildContext context, GoRouterState state) {
+    final data = _tryDataFromState(state);
+
+    if (data == null) {
+      final isOnboarding = state.fullPath?.startsWith('/onboarding') ?? false;
+      return CompassErrorRedirect(isOnboarding: isOnboarding);
+    }
+
+    return builder!(context, data, state);
+  }
+
+  Page<dynamic> _buildRoutePage(BuildContext context, GoRouterState state) {
+    final data = _tryDataFromState(state);
+
+    if (data == null) {
+      final isOnboarding = state.fullPath?.startsWith('/onboarding') ?? false;
+      return NoTransitionPage<void>(
+        key: state.pageKey,
+        name: state.name,
+        restorationId: state.pageKey.value,
+        child: CompassErrorRedirect(isOnboarding: isOnboarding),
+      );
+    }
+
+    return pageBuilder!(context, data, state);
+  }
+
+  T? _tryDataFromState(GoRouterState state) {
+    try {
+      return dataFromState(state);
+    } catch (error, stackTrace) {
+      _logger.severe(
+        'Error extracting route data for path: ${state.uri.path}',
+        error,
+        stackTrace,
+      );
+      SentryWorker.instance.captureException(error, stackTrace: stackTrace);
+    }
+
+    return null;
+  }
 }

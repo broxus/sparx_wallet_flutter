@@ -123,7 +123,6 @@ class FakeConfirmActionModel extends ConfirmActionModel {
         MockBiometryService(),
         MockNekotonRepository(),
         MockCurrentSeedService(),
-        MockMessengerService(),
         _createTestPasswordService(),
         MockSecureStringService(),
       );
@@ -134,7 +133,6 @@ class FakeAddAccountConfirmModel extends AddAccountConfirmModel {
     : super(
         MockErrorHandler(),
         MockBiometryService(),
-        MockMessengerService(),
         MockNekotonRepository(),
         MockCurrentAccountsService(),
         _createTestPasswordService(),

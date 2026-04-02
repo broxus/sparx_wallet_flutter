@@ -22,6 +22,7 @@ import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 /// [ElementaryModel] for [App]
@@ -44,6 +45,8 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     this._navigationService,
   ) : super(errorHandler: errorHandler);
 
+  static final _logger = Logger('AppModel');
+
   final CompassRouter router;
   final AppLinksService _appLinksService;
   final AppLifecycleService _appLifecycleService;
@@ -60,6 +63,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
 
   AppLifecycleListener? _listener;
   StreamSubscription<BrowserAppLinksData>? _appLinksSubs;
+  bool _isInactive = false;
 
   BuildContext? get navContext =>
       CompassRouter.navigatorKey.currentState?.context;
@@ -101,19 +105,14 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   Future<bool> checkCrashDetected() =>
       _crashDetectorService.checkCrashDetected();
 
-  Future<String?> getSavedNavigation() {
-    return _navigationService.getSavedState();
-  }
+  String? getSavedNavigation() => _navigationService.getSavedState();
 
   void _onStateChanged(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
-        _loggerConfigurator.startLogSession();
-        _crashDetectorService.startSession(setCrashDetected: false);
-        _resumePolling();
+        _onResumed().ignore();
       case AppLifecycleState.inactive:
-        _crashDetectorService.stopSession();
-        _pausePolling();
+        _onInactive().ignore();
       case AppLifecycleState.paused:
       case AppLifecycleState.detached:
       case AppLifecycleState.hidden:
@@ -166,11 +165,31 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     });
   }
 
-  void _pausePolling() {
-    _nekotonRepository.pausePolling();
+  Future<void> _onInactive() async {
+    if (_isInactive) return;
+    _isInactive = true;
+
+    try {
+      _logger.fine('App paused. Stopping log session and pausing polling');
+
+      await _crashDetectorService.stopSession();
+      await _nekotonRepository.pausePolling();
+    } catch (e, st) {
+      _logger.severe('Error during app pause', e, st);
+    }
   }
 
-  void _resumePolling() {
-    _nekotonRepository.resumePolling();
+  Future<void> _onResumed() async {
+    _isInactive = false;
+
+    try {
+      _logger.fine('App resumed. Starting log session and resuming polling');
+
+      await _loggerConfigurator.startLogSession();
+      await _crashDetectorService.startSession(setCrashDetected: false);
+      await _nekotonRepository.resumePolling();
+    } catch (e, st) {
+      _logger.severe('Error during app resume', e, st);
+    }
   }
 }

@@ -25,7 +25,7 @@ You are an expert in Flutter, Dart, Elementary, and Freezed.
 * Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
 * Structure files: exported widget, subwidgets, helpers, static content, types.
 * Use const constructors for immutable widgets.
-* Leverage Freezed for immutable state classes and unions.
+* Leverage Freezed for immutable state classes, DTOs, and unions, except Compass route data classes which must remain plain immutable classes.
 * Use arrow syntax for simple functions and methods.
 * Prefer expression bodies for one-line getters and setters.
 * Use trailing commas for better formatting and diffs.

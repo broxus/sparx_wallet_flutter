@@ -22,10 +22,10 @@ class EnterSeedNameRoute extends CompassRoute<EnterSeedNameRouteData> {
 
   @override
   EnterSeedNameRouteData fromQueryParams(Map<String, String> queryParams) {
+    final command = queryParams.require(_commandQueryParam);
+
     return EnterSeedNameRouteData(
-      command: EnterSeedNameCommand.values.byName(
-        queryParams[_commandQueryParam]!,
-      ),
+      command: EnterSeedNameCommand.values.byName(command),
     );
   }
 }

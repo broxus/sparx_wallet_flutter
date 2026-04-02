@@ -27,9 +27,11 @@ class CheckSeedPhraseRoute extends CompassRoute<CheckSeedPhraseRouteData> {
 
   @override
   CheckSeedPhraseRouteData fromQueryParams(Map<String, String> queryParams) {
+    final seedPhrase = queryParams.require(_seedPhraseQueryParam);
+
     return CheckSeedPhraseRouteData(
       seedPhrase: SecureString.fromJson(
-        jsonDecode(queryParams[_seedPhraseQueryParam]!) as Map<String, dynamic>,
+        jsonDecode(seedPhrase) as Map<String, dynamic>,
       ),
       name: queryParams[_seedNameQueryParam],
     );

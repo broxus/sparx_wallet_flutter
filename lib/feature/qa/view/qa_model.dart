@@ -36,9 +36,8 @@ class QaModel extends ElementaryModel {
     }
   }
 
-  void showSuccessMessage(String message) {
-    _messengerService.show(Message.successful(message: message));
-  }
+  void showSuccessMessage(String message) =>
+      _messengerService.showSuccessful(message);
 
   Future<String?> readIv() => _fss.read(key: _ivKey);
 

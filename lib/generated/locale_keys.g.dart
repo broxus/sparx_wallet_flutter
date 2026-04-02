@@ -831,4 +831,5 @@ abstract class LocaleKeys {
   static const invalidPayloadError = 'invalidPayloadError';
   static const invalidStateInitError = 'invalidStateInitError';
   static const unsupportedWalletTypeError = 'unsupportedWalletTypeError';
+  static const internetConnectionError = 'internetConnectionError';
 }

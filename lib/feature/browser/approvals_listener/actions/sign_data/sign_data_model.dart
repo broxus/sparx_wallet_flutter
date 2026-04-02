@@ -1,6 +1,8 @@
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class SignDataModel extends ElementaryModel with BleAvailabilityModelMixin {
   SignDataModel(ErrorHandler errorHandler, this._delegate)
     : super(errorHandler: errorHandler);

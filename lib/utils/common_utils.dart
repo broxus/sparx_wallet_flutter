@@ -7,6 +7,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/date_utils.dart';
+import 'package:app/utils/exceptions.dart';
 import 'package:clock/clock.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
@@ -90,8 +91,13 @@ String convertRetrySubscribeErrorToText(Object error) {
     return LocaleKeys.suchTokenCannotBeSubscribed.tr();
   }
 
-  if (error is FrbException) {
-    return error.toString();
+  if (error is UiException) {
+    return error.message;
+  }
+
+  final msg = error.toString();
+  if (msg.contains('ErrorCode.network')) {
+    return LocaleKeys.internetConnectionError.tr();
   }
 
   return LocaleKeys.creatingSubscriptionFailed.tr();

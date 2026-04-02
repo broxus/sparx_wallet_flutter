@@ -80,7 +80,7 @@ class ImportWalletScreenWidgetModel
           ),
         );
       } else {
-        model.showValidateError(context, LocaleKeys.incorrectWordsFormat.tr());
+        model.showValidateError(LocaleKeys.incorrectWordsFormat.tr());
       }
     } on FrbException catch (e, s) {
       _log.severe('confirmAction FrbException', e, s);
@@ -90,7 +90,7 @@ class ImportWalletScreenWidgetModel
       error = e.toString();
     }
     if (error != null) {
-      model.showValidateError(context, error);
+      model.showValidateError(error);
     }
   }
 
@@ -120,7 +120,7 @@ class ImportWalletScreenWidgetModel
       case legacySeedPhraseLength:
         onChangeTab(legacySeedPhraseLength);
       default:
-        model.showValidateError(context, LocaleKeys.incorrectWordsFormat.tr());
+        model.showValidateError(LocaleKeys.incorrectWordsFormat.tr());
         return;
     }
 

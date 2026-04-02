@@ -28,6 +28,7 @@ targets:
       injectable_generator:injectable_builder:
         generate_for:
           - lib/core/*.dart
+          - lib/core/**/*.dart
           - lib/di/*.dart
           - lib/di/**/*.dart
           - lib/app/service/*.dart
@@ -48,7 +49,6 @@ targets:
           - lib/feature/**/*guard.dart
           - lib/app/router/router.dart
           - lib/app/router/guard.dart
-          - lib/utils/factories/error_handler/standard_error_handler.dart
       freezed:
         generate_for:
           - lib/app/service/*.dart

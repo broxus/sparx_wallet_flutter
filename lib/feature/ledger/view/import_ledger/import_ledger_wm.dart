@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/generated/generated.dart';
@@ -11,23 +9,22 @@ import 'package:async/async.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:injectable/injectable.dart';
 
-ImportLedgerWidgetModel defaultImportLedgerWidgetModelFactory(
-  BuildContext context,
-) => ImportLedgerWidgetModel(
-  ImportLedgerModel(
-    createPrimaryErrorHandler(context),
-    inject(),
-    inject(),
-    inject(),
-    inject(),
-    inject(),
-    inject(),
-  ),
-);
+class ImportLedgerWmParams {
+  const ImportLedgerWmParams({this.name});
 
+  final String? name;
+}
+
+@injectable
 class ImportLedgerWidgetModel
-    extends CustomWidgetModel<ImportLedgerWidget, ImportLedgerModel>
+    extends
+        CustomWidgetModelParametrized<
+          ImportLedgerWidget,
+          ImportLedgerModel,
+          ImportLedgerWmParams
+        >
     with BleAvailabilityWmMixin {
   ImportLedgerWidgetModel(super.model);
 
@@ -88,7 +85,7 @@ class ImportLedgerWidgetModel
       final masterKey = await model.addConnectedLedger(
         device: appInterface.device,
         deviceModelId: appInterface.deviceModel.id,
-        name: widget.name,
+        name: wmParams.value.name,
       );
 
       contextSafe?.let((context) {

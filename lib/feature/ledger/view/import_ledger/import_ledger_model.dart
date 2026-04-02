@@ -3,8 +3,10 @@ import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
+@injectable
 class ImportLedgerModel extends ElementaryModel with BleAvailabilityModelMixin {
   ImportLedgerModel(
     ErrorHandler errorHandler,
