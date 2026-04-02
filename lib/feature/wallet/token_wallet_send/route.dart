@@ -38,13 +38,18 @@ class TokenWalletSendRoute extends CompassRoute<TokenWalletSendRouteData> {
   TokenWalletSendRouteData fromQueryParams(Map<String, String> queryParams) {
     final attachedAmountStr = queryParams[_attachedAmountQueryParam];
     final notifyReceiverStr = queryParams[_notifyReceiverQueryParam];
+    final owner = queryParams.require(_ownerQueryParam);
+    final contract = queryParams.require(_contractQueryParam);
+    final publicKey = queryParams.require(_publicKeyQueryParam);
+    final destination = queryParams.require(_destinationQueryParam);
+    final amount = queryParams.require(_amountQueryParam);
 
     return TokenWalletSendRouteData(
-      owner: Address(address: queryParams[_ownerQueryParam]!),
-      rootTokenContract: Address(address: queryParams[_contractQueryParam]!),
-      publicKey: PublicKey(publicKey: queryParams[_publicKeyQueryParam]!),
-      destination: Address(address: queryParams[_destinationQueryParam]!),
-      amount: BigInt.parse(queryParams[_amountQueryParam]!),
+      owner: Address(address: owner),
+      rootTokenContract: Address(address: contract),
+      publicKey: PublicKey(publicKey: publicKey),
+      destination: Address(address: destination),
+      amount: BigInt.parse(amount),
       attachedAmount: attachedAmountStr?.let(BigInt.tryParse),
       comment: queryParams[_commentQueryParam],
       resultMessage: queryParams[_resultMessageQueryParam],

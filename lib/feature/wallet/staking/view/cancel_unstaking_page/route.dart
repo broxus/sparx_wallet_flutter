@@ -41,20 +41,35 @@ class CancelUnstakingRoute extends CompassRoute<CancelUnstakingRouteData> {
 
   @override
   CancelUnstakingRouteData fromQueryParams(Map<String, String> queryParams) {
-    final requestJson =
-        jsonDecode(queryParams[_requestQueryParam]!) as Map<String, dynamic>;
+    final request = queryParams.require(_requestQueryParam);
+    final publicKey = queryParams.require(_publicKeyQueryParam);
+    final attachedFee = queryParams.require(_attachedFeeQueryParam);
+    final exchangeRate = queryParams.require(_exchangeRateQueryParam);
+    final stakingCurrencyCode = queryParams.require(
+      _stakingCurrencyCodeQueryParam,
+    );
+    final withdrawHours = queryParams.require(_withdrawHorsQueryParam);
+    final requestJson = jsonDecode(request) as Map<String, dynamic>;
+    final stakeCurrency = Currencies()[stakingCurrencyCode];
+
+    if (stakeCurrency == null) {
+      throw ArgumentError.value(
+        stakingCurrencyCode,
+        _stakingCurrencyCodeQueryParam,
+        'Unsupported currency code',
+      );
+    }
 
     final tokenPriceStr = queryParams[_tokenPriceQueryParam];
     final everPriceStr = queryParams[_everPriceQueryParam];
 
     return CancelUnstakingRouteData(
       request: StEverWithdrawRequest.fromJson(requestJson),
-      accountKey: PublicKey(publicKey: queryParams[_publicKeyQueryParam]!),
-      attachedFee: BigInt.parse(queryParams[_attachedFeeQueryParam]!),
-      exchangeRate: double.parse(queryParams[_exchangeRateQueryParam]!),
-      stakeCurrency:
-          Currencies()[queryParams[_stakingCurrencyCodeQueryParam]!]!,
-      withdrawHours: int.parse(queryParams[_withdrawHorsQueryParam]!),
+      accountKey: PublicKey(publicKey: publicKey),
+      attachedFee: BigInt.parse(attachedFee),
+      exchangeRate: double.parse(exchangeRate),
+      stakeCurrency: stakeCurrency,
+      withdrawHours: int.parse(withdrawHours),
       tokenPrice: tokenPriceStr?.let(Fixed.tryParse),
       everPrice: everPriceStr?.let(Fixed.tryParse),
     );

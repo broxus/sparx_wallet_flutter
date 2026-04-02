@@ -26,11 +26,16 @@ class NftPrepareTransferRoute
 
   @override
   NftPrepareTransferRouteData fromQueryParams(Map<String, String> queryParams) {
+    final ownerAddress = queryParams.require(_ownerAddressQueryParam);
+    final nftAddress = queryParams.require(_nftAddressQueryParam);
+    final collectionAddress = queryParams.require(_collectionAddressQueryParam);
+    final tokenFlag = queryParams.require(_tokenFlagQueryParam);
+
     return NftPrepareTransferRouteData(
-      owner: Address(address: queryParams[_ownerAddressQueryParam]!),
-      address: Address(address: queryParams[_nftAddressQueryParam]!),
-      collection: Address(address: queryParams[_collectionAddressQueryParam]!),
-      tokenFlag: bool.parse(queryParams[_tokenFlagQueryParam]!),
+      owner: Address(address: ownerAddress),
+      address: Address(address: nftAddress),
+      collection: Address(address: collectionAddress),
+      tokenFlag: bool.parse(tokenFlag),
       destination: queryParams[_destinationQueryParam]?.let(
         (address) => Address(address: address),
       ),

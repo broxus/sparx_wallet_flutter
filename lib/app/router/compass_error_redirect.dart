@@ -4,16 +4,16 @@ import 'package:app/feature/wallet/route.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class ErrorPage extends StatefulWidget {
-  const ErrorPage({required this.isOnboarding, super.key});
+class CompassErrorRedirect extends StatefulWidget {
+  const CompassErrorRedirect({required this.isOnboarding, super.key});
 
   final bool isOnboarding;
 
   @override
-  State<ErrorPage> createState() => _ErrorPageState();
+  State<CompassErrorRedirect> createState() => _CompassErrorRedirectState();
 }
 
-class _ErrorPageState extends State<ErrorPage> {
+class _CompassErrorRedirectState extends State<CompassErrorRedirect> {
   @override
   void initState() {
     super.initState();

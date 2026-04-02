@@ -20,9 +20,9 @@ class AccountDetailRoute extends CompassRoute<AccountDetailRouteData> {
 
   @override
   AccountDetailRouteData fromQueryParams(Map<String, String> queryParams) {
-    return AccountDetailRouteData(
-      address: Address(address: queryParams[_addressQueryParam]!),
-    );
+    final address = queryParams.require(_addressQueryParam);
+
+    return AccountDetailRouteData(address: Address(address: address));
   }
 }
 

@@ -44,9 +44,9 @@ class TonWalletDetailsRoute extends CompassRoute<TonWalletDetailsRouteData> {
 
   @override
   TonWalletDetailsRouteData fromQueryParams(Map<String, String> queryParams) {
-    return TonWalletDetailsRouteData(
-      address: Address(address: queryParams[_addressQueryParam]!),
-    );
+    final address = queryParams.require(_addressQueryParam);
+
+    return TonWalletDetailsRouteData(address: Address(address: address));
   }
 }
 
