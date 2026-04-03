@@ -1661,6 +1661,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.17.6"
+  navigator_resizable:
+    dependency: transitive
+    description:
+      name: navigator_resizable
+      sha256: "6df8fcf5ef4267dd8b1cda35b220427a4f4864c659519125a40365c8d3027697"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   nekoton_bridge:
     dependency: transitive
     description:
@@ -2267,6 +2275,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.12"
+  smooth_sheets:
+    dependency: transitive
+    description:
+      name: smooth_sheets
+      sha256: fe1c9e4f1cd20c841cc2155cb125da74c004baf7bcfdf0bef4f87a7183d0907b
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.17.0"
   source_gen:
     dependency: transitive
     description:

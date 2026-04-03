@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:smooth_sheets/smooth_sheets.dart';
+// import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Builder for body parameter of [showCommonBottomSheet].
@@ -43,37 +44,29 @@ Future<T?> showCommonBottomSheet<T>({
   TextStyle? subtitleStyle,
   bool centerSubtitle = false,
 }) {
-  final bottomSheet = CommonBottomSheetWidget(
-    useAppBackgroundColor: useAppBackgroundColor,
-    openFullScreen: openFullScreen,
-    avoidBottomInsets: avoidBottomInsets,
-    showDragHandle: dismissible,
-    padding: padding,
-    subtitle: subtitle,
-    title: title,
-    centerTitle: centerTitle,
-    centerSubtitle: centerSubtitle,
+  final route = commonBottomSheetRoute<T>(
     body: body,
+    title: title,
+    subtitle: subtitle,
+    padding: padding,
+    expand: expand,
+    dismissible: dismissible,
+    wrapIntoAnimatedSize: wrapIntoAnimatedSize,
+    avoidBottomInsets: avoidBottomInsets,
+    openFullScreen: openFullScreen,
+    barrierColor:
+        barrierColor ?? Colors.black.withAlpha(Opac.large.toByteInt()),
+    useAppBackgroundColor: useAppBackgroundColor,
+    centerTitle: centerTitle,
     titleTextStyle: titleTextStyle,
     subtitleStyle: subtitleStyle,
     titleMargin: titleMargin,
     subtitleMargin: subtitleMargin,
+    centerSubtitle: centerSubtitle,
   );
+  final navigator = Navigator.of(context, rootNavigator: useRootNavigator);
 
-  return showCustomModalBottomSheet<T>(
-    expand: expand,
-    context: context,
-    isDismissible: dismissible,
-    enableDrag: dismissible,
-    useRootNavigator: useRootNavigator,
-    barrierColor:
-        barrierColor ?? Colors.black.withAlpha(Opac.large.toByteInt()),
-    containerWidget: (context, animation, child) =>
-        _ContainerWidget(animated: wrapIntoAnimatedSize, child: child),
-    builder: (_) => dismissible
-        ? bottomSheet
-        : PopScope<void>(canPop: false, child: bottomSheet),
-  );
+  return navigator.push(route);
 }
 
 /// Return route of bottom sheet, that could be used in navigator directly.
@@ -134,19 +127,22 @@ ModalSheetRoute<T> commonBottomSheetRoute<T>({
     builder: (_) => dismissible
         ? bottomSheet
         : PopScope<void>(canPop: false, child: bottomSheet),
-    expanded: expand,
-    isDismissible: dismissible,
-    enableDrag: dismissible,
-    modalBarrierColor: barrierColor,
-    containerBuilder: (context, animation, child) {
+    fullscreenDialog: expand,
+    swipeDismissible: dismissible,
+    barrierDismissible: dismissible,
+    // enableDrag: dismissible,
+    barrierColor: barrierColor,
+    viewportBuilder: (context, child) {
       final mq = MediaQuery.of(context);
       final bottom = mq.viewInsets.bottom + viewInsetsBottomAddon;
 
-      return MediaQuery(
-        data: mq.copyWith(
-          viewInsets: mq.viewInsets.copyWith(bottom: bottom > 0 ? bottom : 0),
+      return SheetViewport(
+        child: MediaQuery(
+          data: mq.copyWith(
+            viewInsets: mq.viewInsets.copyWith(bottom: bottom > 0 ? bottom : 0),
+          ),
+          child: child,
         ),
-        child: _ContainerWidget(animated: wrapIntoAnimatedSize, child: child),
       );
     },
   );
@@ -190,6 +186,9 @@ class CommonBottomSheetWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
+    final sheetColor = useAppBackgroundColor
+        ? theme.colors.background0
+        : theme.colors.background1;
 
     final bodyWidget = Column(
       mainAxisSize: MainAxisSize.min,
@@ -211,16 +210,21 @@ class CommonBottomSheetWidget extends StatelessWidget {
         Flexible(
           child: Padding(
             padding: padding,
-            child: body(context, ModalScrollController.of(context)!),
+            child: SheetScrollable(builder: body),
           ),
         ),
       ],
     );
 
-    return Material(
-      color: useAppBackgroundColor
-          ? theme.colors.background0
-          : theme.colors.background1,
+    return Sheet(
+      decoration: MaterialSheetDecoration(
+        size: openFullScreen ? SheetSize.stretch : SheetSize.fit,
+        color: sheetColor,
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(DimensRadius.large),
+        ),
+        clipBehavior: Clip.antiAlias,
+      ),
       child: SafeArea(
         minimum: avoidBottomInsets
             ? const EdgeInsets.only(bottom: DimensSize.d20)
@@ -248,48 +252,6 @@ class CommonBottomSheetWidget extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _ContainerWidget extends StatefulWidget {
-  const _ContainerWidget({required this.child, this.animated = true});
-
-  final Widget child;
-  final bool animated;
-
-  @override
-  __ContainerWidgetState createState() => __ContainerWidgetState();
-}
-
-class __ContainerWidgetState extends State<_ContainerWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + DimensSize.d24,
-      ),
-      clipBehavior: Clip.antiAlias,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(DimensRadius.large),
-        ),
-      ),
-      width: double.infinity,
-      child: MediaQuery.removePadding(
-        context: context,
-        removeTop: true,
-        child: widget.animated
-            ? AnimatedSize(
-                duration: kThemeAnimationDuration,
-                reverseDuration: kThemeAnimationDuration,
-                curve: Curves.decelerate,
-                clipBehavior: Clip.none,
-                alignment: Alignment.topCenter,
-                child: widget.child,
-              )
-            : widget.child,
       ),
     );
   }

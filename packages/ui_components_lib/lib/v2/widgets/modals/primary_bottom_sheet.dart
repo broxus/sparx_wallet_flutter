@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:smooth_sheets/smooth_sheets.dart';
+// import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 Future<T?> showPrimaryBottomSheet<T>({
@@ -20,14 +21,9 @@ Future<T?> showPrimaryBottomSheet<T>({
   bool showBackButton = false,
   double bottomSpaceSize = DimensSize.d20,
 }) {
-  return showCustomModalBottomSheet<T>(
-    barrierColor: barrierColor,
-    expand: expand,
-    context: context,
-    isDismissible: dismissible,
-    useRootNavigator: useRootNavigator,
-    containerWidget: (context, animation, child) =>
-        _ContainerWidget(animated: wrapIntoAnimatedSize, child: child),
+  final route = PagedSheetRoute<T>(
+    // Specify a scroll configuration to make the page scrollable.
+    scrollConfiguration: const SheetScrollConfiguration(),
     builder: (_) => _ContentBottomSheet(
       padding: padding,
       subtitle: subtitle,
@@ -40,6 +36,29 @@ Future<T?> showPrimaryBottomSheet<T>({
       bottomSpaceSize: bottomSpaceSize,
     ),
   );
+
+  return Navigator.push(context, route);
+
+  // return showCustomModalBottomSheet<T>(
+  //   barrierColor: barrierColor,
+  //   expand: expand,
+  //   context: context,
+  //   isDismissible: dismissible,
+  //   useRootNavigator: useRootNavigator,
+  //   containerWidget: (context, animation, child) =>
+  //       _ContainerWidget(animated: wrapIntoAnimatedSize, child: child),
+  //   builder: (_) => _ContentBottomSheet(
+  //     padding: padding,
+  //     subtitle: subtitle,
+  //     content: content,
+  //     title: title,
+  //     assetsPath: assetsPath,
+  //     firstButton: firstButton,
+  //     secondButton: secondButton,
+  //     showBackButton: showBackButton,
+  //     bottomSpaceSize: bottomSpaceSize,
+  //   ),
+  // );
 }
 
 class _ContentBottomSheet extends StatelessWidget {
