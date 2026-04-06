@@ -1,3 +1,5 @@
+import 'dart:ui' show SemanticsRole;
+
 import 'package:flutter/material.dart';
 import 'package:smooth_sheets/smooth_sheets.dart';
 // import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -216,40 +218,52 @@ class CommonBottomSheetWidget extends StatelessWidget {
       ],
     );
 
-    return Sheet(
-      decoration: MaterialSheetDecoration(
-        size: openFullScreen ? SheetSize.stretch : SheetSize.fit,
-        color: sheetColor,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(DimensRadius.large),
-        ),
-        clipBehavior: Clip.antiAlias,
-      ),
-      child: SafeArea(
-        minimum: avoidBottomInsets
-            ? const EdgeInsets.only(bottom: DimensSize.d20)
-            : EdgeInsets.zero,
-        child: Padding(
-          padding: avoidBottomInsets
-              ? MediaQuery.of(context).viewInsets
-              : EdgeInsets.zero,
-          child: Stack(
-            children: [
-              if (openFullScreen)
-                Positioned.fill(child: bodyWidget)
-              else
-                bodyWidget,
-              if (showDragHandle)
-                const Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: SheetDraggableLine(
-                    height: DimensSize.d4,
-                    verticalMargin: DimensSize.d8,
-                  ),
-                ),
-            ],
+    return BlockSemantics(
+      child: Semantics(
+        container: true,
+        explicitChildNodes: true,
+        scopesRoute: true,
+        namesRoute: title != null,
+        label: title,
+        role: SemanticsRole.dialog,
+        child: Sheet(
+          decoration: MaterialSheetDecoration(
+            size: openFullScreen ? SheetSize.stretch : SheetSize.fit,
+            color: sheetColor,
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(DimensRadius.large),
+            ),
+            clipBehavior: Clip.antiAlias,
+          ),
+          child: SafeArea(
+            minimum: avoidBottomInsets
+                ? const EdgeInsets.only(bottom: DimensSize.d20)
+                : EdgeInsets.zero,
+            child: Padding(
+              padding: avoidBottomInsets
+                  ? MediaQuery.of(context).viewInsets
+                  : EdgeInsets.zero,
+              child: Stack(
+                children: [
+                  if (openFullScreen)
+                    Positioned.fill(child: bodyWidget)
+                  else
+                    bodyWidget,
+                  if (showDragHandle)
+                    const Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child: ExcludeSemantics(
+                        child: SheetDraggableLine(
+                          height: DimensSize.d4,
+                          verticalMargin: DimensSize.d8,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -300,10 +314,14 @@ class _Header extends StatelessWidget {
                   right: DimensSize.d16,
                 ),
             alignment: isCenterTitle ? Alignment.center : Alignment.centerLeft,
-            child: Text(
-              title!,
-              style: titleTextStyle ?? textStyles.headingMedium,
-              textAlign: isCenterTitle ? TextAlign.center : TextAlign.start,
+            child: Semantics(
+              container: true,
+              header: true,
+              child: Text(
+                title!,
+                style: titleTextStyle ?? textStyles.headingMedium,
+                textAlign: isCenterTitle ? TextAlign.center : TextAlign.start,
+              ),
             ),
           ),
         if (subtitle != null)
