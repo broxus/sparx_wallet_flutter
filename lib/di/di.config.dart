@@ -1922,18 +1922,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i82.CompassBaseRoute>(
           instanceName: 'CreateSeedOnboardingPasswordRoute',
         ),
+        gh<_i82.CompassBaseRoute>(instanceName: 'CreateSeedPasswordRoute'),
       ),
       instanceName: 'ImportWalletRoute',
     );
     gh.factory<_i769.SendMessageWidgetModel>(
       () => _i769.SendMessageWidgetModel(gh<_i1050.SendMessageModel>()),
-    );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i50.EnterSeedNameRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'CreateSeedRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedPhraseRoute'),
-      ),
-      instanceName: 'EnterSeedNameRoute',
     );
     gh.singleton<_i82.CompassGuard>(
       () => _i169.UpdateVersionGuard(gh<_i484.UpdateService>()),
@@ -1989,6 +1983,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i420.SeedDetailPageWidgetModel>(
       () => _i420.SeedDetailPageWidgetModel(gh<_i708.SeedDetailPageModel>()),
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i50.EnterSeedNameRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'CreateSeedRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedPhraseRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'ImportWalletRoute'),
+      ),
+      instanceName: 'EnterSeedNameRoute',
     );
     gh.factory<_i677.AddAccountWidgetModel>(
       () => _i677.AddAccountWidgetModel(gh<_i715.AddAccountModel>()),
