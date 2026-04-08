@@ -1613,14 +1613,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
-  modal_bottom_sheet:
-    dependency: transitive
-    description:
-      name: modal_bottom_sheet
-      sha256: eac66ef8cb0461bf069a38c5eb0fa728cee525a531a8304bd3f7b2185407c67e
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.0"
   money2:
     dependency: "direct main"
     description:
@@ -1661,6 +1653,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.17.6"
+  navigator_resizable:
+    dependency: transitive
+    description:
+      name: navigator_resizable
+      sha256: d1f58a264b9995234561043904ec59623d4b69446a41548c311b03f1ed800dd5
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
   nekoton_bridge:
     dependency: transitive
     description:
@@ -2267,6 +2267,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.12"
+  smooth_sheets:
+    dependency: transitive
+    description:
+      name: smooth_sheets
+      sha256: fe1c9e4f1cd20c841cc2155cb125da74c004baf7bcfdf0bef4f87a7183d0907b
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.17.0"
   source_gen:
     dependency: transitive
     description:
