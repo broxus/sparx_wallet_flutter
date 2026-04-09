@@ -1,4 +1,5 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
@@ -6,18 +7,30 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
-class CheckPhraseModel extends ElementaryModel {
-  CheckPhraseModel(
+class BackupCheckPhraseModel extends ElementaryModel {
+  BackupCheckPhraseModel(
     ErrorHandler errorHandler,
     this._nekotonRepository,
+    this._messengerService,
+    this._secureStringService,
     this._storage,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
+  final MessengerService _messengerService;
+  final SecureStringService _secureStringService;
   final AppStorageService _storage;
 
+  Future<List<String>> getSeedWords(SecureString secureString) async {
+    return (await _secureStringService.decrypt(secureString)).split(' ');
+  }
+
+  void showValidateSuccess(String message) {
+    _messengerService.show(Message.successful(message: message));
+  }
+
   void showValidateError(String message) {
-    handleError(message);
+    _messengerService.show(Message.error(message: message));
   }
 
   void setShowingBackUpFlag(String address, {required bool isSkipped}) {

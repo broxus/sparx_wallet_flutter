@@ -23,14 +23,18 @@ void main() {
       tester,
     ) async {
       // Arrange
-      final route = ImportWalletRoute(_stubCompassRoute(), _stubCompassRoute());
+      final route = ImportWalletRoute(
+        _stubCompassRoute(),
+        _stubCompassRoute(),
+        _stubCompassRoute(),
+      );
 
       // Act
       final built = await _captureBuilderOutput(
         tester,
         (context) => route.builder!.call(
           context,
-          route.createData(),
+          const ImportWalletRouteData(isOnboarding: false),
           _MockGoRouterState(),
         ),
       );

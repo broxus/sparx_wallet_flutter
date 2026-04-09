@@ -14,15 +14,11 @@ import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 Future<void> showConfirmActionDialog(
   BuildContext context,
   KeyAccount currentAccount,
-  ValueChanged<bool> finishedBackupCallback,
 ) {
   return showPrimaryBottomSheet(
     context: context,
     content: ProtectedContent(
-      child: ContentConfirmAction(
-        finishedBackupCallback: finishedBackupCallback,
-        account: currentAccount,
-      ),
+      child: ContentConfirmAction(account: currentAccount),
     ),
   );
 }
@@ -33,16 +29,8 @@ class ContentConfirmAction
           ConfirmActionWidgetModel,
           ConfirmActionWmParams
         > {
-  ContentConfirmAction({
-    required ValueChanged<bool> finishedBackupCallback,
-    required KeyAccount account,
-    super.key,
-  }) : super(
-         wmFactoryParam: ConfirmActionWmParams(
-           finishedBackupCallback: finishedBackupCallback,
-           account: account,
-         ),
-       );
+  ContentConfirmAction({required KeyAccount account, super.key})
+    : super(wmFactoryParam: ConfirmActionWmParams(account: account));
 
   @override
   Widget build(ConfirmActionWidgetModel wm) {
@@ -73,12 +61,12 @@ class ContentConfirmAction
               isAutofocus: true,
               hintText: LocaleKeys.enterYourPassword.tr(),
             ),
-            const SizedBox(height: DimensSize.d28),
+            const SizedBox(height: DimensSize.d24),
             StateNotifierBuilder(
               listenableState: wm.isPasswordLockedState,
               builder: (_, isLocked) => AccentButton(
                 buttonShape: ButtonShape.pill,
-                title: LocaleKeys.confirm.tr(),
+                title: LocaleKeys.continueWord.tr(),
                 isLoading: data?.isLoading ?? false,
                 icon: (isLocked ?? false) ? LucideIcons.lock : null,
                 onPressed: wm.onClickConfirm,

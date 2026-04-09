@@ -50,11 +50,6 @@ class WalletAccountBodyWidgetModel
     );
   }
 
-  // ignore: avoid_positional_boolean_parameters
-  void onFinishedBackup(bool isCompleted) {
-    model.hideBackupNotification(wmParams.value, isCompleted: isCompleted);
-  }
-
   void onSwitchAccount() => showSelectAccountSheet(context);
 
   void onPageChanged(int index, CarouselPageChangedReason _) =>

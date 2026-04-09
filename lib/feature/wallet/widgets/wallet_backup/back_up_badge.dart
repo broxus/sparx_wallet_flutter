@@ -6,25 +6,16 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class BackUpBadge extends StatelessWidget {
-  const BackUpBadge({
-    required this.currentAccount,
-    required this.finishedBackupCallback,
-    super.key,
-  });
+  const BackUpBadge({required this.currentAccount, super.key});
 
   final KeyAccount currentAccount;
-  final ValueChanged<bool> finishedBackupCallback;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
     return GestureDetector(
       onTap: () {
-        showConfirmActionDialog(
-          context,
-          currentAccount,
-          finishedBackupCallback,
-        );
+        showConfirmActionDialog(context, currentAccount);
       },
       child: Container(
         padding: const EdgeInsets.only(left: DimensSize.d16),
