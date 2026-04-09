@@ -1,7 +1,7 @@
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/add_seed/check_seed_phrase/route.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
-import 'package:app/feature/add_seed/create_seed/view/create_seed_page.dart';
+import 'package:app/feature/add_seed/create_seed/view/create_seed_screen.dart';
 import 'package:app/widgets/widgets.dart';
 import 'package:injectable/injectable.dart';
 
@@ -20,7 +20,7 @@ class CreateSeedRoute extends CompassRoute<CreateSeedRouteData> {
         isSaveLocation: true,
         compassBaseRoutes: [checkSeedPhraseRoute, createSeedPasswordRoute],
         builder: (_, data, ___) =>
-            ProtectedContent(child: CreateSeedPage(name: data.seedName)),
+            ProtectedContent(child: CreateSeedScreen(name: data.seedName)),
       );
 
   @override

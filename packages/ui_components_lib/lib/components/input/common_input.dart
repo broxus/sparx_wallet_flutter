@@ -8,6 +8,8 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// Default height for input
 const commonInputHeight = DimensSize.d56;
 const suggestionDividerSize = DimensStroke.small;
+const _maxSuggestionsCount = 5;
+const _suggestionsDebounceDuration = Duration(milliseconds: 300);
 
 typedef SuggestionsCallback<T> = FutureOr<List<T>?> Function(String search);
 
@@ -16,9 +18,9 @@ typedef SuggestionsItemBuilder<T> =
 
 /// {@template common_input}
 /// Defaut input field that could be used in application.
-/// This widget is a combination of default TextField and TypeAheadField.
+/// This widget is a combination of default TextField and inline suggestions.
 ///
-/// To use TypeAheadField, you need to specify [suggestionsCallback],
+/// To use suggestions, you need to specify [suggestionsCallback],
 /// [itemBuilder] and [onSuggestionSelected].
 ///
 /// Also widget supports validation via FormField by [validator].
@@ -71,7 +73,10 @@ class CommonInput extends StatefulWidget {
     this.enabled = true,
     this.v2Style,
     this.radius = DimensRadius.medium,
-  });
+  }) : assert(
+         suggestionsCallback == null || onSuggestionSelected != null,
+         'onSuggestionSelected must be set if suggestionsCallback is provided',
+       );
 
   /// Height of input field
   final double height;
@@ -211,7 +216,18 @@ class CommonInput extends StatefulWidget {
 
 class _CommonInputState extends State<CommonInput> {
   late TextEditingController _controller;
+  late FocusNode _focusNode;
+  late bool _ownsFocusNode;
+  final LayerLink _suggestionsLink = LayerLink();
+  OverlayEntry? _suggestionsOverlay;
+  List<String> _suggestions = const [];
   bool isEmpty = true;
+  int _suggestionsRequestId = 0;
+  bool _showSuggestionsAbove = false;
+  double _suggestionsMaxHeight = 0;
+  bool _suppressSuggestionUpdateOnce = false;
+  Timer? _suggestionsDebounceTimer;
+  String? _lastSuggestionsQuery;
 
   FormFieldState<String>? field;
 
@@ -219,13 +235,22 @@ class _CommonInputState extends State<CommonInput> {
   void initState() {
     super.initState();
     _controller = widget.controller ?? TextEditingController();
+    _ownsFocusNode = widget.focusNode == null;
+    _focusNode = widget.focusNode ?? FocusNode();
 
     _controller.addListener(_handleDidChange);
+    _focusNode.addListener(_handleFocusChange);
   }
 
   @override
   void dispose() {
     _controller.removeListener(_handleDidChange);
+    _focusNode.removeListener(_handleFocusChange);
+    _suggestionsDebounceTimer?.cancel();
+    _removeSuggestionsOverlay();
+    if (_ownsFocusNode) {
+      _focusNode.dispose();
+    }
     super.dispose();
   }
 
@@ -243,6 +268,21 @@ class _CommonInputState extends State<CommonInput> {
       _controller.addListener(_handleDidChange);
     }
 
+    if (widget.focusNode != oldWidget.focusNode) {
+      _focusNode.removeListener(_handleFocusChange);
+      if (_ownsFocusNode) {
+        _focusNode.dispose();
+      }
+
+      _ownsFocusNode = widget.focusNode == null;
+      _focusNode = widget.focusNode ?? FocusNode();
+      _focusNode.addListener(_handleFocusChange);
+
+      if (!_focusNode.hasFocus) {
+        _removeSuggestionsOverlay();
+      }
+    }
+
     return super.didUpdateWidget(oldWidget);
   }
 
@@ -251,6 +291,20 @@ class _CommonInputState extends State<CommonInput> {
     if (!mounted) return;
     _handleInput();
     field?.didChange(value);
+    if (_suppressSuggestionUpdateOnce) {
+      _suppressSuggestionUpdateOnce = false;
+      return;
+    }
+    _updateSuggestions();
+  }
+
+  void _handleFocusChange() {
+    if (!_focusNode.hasFocus) {
+      _removeSuggestionsOverlay();
+      return;
+    }
+
+    _updateSuggestions();
   }
 
   void _handleInput() {
@@ -269,11 +323,7 @@ class _CommonInputState extends State<CommonInput> {
     final suggestionsCallback = widget.suggestionsCallback;
     child = suggestionsCallback == null
         ? _commonInputField(colors: colors, hasError: state.hasError)
-        : _suggestionsInputField(
-            colors: colors,
-            hasError: state.hasError,
-            suggestionsCallback: suggestionsCallback,
-          );
+        : _suggestionsInputField(colors: colors, hasError: state.hasError);
 
     if (widget.outerActions != null) {
       child = SeparatedRow(
@@ -390,7 +440,7 @@ class _CommonInputState extends State<CommonInput> {
 
   void _clearText() {
     widget.onClearField?.call();
-    widget.focusNode?.unfocus();
+    _focusNode.unfocus();
     _controller.clear();
   }
 
@@ -409,7 +459,7 @@ class _CommonInputState extends State<CommonInput> {
         obscureText: widget.obscureText,
         style: style,
         controller: _controller,
-        focusNode: widget.focusNode,
+        focusNode: _focusNode,
         keyboardType: widget.keyboardType ?? TextInputType.text,
         onChanged: widget.onChanged,
         textInputAction: widget.textInputAction ?? TextInputAction.next,
@@ -466,53 +516,167 @@ class _CommonInputState extends State<CommonInput> {
     );
   }
 
-  // ignore: long-method
-  Widget _suggestionsInputField({
-    required ColorsPalette colors,
-    required bool hasError,
-    required SuggestionsCallback<String> suggestionsCallback,
-  }) {
-    final onSuggestionSelected = widget.onSuggestionSelected;
+  Future<void> _updateSuggestions() async {
+    final suggestionsCallback = widget.suggestionsCallback;
+    if (suggestionsCallback == null || !_focusNode.hasFocus) {
+      _suggestionsDebounceTimer?.cancel();
+      _suggestionsDebounceTimer = null;
+      _lastSuggestionsQuery = null;
+      _removeSuggestionsOverlay();
+      return;
+    }
 
-    if (onSuggestionSelected == null) {
-      assert(false, 'onSuggestionSelected must be set to use TypeAheadField');
+    final query = _controller.text;
+    if (query.isEmpty) {
+      _suggestionsDebounceTimer?.cancel();
+      _suggestionsDebounceTimer = null;
+      _lastSuggestionsQuery = null;
+      _removeSuggestionsOverlay();
+      return;
+    }
 
-      return const SizedBox();
+    if (query == _lastSuggestionsQuery) {
+      return;
+    }
+
+    _suggestionsDebounceTimer?.cancel();
+    _suggestionsDebounceTimer = Timer(_suggestionsDebounceDuration, () async {
+      if (!mounted || !_focusNode.hasFocus) {
+        return;
+      }
+
+      final debouncedQuery = _controller.text;
+      if (debouncedQuery.isEmpty || debouncedQuery != query) {
+        return;
+      }
+
+      final requestId = ++_suggestionsRequestId;
+
+      try {
+        final suggestions =
+            await suggestionsCallback(debouncedQuery) ?? const [];
+        if (!mounted || requestId != _suggestionsRequestId) {
+          return;
+        }
+
+        _suggestions = suggestions.take(_maxSuggestionsCount).toList();
+        if (_suggestions.isEmpty) {
+          _lastSuggestionsQuery = null;
+          _removeSuggestionsOverlay();
+          return;
+        }
+
+        _lastSuggestionsQuery = debouncedQuery;
+        _showSuggestionsOverlay();
+      } catch (_) {
+        if (requestId == _suggestionsRequestId) {
+          _lastSuggestionsQuery = null;
+          _removeSuggestionsOverlay();
+        }
+      }
+    });
+  }
+
+  void _showSuggestionsOverlay() {
+    if (!mounted) {
+      return;
+    }
+
+    _updateSuggestionsPlacement();
+
+    if (_suggestionsOverlay == null) {
+      _suggestionsOverlay = OverlayEntry(builder: _buildSuggestionsOverlay);
+      Overlay.of(context, rootOverlay: true).insert(_suggestionsOverlay!);
     } else {
-      return SizedBox(
-        height: widget.height,
-        child: TypeAheadField<String>(
-          autoFlipDirection: true,
-          hideOnEmpty: true,
-          hideOnError: true,
-          hideOnLoading: true,
-          controller: _controller,
-          focusNode: widget.focusNode,
-          suggestionsCallback: suggestionsCallback,
-          onSelected: onSuggestionSelected,
-          itemSeparatorBuilder: (_, __) => Divider(
-            height: suggestionDividerSize,
-            color: widget.v2Style != null
-                ? widget.v2Style!.borderSuggestionColor
-                : colors.strokeSecondary,
-            thickness: suggestionDividerSize,
+      _suggestionsOverlay!.markNeedsBuild();
+    }
+  }
+
+  void _removeSuggestionsOverlay() {
+    _suggestionsDebounceTimer?.cancel();
+    _suggestionsDebounceTimer = null;
+    _suggestionsOverlay?.remove();
+    _suggestionsOverlay = null;
+    _suggestions = const [];
+  }
+
+  void _updateSuggestionsPlacement() {
+    final renderBox = context.findRenderObject() as RenderBox?;
+    final overlayBox =
+        Overlay.of(context, rootOverlay: true).context.findRenderObject()
+            as RenderBox?;
+
+    if (renderBox == null || overlayBox == null || !renderBox.attached) {
+      _showSuggestionsAbove = false;
+      _suggestionsMaxHeight = 0;
+      return;
+    }
+
+    final fieldOffset = renderBox.localToGlobal(
+      Offset.zero,
+      ancestor: overlayBox,
+    );
+    final spaceAbove = fieldOffset.dy;
+    final fieldBottom = fieldOffset.dy + renderBox.size.height;
+    final spaceBelow = overlayBox.size.height - fieldBottom;
+    final estimatedHeight = _estimateSuggestionsHeight();
+
+    final showAbove = spaceBelow < estimatedHeight && spaceAbove > spaceBelow;
+
+    _showSuggestionsAbove = showAbove;
+    _suggestionsMaxHeight = showAbove ? spaceAbove : spaceBelow;
+  }
+
+  double _estimateSuggestionsHeight() {
+    final itemCount = _suggestions.length;
+    if (itemCount == 0) {
+      return 0;
+    }
+
+    final itemHeight = widget.v2Style != null ? DimensSize.d48 : DimensSize.d64;
+    final dividersHeight = suggestionDividerSize * (itemCount - 1);
+
+    return (itemHeight * itemCount) + dividersHeight;
+  }
+
+  Widget _buildSuggestionsOverlay(BuildContext context) {
+    final colors = context.themeStyle.colors;
+    final renderBox = this.context.findRenderObject() as RenderBox?;
+    if (renderBox == null || !renderBox.attached) {
+      return const SizedBox.shrink();
+    }
+
+    final itemBuilder =
+        widget.itemBuilder ??
+        (BuildContext context, String item) =>
+            _defaultSuggestionItemBuilder(context, item, colors);
+
+    return Positioned.fill(
+      child: Stack(
+        children: [
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: _focusNode.unfocus,
           ),
-          itemBuilder:
-              widget.itemBuilder ??
-              (context, item) =>
-                  _defaultSuggestionItemBuilder(context, item, colors),
-          decorationBuilder: (context, child) => ScrollConfiguration(
-            behavior: ScrollConfiguration.of(
-              context,
-            ).copyWith(scrollbars: false),
+          CompositedTransformFollower(
+            link: _suggestionsLink,
+            showWhenUnlinked: false,
+            targetAnchor: _showSuggestionsAbove
+                ? Alignment.topLeft
+                : Alignment.bottomLeft,
+            followerAnchor: _showSuggestionsAbove
+                ? Alignment.bottomLeft
+                : Alignment.topLeft,
             child: ConstrainedBox(
               constraints: BoxConstraints(
                 maxWidth: widget.v2Style != null
-                    ? double.infinity
+                    ? renderBox.size.width
                     : DimensSize.d168,
+                maxHeight: _suggestionsMaxHeight,
               ),
               child: Material(
                 type: MaterialType.card,
+                clipBehavior: Clip.antiAlias,
                 shape: SquircleShapeBorder(
                   cornerRadius: widget.v2Style != null
                       ? DimensSize.d12
@@ -520,90 +684,131 @@ class _CommonInputState extends State<CommonInput> {
                 ),
                 color:
                     widget.suggestionBackground ?? colors.backgroundSecondary,
-                child: child,
+                child: ListView.separated(
+                  physics: const ClampingScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  itemCount: _suggestions.length,
+                  itemBuilder: (context, index) {
+                    final suggestion = _suggestions[index];
+
+                    return InkWell(
+                      onTap: () => _selectSuggestion(suggestion),
+                      child: itemBuilder(context, suggestion),
+                    );
+                  },
+                  separatorBuilder: (_, __) => Divider(
+                    height: suggestionDividerSize,
+                    color: widget.v2Style != null
+                        ? widget.v2Style!.borderSuggestionColor
+                        : colors.strokeSecondary,
+                    thickness: suggestionDividerSize,
+                  ),
+                ),
               ),
             ),
           ),
-          builder: (context, controller, focusNode) => TextField(
-            style:
-                widget.textStyle ??
-                StyleRes.primaryRegular.copyWith(color: colors.textPrimary),
-            controller: controller,
-            focusNode: focusNode,
-            keyboardType: widget.keyboardType ?? TextInputType.text,
-            onChanged: widget.onChanged,
-            textInputAction: widget.textInputAction ?? TextInputAction.next,
-            cursorColor: widget.textStyle?.color ?? colors.textPrimary,
-            onSubmitted: widget.onSubmitted,
-            autocorrect: widget.autocorrect,
-            enableSuggestions: widget.enableSuggestions,
-            inputFormatters: widget.inputFormatters,
-            maxLength: widget.maxLength,
-            decoration: InputDecoration(
-              errorText: hasError ? '' : null,
-              errorStyle: const TextStyle(fontSize: 0, height: 0),
-              hintText: widget.hintText,
-              hintStyle:
-                  widget.hintStyle ??
-                  StyleRes.primaryRegular.copyWith(color: colors.textSecondary),
-              contentPadding: EdgeInsets.zero,
-              suffixIcon: _buildSuffixIcon(colors),
-              suffixIconConstraints: _suffixIconConstraints(),
-              prefixIconConstraints: widget.prefixIcon == null
-                  ? const BoxConstraints(maxHeight: 0, maxWidth: DimensSize.d16)
-                  : const BoxConstraints(
-                      minHeight: commonInputHeight,
-                      minWidth: DimensSize.d40,
-                    ),
-              prefixIcon:
-                  widget.prefixIcon ?? const SizedBox(width: DimensSize.d16),
-              border: SquircleInputBorder(
-                squircleRadius: widget.v2Style != null
-                    ? DimensRadius.xMedium
-                    : DimensRadius.medium,
-                borderSide: BorderSide(
-                  color: widget.inactiveBorderColor ?? colors.strokePrimary,
-                ),
+        ],
+      ),
+    );
+  }
+
+  void _selectSuggestion(String suggestion) {
+    _suggestionsRequestId++;
+    _suppressSuggestionUpdateOnce = true;
+    _lastSuggestionsQuery = suggestion;
+    _removeSuggestionsOverlay();
+    _controller.value = TextEditingValue(
+      text: suggestion,
+      selection: TextSelection.collapsed(offset: suggestion.length),
+    );
+    widget.onSuggestionSelected?.call(suggestion);
+  }
+
+  // ignore: long-method
+  Widget _suggestionsInputField({
+    required ColorsPalette colors,
+    required bool hasError,
+  }) {
+    return CompositedTransformTarget(
+      link: _suggestionsLink,
+      child: SizedBox(
+        height: widget.height,
+        child: TextField(
+          style:
+              widget.textStyle ??
+              StyleRes.primaryRegular.copyWith(color: colors.textPrimary),
+          controller: _controller,
+          focusNode: _focusNode,
+          keyboardType: widget.keyboardType ?? TextInputType.text,
+          onChanged: widget.onChanged,
+          textInputAction: widget.textInputAction ?? TextInputAction.next,
+          cursorColor: widget.textStyle?.color ?? colors.textPrimary,
+          onSubmitted: widget.onSubmitted,
+          autocorrect: widget.autocorrect,
+          enableSuggestions: widget.enableSuggestions,
+          inputFormatters: widget.inputFormatters,
+          maxLength: widget.maxLength,
+          decoration: InputDecoration(
+            errorText: hasError ? '' : null,
+            errorStyle: const TextStyle(fontSize: 0, height: 0),
+            hintText: widget.hintText,
+            hintStyle:
+                widget.hintStyle ??
+                StyleRes.primaryRegular.copyWith(color: colors.textSecondary),
+            contentPadding: EdgeInsets.zero,
+            suffixIcon: _buildSuffixIcon(colors),
+            suffixIconConstraints: _suffixIconConstraints(),
+            prefixIconConstraints: widget.prefixIcon == null
+                ? const BoxConstraints(maxHeight: 0, maxWidth: DimensSize.d16)
+                : const BoxConstraints(
+                    minHeight: commonInputHeight,
+                    minWidth: DimensSize.d40,
+                  ),
+            prefixIcon:
+                widget.prefixIcon ?? const SizedBox(width: DimensSize.d16),
+            border: SquircleInputBorder(
+              squircleRadius: widget.v2Style != null
+                  ? DimensRadius.xMedium
+                  : DimensRadius.medium,
+              borderSide: BorderSide(
+                color: widget.inactiveBorderColor ?? colors.strokePrimary,
               ),
-              enabledBorder: SquircleInputBorder(
-                squircleRadius: widget.v2Style != null
-                    ? DimensRadius.xMedium
-                    : DimensRadius.medium,
-                borderSide: BorderSide(
-                  color: widget.inactiveBorderColor ?? colors.strokePrimary,
-                ),
+            ),
+            enabledBorder: SquircleInputBorder(
+              squircleRadius: widget.v2Style != null
+                  ? DimensRadius.xMedium
+                  : DimensRadius.medium,
+              borderSide: BorderSide(
+                color: widget.inactiveBorderColor ?? colors.strokePrimary,
               ),
-              focusedBorder: SquircleInputBorder(
-                squircleRadius: widget.v2Style != null
-                    ? DimensRadius.xMedium
-                    : DimensRadius.medium,
-                borderSide: BorderSide(
-                  color: widget.v2Style != null
-                      ? widget.v2Style!.borderColor
-                      : colors.strokeContrast,
-                ),
+            ),
+            focusedBorder: SquircleInputBorder(
+              squircleRadius: widget.v2Style != null
+                  ? DimensRadius.xMedium
+                  : DimensRadius.medium,
+              borderSide: BorderSide(
+                color: widget.v2Style != null
+                    ? widget.v2Style!.borderColor
+                    : colors.strokeContrast,
               ),
-              errorBorder: SquircleInputBorder(
-                squircleRadius: widget.v2Style != null
-                    ? DimensRadius.xMedium
-                    : DimensRadius.medium,
-                borderSide: BorderSide(
-                  color: widget.errorColor ?? colors.alert,
-                ),
-              ),
-              focusedErrorBorder: SquircleInputBorder(
-                squircleRadius: widget.v2Style != null
-                    ? DimensRadius.xMedium
-                    : DimensRadius.medium,
-                borderSide: BorderSide(
-                  color: widget.errorColor ?? colors.alert,
-                ),
-              ),
+            ),
+            errorBorder: SquircleInputBorder(
+              squircleRadius: widget.v2Style != null
+                  ? DimensRadius.xMedium
+                  : DimensRadius.medium,
+              borderSide: BorderSide(color: widget.errorColor ?? colors.alert),
+            ),
+            focusedErrorBorder: SquircleInputBorder(
+              squircleRadius: widget.v2Style != null
+                  ? DimensRadius.xMedium
+                  : DimensRadius.medium,
+              borderSide: BorderSide(color: widget.errorColor ?? colors.alert),
             ),
           ),
         ),
-      );
-    }
+      ),
+    );
   }
 
   /// Default builder for suggestions item

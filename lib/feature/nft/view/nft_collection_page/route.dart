@@ -18,9 +18,9 @@ class NftCollectionRoute extends CompassRoute<NftCollectionRouteData> {
 
   @override
   NftCollectionRouteData fromQueryParams(Map<String, String> queryParams) {
-    return NftCollectionRouteData(
-      collection: Address(address: queryParams[_collectionAddressQueryParam]!),
-    );
+    final address = queryParams.require(_collectionAddressQueryParam);
+
+    return NftCollectionRouteData(collection: Address(address: address));
   }
 }
 

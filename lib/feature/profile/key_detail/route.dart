@@ -23,9 +23,9 @@ class KeyDetailRoute extends CompassRoute<KeyDetailRouteData> {
 
   @override
   KeyDetailRouteData fromQueryParams(Map<String, String> queryParams) {
-    return KeyDetailRouteData(
-      publicKey: PublicKey(publicKey: queryParams[_publicKeyQueryParam]!),
-    );
+    final publicKey = queryParams.require(_publicKeyQueryParam);
+
+    return KeyDetailRouteData(publicKey: PublicKey(publicKey: publicKey));
   }
 }
 

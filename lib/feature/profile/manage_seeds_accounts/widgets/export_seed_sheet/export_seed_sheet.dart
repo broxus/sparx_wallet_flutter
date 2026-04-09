@@ -17,6 +17,7 @@ ModalRoute<void> exportSeedSheetRoute(
       args: [LocaleKeys.exportWord.tr().toLowerCase()],
     ),
     body: (_, __) => ExportSeedSheet(publicKey: publicKey),
+    centerTitle: true,
   );
 }
 
@@ -35,6 +36,8 @@ class ExportSeedSheet
     return EnterPasswordWidget(
       publicKey: wm.publicKey,
       title: LocaleKeys.exportWord.tr(),
+      activeExportState: wm.activeBtnState,
+      onChangedText: wm.onChangedText,
       onPasswordEntered: wm.onPasswordEntered,
     );
   }

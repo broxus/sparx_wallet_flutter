@@ -27,13 +27,18 @@ class TonWalletSendRoute extends CompassRoute<TonWalletSendRouteData> {
   @override
   TonWalletSendRouteData fromQueryParams(Map<String, String> queryParams) {
     final attachedAmount = queryParams[_attachedAmountQueryParam];
+    final address = queryParams.require(_addressQueryParam);
+    final publicKey = queryParams.require(_publicKeyQueryParam);
+    final destination = queryParams.require(_destinationQueryParam);
+    final amount = queryParams.require(_amountQueryParam);
+    final popOnComplete = queryParams.require(_popOnCompleteQueryParam);
 
     return TonWalletSendRouteData(
-      address: Address.fromJson(queryParams[_addressQueryParam]!),
-      publicKey: PublicKey.fromJson(queryParams[_publicKeyQueryParam]!),
-      destination: Address.fromJson(queryParams[_destinationQueryParam]!),
-      amount: BigInt.parse(queryParams[_amountQueryParam]!),
-      popOnComplete: bool.parse(queryParams[_popOnCompleteQueryParam]!),
+      address: Address.fromJson(address),
+      publicKey: PublicKey.fromJson(publicKey),
+      destination: Address.fromJson(destination),
+      amount: BigInt.parse(amount),
+      popOnComplete: bool.parse(popOnComplete),
       attachedAmount: attachedAmount?.let(BigInt.parse),
       comment: queryParams[_commentQueryParam],
       payload: queryParams[_payloadQueryParam],

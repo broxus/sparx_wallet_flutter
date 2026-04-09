@@ -26,10 +26,10 @@ class ChooseNetworkRoute extends CompassRoute<ChooseNetworkRouteData> {
 
   @override
   ChooseNetworkRouteData fromQueryParams(Map<String, String> queryParams) {
+    final nextStep = queryParams.require(_nextStepQueryParam);
+
     return ChooseNetworkRouteData(
-      nextStep: ChooseNetworkNextStep.values.byName(
-        queryParams[_nextStepQueryParam]!,
-      ),
+      nextStep: ChooseNetworkNextStep.values.byName(nextStep),
     );
   }
 }

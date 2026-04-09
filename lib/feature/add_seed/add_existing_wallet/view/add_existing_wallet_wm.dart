@@ -16,7 +16,8 @@ class AddExistingWalletWidgetModel
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
-  void onImport() => context.compassContinue(const ImportWalletRouteData());
+  void onImport() =>
+      context.compassContinue(const ImportWalletRouteData(isOnboarding: true));
 
   Future<void> onLedger() async {
     final hasPermissions = await checkBluetoothPermissions();

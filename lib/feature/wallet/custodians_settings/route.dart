@@ -19,9 +19,9 @@ class CustodiansSettingsRoute
 
   @override
   CustodiansSettingsRouteData fromQueryParams(Map<String, String> queryParams) {
-    return CustodiansSettingsRouteData(
-      address: Address(address: queryParams[_addressQueryParam]!),
-    );
+    final address = queryParams.require(_addressQueryParam);
+
+    return CustodiansSettingsRouteData(address: Address(address: address));
   }
 }
 

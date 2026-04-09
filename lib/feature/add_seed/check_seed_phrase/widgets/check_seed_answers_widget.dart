@@ -29,10 +29,14 @@ class CheckSeedAnswersWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SeparatedRow(
+    return Column(
       children: [
-        for (int i = 0; i < userAnswers.length; i++)
-          Expanded(child: _answerBuilder(i, userAnswers[i])),
+        SeparatedRow(
+          children: [
+            for (int i = 0; i < userAnswers.length; i++)
+              Expanded(child: _answerBuilder(i, userAnswers[i])),
+          ],
+        ),
       ],
     );
   }
@@ -53,8 +57,68 @@ class CheckSeedAnswersWidget extends StatelessWidget {
               : isSelected
               ? SelectionStatus.completed
               : SelectionStatus.unfocus,
+          focusBorderColor: ColorsResV2.p75,
+          unfocusBorderColor: ColorsResV2.p30,
         );
       },
+    );
+  }
+}
+
+class CheckSeedAnswersCounterWidget extends StatelessWidget {
+  const CheckSeedAnswersCounterWidget({
+    required this.currentIndex,
+    required this.count,
+    super.key,
+  });
+
+  final int currentIndex;
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+    return AnimatedOpacity(
+      opacity: currentIndex == 0 ? 0 : 1,
+      duration: currentIndex == 0
+          ? Duration.zero
+          : const Duration(milliseconds: 250),
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              height: 1,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerRight,
+                  end: Alignment.centerLeft,
+                  colors: [ColorsResV2.n70, ColorsResV2.transparentAcaeca],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: DimensSize.d24),
+            child: Text(
+              LocaleKeys.checkSeedAnswersCounter.tr(
+                args: [currentIndex.toString(), count.toString()],
+              ),
+              style: theme.textStyles.paragraphMedium,
+            ),
+          ),
+
+          Expanded(
+            child: Container(
+              height: 1,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [ColorsResV2.n70, ColorsResV2.transparentAcaeca],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

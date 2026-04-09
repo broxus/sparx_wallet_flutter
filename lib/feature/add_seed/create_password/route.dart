@@ -98,6 +98,7 @@ class CreateSeedPasswordRoute
 
   @override
   CreateSeedPasswordRouteData fromQueryParams(Map<String, String> queryParams) {
+    final type = queryParams.require(_typeQueryParam);
     final mnemonicTypeStr = queryParams[_mnemonicTypeQueryParam];
     final mnemonicType = mnemonicTypeStr != null
         ? const MnemonicTypeJsonConverter().fromJson(
@@ -107,7 +108,7 @@ class CreateSeedPasswordRoute
     final isChecked = bool.tryParse(queryParams[_isCheckedQueryParam] ?? '');
 
     return CreateSeedPasswordRouteData(
-      type: SeedAddType.values.byName(queryParams[_typeQueryParam]!),
+      type: SeedAddType.values.byName(type),
       seedPhrase: queryParams[_seedQueryParam]?.let(
         (it) => SecureString.fromJson(jsonDecode(it) as Map<String, dynamic>),
       ),

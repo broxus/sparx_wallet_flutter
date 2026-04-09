@@ -50,7 +50,7 @@ class SegmentControlsV2 extends StatelessWidget {
                 ),
                 PrimarySegmentControl(
                   state: SegmentControlState.normal,
-                  icon: LucideIcons.facebook,
+                  icon: LucideIcons.scanFace,
                   size: SegmentControlSize.medium,
                   title: 'C',
                   value: '3',
