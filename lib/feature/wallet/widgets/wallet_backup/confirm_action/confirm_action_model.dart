@@ -13,12 +13,14 @@ class ConfirmActionModel extends ElementaryModel {
     this._nekotonRepository,
     this._currentSeedService,
     this._passwordService,
+    this._secureStringService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final BiometryService _biometryService;
   final CurrentSeedService _currentSeedService;
   final PasswordService _passwordService;
+  final SecureStringService _secureStringService;
 
   Seed? get currentSeed => _currentSeedService.currentSeed;
 
@@ -27,6 +29,9 @@ class ConfirmActionModel extends ElementaryModel {
 
   Seed? findSeed(PublicKey publicKey) =>
       _nekotonRepository.seedList.findSeed(publicKey);
+
+  Future<SecureString> getSecurePhrase(List<String> phrase) =>
+      _secureStringService.encrypt(phrase.join(' '));
 
   Future<List<BiometricType>> getAvailableBiometry(PublicKey publicKey) async {
     final isBiometryEnabled = _biometryService.isEnabled;

@@ -13,12 +13,18 @@ class ManualBackUpModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._messengerService,
+    this._secureStringService,
     this._storage,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
+  final SecureStringService _secureStringService;
   final AppStorageService _storage;
+
+  Future<List<String>> getSeedWords(SecureString secureString) async {
+    return (await _secureStringService.decrypt(secureString)).split(' ');
+  }
 
   void setShowingBackUpFlag(String address) {
     final account = _nekotonRepository.accountsStorage.accounts
@@ -38,6 +44,8 @@ class ManualBackUpModel extends ElementaryModel {
   }
 
   void showMessageAboutCopy() {
-    _messengerService.showSuccessful(LocaleKeys.copiedExclamation.tr());
+    _messengerService.show(
+      Message.successful(message: LocaleKeys.copiedExclamation.tr()),
+    );
   }
 }

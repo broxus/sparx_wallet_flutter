@@ -54,7 +54,9 @@ class DimensSize {
   static const double d84 = 84;
   static const double d90 = 90;
   static const double d92 = 92;
+  static const double d98 = 98;
   static const double d100 = 100;
+  static const double d106 = 106;
   static const double d124 = 124;
   static const double d128 = 128;
   static const double d132 = 132;
@@ -67,6 +69,7 @@ class DimensSize {
   static const double d190 = 190;
   static const double d200 = 200;
   static const double d207 = 207;
+  static const double d216 = 216;
   static const double d256 = 256;
   static const double d348 = 348;
   static const double d530 = 530;

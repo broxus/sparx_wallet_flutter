@@ -6,7 +6,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 class SearchBarHeaderDelegate extends SliverPersistentHeaderDelegate {
   SearchBarHeaderDelegate({required this.controller});
 
-  static const double headerHeight = DimensSize.d90;
+  static const double headerHeight = DimensSize.d106;
 
   TextEditingController controller;
 
@@ -20,10 +20,13 @@ class SearchBarHeaderDelegate extends SliverPersistentHeaderDelegate {
 
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: DimensSize.d16,
-            vertical: DimensSize.d16,
+        Container(
+          color: colors.background0,
+          padding: const EdgeInsets.only(
+            top: DimensSize.d32,
+            bottom: DimensSize.d16,
+            left: DimensSize.d16,
+            right: DimensSize.d16,
           ),
           child: PrimaryTextField(
             hintText: LocaleKeys.browserSearch.tr(),

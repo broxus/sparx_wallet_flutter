@@ -222,7 +222,7 @@ class CommonBottomSheetWidget extends StatelessWidget {
                   child: ExcludeSemantics(
                     child: SheetDraggableLine(
                       height: DimensSize.d4,
-                      verticalMargin: DimensSize.d8,
+                      verticalMargin: DimensSize.d6,
                     ),
                   ),
                 ),
