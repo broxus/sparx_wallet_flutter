@@ -188,6 +188,8 @@ class CommonBottomSheetWidget extends StatelessWidget {
         Flexible(
           child: Padding(
             padding: padding,
+            // PrimaryScrollController is always present as it's provided by
+            // Sheet(scrollConfiguration: const SheetScrollConfiguration(), ...)
             child: body(context, PrimaryScrollController.of(context)),
           ),
         ),
