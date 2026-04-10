@@ -55,8 +55,8 @@ class WalletDeployConfirmWidgetModel
   StateNotifier<BigInt> get balanceState => _balanceState;
   StateNotifier<KeyAccount> get accountState => _accountState;
   ValueListenable<bool> get isLoadingState => _isLoadingState;
-  ValueNotifier<String?> get errorMessageState => _errorMessageState;
-  ValueNotifier<bool> get hasSufficientBalanceState =>
+  ValueListenable<String?> get errorMessageState => _errorMessageState;
+  ValueListenable<bool> get hasSufficientBalanceState =>
       _hasSufficientBalanceState;
   StateNotifier<CustomCurrency> get currencyState => _currencyState;
   StateNotifier<TonWallet> get walletState => _walletState;

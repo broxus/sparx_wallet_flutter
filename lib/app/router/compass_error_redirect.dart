@@ -18,6 +18,8 @@ class _CompassErrorRedirectState extends State<CompassErrorRedirect> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!context.mounted) return;
+
       if (widget.isOnboarding) {
         context.compassPointNamed(const OnBoardingRouteData());
       } else {
