@@ -29,9 +29,9 @@ class StakingRoute extends CompassRoute<StakingRouteData> {
 
   @override
   StakingRouteData fromQueryParams(Map<String, String> queryParams) {
-    return StakingRouteData(
-      accountAddress: Address(address: queryParams[_addressQueryParam]!),
-    );
+    final address = queryParams.require(_addressQueryParam);
+
+    return StakingRouteData(accountAddress: Address(address: address));
   }
 }
 

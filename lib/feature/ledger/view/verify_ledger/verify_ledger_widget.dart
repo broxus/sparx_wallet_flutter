@@ -1,7 +1,7 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -25,21 +25,24 @@ ModalRoute<void> showVerifyLedgerSheet(KeyAccount account) {
   );
 }
 
-class VerifyLedgerWidget extends ElementaryWidget<VerifyLedgerWidgetModel> {
-  const VerifyLedgerWidget({
-    required this.account,
+class VerifyLedgerWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          VerifyLedgerWidgetModel,
+          VerifyLedgerWmParams
+        > {
+  VerifyLedgerWidget({
+    required KeyAccount account,
     required this.controller,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultVerifyLedgerWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  }) : super(wmFactoryParam: VerifyLedgerWmParams(account: account));
 
-  final KeyAccount account;
   final ScrollController controller;
 
   @override
   Widget build(VerifyLedgerWidgetModel wm) {
     final theme = wm.theme;
-    final address = account.address.toRaw();
+    final address = wm.address.toRaw();
 
     return SingleChildScrollView(
       controller: controller,

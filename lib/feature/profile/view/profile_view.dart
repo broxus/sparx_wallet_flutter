@@ -50,10 +50,10 @@ class ProfileView extends StatelessWidget {
           children: [
             SizedBox(height: MediaQuery.paddingOf(context).top),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: DimensSize.d24),
+              padding: const EdgeInsets.symmetric(vertical: DimensSize.d20),
               child: Text(
                 LocaleKeys.settings.tr(),
-                style: theme.textStyles.headingMedium,
+                style: theme.textStyles.headingLarge,
                 textAlign: TextAlign.center,
               ),
             ),
@@ -85,9 +85,7 @@ class ProfileView extends StatelessWidget {
                     }
 
                     return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: DimensSize.d16,
-                      ),
+                      padding: const EdgeInsets.only(top: DimensSize.d24),
                       child: _Container(
                         children: [
                           if (seed != null && !seed.masterKey.isLedger)
@@ -113,24 +111,27 @@ class ProfileView extends StatelessWidget {
                     );
                   },
                 ),
-                _Container(
-                  children: [
-                    _Item(
-                      title: LocaleKeys.faq.tr(),
-                      icon: LucideIcons.messageCircleQuestionMark,
-                      onPressed: onFAQ,
-                    ),
-                    _Item(
-                      title: LocaleKeys.contactSupport.tr(),
-                      icon: LucideIcons.messagesSquare,
-                      onPressed: onContactSupport,
-                    ),
-                    _Item(
-                      title: LocaleKeys.legal.tr(),
-                      icon: LucideIcons.link,
-                      onPressed: onLegal,
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(top: DimensSize.d24),
+                  child: _Container(
+                    children: [
+                      _Item(
+                        title: LocaleKeys.faq.tr(),
+                        icon: LucideIcons.messageCircleQuestionMark,
+                        onPressed: onFAQ,
+                      ),
+                      _Item(
+                        title: LocaleKeys.contactSupport.tr(),
+                        icon: LucideIcons.messagesSquare,
+                        onPressed: onContactSupport,
+                      ),
+                      _Item(
+                        title: LocaleKeys.legal.tr(),
+                        icon: LucideIcons.link,
+                        onPressed: onLegal,
+                      ),
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: DimensSize.d24),
@@ -151,6 +152,7 @@ class ProfileView extends StatelessWidget {
                           color: theme.colors.content3,
                         ),
                       ),
+                      const SizedBox(height: DimensSize.d4),
                     ],
                   ),
                 ),

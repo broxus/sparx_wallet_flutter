@@ -15,18 +15,16 @@ class SheetDraggableLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.themeStyle.colors;
-
     return Center(
       child: Container(
         height: height,
         width: DimensSize.d40,
         margin: EdgeInsets.symmetric(vertical: verticalMargin),
-        decoration: ShapeDecoration(
-          shape: const RoundedRectangleBorder(
+        decoration: const ShapeDecoration(
+          shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(DimensRadius.max)),
           ),
-          color: colors.textSecondary,
+          color: ColorsResV2.m70,
         ),
       ),
     );

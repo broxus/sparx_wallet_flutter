@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/add_seed/check_seed_phrase/check_seed_phrase.dart';
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 
@@ -11,17 +10,13 @@ const _defaultWordsToCheckAmount = 3;
 
 @injectable
 class CheckSeedPhrasePageModel extends ElementaryModel {
-  CheckSeedPhrasePageModel(
-    ErrorHandler errorHandler,
-    this._messengerService,
-    this._secureStringService,
-  ) : super(errorHandler: errorHandler);
+  CheckSeedPhrasePageModel(ErrorHandler errorHandler, this._secureStringService)
+    : super(errorHandler: errorHandler);
 
-  final MessengerService _messengerService;
   final SecureStringService _secureStringService;
 
   void showValidateError(String message) {
-    _messengerService.show(Message.error(message: message));
+    handleError(message);
   }
 
   Future<List<CheckSeedCorrectAnswer>> selectCorrectAnswers(

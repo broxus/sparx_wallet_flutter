@@ -24,8 +24,10 @@ class NewAccountRoute extends CompassRoute<NewAccountRouteData> {
 
   @override
   NewAccountRouteData fromQueryParams(Map<String, String> queryParams) {
+    final publicKey = queryParams.require(_publicKeyQueryParam);
+
     return NewAccountRouteData(
-      publicKey: queryParams[_publicKeyQueryParam]!,
+      publicKey: publicKey,
       password: queryParams[_passwordQueryParam]?.let(
         (it) => SecureString.fromJson(jsonDecode(it) as Map<String, dynamic>),
       ),

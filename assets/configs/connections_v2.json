@@ -98,6 +98,7 @@
                         24
                     ],
                     "currencyApiBaseUrl": "https://tonapi.io/v2",
+                    "tonTokensApiBaseUrl": "https://ton-tokens-meta.chainconnect.com",
                     "genericTokenType": "jetton",
                     "accountExplorerLinkType": "packAddress",
                     "transactionExplorerLinkType": "transaction"
@@ -255,7 +256,8 @@
                     "pollingConfig": {
                         "tonWalletRefreshInterval": 1,
                         "tokenWalletRefreshInterval": 1,
-                        "intensivePollingInterval": 1
+                        "intensivePollingInterval": 1,
+                        "sseBaseUrl": "https://rpc-testnet.tychoprotocol.com"
                     },
                     "genericTokenType": "tip3",
                     "accountExplorerLinkType": "accounts",
@@ -468,55 +470,6 @@
                         "tonWalletRefreshInterval": 5,
                         "tokenWalletRefreshInterval": 5,
                         "intensivePollingInterval": 5
-                    },
-                    "genericTokenType": "tip3",
-                    "accountExplorerLinkType": "accounts",
-                    "transactionExplorerLinkType": "transactions"
-                }
-            ]
-        }, {
-            "id": "preset_van_lang_proto",
-            "networkName": "Van Lang",
-            "defaultWorkchainId": 0,
-            "workchains": [{
-                    "id": 0,
-                    "networkType": "tycho",
-                    "networkGroup": "van_lang",
-                    "transportType": "proto",
-                    "endpoints": [
-                        "https://rpc.vanlang.io"
-                    ],
-                    "blockExplorerUrl": "https://vanlang.io",
-                    "manifestUrl": "",
-                    "nativeTokenTicker": {
-                        "name": "VLP"
-                    },
-                    "defaultNativeCurrencyDecimal": 9,
-                    "icons": {
-                        "nativeToken": "https://raw.githubusercontent.com/broxus/sparx-networks/refs/heads/master/icons/vlp/native_token2.svg",
-                        "network": "https://raw.githubusercontent.com/broxus/sparx-networks/refs/heads/master/icons/vlp/network.svg",
-                        "vector": "https://raw.githubusercontent.com/broxus/sparx-networks/refs/heads/master/icons/sparx/sparx.svg"
-                    },
-                    "availableWalletTypes": [{
-                            "type": "walletV5R1"
-                        }, {
-                            "type": "multisig",
-                            "value": "multisig2_1"
-                        }
-                    ],
-                    "defaultWalletType": {
-                        "type": "walletV5R1"
-                    },
-                    "nativeTokenAddress": "0:dc85db3b3cab2c54dd728e882084b2c03086018ed0ce5928cc510d8756ed49c9",
-                    "seedPhraseWordsCount": [
-                        12
-                    ],
-                    "tokenApiBaseUrl": "",
-                    "currencyApiBaseUrl": "",
-                    "pollingConfig": {
-                        "tonWalletRefreshInterval": 1,
-                        "tokenWalletRefreshInterval": 1,
-                        "intensivePollingInterval": 1
                     },
                     "genericTokenType": "tip3",
                     "accountExplorerLinkType": "accounts",

@@ -38,9 +38,7 @@ class CustodiansSettingsModel extends ElementaryModel {
       [];
 
   void showSuccessfulMessage() {
-    _messengerService.show(
-      Message.successful(message: LocaleKeys.custodianRenamed.tr()),
-    );
+    _messengerService.showSuccessful(LocaleKeys.custodianRenamed.tr());
   }
 
   Future<void> rename(PublicKey key, String newName) async {

@@ -1,7 +1,7 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/feature/add_seed/create_seed/route.dart';
 import 'package:app/feature/add_seed/enter_seed_name/view/enter_seed_name_view.dart';
-import 'package:app/feature/add_seed/enter_seed_phrase/route.dart';
+import 'package:app/feature/add_seed/import_wallet/route.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
 import 'package:app/feature/profile/route.dart';
@@ -57,7 +57,7 @@ class _EnterSeedNamePageState extends State<EnterSeedNamePage> {
     switch (widget.command) {
       case EnterSeedNameCommand.import:
         context.compassContinue(
-          EnterSeedPhraseRouteData(isOnboarding: false, seedName: name),
+          ImportWalletRouteData(isOnboarding: false, seedName: name),
         );
       case EnterSeedNameCommand.create:
         context.compassContinue(CreateSeedRouteData(seedName: name));

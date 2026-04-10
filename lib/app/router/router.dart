@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:app/app/router/compass/compass.dart';
+import 'package:app/app/router/compass_error_redirect.dart';
 import 'package:app/app/service/bootstrap/bootstrap_service.dart';
-import 'package:app/feature/error/error.dart';
 import 'package:app/feature/onboarding/route.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:collection/collection.dart';
@@ -366,7 +366,7 @@ class CompassRouter {
 
     final isOnboarding = currentRoutes.lastOrNull is OnBoardingRoute;
 
-    return ErrorPage(isOnboarding: isOnboarding);
+    return CompassErrorRedirect(isOnboarding: isOnboarding);
   }
 
   void _validateRoutesDataIntersection() {
@@ -475,6 +475,10 @@ extension CompassNavigationContextExtension on BuildContext {
     // that depend on currentRoutes
     GoRouterState.of(this);
     return _compassRouter().currentRoutes;
+  }
+
+  bool checkIsCurrentRoute<R extends CompassBaseGoRoute>() {
+    return currentRoutes().lastOrNull is R;
   }
 
   /// Navigates to a route specified by route data using replace approach.

@@ -1,5 +1,13 @@
 ---
 include: package:broxus_flutter_analysis/analysis_options.yaml
+plugins:
+  wm_state_properties_lint:
+    path: packages/wm_state_properties_lint
+    diagnostics:
+      wm_public_getter_naming: true
+      wm_private_field_naming: true
+linter:
+  rules:
+    parameter_assignments: false
 analyzer:
   exclude: [lib/di/di.config.dart, '**.reflectable.dart']
-  plugins: [custom_lint]

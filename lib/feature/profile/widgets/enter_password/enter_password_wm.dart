@@ -20,6 +20,8 @@ class EnterPasswordWmParams {
     required this.getLedgerAuthInput,
     required this.onConfirmed,
     required this.onPasswordEntered,
+    this.onChangedText,
+    this.activeExportState,
   });
 
   /// Key for which password must be entered.
@@ -33,7 +35,10 @@ class EnterPasswordWmParams {
   /// Callback that will be called when user confirmed action via password
   /// or Ledger.
   final ValueChanged<SignInputAuth>? onConfirmed;
+  final ValueChanged<String?>? onChangedText;
   final ValueChanged<String>? onPasswordEntered;
+
+  final ListenableState<bool>? activeExportState;
 }
 
 @injectable
@@ -64,12 +69,17 @@ class EnterPasswordWidgetModel
     ),
   );
 
+  ListenableState<bool>? get activeExportState =>
+      wmParams.value.activeExportState;
+
   ListenableState<bool> get isPasswordLockedState => _isPasswordLockedState;
 
   ValueListenable<EnterPasswordState?> get enterPasswordState =>
       _enterPasswordState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
+
+  ValueChanged<String?>? get onChangedText => wmParams.value.onChangedText;
 
   @override
   void initWidgetModel() {

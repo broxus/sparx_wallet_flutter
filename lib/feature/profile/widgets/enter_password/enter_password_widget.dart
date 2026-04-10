@@ -31,6 +31,8 @@ class EnterPasswordWidget
   EnterPasswordWidget({
     required PublicKey publicKey,
     required ValueChanged<String> onPasswordEntered,
+    ValueChanged<String?>? onChangedText,
+    ListenableState<bool>? activeExportState,
     String? title,
     bool isLoading = false,
     bool isDisabled = false,
@@ -45,7 +47,9 @@ class EnterPasswordWidget
            isAutofocus: isAutofocus,
            getLedgerAuthInput: null,
            onConfirmed: null,
+           onChangedText: onChangedText,
            onPasswordEntered: onPasswordEntered,
+           activeExportState: activeExportState,
          ),
        );
 
@@ -98,7 +102,9 @@ class EnterPasswordWidget
                 isLocked: isLocked ?? false,
                 isAutofocus: props.isAutofocus,
                 isLoading: props.isLoading,
+                activeExportState: wm.activeExportState,
                 controller: wm.passwordController,
+                onChangedText: wm.onChangedText,
                 onSubmit: wm.onPassword,
               ),
             ),
@@ -174,7 +180,9 @@ class _Password extends StatelessWidget {
     required this.isLocked,
     required this.isAutofocus,
     required this.isLoading,
+    required this.activeExportState,
     required this.controller,
+    required this.onChangedText,
     required this.onSubmit,
   });
 
@@ -183,12 +191,14 @@ class _Password extends StatelessWidget {
   final bool isLocked;
   final bool isAutofocus;
   final bool isLoading;
+  final ListenableState<bool>? activeExportState;
   final TextEditingController controller;
+  final ValueChanged<String?>? onChangedText;
   final ValueChanged<String> onSubmit;
 
   @override
   Widget build(BuildContext context) {
-    return SeparatedColumn(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         SecureTextField(
@@ -196,15 +206,34 @@ class _Password extends StatelessWidget {
           textEditingController: controller,
           isAutofocus: isAutofocus && !isDisabled,
           isEnabled: !isDisabled,
+          onChanged: onChangedText,
           onSubmit: isDisabled ? null : (_) => onSubmit(controller.text),
         ),
-        AccentButton(
-          buttonShape: ButtonShape.pill,
-          title: title ?? LocaleKeys.submitWord.tr(),
-          isLoading: isLoading,
-          icon: isLocked ? LucideIcons.lock : null,
-          onPressed: isDisabled ? null : () => onSubmit(controller.text),
-        ),
+        const SizedBox(height: DimensSize.d24),
+        if (activeExportState != null)
+          StateNotifierBuilder<bool>(
+            listenableState: activeExportState!,
+            builder: (_, bool? isActive) {
+              isActive ??= false;
+              return AccentButton(
+                buttonShape: ButtonShape.pill,
+                title: title ?? LocaleKeys.submitWord.tr(),
+                isLoading: isLoading,
+                icon: isLocked ? LucideIcons.lock : null,
+                onPressed: isDisabled || !isActive
+                    ? null
+                    : () => onSubmit(controller.text),
+              );
+            },
+          )
+        else
+          AccentButton(
+            buttonShape: ButtonShape.pill,
+            title: title ?? LocaleKeys.submitWord.tr(),
+            isLoading: isLoading,
+            icon: isLocked ? LucideIcons.lock : null,
+            onPressed: isDisabled ? null : () => onSubmit(controller.text),
+          ),
       ],
     );
   }

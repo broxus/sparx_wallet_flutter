@@ -5,7 +5,7 @@ import 'package:app/app/service/service.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-@lazySingleton
+@singleton
 class AppStorageService extends AbstractStorageService {
   AppStorageService(this._storageAdapter)
     : _storage = _storageAdapter.box(container);
@@ -68,6 +68,9 @@ class StorageKey {
       StorageKey._('nameCustodian', publicKey);
 
   factory StorageKey.nftGridMode() => StorageKey._('nftGridMode');
+
+  factory StorageKey.navigationServiceState() =>
+      StorageKey._('navigationServiceState');
 
   StorageKey._(this._baseKey, [this._entityKey]);
 

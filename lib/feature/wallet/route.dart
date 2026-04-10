@@ -15,6 +15,7 @@ import 'package:app/feature/wallet/wallet_deploy/wallet_multisig_config/route.da
 import 'package:app/feature/wallet/wallet_prepare_transfer/route.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_new_asset/route.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_pending_transaction_details/route.dart';
+import 'package:app/feature/wallet/widgets/wallet_backup/manual_backup/route.dart';
 import 'package:injectable/injectable.dart';
 
 @named
@@ -44,6 +45,7 @@ class WalletRoute extends CompassRouteParameterless<WalletRouteData> {
     @Named.from(EnterSeedNameRoute) CompassBaseRoute enterSeedNameRoute,
     @Named.from(PendingTransactionDetailsRoute)
     CompassBaseRoute pendingTransactionDetailsRoute,
+    @Named.from(ManualBackupRoute) CompassBaseRoute manualBackupRoute,
   ) : super(
         name: 'wallet',
         path: '/wallet',
@@ -66,6 +68,7 @@ class WalletRoute extends CompassRouteParameterless<WalletRouteData> {
           walletStakeRoute,
           enterSeedNameRoute,
           pendingTransactionDetailsRoute,
+          manualBackupRoute,
         ],
       );
 

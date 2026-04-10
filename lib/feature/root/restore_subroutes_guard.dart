@@ -87,7 +87,7 @@ class RestoreSubroutesGuard extends CompassGuard {
     _log.info('$currentRoutes -> isSaveLocation: $isSaveLocation');
     if (isSaveLocation && _bootstrapService.isConfigured) {
       /// Ensures that the application's bootstrap sequence has fully completed
-      /// before proceeding. It guarantees that EncryptedStorage is ready.
+      /// before proceeding. It guarantees that AppStorageService is ready.
       _navigationService.saveLastLocation(location);
     }
 

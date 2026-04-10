@@ -14,11 +14,13 @@ class EnterSeedPhraseWidget
   EnterSeedPhraseWidget({
     required bool isOnboarding,
     String? seedName,
+    int? wordsCount,
     super.key,
   }) : super(
          wmFactoryParam: EnterSeedWmParams(
            isOnboarding: isOnboarding,
            seedName: seedName,
+           wordsCount: wordsCount,
          ),
        );
 
@@ -86,13 +88,30 @@ class EnterSeedPhraseWidget
                           onChanged: wm.onSeedPhraseFormatChanged,
                         ),
                   ),
-                  AccentButton(
-                    buttonShape: ButtonShape.pill,
-                    title: LocaleKeys.confirm.tr(),
-                    onPressed: wm.confirm,
+                ],
+              ),
+            ),
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: DimensSize.d16,
+                    ),
+                    child: AccentButton(
+                      buttonShape: ButtonShape.pill,
+                      title: LocaleKeys.confirm.tr(),
+                      onPressed: wm.confirm,
+                    ),
                   ),
-                  const ViewInsetsPadding(additionalPadding: DimensSize.d24),
-                  const SystemSpace(),
+                  if (wm.isOnboarding)
+                    const ViewInsetsPadding(additionalPadding: -DimensSize.d24)
+                  else
+                    const ViewInsetsPadding(additionalPadding: DimensSize.d24),
+                  if (wm.isOnboarding)
+                    const SystemSpace(additionalPadding: DimensSize.d12),
                 ],
               ),
             ),

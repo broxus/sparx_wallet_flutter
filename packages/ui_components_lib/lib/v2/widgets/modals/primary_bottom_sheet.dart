@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 Future<T?> showPrimaryBottomSheet<T>({
@@ -20,24 +19,24 @@ Future<T?> showPrimaryBottomSheet<T>({
   bool showBackButton = false,
   double bottomSpaceSize = DimensSize.d20,
 }) {
-  return showCustomModalBottomSheet<T>(
-    barrierColor: barrierColor,
-    expand: expand,
-    context: context,
-    isDismissible: dismissible,
-    useRootNavigator: useRootNavigator,
-    containerWidget: (context, animation, child) =>
-        _ContainerWidget(animated: wrapIntoAnimatedSize, child: child),
-    builder: (_) => _ContentBottomSheet(
-      padding: padding,
-      subtitle: subtitle,
-      content: content,
-      title: title,
-      assetsPath: assetsPath,
-      firstButton: firstButton,
-      secondButton: secondButton,
-      showBackButton: showBackButton,
-      bottomSpaceSize: bottomSpaceSize,
+  return Navigator.of(context, rootNavigator: useRootNavigator).push<T>(
+    createSmoothModalSheetRoute<T>(
+      label: title,
+      barrierColor: barrierColor,
+      expand: expand,
+      dismissible: dismissible,
+      wrapIntoAnimatedSize: wrapIntoAnimatedSize,
+      builder: (_) => _ContentBottomSheet(
+        padding: padding,
+        subtitle: subtitle,
+        content: content,
+        title: title,
+        assetsPath: assetsPath,
+        firstButton: firstButton,
+        secondButton: secondButton,
+        showBackButton: showBackButton,
+        bottomSpaceSize: bottomSpaceSize,
+      ),
     ),
   );
 }
@@ -77,13 +76,14 @@ class _ContentBottomSheet extends StatelessWidget {
           child: Stack(
             children: [
               SingleChildScrollView(
+                controller: PrimaryScrollController.maybeOf(context),
                 child: Container(
                   decoration: BoxDecoration(color: theme.colors.background1),
                   padding: padding,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const SizedBox(height: DimensSize.d32),
+                      const SizedBox(height: DimensSize.d34),
                       if (showBackButton)
                         Align(
                           alignment: Alignment.centerLeft,
@@ -113,10 +113,14 @@ class _ContentBottomSheet extends StatelessWidget {
                       if (title != null)
                         Padding(
                           padding: const EdgeInsets.only(bottom: DimensSize.d8),
-                          child: Text(
-                            title!,
-                            style: theme.textStyles.headingLarge,
-                            textAlign: TextAlign.center,
+                          child: Semantics(
+                            container: true,
+                            header: true,
+                            child: Text(
+                              title!,
+                              style: theme.textStyles.headingLarge,
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ),
                       if (subtitle != null)
@@ -155,11 +159,11 @@ class _ContentBottomSheet extends StatelessWidget {
                 children: [
                   Container(
                     margin: const EdgeInsets.only(top: DimensSize.d6),
-                    width: DimensSize.d36,
-                    height: DimensSize.d5,
+                    width: DimensSize.d40,
+                    height: DimensSize.d4,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(DimensSize.d2),
-                      color: theme.colors.primaryA.withValues(alpha: .7),
+                      borderRadius: BorderRadius.circular(DimensSize.d100),
+                      color: theme.colors.backgroundInput,
                     ),
                   ),
                 ],
@@ -167,48 +171,6 @@ class _ContentBottomSheet extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _ContainerWidget extends StatefulWidget {
-  const _ContainerWidget({required this.child, this.animated = true});
-
-  final Widget child;
-  final bool animated;
-
-  @override
-  __ContainerWidgetState createState() => __ContainerWidgetState();
-}
-
-class __ContainerWidgetState extends State<_ContainerWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + DimensSize.d24,
-      ),
-      clipBehavior: Clip.antiAlias,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(DimensRadius.large),
-        ),
-      ),
-      width: double.infinity,
-      child: MediaQuery.removePadding(
-        context: context,
-        removeTop: true,
-        child: widget.animated
-            ? AnimatedSize(
-                duration: kThemeAnimationDuration,
-                reverseDuration: kThemeAnimationDuration,
-                curve: Curves.decelerate,
-                clipBehavior: Clip.none,
-                alignment: Alignment.topCenter,
-                child: widget.child,
-              )
-            : widget.child,
       ),
     );
   }

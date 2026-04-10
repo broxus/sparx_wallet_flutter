@@ -1,17 +1,14 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/add_seed/add_seed.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/widgets/bottom_space.dart';
-import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class AddExistingWalletWidget
-    extends ElementaryWidget<AddExistingWalletWidgetModel> {
-  const AddExistingWalletWidget({
-    Key? key,
-    WidgetModelFactory wmFactory = defaultAddExistingWalletWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    extends InjectedElementaryWidget<AddExistingWalletWidgetModel> {
+  const AddExistingWalletWidget({super.key});
 
   @override
   Widget build(AddExistingWalletWidgetModel wm) {

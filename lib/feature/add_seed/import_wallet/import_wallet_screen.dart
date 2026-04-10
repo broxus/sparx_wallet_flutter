@@ -11,8 +11,18 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class ImportWalletScreen
-    extends InjectedElementaryWidget<ImportWalletScreenWidgetModel> {
-  const ImportWalletScreen({super.key});
+    extends
+        InjectedElementaryParametrizedWidget<
+          ImportWalletScreenWidgetModel,
+          ImportWalletScreenWmParams
+        > {
+  ImportWalletScreen({required bool isOnboarding, String? seedName, super.key})
+    : super(
+        wmFactoryParam: ImportWalletScreenWmParams(
+          isOnboarding: isOnboarding,
+          seedName: seedName,
+        ),
+      );
 
   @override
   Widget build(ImportWalletScreenWidgetModel wm) {

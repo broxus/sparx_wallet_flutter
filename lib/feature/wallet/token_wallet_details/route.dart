@@ -27,11 +27,12 @@ class TokenWalletDetailsRoute
 
   @override
   TokenWalletDetailsRouteData fromQueryParams(Map<String, String> queryParams) {
+    final ownerAddress = queryParams.require(_ownerAddressQueryParam);
+    final contractAddress = queryParams.require(_contractAddressQueryParam);
+
     return TokenWalletDetailsRouteData(
-      owner: Address(address: queryParams[_ownerAddressQueryParam]!),
-      rootTokenContract: Address(
-        address: queryParams[_contractAddressQueryParam]!,
-      ),
+      owner: Address(address: ownerAddress),
+      rootTokenContract: Address(address: contractAddress),
     );
   }
 }

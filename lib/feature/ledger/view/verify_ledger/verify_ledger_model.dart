@@ -1,7 +1,9 @@
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
+@injectable
 class VerifyLedgerModel extends ElementaryModel with BleAvailabilityModelMixin {
   VerifyLedgerModel(
     ErrorHandler errorHandler,
@@ -23,9 +25,12 @@ class VerifyLedgerModel extends ElementaryModel with BleAvailabilityModelMixin {
     _ledgerService.currentInteraction?.dispose();
   }
 
-  Stream<LedgerInteraction> get interactionStream => _ledgerService
-      .interactionStream
-      .where((e) => e.interactionType == LedgerInteractionType.getAddress);
+  Stream<LedgerInteraction> get interactionStream =>
+      _ledgerService.interactionStream.where(
+        (e) =>
+            e.interactionType == LedgerInteractionType.getAddress &&
+            !e.isFinalState,
+      );
 
   Future<void> verify(KeyAccount account) async {
     final seedKey = _nekotonRepository.seedList.findSeedKey(account.publicKey);
