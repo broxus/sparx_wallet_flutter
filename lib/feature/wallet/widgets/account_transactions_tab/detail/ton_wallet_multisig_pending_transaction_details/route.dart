@@ -5,6 +5,8 @@ import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:uuid/uuid.dart';
 
+const _cacheKeyQueryParam = 'cacheKey';
+
 @named
 @Singleton(as: CompassBaseRoute)
 class PendingTransactionDetailsRoute
@@ -26,8 +28,16 @@ class PendingTransactionDetailsRoute
   PendingTransactionDetailsRouteData fromQueryParams(
     Map<String, String> queryParams,
   ) {
-    final id = queryParams['cacheKey']!;
-    final cached = _cache.remove(id)!;
+    final id = queryParams.require(_cacheKeyQueryParam);
+    final cached = _cache.remove(id);
+
+    if (cached == null) {
+      throw ArgumentError.value(
+        id,
+        _cacheKeyQueryParam,
+        'Unknown pending transaction cache key',
+      );
+    }
 
     return cached;
   }
@@ -49,6 +59,6 @@ class PendingTransactionDetailsRouteData implements CompassRouteDataQuery {
     final id = const Uuid().v4();
     PendingTransactionDetailsRoute._cache[id] = this;
 
-    return {'cacheKey': id};
+    return {_cacheKeyQueryParam: id};
   }
 }

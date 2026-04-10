@@ -37,17 +37,21 @@ class ConfirmMultisigTransactionRoute
   ConfirmMultisigTransactionRouteData fromQueryParams(
     Map<String, String> queryParams,
   ) {
-    final decoded =
-        (jsonDecode(queryParams[_localCustodiansQueryParam]!) as List<dynamic>)
-            .cast<String>();
+    final localCustodians = queryParams.require(_localCustodiansQueryParam);
+    final walletAddress = queryParams.require(_walletAddressQueryParam);
+    final transactionId = queryParams.require(_transactionIdQueryParam);
+    final destination = queryParams.require(_destinationQueryParam);
+    final amount = queryParams.require(_amountQueryParam);
+    final decoded = (jsonDecode(localCustodians) as List<dynamic>)
+        .cast<String>();
 
     return ConfirmMultisigTransactionRouteData(
-      walletAddress: Address(address: queryParams[_walletAddressQueryParam]!),
+      walletAddress: Address(address: walletAddress),
       localCustodians: decoded.map((e) => PublicKey(publicKey: e)).toList(),
-      transactionId: queryParams[_transactionIdQueryParam]!,
+      transactionId: transactionId,
       transactionIdHash: queryParams[_idHashQueryParam],
-      destination: Address(address: queryParams[_destinationQueryParam]!),
-      amount: BigInt.parse(queryParams[_amountQueryParam]!),
+      destination: Address(address: destination),
+      amount: BigInt.parse(amount),
       comment: queryParams[_commentQueryParam],
       resultMessage: queryParams[_resultMessageQueryParam],
     );

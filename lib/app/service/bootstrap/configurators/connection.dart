@@ -15,7 +15,6 @@ class ConnectionConfigurator {
 
   final ConnectionService _connectionService;
   final NekotonRepository _nekotonRepository;
-  // ignore: unused_field
   final Dio _dio;
 
   final _log = Logger('bootstrap');
@@ -29,8 +28,7 @@ class ConnectionConfigurator {
 
     _nekotonRepository
       ..setupSeedListUpdating()
-      // TODO(komarov): pass Dio when https endpoint is ready
-      ..setupWalletsSubscriptions();
+      ..setupWalletsSubscriptions(dio: _dio);
     _log.finest('ConnectionService initialized');
   }
 }

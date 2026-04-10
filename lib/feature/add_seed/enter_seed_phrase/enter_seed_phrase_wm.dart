@@ -15,7 +15,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:injectable/injectable.dart';
-import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -24,10 +23,15 @@ typedef SuggestionSelectedCallback =
     void Function(String suggestion, int index);
 
 class EnterSeedWmParams {
-  EnterSeedWmParams({required this.isOnboarding, required this.seedName});
+  EnterSeedWmParams({
+    required this.isOnboarding,
+    required this.seedName,
+    this.wordsCount,
+  });
 
   final bool isOnboarding;
   final String? seedName;
+  final int? wordsCount;
 }
 
 /// [WidgetModel] для [EnterSeedPhraseWidget]
@@ -40,8 +44,6 @@ class EnterSeedPhraseWidgetModel
           EnterSeedWmParams
         > {
   EnterSeedPhraseWidgetModel(super.model);
-
-  static final _log = Logger('EnterSeedPhraseWidgetModel');
 
   final formKey = GlobalKey<FormState>();
 
@@ -77,7 +79,16 @@ class EnterSeedPhraseWidgetModel
 
   late final _displayPasteButtonState = createNotifier<bool>(true);
   late final _tabState = createNotifier<EnterSeedPhraseTabData>(() {
-    final currentValue = model.seedPhraseWordsCount.first;
+    final seedPhraseWordsCount = model.seedPhraseWordsCount;
+    final selectedWordsCount = wmParams.value.wordsCount;
+
+    final index = seedPhraseWordsCount.indexWhere(
+      (value) => value == selectedWordsCount,
+    );
+
+    final currentValue = index == -1
+        ? model.seedPhraseWordsCount.first
+        : model.seedPhraseWordsCount[index];
 
     return EnterSeedPhraseTabData(
       currentValue: currentValue,
@@ -119,6 +130,8 @@ class EnterSeedPhraseWidgetModel
 
   List<int> get seedPhraseWordsCount => model.seedPhraseWordsCount;
 
+  bool get isOnboarding => wmParams.value.isOnboarding;
+
   int get _currentValue =>
       _tabState.value?.currentValue ?? model.seedPhraseWordsCount.first;
 
@@ -133,10 +146,12 @@ class EnterSeedPhraseWidgetModel
     _keyboardSubscription = _keyboardVisibilityController.onChange.listen(
       (bool visible) => _isVisibleKeyboard = visible,
     );
+    _tabData?.addTextChangeListener(onChangedAnyField);
   }
 
   @override
   void dispose() {
+    _tabData?.removeTextChangeListener(onChangedAnyField);
     for (final c in _inputDataList) {
       c.dispose();
     }
@@ -160,11 +175,13 @@ class EnterSeedPhraseWidgetModel
   void changeTab(int value) {
     if (value == _currentValue) return;
 
-    final tabData = _tabData;
+    final previousTabData = _tabData;
 
-    if (tabData == null) {
+    if (previousTabData == null) {
       return;
     }
+
+    previousTabData.removeTextChangeListener(onChangedAnyField);
 
     _clearAllInputs();
     _resetErrors();
@@ -172,11 +189,12 @@ class EnterSeedPhraseWidgetModel
     formKey.currentState?.reset();
 
     _tabState.accept(
-      tabData.copyWith(
+      previousTabData.copyWith(
         currentValue: value,
         inputs: _inputDataList.take(value).toList(),
       ),
     );
+    _tabData?.addTextChangeListener(onChangedAnyField);
 
     _displayPasteButtonState.accept(true);
   }
@@ -195,14 +213,19 @@ class EnterSeedPhraseWidgetModel
         deriveFromPhrase(phrase: phrase, mnemonicType: _mnemonicType);
 
         await _next(phrase);
-      } on AnyhowException catch (e, s) {
-        _log.severe('confirmAction AnyhowException', e, s);
+      } on AnyhowException catch (_) {
         model.showError(LocaleKeys.wrongSeed.tr());
-      } on Exception catch (e, s) {
-        _log.severe('confirmAction', e, s);
+      } on Exception catch (e) {
         model.showError(e.toString());
       }
     }
+  }
+
+  void onChangedAnyField() {
+    if (!(_tabData?.isAllWordsExist ?? false)) {
+      return;
+    }
+    _tryCheckMnemonicType();
   }
 
   /// [index] starts with 0
@@ -243,7 +266,7 @@ class EnterSeedPhraseWidgetModel
         count <= seedPhraseWordsCount.max) {
       changeTab(count);
     } else {
-      model.showError(LocaleKeys.incorrectWordsFormat.tr());
+      model.showError(LocaleKeys.seedIncorrectTryAgain.tr());
       return;
     }
 
@@ -260,9 +283,11 @@ class EnterSeedPhraseWidgetModel
 
     if (words.isEmpty) {
       _resetFormAndError();
-      model.showError(LocaleKeys.incorrectWordsFormat.tr());
+      model.showError(LocaleKeys.seedIncorrectTryAgain.tr());
       return;
     }
+
+    _tabData?.removeTextChangeListener(onChangedAnyField);
 
     try {
       if (words.length > _inputDataList.length) {
@@ -282,6 +307,7 @@ class EnterSeedPhraseWidgetModel
 
     _tryCheckMnemonicType();
     _validateFormWithError();
+    _tabData?.addTextChangeListener(onChangedAnyField);
   }
 
   void onSeedPhraseFormatChanged(SeedPhraseFormat format) =>
@@ -390,7 +416,7 @@ class EnterSeedPhraseWidgetModel
     if (isEmptyFields) {
       model.showError(LocaleKeys.fillMissingWords.tr());
     } else if (isWrongWords) {
-      model.showError(LocaleKeys.incorrectWordsFormat.tr());
+      model.showError(LocaleKeys.seedIncorrectTryAgain.tr());
     }
 
     return !isEmptyFields && !isWrongWords;
@@ -433,7 +459,13 @@ class EnterSeedPhraseWidgetModel
       inputs = _inputDataList.take(_currentValue).toList();
     }
 
+    if (identical(inputs, data.inputs)) {
+      return;
+    }
+
+    data.removeTextChangeListener(onChangedAnyField);
     _tabState.accept(data.copyWith(inputs: inputs));
+    _tabData?.addTextChangeListener(onChangedAnyField);
   }
 
   void _clearAllInputs() {

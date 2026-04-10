@@ -31,5 +31,7 @@ class WalletDeployStatusModel extends ElementaryModel {
     amount: amount,
   );
 
-  void showMessage(Message message) => _messengerService.show(message);
+  void showSuccessful(String text) => _messengerService.showSuccessful(text);
+
+  void showError(Object e, StackTrace? s) => handleError(e, stackTrace: s);
 }

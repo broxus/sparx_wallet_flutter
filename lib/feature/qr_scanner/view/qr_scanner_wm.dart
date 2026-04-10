@@ -67,7 +67,7 @@ class QrScannerWidgetModel
 
     if (!isGranted) {
       if (contextSafe != null) {
-        model.showMessage(
+        model.showError(
           Message.error(
             message: LocaleKeys.givePhotosPermission.tr(),
             actionText: LocaleKeys.giveWord.tr(),
@@ -86,9 +86,7 @@ class QrScannerWidgetModel
       if (value != null) {
         _onBarcode(value);
       } else {
-        model.showMessage(
-          Message.error(message: LocaleKeys.qrScannerError.tr()),
-        );
+        model.showError(LocaleKeys.qrScannerError.tr());
       }
     }
   }
@@ -123,9 +121,7 @@ class QrScannerWidgetModel
 
   void _onError(Object error) {
     if (error is MobileScannerBarcodeException) {
-      model.showMessage(
-        Message.error(message: error.message ?? error.toString()),
-      );
+      model.showError(error.message ?? error.toString());
 
       return;
     }
@@ -157,7 +153,7 @@ class QrScannerWidgetModel
     final isGranted = await model.requestCamera();
 
     if (!isGranted && contextSafe != null) {
-      model.showMessage(
+      model.showError(
         Message.error(
           message: LocaleKeys.givePermissions.tr(),
           actionText: LocaleKeys.giveWord.tr(),

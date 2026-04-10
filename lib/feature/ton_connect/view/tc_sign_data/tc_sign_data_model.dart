@@ -4,7 +4,6 @@ import 'dart:typed_data';
 
 import 'package:app/app/service/ntp_service.dart';
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/utils/utils.dart';
 import 'package:convert/convert.dart';
@@ -17,12 +16,10 @@ class TCSignDataModel extends ElementaryModel {
   TCSignDataModel(
     ErrorHandler errorHandler,
     this._nekotonRepository,
-    this._messengerService,
     this._ntpService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
-  final MessengerService _messengerService;
   final NtpService _ntpService;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
@@ -81,9 +78,7 @@ class TCSignDataModel extends ElementaryModel {
     );
   }
 
-  void showMessage(Message message) {
-    _messengerService.show(message);
-  }
+  void showError(Object data) => handleError(data);
 
   List<int> _makePayload(SignDataPayload payload) => switch (payload) {
     SignDataPayloadText(:final text) => utf8.encode(text).let((text) {

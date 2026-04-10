@@ -1,5 +1,4 @@
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/profile/key_detail/widgets/add_new_local_account_type_sheet/add_new_local_account_type_sheet.dart';
 import 'package:app/feature/profile/key_detail/widgets/add_new_local_account_type_sheet/add_new_local_account_type_sheet_model.dart';
 import 'package:app/feature/wallet/new_account/add_account_result/add_account_result_sheet.dart';
@@ -91,7 +90,7 @@ class AddNewLocalAccountTypeSheetWidgetModel
         showNewAccountResultSheet(context: context, address: address);
       });
     } on Exception catch (e) {
-      model.showMessage(Message.error(message: e.toString()));
+      model.showError(e);
     }
   }
 }

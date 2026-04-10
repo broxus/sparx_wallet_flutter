@@ -3,6 +3,7 @@ import 'package:app/feature/profile/manage_seeds_accounts/widgets/export_seed_sh
 import 'package:app/feature/profile/manage_seeds_accounts/widgets/export_seed_sheet/export_seed_sheet.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/widgets/export_seed_sheet/export_seed_sheet_model.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -18,7 +19,15 @@ class ExportSeedSheetWidgetModel
         > {
   ExportSeedSheetWidgetModel(super.model);
 
+  late final _activeBtnState = createNotifier<bool>(false);
+
+  ListenableState<bool> get activeBtnState => _activeBtnState;
+
   PublicKey get publicKey => wmParams.value;
+
+  void onChangedText(String? text) {
+    _activeBtnState.accept(text?.isNotEmpty ?? false);
+  }
 
   Future<void> onPasswordEntered(String password) async {
     try {
@@ -26,9 +35,13 @@ class ExportSeedSheetWidgetModel
       if (contextSafe == null) return;
       // Close the current sheet and open the save phrase sheet
       Navigator.of(contextSafe!).pop();
+
+      final textStyles = contextSafe!.themeStyleV2.textStyles;
+
       await Navigator.of(contextSafe!).push(
         exportSeedSavePhraseRoute(
-          contextSafe!.themeStyleV2.textStyles.headingLarge,
+          textStyles.headingLarge,
+          textStyles.paragraphMedium.copyWith(color: ColorsResV2.m80),
           phrase,
         ),
       );

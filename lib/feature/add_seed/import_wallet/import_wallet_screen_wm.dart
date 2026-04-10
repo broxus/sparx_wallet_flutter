@@ -20,9 +20,24 @@ import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 final seedSplitRegExp = RegExp(r'[ |;,:\n.]');
 
+class ImportWalletScreenWmParams {
+  ImportWalletScreenWmParams({
+    required this.isOnboarding,
+    required this.seedName,
+  });
+
+  final bool isOnboarding;
+  final String? seedName;
+}
+
 @injectable
 class ImportWalletScreenWidgetModel
-    extends CustomWidgetModel<ImportWalletScreen, ImportWalletScreenModel> {
+    extends
+        CustomWidgetModelParametrized<
+          ImportWalletScreen,
+          ImportWalletScreenModel,
+          ImportWalletScreenWmParams
+        > {
   ImportWalletScreenWidgetModel(super.model) {
     _init();
   }
@@ -68,19 +83,31 @@ class ImportWalletScreenWidgetModel
 
       if (seed != null && seed.isNotEmpty) {
         final phrase = seed.phrase;
+        final encryptPhrase = await model.encryptSeed(phrase);
 
         deriveFromPhrase(phrase: phrase, mnemonicType: _mnemonicType);
 
         if (!context.mounted) return;
 
-        context.compassContinue(
-          CreateSeedOnboardingPasswordRouteData(
-            seedPhrase: await model.encryptSeed(phrase),
-            mnemonicType: _mnemonicType,
-          ),
-        );
+        if (wmParams.value.isOnboarding) {
+          context.compassContinue(
+            CreateSeedOnboardingPasswordRouteData(
+              seedPhrase: encryptPhrase,
+              mnemonicType: _mnemonicType,
+            ),
+          );
+        } else {
+          context.compassContinue(
+            CreateSeedPasswordRouteData(
+              seedPhrase: encryptPhrase,
+              mnemonicType: _mnemonicType,
+              type: SeedAddType.import,
+              name: wmParams.value.seedName,
+            ),
+          );
+        }
       } else {
-        model.showValidateError(context, LocaleKeys.incorrectWordsFormat.tr());
+        model.showValidateError(LocaleKeys.incorrectWordsFormat.tr());
       }
     } on FrbException catch (e, s) {
       _log.severe('confirmAction FrbException', e, s);
@@ -90,7 +117,7 @@ class ImportWalletScreenWidgetModel
       error = e.toString();
     }
     if (error != null) {
-      model.showValidateError(context, error);
+      model.showValidateError(error);
     }
   }
 
@@ -120,7 +147,7 @@ class ImportWalletScreenWidgetModel
       case legacySeedPhraseLength:
         onChangeTab(legacySeedPhraseLength);
       default:
-        model.showValidateError(context, LocaleKeys.incorrectWordsFormat.tr());
+        model.showValidateError(LocaleKeys.incorrectWordsFormat.tr());
         return;
     }
 
@@ -144,7 +171,11 @@ class ImportWalletScreenWidgetModel
 
   void onPressedManual() {
     context.compassContinue(
-      const EnterSeedPhraseRouteData(isOnboarding: true, seedName: null),
+      EnterSeedPhraseRouteData(
+        isOnboarding: wmParams.value.isOnboarding,
+        seedName: wmParams.value.seedName,
+        wordsCount: screenState.value.data?.selectedValue,
+      ),
     );
   }
 

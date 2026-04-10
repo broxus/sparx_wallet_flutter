@@ -25,12 +25,8 @@ class AccountRenameSheetModel extends ElementaryModel {
   void rename(Address address, String name) {
     final account = _nekotonRepository.seedList.findAccountByAddress(address);
     account?.rename(name);
-    _messengerService.show(
-      Message.successful(
-        message: LocaleKeys.valueRenamed.tr(
-          args: [LocaleKeys.accountWord.tr()],
-        ),
-      ),
+    _messengerService.showSuccessful(
+      LocaleKeys.valueRenamed.tr(args: [LocaleKeys.accountWord.tr()]),
     );
   }
 }

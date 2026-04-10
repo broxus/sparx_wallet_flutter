@@ -49,22 +49,25 @@ class EnterSeedPhraseTabs extends StatelessWidget {
               ],
             ),
           ),
-          StateNotifierBuilder(
-            listenableState: displayPasteButtonState,
-            builder: (_, bool? isDisplay) {
-              isDisplay ??= true;
-              return GhostButton(
-                buttonShape: ButtonShape.pill,
-                buttonSize: ButtonSize.small,
-                onPressed: isDisplay ? pastePhrase : clearFields,
-                title: isDisplay
-                    ? LocaleKeys.pasteAll.tr()
-                    : LocaleKeys.clearAll.tr(),
-                icon: isDisplay
-                    ? LucideIcons.arrowDownToDot
-                    : LucideIcons.trash2,
-              );
-            },
+          ConstrainedBox(
+            constraints: const BoxConstraints(minWidth: DimensSize.d124),
+            child: StateNotifierBuilder(
+              listenableState: displayPasteButtonState,
+              builder: (_, bool? isDisplay) {
+                isDisplay ??= true;
+                return GhostButton(
+                  buttonShape: ButtonShape.pill,
+                  buttonSize: ButtonSize.small,
+                  onPressed: isDisplay ? pastePhrase : clearFields,
+                  title: isDisplay
+                      ? LocaleKeys.pasteAll.tr()
+                      : LocaleKeys.clearAll.tr(),
+                  icon: isDisplay
+                      ? LucideIcons.arrowDownToDot
+                      : LucideIcons.trash2,
+                );
+              },
+            ),
           ),
         ],
       ),

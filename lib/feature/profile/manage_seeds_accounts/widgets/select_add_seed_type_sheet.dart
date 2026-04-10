@@ -11,6 +11,7 @@ Future<SelectAddSeedType?> showSelectAddSeedTypeSheet(BuildContext context) {
     title: LocaleKeys.addNewSeedPhrase.tr(),
     body: (_, __) => const SelectAddSeedTypeSheet(),
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    centerTitle: true,
   );
 }
 

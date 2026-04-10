@@ -232,6 +232,6 @@ class _WalletTransactionDetailsDefaultBodyState
 
   void _copy(BuildContext context, String value, String copyMessage) {
     setClipBoardData(value);
-    _messengerService.show(Message.successful(message: copyMessage));
+    _messengerService.showSuccessful(copyMessage);
   }
 }

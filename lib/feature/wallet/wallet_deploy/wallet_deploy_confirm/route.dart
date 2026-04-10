@@ -32,6 +32,8 @@ class WalletDeployConfirmRoute
   WalletDeployConfirmRouteData fromQueryParams(
     Map<String, String> queryParams,
   ) {
+    final address = queryParams.require(_addressQueryParam);
+    final publicKey = queryParams.require(_publicKeyQueryParam);
     final deployTypeStr = queryParams[_deployTypeQueryParam];
     final deployType =
         WalletDeployType.values.byNameOrNull(deployTypeStr) ??
@@ -52,8 +54,8 @@ class WalletDeployConfirmRoute
     final hours = hoursStr != null ? int.tryParse(hoursStr) : null;
 
     return WalletDeployConfirmRouteData(
-      address: Address(address: queryParams[_addressQueryParam]!),
-      publicKey: PublicKey(publicKey: queryParams[_publicKeyQueryParam]!),
+      address: Address(address: address),
+      publicKey: PublicKey(publicKey: publicKey),
       deployType: deployType,
       custodians: custodians,
       requireConfirmations: requireConfirmations,

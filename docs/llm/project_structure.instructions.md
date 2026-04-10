@@ -4,88 +4,106 @@ This document outlines the high-level structure of the SparX Wallet Flutter appl
 
 ## Root Directory Structure
 
-The application follows a modular and layered architecture that includes the following main directories:
+The current workspace is organized around these top-level directories:
 
-- **/lib**: Contains all Dart code for the application  
-  - **/app**: Core application infrastructure  
-  - **/bootstrap**: App initialization and configuration  
-  - **/core**: Common utilities and base classes  
-  - **/data**: Data models and data layer components  
-  - **/di**: Dependency injection configuration  
-  - **/event_bus**: Event handling system  
-  - **/feature**: Feature modules (screens, business logic)  
-  - **/generated**: Generated code (assets, localizations)  
-  - **/http**: API clients and networking  
-  - **/utils**: Utility functions  
-  - **/widgets**: Shared UI components  
+- **/lib**: Main Dart application code  
+  - **/app**: App-level bootstrap, router, guards, and shared services  
+  - **/core**: Shared primitives, base classes, WM helpers, and utilities  
+  - **/data**: Shared data-layer code  
+  - **/di**: Dependency injection wiring  
+  - **/extensions**: Shared Dart and Flutter extensions  
+  - **/feature**: Feature modules  
+  - **/generated**: Generated assets/localization/codegen output  
+  - **/http**: Networking helpers and clients  
+  - **/utils**: Shared utility functions  
+  - **/widgets**: Cross-feature reusable widgets  
+  - `main.dart`, `main_development.dart`, `main_staging.dart`, `main_production.dart`, `runner.dart`: App entrypoints  
 
-- **/assets**: Contains non-code resources  
+- **/assets**: Non-code resources  
   - **/abi**: Blockchain contract ABIs  
+  - **/animations**: Animated assets  
+  - **/configs**: Static config payloads  
+  - **/html**: Embedded HTML resources  
   - **/images**: UI images and icons  
-  - **/js**: JavaScript code for blockchain integrations  
   - **/splash**: Splash screen assets  
   - **/translations**: Localization files  
 
-- **/packages**: Contains internal packages  
+- **/packages**: Workspace packages  
   - **/ui_components_lib**: UI component library  
-  - **/datetime_avoid_lint**: Custom lint rules  
+  - **/storybook**: Storybook app for UI components  
+  - **/wm_state_properties_lint**: Custom lint package  
 
 ## Feature Structure (Elementary Pattern)
 
-**Example structure for a feature called "feature_name":**
+Feature modules are not all shaped the same, but they follow a few common patterns.
+
+**Flat screen feature:**
 
 ```
-/feature/feature_name/
-├── feature_name.dart              # exports
-├── feature_name_screen.dart      # UI
-├── feature_name_model.dart       # Business Logic
-├── feature_name_wm.dart          # Widget Model
-└── widgets/                      # Feature-specific widgets
+/feature/choose_network/
+├── choose_network.dart
+├── choose_network_screen.dart
+├── choose_network_screen_model.dart
+├── choose_network_screen_wm.dart
+└── route.dart
+```
+
+**Nested screen folder:**
+
+```
+/feature/onboarding/
+├── route.dart
+├── screen/
+│   └── welcome/
+│       ├── welcome_screen.dart
+│       ├── welcome_screen_model.dart
+│       └── welcome_screen_wm.dart
+└── widgets/
+```
+
+**Larger feature with data/domain/view split:**
+
+```
+/feature/{feature_name}/
+├── {feature_name}.dart
+├── route.dart
+├── data/
+├── domain/
+├── screen/ or view/
+└── widgets/
 ```
 
 ## Domain Layer
 
-Domain layer provides business-specific logic of feature.
+The `domain` directory contains feature-specific business logic.
 
 ```
 /feature/{feature_name}/domain/
 ├── feature_service.dart
-├── feature_processor.dart         # some object managic stateless logic like use_case/processor/parser/etc
-└── specific_service/              # for big feature with multiple service creates directory
-    └── specific_service.dart      # implementation
+├── feature_processor.dart
+└── specific_service/
+  └── specific_service.dart
 ```
 
-The `domain` directory houses stateless use-cases (parsers, comparators, patchers, etc.) and stateful services.
-
-**Key characteristics:**
-
-- Implemented as singletons via Injectable  
-- Provide business logic and data handling  
+Use `domain` for stateless processors/parsers/use-cases and for stateful services. Services should be DI-managed singletons; repositories should stay out of this layer.
 
 ## Data Layer
 
-Data layer provides data structures and data flow of feature.
+The `data` directory contains repositories, APIs, DTOs, storage adapters, and feature-scoped entities.
 
 ```
-/feature/feature_name/data/
-├── entities/                   # for complex feature entities placed in separate directory
-├── dto/                       # for complex feature dto placed in separate directory
-├── api/                        # for complex feature apis placed in separate directory
-├── feature_api.dart            # interface reptresenting api-layer http/rpc of feature
-├── feature_object.dart         # some business layer object
-├── shared_widget_object.dart   # some model of shared widget
-└── feature_object_dto.dart     # some transport layer (http/rpc/other) object        
+/feature/{feature_name}/data/
+├── api/
+├── dto/
+├── entities/
+├── repository.dart
+└── storage/
 ```
 
-For simple features, models are placed directly inside the `data` directory. For more complex features, the `data` directory is further divided into:
-
-- `dto`: Contains data transfer objects and serialization-related code.
-- `entities`: Contains business logic models.
-
-UI models are located either next to the widget in the `widget` folder or in the `data` folder if they are cross-feature models.
+For smaller features, these files may live directly inside `data/`. Keep UI-specific state next to the screen or widget instead of moving it into shared data folders.
 
 **Key characteristics:**
 
-- Use Freezed for immutability and pattern matching  
-- Use Retrofit annotations for api-layer
-- Use JsonSerializable for serialization  
+- Repositories perform data access and DTO transformation only  
+- DTOs and entities commonly use Freezed/JsonSerializable where that fits the feature  
+- Retrofit-style API declarations may live under `api/`  

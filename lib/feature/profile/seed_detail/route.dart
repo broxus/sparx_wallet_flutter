@@ -23,9 +23,9 @@ class SeedDetailRoute extends CompassRoute<SeedDetailRouteData> {
 
   @override
   SeedDetailRouteData fromQueryParams(Map<String, String> queryParams) {
-    return SeedDetailRouteData(
-      publicKey: PublicKey(publicKey: queryParams[_publicKeyQueryParam]!),
-    );
+    final publicKey = queryParams.require(_publicKeyQueryParam);
+
+    return SeedDetailRouteData(publicKey: PublicKey(publicKey: publicKey));
   }
 }
 

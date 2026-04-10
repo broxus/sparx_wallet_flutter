@@ -34,6 +34,8 @@ class WalletMultisigConfigRoute
   WalletMultisigConfigRouteData fromQueryParams(
     Map<String, String> queryParams,
   ) {
+    final address = queryParams.require(_addressQueryParam);
+    final publicKey = queryParams.require(_publicKeyQueryParam);
     final custodiansStr = queryParams[_custodiansQueryParam];
     final custodians = custodiansStr != null && custodiansStr.isNotEmpty
         ? custodiansStr.split(',').map((e) => PublicKey(publicKey: e)).toList()
@@ -49,8 +51,8 @@ class WalletMultisigConfigRoute
     final hours = hoursStr != null ? int.tryParse(hoursStr) : null;
 
     return WalletMultisigConfigRouteData(
-      address: Address(address: queryParams[_addressQueryParam]!),
-      publicKey: PublicKey(publicKey: queryParams[_publicKeyQueryParam]!),
+      address: Address(address: address),
+      publicKey: PublicKey(publicKey: publicKey),
       custodians: custodians,
       requireConfirmations: requireConfirmations,
       hours: hours,

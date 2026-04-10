@@ -1,5 +1,4 @@
 import 'package:app/app/service/storage_service/connections_storage/connections_storage_service.dart';
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
@@ -10,12 +9,10 @@ class AddNewLocalAccountTypeSheetModel extends ElementaryModel {
   AddNewLocalAccountTypeSheetModel(
     ErrorHandler errorHandler,
     this._nekotonRepository,
-    this._messengerService,
     this._connectionsStorageService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
-  final MessengerService _messengerService;
   final ConnectionsStorageService _connectionsStorageService;
 
   SeedKey? findSeedKey(PublicKey publicKey) =>
@@ -49,7 +46,7 @@ class AddNewLocalAccountTypeSheetModel extends ElementaryModel {
     );
   }
 
-  void showMessage(Message message) => _messengerService.show(message);
+  void showError(Object data) => handleError(data);
 
   String defaultAccountName(WalletType type) =>
       _nekotonRepository.currentTransport.defaultAccountName(type);

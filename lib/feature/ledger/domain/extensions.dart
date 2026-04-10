@@ -4,7 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart'
-    show AnyhowException, LedgerException;
+    show AnyhowException, LedgerException, LedgerOperationCancelledException;
 
 extension ScanResultX on ScanResult {
   LedgerDeviceModel? getLedgerDeviceModel() {
@@ -61,8 +61,11 @@ extension BluetoothDeviceX on BluetoothDevice {
   }
 }
 
-extension AnyhowExceptionX on AnyhowException {
-  bool get isCancelled {
-    return message == 'Operation cancelled';
-  }
+extension ExceptionLedgerExtension on Exception {
+  bool get isLedgerOperationCancelled =>
+      this is LedgerOperationCancelledException ||
+      (this is AnyhowException &&
+          (this as AnyhowException).message == 'Operation cancelled') ||
+      // fragile but only way to detect cancellation from rust for now
+      toString().contains('ErrorCode.cancelled');
 }

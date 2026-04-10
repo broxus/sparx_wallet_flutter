@@ -1,5 +1,4 @@
 import 'package:app/data/models/models.dart';
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/wallet/staking/staking.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
@@ -14,12 +13,10 @@ class WalletAccountActionsModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._stakingService,
-    this._messengerService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final StakingService _stakingService;
-  final MessengerService _messengerService;
 
   bool get hasStake =>
       _nekotonRepository.currentTransport.stakeInformation != null;
@@ -57,5 +54,5 @@ class WalletAccountActionsModel extends ElementaryModel {
     message: message,
   );
 
-  void showMessage(Message message) => _messengerService.show(message);
+  void showError(Object data) => handleError(data);
 }

@@ -15,6 +15,20 @@ abstract interface class CompassRouteDataQuery implements CompassRouteData {
   Map<String, String> toQueryParams();
 }
 
+/// Query parameter helpers for route parsing.
+extension QueryParamsMapX on Map<String, String> {
+  /// Returns a required query parameter or throws when it is missing.
+  String require(String parameterName) {
+    final value = this[parameterName];
+
+    if (value == null) {
+      throw ArgumentError('Missing query parameter: $parameterName');
+    }
+
+    return value;
+  }
+}
+
 /// Mixin for handling query parameters in route classes.
 ///
 /// This mixin provides implementations for converting between route data
