@@ -199,11 +199,12 @@ class LedgerService {
 
     LedgerInteraction? interaction;
 
-    // check if previous interaction was successful
-    // and device is still connected
+    // getPublicKey workaround to prevent multiple interactions
+    // and bottom sheets creation when navigating over key pages
     if (currentInteraction == null ||
         currentInteraction?.interactionType != interactionType ||
         currentInteraction?.state != LedgerInteractionState.done ||
+        interactionType != LedgerInteractionType.getPublicKey ||
         appInterface == null ||
         appInterface?.device.isConnected == false) {
       interaction = LedgerInteraction(

@@ -25,9 +25,12 @@ class VerifyLedgerModel extends ElementaryModel with BleAvailabilityModelMixin {
     _ledgerService.currentInteraction?.dispose();
   }
 
-  Stream<LedgerInteraction> get interactionStream => _ledgerService
-      .interactionStream
-      .where((e) => e.interactionType == LedgerInteractionType.getAddress);
+  Stream<LedgerInteraction> get interactionStream =>
+      _ledgerService.interactionStream.where(
+        (e) =>
+            e.interactionType == LedgerInteractionType.getAddress &&
+            !e.isFinalState,
+      );
 
   Future<void> verify(KeyAccount account) async {
     final seedKey = _nekotonRepository.seedList.findSeedKey(account.publicKey);
