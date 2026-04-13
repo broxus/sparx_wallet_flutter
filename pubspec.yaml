@@ -36,7 +36,7 @@ dependencies:
   elementary: ^3.2.1
   elementary_helper: ^1.0.3
   encrypt: ^5.0.3
-  encrypted_storage:  0.1.6
+  encrypted_storage: 0.1.6
   equatable: ^2.0.8
   favicon: 1.1.2
   flutter:
