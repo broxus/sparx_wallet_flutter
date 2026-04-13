@@ -414,10 +414,10 @@ packages:
     dependency: transitive
     description:
       name: connectivity_plus
-      sha256: b8fe52979ff12432ecf8f0abf6ff70410b1bb734be1c9e4f2f86807ad7166c79
+      sha256: "62ffa266d9a23b79fb3fcbc206afc00bb979417ba57b1324c546b5aab95ba057"
       url: "https://pub.dev"
     source: hosted
-    version: "7.1.0"
+    version: "7.1.1"
   connectivity_plus_platform_interface:
     dependency: transitive
     description:
@@ -622,10 +622,10 @@ packages:
     dependency: "direct main"
     description:
       name: encrypted_storage
-      sha256: e283b28e0fb08b801c10d981d37f68a014f673117be6e9a58c899a13f3a96bff
+      sha256: e6c2bb1b93b8effbaf259e9af6533e48e104f021f5a05c07a17ca519c3af5878
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.5"
+    version: "0.1.6"
   equatable:
     dependency: "direct main"
     description:
@@ -957,10 +957,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_nekoton_bridge
-      sha256: fdabcdc25fc72ac5ff91d3beb7ce139bc3be0a8ddfb7fc0fa116ec9fd72ccbe1
+      sha256: "131d62b410adf03ad4b51c0115289c7e79d6c498056ed1f654c6617ce1f53928"
       url: "https://pub.dev"
     source: hosted
-    version: "5.5.2"
+    version: "5.5.3"
   flutter_plugin_android_lifecycle:
     dependency: "direct overridden"
     description:
@@ -970,13 +970,13 @@ packages:
     source: hosted
     version: "2.0.24"
   flutter_rust_bridge:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_rust_bridge
-      sha256: "37ef40bc6f863652e865f0b2563ea07f0d3c58d8efad803cc01933a4b2ee067e"
+      sha256: e87d6b9ee934dcd24a128ccb2bd91905d2d5fe5c06245d6a8f5477d4907a437a
       url: "https://pub.dev"
     source: hosted
-    version: "2.11.1"
+    version: "2.12.0"
   flutter_screenutil:
     dependency: "direct main"
     description:
@@ -1212,10 +1212,10 @@ packages:
     dependency: transitive
     description:
       name: hotreloader
-      sha256: bc167a1163807b03bada490bfe2df25b0d744df359227880220a5cbd04e5734b
+      sha256: "66871df468fc24eee81f1a0a7cb98acc104716f9b7376d355437b48d633c4ebf"
       url: "https://pub.dev"
     source: hosted
-    version: "4.3.0"
+    version: "4.4.0"
   html:
     dependency: transitive
     description:
@@ -1284,10 +1284,10 @@ packages:
     dependency: "direct main"
     description:
       name: image_picker_android
-      sha256: "9eae0cbd672549dacc18df855c2a23782afe4854ada5190b7d63b30ee0b0d3fd"
+      sha256: "66810af8e99b2657ee98e5c6f02064f69bb63f7a70e343937f70946c5f8c6622"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.13+15"
+    version: "0.8.13+16"
   image_picker_for_web:
     dependency: transitive
     description:
@@ -1569,10 +1569,10 @@ packages:
     dependency: "direct dev"
     description:
       name: melos
-      sha256: "72942b70e2fad1f01b2d66b42696546f9f48f57c342bee61726c540e8bfdcb02"
+      sha256: "2f7381d209ab7554203c51481a6a57c7896593b7f06190a06a467aa5bfd693c5"
       url: "https://pub.dev"
     source: hosted
-    version: "7.5.0"
+    version: "7.5.1"
   meta:
     dependency: transitive
     description:
@@ -1657,26 +1657,26 @@ packages:
     dependency: transitive
     description:
       name: nekoton_bridge
-      sha256: e0f76c784a923ac325eee5a4ca04cb391abe2f2586dfb988361b35180333a2f5
+      sha256: "453e27da430439771f2130b76a1ab0e842a38b0e0737c95bbb37acd55f9120b0"
       url: "https://pub.dev"
     source: hosted
-    version: "5.4.0"
+    version: "5.5.0"
   nekoton_repository:
     dependency: "direct main"
     description:
       name: nekoton_repository
-      sha256: "73293b0900cfb1e86111358712e3bc6489a58ff8009291a455af536915da6481"
+      sha256: b34659f070cd86b2971a4010d674093e767d4fd2b3f453e82b338938c80faa64
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.3"
+    version: "4.2.0"
   nekoton_webview:
     dependency: "direct main"
     description:
       name: nekoton_webview
-      sha256: db31e0fa120ca5be05c9f30e89a099700bf98fafbc416872558d960f0ac9ac8b
+      sha256: cc5f086cbb9d8f9c0079123a4e2bc5278617906bca81740642e01e12f667b08c
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0"
+    version: "0.2.1"
   nested:
     dependency: transitive
     description:
@@ -2090,18 +2090,18 @@ packages:
     dependency: "direct main"
     description:
       name: rive
-      sha256: "2d7f0b0dd6c8368c3e5a47d0a38ee68306896920aa665b5bf59e7c589a6d35a2"
+      sha256: "61f37d2833730778d258e634d27eb7e447a354790a78287621833808e8c7cb28"
       url: "https://pub.dev"
     source: hosted
-    version: "0.14.4"
+    version: "0.14.5"
   rive_native:
     dependency: transitive
     description:
       name: rive_native
-      sha256: fad6aac822340fa14a2cbcdc8cd064da4b4c74d22a5f6c827a59538d67f200e4
+      sha256: bfce5d976e1aa9a8ae53846c913ecc3a20805d918162965d67cad438b0090946
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.4"
+    version: "0.1.5"
   rxdart:
     dependency: "direct main"
     description:
@@ -2122,18 +2122,18 @@ packages:
     dependency: transitive
     description:
       name: sentry
-      sha256: "288aee3d35f252ac0dc3a4b0accbbe7212fa2867604027f2cc5bc65334afd743"
+      sha256: "682360642a7b14b36daef3b5574b7269164e7763512ac92cdafd55b695bd2183"
       url: "https://pub.dev"
     source: hosted
-    version: "9.16.0"
+    version: "9.16.1"
   sentry_flutter:
     dependency: "direct main"
     description:
       name: sentry_flutter
-      sha256: f9e87d5895cc437902aa2b081727ee7e46524fe7cc2e1910f535480a3eeb8bed
+      sha256: cf4944d02daa952aeb0e1ab01ddb3db8bfc6b7e16e9811edacf05d9eed276fda
       url: "https://pub.dev"
     source: hosted
-    version: "9.16.0"
+    version: "9.16.1"
   share_plus:
     dependency: "direct main"
     description:
@@ -2408,10 +2408,10 @@ packages:
     dependency: "direct main"
     description:
       name: string_extensions
-      sha256: "6ede5f85750709ab29867092ee68167dcbab53abdfdd5e6b69623909b8d80af4"
+      sha256: f35136a387a2530d8d54ee8f41b62fe7d8e1080f0d442356514968cacfa8870a
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.3"
+    version: "0.8.4"
   string_scanner:
     dependency: transitive
     description:
@@ -2749,5 +2749,5 @@ packages:
     source: hosted
     version: "2.2.4"
 sdks:
-  dart: ">=3.10.3 <4.0.0"
-  flutter: ">=3.38.4"
+  dart: ">=3.11.0 <4.0.0"
+  flutter: ">=3.41.0"
