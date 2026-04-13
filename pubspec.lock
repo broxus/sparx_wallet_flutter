@@ -2263,10 +2263,10 @@ packages:
     dependency: transitive
     description:
       name: smooth_sheets
-      sha256: fe1c9e4f1cd20c841cc2155cb125da74c004baf7bcfdf0bef4f87a7183d0907b
+      sha256: af660c9bab2a04a4662b36e0054dd5675147208fef7665134e91d05e19f6e13f
       url: "https://pub.dev"
     source: hosted
-    version: "0.17.0"
+    version: "1.0.0"
   source_gen:
     dependency: transitive
     description:

@@ -20,7 +20,7 @@ dependencies:
   lucide_icons_flutter: ^3.1.6
   money2: ^6.0.5
   sliding_up_panel2: ^3.3.0+1
-  smooth_sheets: 0.17.0
+  smooth_sheets: 1.0.0
 
 
 dev_dependencies:
