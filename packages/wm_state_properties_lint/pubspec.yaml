@@ -10,14 +10,14 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
-  analysis_server_plugin: 0.3.3
-  analyzer: ^8.4.0
-  analyzer_plugin: ^0.13.0
+  analysis_server_plugin: 0.3.7
+  analyzer: ^10.0.1
+  analyzer_plugin: ^0.14.1
   # path: ^1.8.0
 
 dev_dependencies:
-  analyzer_testing: 0.1.5
-  injectable_generator: ^2.8.1
+  analyzer_testing: 0.1.9
+  injectable_generator: ^2.12.1
   lints: ^6.1.0
   test: ^1.24.0
   test_reflective_loader: ^0.4.0
