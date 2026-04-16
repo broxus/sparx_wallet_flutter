@@ -15,19 +15,29 @@ The theme system is centralized in the `packages/ui_components_lib/` directory a
 
 ### Directory Structure
 
+The active theme system is now organized from the package root rather than a dedicated `v2/` directory:
+
 ```
 packages/ui_components_lib/lib/
-├── v2/                           # Current theme system (v2)
-│   ├── colors_v2.dart           # Color palette definitions
-│   ├── dimens_v2.dart           # Size and spacing design tokens
-│   ├── opac_v2.dart             # Opacity constants
-│   ├── predefined_theme_v2.dart # Theme configurations
-│   ├── text_styles_v2.dart      # Typography system
-│   ├── theme_style_v2.dart      # Theme extension
-│   ├── widgets/                  # V2 UI components
-│   └── ui_components_lib_v2.dart # Export file
-├── legacy files...               # V1 theme system (deprecated)
-└── utils/                        # Shared utilities
+├── colors.dart                  # Color palette definitions
+├── constants.dart               # Shared UI and theme constants
+├── dimens.dart                  # Size and spacing design tokens
+├── opac.dart                    # Opacity constants
+├── predefined_theme.dart        # Theme configurations
+├── styles.dart                  # Shared style helpers
+├── text_styles.dart             # Typography system
+├── theme_style.dart             # Theme extension
+├── ui_components_lib.dart       # Main export file
+├── components/                  # High-level UI components
+│   ├── button/
+│   ├── common/
+│   ├── displayable/
+│   └── input/
+├── widgets/                     # Reusable themed widgets
+├── extensions/                  # Package extensions
+├── fonts/                       # Font configuration and assets
+├── res/                         # Packaged resources
+└── utils/                       # Shared utilities
 ```
 
 ### Theme Extension System
