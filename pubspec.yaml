@@ -125,7 +125,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: ^3.2.3
-  googleapis_auth: 2.0.0
+  googleapis_auth: 2.3.0
   husky: ^0.1.7
   injectable_generator: ^2.8.1
   integration_test:
