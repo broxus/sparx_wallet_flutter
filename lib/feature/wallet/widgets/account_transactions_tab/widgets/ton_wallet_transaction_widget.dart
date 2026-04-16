@@ -61,7 +61,7 @@ class TonWalletTransactionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final date = isFirst ? _Date(transactionDateTime) : null;
 
     final body = Container(
@@ -120,7 +120,7 @@ class _Date extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return Padding(
       padding: const EdgeInsets.only(top: DimensSize.d8),
@@ -153,7 +153,7 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final transactionTimeFormatter = DateTimeUtils.getDateFormat(
       'HH:mm',
       context.locale.languageCode,

@@ -38,7 +38,7 @@ class TokenWalletTransactionsWidget
     return StateNotifierBuilder<TokenWalletTransactionsState>(
       listenableState: wm.walletTransactionsState,
       builder: (context, state) {
-        final theme = context.themeStyleV2;
+        final theme = context.themeStyle;
         return switch (state!) {
           TokenWalletTransactionsStateEmpty() => SliverFillRemaining(
             child: Padding(

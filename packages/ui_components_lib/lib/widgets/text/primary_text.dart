@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
+
+class PrimaryText extends StatelessWidget {
+  const PrimaryText(
+    this.text, {
+    this.type = PrimaryTextType.descriptionLarge,
+    this.textAlign = TextAlign.center,
+    super.key,
+  });
+
+  final String text;
+  final PrimaryTextType type;
+  final TextAlign textAlign;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: _getTextStyle(context.themeStyle.textStyles),
+      textAlign: textAlign,
+    );
+  }
+
+  TextStyle _getTextStyle(TextStyles textStyles) => switch (type) {
+    PrimaryTextType.titleLarge => textStyles.headingLarge,
+    PrimaryTextType.titleSmall => textStyles.headingXSmall,
+    PrimaryTextType.descriptionLarge => textStyles.paragraphMedium,
+    PrimaryTextType.descriptionSmall => textStyles.paragraphXSmall,
+  };
+}
+
+enum PrimaryTextType {
+  titleLarge,
+  titleSmall,
+  descriptionLarge,
+  descriptionSmall,
+}

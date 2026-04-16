@@ -57,7 +57,7 @@ class ChangeNetworkWidgetModel
 
   ValueListenable<Connection> get connectionState => _connectionState;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   Future<void> onConfirm() async {
     _loadingState.value = true;

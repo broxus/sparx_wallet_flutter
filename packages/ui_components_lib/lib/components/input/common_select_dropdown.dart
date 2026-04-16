@@ -52,7 +52,7 @@ class CommonSelectDropdown<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return PressScaleWidget(
       onPressed: values.length == 1 ? null : () => _openSelectSheet(context),
@@ -112,7 +112,7 @@ class CommonSelectDropdown<T> extends StatelessWidget {
   }
 
   void _openSelectSheet(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     showCommonBottomSheet<void>(
       context: context,
       title: sheetTitle,

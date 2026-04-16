@@ -3,6 +3,8 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _actionButtonWidth = 84.0;
+
 class BrowserBookmarksMenu extends StatelessWidget {
   const BrowserBookmarksMenu({
     required this.editState,
@@ -115,11 +117,11 @@ class _Container extends StatelessWidget {
 
   final Widget child;
 
-  static const _height = DimensSize.d70;
+  static const _height = 70.0;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.themeStyleV2.colors;
+    final colors = context.themeStyle.colors;
 
     return SizedBox(
       width: double.infinity,
@@ -144,7 +146,7 @@ class _EditButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     return _ActionButton(
       text: LocaleKeys.edit.tr(),
       textStyle: theme.textStyles.labelSmall.copyWith(
@@ -162,7 +164,7 @@ class _DoneButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     return _ActionButton(
       text: LocaleKeys.done.tr(),
       textStyle: theme.textStyles.labelSmall.copyWith(
@@ -181,7 +183,7 @@ class _ClearButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return StateNotifierBuilder(
       listenableState: activeState,
@@ -191,7 +193,7 @@ class _ClearButton extends StatelessWidget {
         return _ActionButton(
           text: LocaleKeys.clearWord.tr(),
           textStyle: theme.textStyles.labelSmall.copyWith(
-            color: ColorsResV2.vibrantStrawberry,
+            color: ColorsRes.vibrantStrawberry,
           ),
           onPressed: isActive ? onPressed : null,
         );
@@ -219,7 +221,7 @@ class _ActionButton extends StatelessWidget {
       child: Opacity(
         opacity: onPressed == null ? .4 : 1,
         child: SizedBox(
-          width: DimensSize.d84,
+          width: _actionButtonWidth,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: DimensSize.d14),
             child: Align(

@@ -94,7 +94,7 @@ class _Container extends StatelessWidget {
       width: width,
       height: double.infinity,
       child: ColoredBox(
-        color: context.themeStyleV2.colors.background0,
+        color: context.themeStyle.colors.background0,
         child: child,
       ),
     );

@@ -90,7 +90,7 @@ class _SeedItemSliverSectionState extends State<SeedItemSliverSection>
         right: DimensSize.d8,
       ),
       decoration: BoxDecoration(
-        color: context.themeStyleV2.colors.background2,
+        color: context.themeStyle.colors.background2,
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(DimensRadius.radius12),
           bottomRight: Radius.circular(DimensRadius.radius12),
@@ -150,7 +150,7 @@ class _SeedItemStickyDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     return GestureDetector(
       onTap: onToggleExpand,
       child: Container(

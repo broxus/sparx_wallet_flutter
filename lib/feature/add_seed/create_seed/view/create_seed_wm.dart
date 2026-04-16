@@ -24,9 +24,9 @@ class CreateSeedWidgetModel
 
   ListenableState<List<String>> get wordsState => _wordsState;
 
-  ColorsPaletteV2 get colors => _theme.colors;
+  ColorsPalette get colors => _theme.colors;
 
-  ThemeStyleV2 get _theme => context.themeStyleV2;
+  ThemeStyle get _theme => context.themeStyle;
 
   @override
   void initWidgetModel() {

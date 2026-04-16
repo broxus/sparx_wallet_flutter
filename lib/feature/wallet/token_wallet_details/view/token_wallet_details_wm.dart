@@ -50,7 +50,7 @@ class TokenWalletDetailsWidgetModel
   ListenableState<Object> get errorState => _errorState;
   ListenableState<bool> get loadingErrorState => _loadingErrorState;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   Address get owner => wmParams.value.owner;
   Address get rootTokenContract => wmParams.value.rootTokenContract;

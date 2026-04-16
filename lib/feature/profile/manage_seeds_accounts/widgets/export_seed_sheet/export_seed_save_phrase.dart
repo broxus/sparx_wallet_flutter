@@ -50,7 +50,7 @@ class ExportSeedSavePhrase extends StatelessWidget {
             controller: controller,
             child: SeedWords(
               words: phrase,
-              backgroundColor: context.themeStyleV2.colors.background2,
+              backgroundColor: context.themeStyle.colors.background2,
             ),
           ),
         ),

@@ -21,7 +21,7 @@ class TypeComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final onPressed = isEditable
         ? () {
             onChanged(type);

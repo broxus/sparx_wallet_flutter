@@ -21,7 +21,7 @@ class NetworkButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     final saveButtonText = connection == null
         ? LocaleKeys.networkAdd.tr()

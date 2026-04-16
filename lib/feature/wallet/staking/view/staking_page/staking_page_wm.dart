@@ -72,7 +72,7 @@ class StakingPageWidgetModel
 
   ListenableState<StakingData> get dataState => _dataState;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   /// Native currency
   Currency get currency => model.nativeCurrency;

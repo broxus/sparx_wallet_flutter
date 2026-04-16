@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _payloadCardCollapsedHeight = 256.0;
+
 class SendMessageWidget
     extends
         InjectedElementaryParametrizedWidget<
@@ -136,7 +138,7 @@ class SendMessageWidget
                     return Padding(
                       padding: const EdgeInsets.only(top: DimensSize.d12),
                       child: ExpandableCard(
-                        collapsedHeight: DimensSize.d256,
+                        collapsedHeight: _payloadCardCollapsedHeight,
                         child: SeparatedColumn(
                           spacing: DimensSize.d16,
                           crossAxisAlignment: CrossAxisAlignment.stretch,

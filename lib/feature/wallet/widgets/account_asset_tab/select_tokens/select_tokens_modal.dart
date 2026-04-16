@@ -20,7 +20,7 @@ Future<void> showSelectTokesModal(
     context: context,
     title: LocaleKeys.selectTokensLabel.tr(),
     centerTitle: true,
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     body: (_, scrollController) => SelectTokenWidget(
       address: address,
       confirmImportCallback: confirmImportCallback,

@@ -17,7 +17,7 @@ class WelcomeScreenWidgetModel
 
   final _decentralizationPolicyLink = 'https://l1.broxus.com/sparx/terms/';
 
-  ThemeStyleV2 get themeStyle => context.themeStyleV2;
+  ThemeStyle get themeStyle => context.themeStyle;
 
   void onPressedCreateWallet() {
     model.saveUserNew(userWithNewWallet: true);

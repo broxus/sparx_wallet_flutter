@@ -35,13 +35,13 @@ packages/ui_components_lib/lib/
 The project uses Flutter's `ThemeExtension` pattern for custom theming:
 
 ```dart
-class ThemeStyleV2 extends ThemeExtension<ThemeStyleV2> {
-  ThemeStyleV2({
+class ThemeStyle extends ThemeExtension<ThemeStyle> {
+  ThemeStyle({
     required this.colors,
     required this.textStyles,
   });
 
-  final ColorsPaletteV2 colors;
+  final ColorsPalette colors;
   final TextStylesV2 textStyles;
 }
 ```
@@ -50,7 +50,7 @@ class ThemeStyleV2 extends ThemeExtension<ThemeStyleV2> {
 
 ### Semantic Color Organization
 
-The color system is organized into semantic groups for consistent usage through the `ColorsPaletteV2` class:
+The color system is organized into semantic groups for consistent usage through the `ColorsPalette` class:
 
 **Core Brand Colors:**
 
@@ -76,7 +76,7 @@ The color system is organized into semantic groups for consistent usage through 
 
 ### Raw Color Resources
 
-Colors are systematically defined in `ColorsResV2` using a structured naming convention:
+Colors are systematically defined in `ColorsRes` using a structured naming convention:
 
 **Color Categories:**
 
@@ -153,7 +153,7 @@ All text styles use the **Inter** font family with:
 
 ### Opacity Constants
 
-`OpacV2` defines transparency levels:
+`Opac` defines transparency levels:
 
 - **Available opacities**: `opac10` (0.1), `opac16` (0.16), `opac50` (0.5), `opac80` (0.8), `opac100` (1.0)
 - **Usage**: Overlays, disabled states, alpha backgrounds
@@ -179,7 +179,7 @@ The main app configures themes in `/lib/app/view/app.dart` using:
 ```dart
 @override
 Widget build(BuildContext context) {
-  final theme = context.themeStyleV2;      // Get theme extension
+  final theme = context.themeStyle;      // Get theme extension
   final colors = theme.colors;             // Access color palette
   final textStyles = theme.textStyles;     // Access typography
 
@@ -228,7 +228,7 @@ Pre-built container components:
 
 Apply transparency using opacity utilities:
 
-- Use `colors.content0.withAlpha(OpacV2.opac50.toByteInt())` for custom transparency
+- Use `colors.content0.withAlpha(Opac.opac50.toByteInt())` for custom transparency
 - Use pre-defined alpha colors like `backgroundAlpha`, `backgroundButtonAlpha`
 - Combine with design tokens for consistent transparency levels
 

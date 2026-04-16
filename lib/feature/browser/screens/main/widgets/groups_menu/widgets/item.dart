@@ -29,7 +29,7 @@ class BrowserGroupMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final colors = theme.colors;
 
     return GestureDetector(
@@ -68,7 +68,7 @@ class BrowserGroupMenuItem extends StatelessWidget {
                           Container(width: .5, color: colors.content3),
                           _MenuButton(
                             icon: LucideIcons.trash2,
-                            color: ColorsResV2.e50,
+                            color: ColorsRes.e50,
                             onPressed: onPressedRemove,
                           ),
                         ],
@@ -105,7 +105,7 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final styles = theme.textStyles;
     final colors = theme.colors;
 
@@ -138,7 +138,7 @@ class _Content extends StatelessWidget {
                   DecoratedBox(
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: ColorsResV2.midnightBlue,
+                      color: ColorsRes.midnightBlue,
                     ),
                     child: SizedBox(
                       width: DimensSize.d20,
@@ -198,7 +198,7 @@ class _Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.themeStyleV2.colors;
+    final colors = context.themeStyle.colors;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -210,7 +210,7 @@ class _Menu extends StatelessWidget {
         ),
         _MenuButton(
           icon: LucideIcons.trash2,
-          color: ColorsResV2.e50,
+          color: ColorsRes.e50,
           onPressed: onPressedRemove,
         ),
       ],
@@ -239,7 +239,7 @@ class _MenuButton extends StatelessWidget {
         height: double.infinity,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: context.themeStyleV2.colors.background2,
+            color: context.themeStyle.colors.background2,
           ),
           child: Icon(icon, color: color, size: DimensSize.d16),
         ),

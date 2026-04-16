@@ -148,7 +148,7 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
 
   @override
   Widget build(BuildContext context) {
-    final textStyles = context.themeStyleV2.textStyles;
+    final textStyles = context.themeStyle.textStyles;
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -302,7 +302,7 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
 
   Widget _buildMiniButton(int hours) {
     final currentValue = waitingTimeController.text.toInt();
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final isSelected = currentValue == hours;
 
     return GestureDetector(

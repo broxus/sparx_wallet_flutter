@@ -70,7 +70,7 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bottomPadding = MediaQuery.of(context).systemGestureInsets.bottom;
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return CustomScrollView(
       controller: controller,

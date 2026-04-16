@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ui_components_storybook/widgets/story_v1.dart';
+// import 'package:ui_components_storybook/widgets/story_v1.dart';
 import 'package:ui_components_storybook/widgets/story_v2.dart';
 
 class StoryWidget extends StatefulWidget {
@@ -44,7 +44,7 @@ class _StoryWidgetState extends State<StoryWidget>
             ),
             Flexible(
               child: switch (_currentIndex) {
-                0 => const StoryV1(),
+                0 => const SizedBox.shrink(),
                 1 => const StoryV2(),
                 _ => const SizedBox.shrink(),
               },

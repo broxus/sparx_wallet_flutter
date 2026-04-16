@@ -31,7 +31,7 @@ class AddNftWidgetModel extends CustomWidgetModel<AddNftWidget, AddNftModel> {
     FilteringTextInputFormatter.deny(RegExp(r'\s')),
   ];
 
-  ThemeStyleV2 get themeStyleV2 => context.themeStyleV2;
+  ThemeStyle get themeStyle => context.themeStyle;
 
   @override
   void initWidgetModel() {

@@ -109,14 +109,14 @@ class _Error extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return SizedBox(
       width: double.infinity,
       height: DimensSize.d48,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: ColorsResV2.e15,
+          color: ColorsRes.e15,
           borderRadius: BorderRadius.circular(DimensRadius.radius8),
         ),
         child: Padding(
@@ -127,12 +127,12 @@ class _Error extends StatelessWidget {
               const Icon(
                 LucideIcons.circleCheck,
                 size: DimensSize.d24,
-                color: ColorsResV2.e50,
+                color: ColorsRes.e50,
               ),
               Text(
                 errorText,
                 style: theme.textStyles.labelMedium.copyWith(
-                  color: ColorsResV2.e50,
+                  color: ColorsRes.e50,
                 ),
               ),
             ],

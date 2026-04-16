@@ -93,7 +93,7 @@ class _SeedTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) {
-        final theme = context.themeStyleV2;
+        final theme = context.themeStyle;
 
         return CommonListTile(
           padding: EdgeInsets.zero,

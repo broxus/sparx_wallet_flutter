@@ -4,12 +4,7 @@ import 'package:app/generated/generated.dart';
 import 'package:app/widgets/clipboard_paste_button.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/components/common/default_app_bar.dart';
-import 'package:ui_components_lib/components/common/system_space.dart';
-import 'package:ui_components_lib/dimens.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/accent_button.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/button_shape.dart';
-import 'package:ui_components_lib/v2/widgets/text_fields/primary_text_field.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class AddNftSmallLayout extends StatelessWidget {
   const AddNftSmallLayout(this._wm, {super.key});
@@ -18,7 +13,7 @@ class AddNftSmallLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = _wm.themeStyleV2;
+    final theme = _wm.themeStyle;
 
     return Scaffold(
       backgroundColor: theme.colors.background0,

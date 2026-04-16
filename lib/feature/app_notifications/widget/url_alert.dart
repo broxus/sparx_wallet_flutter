@@ -20,7 +20,7 @@ class UrlAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: context.themeStyleV2.colors.background1,
+      backgroundColor: context.themeStyle.colors.background1,
       titlePadding: const EdgeInsets.only(
         top: DimensSize.d20,
         bottom: DimensSize.d16,

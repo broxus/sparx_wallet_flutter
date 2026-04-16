@@ -24,7 +24,7 @@ class SheetDraggableLine extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(DimensRadius.max)),
           ),
-          color: ColorsResV2.m70,
+          color: ColorsRes.m70,
         ),
       ),
     );

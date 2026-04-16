@@ -34,7 +34,7 @@ class BrowserBookWidgetModel
 
   ListenableState<List<BaseBookUiModel>> get itemsState => _itemsState;
 
-  ColorsPaletteV2 get colors => context.themeStyleV2.colors;
+  ColorsPalette get colors => context.themeStyle.colors;
 
   @override
   void initWidgetModel() {

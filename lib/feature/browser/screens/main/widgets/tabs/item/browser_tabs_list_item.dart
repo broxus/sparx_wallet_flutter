@@ -65,7 +65,7 @@ class _Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.themeStyleV2.colors;
+    final colors = context.themeStyle.colors;
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -75,7 +75,7 @@ class _Menu extends StatelessWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(DimensRadius.radius8),
-            color: ColorsResV2.midnightBlue,
+            color: ColorsRes.midnightBlue,
           ),
           child: Padding(
             padding: const EdgeInsets.all(DimensSize.d4),

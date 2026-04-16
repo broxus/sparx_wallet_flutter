@@ -54,7 +54,7 @@ class ChooseNetworkScreenWidgetModel
 
   Size get screenSize => MediaQuery.sizeOf(context);
 
-  ThemeStyleV2 get themeStyleV2 => context.themeStyleV2;
+  ThemeStyle get themeStyle => context.themeStyle;
 
   double get bottomPadding => MediaQuery.of(context).padding.bottom;
 

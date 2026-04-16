@@ -8,6 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _browserGroupMenuHeight = 348.0;
+const _groupsListHeight = 176.0;
+const _headerBottomSpacing = 22.0;
+
 Future<void> showBrowserTabMenu(BuildContext context) {
   return showModalBottomSheet(
     context: context,
@@ -27,16 +31,16 @@ class BrowserGroupMenu
   Widget build(BrowserGroupMenuWidgetModel wm) {
     return SizedBox(
       width: double.infinity,
-      height: DimensSize.d348,
+      height: _browserGroupMenuHeight,
       child: PrimaryBottomSheetContainer(
-        backgroundColor: ColorsResV2.n15,
+        backgroundColor: ColorsRes.n15,
         child: Column(
           children: [
             _Header(
               onPressedEdit: wm.onPressedEditAll,
               onPressedDone: wm.onPressedDone,
             ),
-            const SizedBox(height: DimensSize.d22),
+            const SizedBox(height: _headerBottomSpacing),
             _GroupsList(
               groupsState: wm.groupsState,
               activeGroupIdState: wm.activeGroupIdState,
@@ -71,7 +75,7 @@ class _Header extends StatelessWidget {
         ),
         Text(
           LocaleKeys.tabGroups.tr(),
-          style: context.themeStyleV2.textStyles.labelMedium,
+          style: context.themeStyle.textStyles.labelMedium,
         ),
         BrowserTextButton(
           title: LocaleKeys.done.tr(),
@@ -111,11 +115,11 @@ class _GroupsList extends StatelessWidget {
         }
 
         return SizedBox(
-          height: DimensSize.d176,
+          height: _groupsListHeight,
           child: SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
             child: PrimaryShapedContainerColumn(
-              backgroundColor: context.themeStyleV2.colors.background2,
+              backgroundColor: context.themeStyle.colors.background2,
               margin: const EdgeInsets.symmetric(horizontal: DimensSize.d24),
               children: [
                 for (final listenable in list)
@@ -146,7 +150,7 @@ class _NewGroupButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final style = theme.textStyles;
 
     return Padding(

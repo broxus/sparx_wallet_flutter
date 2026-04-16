@@ -14,7 +14,7 @@ class TCManageDappsWidgetModel
   ListenableState<List<TonAppConnection>> get connectionsState =>
       _connectionsState;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   Future<void> onDisconnectAll() async {
     final confirmed = await showDappDisconnectConfirmationSheet(

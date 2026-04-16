@@ -107,7 +107,7 @@ class _Item extends StatelessWidget {
   }
 
   Widget _buildGridItem(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return GestureDetector(
       onTap: onTap,
@@ -182,7 +182,7 @@ class _Item extends StatelessWidget {
   }
 
   Widget _buildListItem(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return GestureDetector(
       onTap: onTap,
@@ -247,7 +247,7 @@ class _Badge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return PrimaryCard(
       padding: const EdgeInsets.symmetric(

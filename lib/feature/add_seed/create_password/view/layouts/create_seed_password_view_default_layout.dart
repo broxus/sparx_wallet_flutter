@@ -2,13 +2,7 @@ import 'package:app/feature/add_seed/create_password/model/password_status.dart'
 import 'package:app/feature/add_seed/create_password/widgets/password_info_section.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/components/common/default_app_bar.dart';
-import 'package:ui_components_lib/dimens.dart';
-import 'package:ui_components_lib/v2/theme_style_v2.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/accent_button.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/button_shape.dart';
-import 'package:ui_components_lib/v2/widgets/text/primary_text.dart';
-import 'package:ui_components_lib/v2/widgets/text_fields/secure_text_field.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class CreateSeedPasswordViewDefaultLayout extends StatelessWidget {
   const CreateSeedPasswordViewDefaultLayout({
@@ -40,7 +34,7 @@ class CreateSeedPasswordViewDefaultLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeStyle = context.themeStyleV2;
+    final themeStyle = context.themeStyle;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,

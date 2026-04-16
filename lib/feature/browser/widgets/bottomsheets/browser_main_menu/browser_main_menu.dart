@@ -4,7 +4,8 @@ import 'package:app/feature/browser/widgets/bottomsheets/browser_main_menu/data/
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
+
+const _browserMainMenuHorizontalPadding = 21.0;
 
 Future<void> showBrowserMainMenu(
   BuildContext context, {
@@ -14,7 +15,9 @@ Future<void> showBrowserMainMenu(
   return showPrimaryBottomSheet(
     context: context,
     barrierColor: Colors.black.withValues(alpha: .8),
-    padding: const EdgeInsets.symmetric(horizontal: DimensSize.d21),
+    padding: const EdgeInsets.symmetric(
+      horizontal: _browserMainMenuHorizontalPadding,
+    ),
     content: BrowserMainMenu(
       groupId: groupId,
       onPressedCreateTab: onPressedCreateTab,
@@ -83,7 +86,7 @@ class _Item extends StatelessWidget {
       title: data.title,
       icon: data.icon,
       iconColor: switch (data) {
-        BrowserMainMenuData.clearHistory => ColorsResV2.vibrantRaspberry,
+        BrowserMainMenuData.clearHistory => ColorsRes.vibrantRaspberry,
         _ => null,
       },
       onPressed: () => onPressed(data),

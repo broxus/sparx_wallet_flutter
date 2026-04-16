@@ -33,7 +33,7 @@ class _SelectionStatusInputState extends State<SelectionStatusInput> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     Color? backgroundColor;
     Color? borderColor;
     Color contentColor;
@@ -42,8 +42,8 @@ class _SelectionStatusInputState extends State<SelectionStatusInput> {
       case SelectionStatus.unfocus:
         borderColor =
             widget.unfocusBorderColor ??
-            theme.colors.borderFocus.withAlpha(OpacV2.opac25.toByteInt());
-        contentColor = ColorsResV2.midnightBlue;
+            theme.colors.borderFocus.withAlpha(Opac.opac25.toByteInt());
+        contentColor = ColorsRes.midnightBlue;
       case SelectionStatus.focus:
         borderColor = widget.focusBorderColor ?? theme.colors.borderFocus;
         contentColor = theme.colors.content0;

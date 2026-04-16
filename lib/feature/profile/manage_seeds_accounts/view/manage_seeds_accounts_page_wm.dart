@@ -26,7 +26,7 @@ class ManageSeedsAccountsPageWidgetModel
   ListenableState<Seed?> get currentSeedState => _currentSeedState;
   ListenableState<List<Seed>> get seedsState => _seedsState;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   Future<void> onAddSeedPhrase() async {
     final selected = await showSelectAddSeedTypeSheet(context);

@@ -119,7 +119,7 @@ class _Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.themeStyleV2.colors;
+    final colors = context.themeStyle.colors;
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -149,7 +149,7 @@ class _UrlTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return Row(
       children: [
@@ -160,9 +160,9 @@ class _UrlTextField extends StatelessWidget {
             autocorrect: false,
             enableSuggestions: false,
             style: theme.textStyles.paragraphXMedium.copyWith(
-              color: ColorsResV2.black,
+              color: ColorsRes.black,
             ),
-            cursorColor: ColorsResV2.black,
+            cursorColor: ColorsRes.black,
             decoration: const InputDecoration(
               border: InputBorder.none,
               focusedBorder: InputBorder.none,
@@ -192,7 +192,7 @@ class _UrlTextField extends StatelessWidget {
                       width: DimensSize.d20,
                       height: DimensSize.d20,
                       colorFilter:
-                          context.themeStyleV2.colors.content3.colorFilter,
+                          context.themeStyle.colors.content3.colorFilter,
                     ),
                   ),
                 ),
@@ -220,7 +220,7 @@ class _UrlText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -257,7 +257,7 @@ class _UrlText extends StatelessWidget {
                               width: DimensSize.d16,
                               height: DimensSize.d16,
                               colorFilter: context
-                                  .themeStyleV2
+                                  .themeStyle
                                   .colors
                                   .content3
                                   .colorFilter,

@@ -10,7 +10,7 @@ Keep review feedback concise; prefer checklists and links over prose.
 - Data vs services: repositories are pure data/DTO transforms (Freezed + JSON). Services hold business/state and are singletons in DI. No business logic inside repositories.
 
 ## UI/Theme/Localization
-- Must use v2 design tokens/components from `package:ui_components_lib/ui_components_lib.dart` and `context.themeStyleV2`; no hardcoded colors or magic numbers. Prefer prebuilt components and const constructors where possible.
+- Must use v2 design tokens/components from `package:ui_components_lib/ui_components_lib.dart` and `context.themeStyle`; no hardcoded colors or magic numbers. Prefer prebuilt components and const constructors where possible.
 - Reactive naming: notifiers/listenables end with `State`; streams end with `Stream`; private field mirrors public getter name.
 - No hardcoded strings; use `LocaleKeys...tr(...)` with snake_case keys from `assets/translations/`.
 

@@ -132,7 +132,7 @@ class CommonRadio<T> extends StatelessWidget {
           squircleRadius: DimensRadius.small,
           borderSide: BorderSide(
             color: hasError
-                ? colors.alert
+                ? colors.negative
                 : enabled
                 ? colors.strokePrimary
                 : colors.strokeSecondary,

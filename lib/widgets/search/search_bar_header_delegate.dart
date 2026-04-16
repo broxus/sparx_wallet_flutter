@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _searchBarHeaderHeight = 106.0;
+
 class SearchBarHeaderDelegate extends SliverPersistentHeaderDelegate {
   SearchBarHeaderDelegate({required this.controller});
-
-  static const double headerHeight = DimensSize.d106;
 
   TextEditingController controller;
 
@@ -16,7 +16,7 @@ class SearchBarHeaderDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    final colors = context.themeStyleV2.colors;
+    final colors = context.themeStyle.colors;
 
     return Column(
       children: [
@@ -49,10 +49,10 @@ class SearchBarHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => headerHeight;
+  double get maxExtent => _searchBarHeaderHeight;
 
   @override
-  double get minExtent => headerHeight;
+  double get minExtent => _searchBarHeaderHeight;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {

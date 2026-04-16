@@ -23,7 +23,7 @@ class _DataCardState extends State<DataCard> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return PrimaryCard(
       color: theme.colors.background2,

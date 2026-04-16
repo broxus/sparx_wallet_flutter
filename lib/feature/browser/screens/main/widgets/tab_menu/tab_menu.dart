@@ -61,7 +61,7 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
 
   late final _lastIndex = _items.last.index;
 
-  final _width = DimensSize.d207;
+  final _width = 207.0;
   final _itemHeight = DimensSize.d44;
 
   late final _menuHeight = _items.length * _itemHeight;
@@ -94,7 +94,7 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     return Stack(
       children: [
         Positioned(
@@ -145,7 +145,7 @@ class _HolePainter extends CustomPainter {
       ..addRRect(RRect.fromRectAndRadius(holeRect, const Radius.circular(16)))
       ..fillType = PathFillType.evenOdd;
 
-    canvas.drawPath(path, Paint()..color = ColorsResV2.backgroundOverlay);
+    canvas.drawPath(path, Paint()..color = ColorsRes.backgroundOverlay);
   }
 
   @override
@@ -170,7 +170,7 @@ class _Item extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,

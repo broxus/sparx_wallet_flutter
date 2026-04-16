@@ -19,7 +19,7 @@ Future<void> showAccountSettingsSheet({
 }) {
   return showCommonBottomSheet(
     context: context,
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     title: LocaleKeys.settingsOfAccount.tr(),
     body: (_, __) => AccountSettingsSheet(
       address: address,

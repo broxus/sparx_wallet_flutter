@@ -49,7 +49,7 @@ class TokenAssetOldLabel extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(DimensRadius.small),
-        color: colors.alert,
+        color: colors.negative,
       ),
       padding: const EdgeInsets.all(DimensSize.d4),
       child: Text(

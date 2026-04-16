@@ -59,7 +59,7 @@ class AddTip3TokenWidgetModel
 
   ListenableState<TokenStatus> get statusState => _statusState;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   @override
   void initWidgetModel() {

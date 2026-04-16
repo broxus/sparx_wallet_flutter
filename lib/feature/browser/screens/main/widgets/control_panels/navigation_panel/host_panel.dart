@@ -2,17 +2,19 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _hostPanelHeight = 62.0;
+
 class HostPanel extends StatelessWidget {
   const HostPanel(this.uriState, {required this.onPressed, super.key});
 
-  static const height = DimensSize.d62;
+  static const height = _hostPanelHeight;
 
   final ListenableState<Uri?> uriState;
   final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return SizedBox(
       height: height,

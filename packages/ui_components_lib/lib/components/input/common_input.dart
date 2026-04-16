@@ -373,7 +373,7 @@ class _CommonInputState extends State<CommonInput> {
           Text(
             state.errorText!,
             style: StyleRes.addRegular.copyWith(
-              color: widget.errorColor ?? colors.alert,
+              color: widget.errorColor ?? colors.negative,
             ),
           ),
         ],
@@ -471,7 +471,7 @@ class _CommonInputState extends State<CommonInput> {
         textAlign: widget.textAlign,
         decoration: InputDecoration(
           filled: true,
-          fillColor: widget.fillColor ?? colors.backgroundSecondary,
+          fillColor: widget.fillColor ?? colors.background1,
           errorText: hasError ? '' : null,
           errorStyle: const TextStyle(fontSize: 0, height: 0),
           hintText: widget.hintText,
@@ -504,11 +504,11 @@ class _CommonInputState extends State<CommonInput> {
           ),
           errorBorder: SquircleInputBorder(
             squircleRadius: widget.radius,
-            borderSide: BorderSide(color: widget.errorColor ?? colors.alert),
+            borderSide: BorderSide(color: widget.errorColor ?? colors.negative),
           ),
           focusedErrorBorder: SquircleInputBorder(
             squircleRadius: widget.radius,
-            borderSide: BorderSide(color: widget.errorColor ?? colors.alert),
+            borderSide: BorderSide(color: widget.errorColor ?? colors.negative),
           ),
         ),
         enabled: widget.enabled,
@@ -682,8 +682,7 @@ class _CommonInputState extends State<CommonInput> {
                       ? DimensSize.d12
                       : DimensRadius.medium,
                 ),
-                color:
-                    widget.suggestionBackground ?? colors.backgroundSecondary,
+                color: widget.suggestionBackground ?? colors.background1,
                 child: ListView.separated(
                   physics: const ClampingScrollPhysics(),
                   padding: EdgeInsets.zero,
@@ -797,13 +796,17 @@ class _CommonInputState extends State<CommonInput> {
               squircleRadius: widget.v2Style != null
                   ? DimensRadius.xMedium
                   : DimensRadius.medium,
-              borderSide: BorderSide(color: widget.errorColor ?? colors.alert),
+              borderSide: BorderSide(
+                color: widget.errorColor ?? colors.negative,
+              ),
             ),
             focusedErrorBorder: SquircleInputBorder(
               squircleRadius: widget.v2Style != null
                   ? DimensRadius.xMedium
                   : DimensRadius.medium,
-              borderSide: BorderSide(color: widget.errorColor ?? colors.alert),
+              borderSide: BorderSide(
+                color: widget.errorColor ?? colors.negative,
+              ),
             ),
           ),
         ),

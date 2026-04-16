@@ -10,7 +10,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// Helper function to show [AccountRenameSheet].
 ModalRoute<void> getRenameAccountSheet(BuildContext context, Address address) {
   return commonBottomSheetRoute(
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     title: LocaleKeys.enterNewName.tr(),
     viewInsetsBottomAddon: -DimensSize.d20,
     body: (_, __) => AccountRenameSheet(address: address),

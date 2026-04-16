@@ -64,13 +64,13 @@ class WalletDeployConfirmWidgetModel
   String get ticker => model.currentTransport.nativeTokenTicker;
   int get decimal => model.currentTransport.defaultNativeCurrencyDecimal;
   String? get tonIconPath => model.currentTransport.nativeTokenIcon;
-  ColorsPaletteV2 get colors => _theme.colors;
-  TextStylesV2 get textStyles => _theme.textStyles;
+  ColorsPalette get colors => _theme.colors;
+  TextStyles get textStyles => _theme.textStyles;
 
   Address get _address => wmParams.value.address;
   Address get address => _address;
   int? get _hours => wmParams.value.hours;
-  ThemeStyleV2 get _theme => context.themeStyleV2;
+  ThemeStyle get _theme => context.themeStyle;
 
   bool get _canConfirmDeploy {
     return !_isLoadingState.value &&

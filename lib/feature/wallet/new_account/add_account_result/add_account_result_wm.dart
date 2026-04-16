@@ -24,7 +24,7 @@ class AddAccountResultWidgetModel
         > {
   AddAccountResultWidgetModel(super.model);
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   Future<void> onSwitch() async {
     final address = repackAddress(wmParams.value.address);

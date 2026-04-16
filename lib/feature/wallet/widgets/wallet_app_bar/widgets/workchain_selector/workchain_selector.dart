@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _workchainSelectorHorizontalPadding = 22.0;
+
 class WorkchainSelector
     extends InjectedElementaryWidget<WorkchainSelectorWidgetModel> {
   const WorkchainSelector({super.key});
@@ -36,7 +38,7 @@ class WorkchainSelector
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: DimensSize.d8,
-                    horizontal: DimensSize.d22,
+                    horizontal: _workchainSelectorHorizontalPadding,
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
