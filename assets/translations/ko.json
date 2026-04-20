@@ -797,5 +797,9 @@
   "invalidPayloadError": "Payload is invalid",
   "invalidStateInitError": "StateInit is invalid",
   "unsupportedWalletTypeError": "Unsupported wallet type",
-  "internetConnectionError": "Internet connection error"
+  "internetConnectionError": "Internet connection error",
+  "multisigSubmitUpdateTransaction": "Multisig submit update transaction",
+  "multisigConfirmUpdateTransaction": "Multisig confirm update transaction",
+  "multisigExecuteUpdateTransaction": "Multisig execute update transaction",
+  "updateId": "Update ID"
 }

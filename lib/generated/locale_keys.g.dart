@@ -832,4 +832,11 @@ abstract class LocaleKeys {
   static const invalidStateInitError = 'invalidStateInitError';
   static const unsupportedWalletTypeError = 'unsupportedWalletTypeError';
   static const internetConnectionError = 'internetConnectionError';
+  static const multisigSubmitUpdateTransaction =
+      'multisigSubmitUpdateTransaction';
+  static const multisigConfirmUpdateTransaction =
+      'multisigConfirmUpdateTransaction';
+  static const multisigExecuteUpdateTransaction =
+      'multisigExecuteUpdateTransaction';
+  static const updateId = 'updateId';
 }

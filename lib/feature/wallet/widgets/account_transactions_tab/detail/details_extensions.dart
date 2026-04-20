@@ -257,6 +257,69 @@ extension WalletInteractionMethodX on WalletInteractionMethod {
           ),
         ],
       ),
+      MultisigTransactionSubmitUpdate(:final data) => (
+        LocaleKeys.multisigSubmitUpdateTransaction.tr(),
+        [
+          TonWalletTransactionDetailsItem(
+            title: LocaleKeys.custodianWord.tr(),
+            content: data.custodian.publicKey,
+            copyValue: data.custodian.publicKey,
+            copyMessage: LocaleKeys.valueCopiedExclamation.tr(
+              args: [data.custodian.toEllipseString()],
+            ),
+          ),
+          TonWalletTransactionDetailsItem(
+            title: LocaleKeys.updateId.tr(),
+            content: data.updateId,
+            copyValue: data.updateId,
+            copyMessage: LocaleKeys.valueCopiedExclamation.tr(
+              args: [data.updateId],
+            ),
+          ),
+        ],
+      ),
+      MultisigTransactionConfirmUpdate(:final data) => (
+        LocaleKeys.multisigConfirmUpdateTransaction.tr(),
+        [
+          TonWalletTransactionDetailsItem(
+            title: LocaleKeys.custodianWord.tr(),
+            content: data.custodian.publicKey,
+            copyValue: data.custodian.publicKey,
+            copyMessage: LocaleKeys.valueCopiedExclamation.tr(
+              args: [data.custodian.toEllipseString()],
+            ),
+          ),
+          TonWalletTransactionDetailsItem(
+            title: LocaleKeys.updateId.tr(),
+            content: data.updateId,
+            copyValue: data.updateId,
+            copyMessage: LocaleKeys.valueCopiedExclamation.tr(
+              args: [data.updateId],
+            ),
+          ),
+        ],
+      ),
+      MultisigTransactionExecuteUpdate(:final data) => (
+        LocaleKeys.multisigExecuteUpdateTransaction.tr(),
+        [
+          TonWalletTransactionDetailsItem(
+            title: LocaleKeys.custodianWord.tr(),
+            content: data.custodian.publicKey,
+            copyValue: data.custodian.publicKey,
+            copyMessage: LocaleKeys.valueCopiedExclamation.tr(
+              args: [data.custodian.toEllipseString()],
+            ),
+          ),
+          TonWalletTransactionDetailsItem(
+            title: LocaleKeys.updateId.tr(),
+            content: data.updateId,
+            copyValue: data.updateId,
+            copyMessage: LocaleKeys.valueCopiedExclamation.tr(
+              args: [data.updateId],
+            ),
+          ),
+        ],
+      ),
     },
   };
 }
