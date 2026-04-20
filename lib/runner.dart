@@ -34,8 +34,8 @@ Future<void> run(AppBuildType appBuildType) async {
     () async {
       SentryWidgetsFlutterBinding.ensureInitialized();
 
+      RiveNative.init().ignore();
       await NekotonBridge.init();
-      await RiveNative.init();
 
       await configureDi(appBuildType: appBuildType);
 
