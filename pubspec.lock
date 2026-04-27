@@ -2130,10 +2130,10 @@ packages:
     dependency: "direct main"
     description:
       name: sensitive_clipboard
-      sha256: "3bb2e5e3efdd01a574d139586bae906fe494fa10de75f2d47228bd6a96a1bff8"
+      sha256: "56c74c592f65863e4ff8256abdde7d01008ec9fcd4bb55f3614af70448303675"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   sentry:
     dependency: transitive
     description:
