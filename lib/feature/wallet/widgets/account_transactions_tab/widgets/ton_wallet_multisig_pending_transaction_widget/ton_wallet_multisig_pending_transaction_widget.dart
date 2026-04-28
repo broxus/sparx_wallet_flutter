@@ -3,6 +3,7 @@ import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_status_body.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_widget.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:money2/money2.dart';
@@ -61,14 +62,7 @@ class TonWalletMultisigPendingTransactionWidget
                 color: wm.theme.colors.warning,
               ),
             ),
-            Text(
-              LocaleKeys.expiresInCustodians.tr(
-                args: [wm.expireAtFormat.format(wm.transaction.expireAt)],
-              ),
-              style: wm.theme.textStyles.labelXSmall.copyWith(
-                color: wm.theme.colors.content3,
-              ),
-            ),
+            TransactionExpirationCountdown(expireAt: wm.transaction.expireAt),
           ],
         ),
       ),
