@@ -16,7 +16,7 @@ Future<void> showWalletTypeSelectionSheet({
   await showCommonBottomSheet<void>(
     context: context,
     title: LocaleKeys.selectWalletType.tr(),
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     centerTitle: true,
     body: (context, __) =>
         WalletTypeSelectionSheet(address: address, publicKey: publicKey),
@@ -35,7 +35,7 @@ class WalletTypeSelectionSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -92,7 +92,7 @@ class _WalletTypeOption extends StatelessWidget {
   final String description;
   final IconData icon;
   final VoidCallback onTap;
-  final ThemeStyleV2 theme;
+  final ThemeStyle theme;
 
   @override
   Widget build(BuildContext context) {

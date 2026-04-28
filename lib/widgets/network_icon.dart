@@ -40,7 +40,7 @@ class _NetworkIconState extends State<NetworkIcon> {
             errorWidget: Container(
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: ColorsResV2.electricIndigo,
+                color: ColorsRes.electricIndigo,
               ),
               width: widget.itemSize ?? DimensSize.d40,
               height: widget.itemSize ?? DimensSize.d40,

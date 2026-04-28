@@ -31,7 +31,7 @@ class CheckSeedAvailableAnswersWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Opacity(
-      opacity: isEnabledWidget ? OpacV2.opac100 : OpacV2.opac50,
+      opacity: isEnabledWidget ? Opac.opac100 : Opac.opac50,
       child: IgnorePointer(
         ignoring: !isEnabledWidget,
         child: SeparatedColumn(

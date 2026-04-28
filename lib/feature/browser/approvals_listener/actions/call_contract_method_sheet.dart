@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _metadataCardCollapsedHeight = 256.0;
+
 /// Helper function that shows sheet to call contract method.
 /// Is used by `executeLocal`, `sendExternalMessage`,
 /// and `sendExternalMessageDelayed` inpage-provider methods.
@@ -57,7 +59,7 @@ class _CallContractMethod extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return SeparatedColumn(
       spacing: DimensSize.d12,
@@ -72,7 +74,7 @@ class _CallContractMethod extends StatelessWidget {
                 AccountInfoWidget(account: account),
                 WebsiteInfoWidget(uri: origin),
                 ExpandableCard(
-                  collapsedHeight: DimensSize.d256,
+                  collapsedHeight: _metadataCardCollapsedHeight,
                   child: SeparatedColumn(
                     spacing: DimensSize.d16,
                     crossAxisAlignment: CrossAxisAlignment.stretch,

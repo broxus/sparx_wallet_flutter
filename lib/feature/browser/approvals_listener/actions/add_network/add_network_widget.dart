@@ -134,7 +134,7 @@ class _Param extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     if (isColumn) {
       return SeparatedColumn(

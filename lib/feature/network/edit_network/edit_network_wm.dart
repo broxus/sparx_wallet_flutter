@@ -106,7 +106,7 @@ class EditNetworkWidgetModel
 
   ListenableState<String> get manifestErrorState => _manifestErrorState;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   String? get _connectionDataId => wmParams.value;
 

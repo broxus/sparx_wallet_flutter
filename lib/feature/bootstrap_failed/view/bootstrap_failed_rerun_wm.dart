@@ -15,7 +15,7 @@ class BootstrapFailedRerunWidgetModel
 
   ListenableState<bool> get loadingState => _loadingState;
 
-  late final theme = context.themeStyleV2;
+  late final theme = context.themeStyle;
 
   Future<void> onPressedTryAgain() async {
     _loadingState.accept(true);

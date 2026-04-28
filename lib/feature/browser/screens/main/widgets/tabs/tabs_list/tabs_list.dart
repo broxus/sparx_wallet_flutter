@@ -105,7 +105,7 @@ class _Separator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Divider(
       height: DimensSize.d1,
-      color: context.themeStyleV2.colors.primaryA.withAlpha(25),
+      color: context.themeStyle.colors.primaryA.withAlpha(25),
     );
   }
 }
@@ -115,7 +115,7 @@ class _Empty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: DimensSize.d24),
       child: Column(

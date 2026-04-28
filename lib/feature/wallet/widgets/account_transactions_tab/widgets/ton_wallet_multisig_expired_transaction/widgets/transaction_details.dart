@@ -34,7 +34,7 @@ class TonWalletMultisigExpiredTransactionDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final bottomPadding = MediaQuery.of(context).padding.bottom;
 
     return Scaffold(

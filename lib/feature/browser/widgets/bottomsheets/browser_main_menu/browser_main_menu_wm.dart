@@ -34,9 +34,9 @@ class BrowserMainMenuWidgetModel
   DoubleValueCallback<String, String> get _onPressedCreateTab =>
       wmParams.value.onPressedCreateTab;
 
-  ColorsPaletteV2 get colors => _theme.colors;
+  ColorsPalette get colors => _theme.colors;
 
-  ThemeStyleV2 get _theme => context.themeStyleV2;
+  ThemeStyle get _theme => context.themeStyle;
 
   Future<void> onPressedItem(BrowserMainMenuData value) async {
     switch (value) {

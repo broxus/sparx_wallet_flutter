@@ -48,7 +48,7 @@ class AccountAssetsTabWidgetModel
   Address get address => tonWallet.address;
   bool get isShowingNewTokens => wmParams.value.isShowingNewTokens;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   Stream<int> _searchTokenWallets(bool isShowingNewTokens) {
     if (!isShowingNewTokens) return Stream.value(0);

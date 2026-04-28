@@ -28,7 +28,7 @@ class _DappDisconnectConfirmationSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return SingleChildScrollView(
       controller: scrollController,

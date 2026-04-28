@@ -48,7 +48,7 @@ class CreateSeedPasswordScreenWidgetModel
     PasswordStatus.initial,
   );
 
-  ThemeStyleV2 get themeStyle => context.themeStyleV2;
+  ThemeStyle get themeStyle => context.themeStyle;
 
   ListenableState<bool> get loadState => _loadState;
 

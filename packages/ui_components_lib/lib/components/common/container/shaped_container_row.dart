@@ -27,7 +27,7 @@ class ShapedContainerRow extends StatelessWidget {
   final List<Widget> children;
 
   /// Color of the background of container, default is
-  /// [ColorsPalette.backgroundSecondary].
+  /// [ColorsPalette.background1].
   final Color? color;
 
   /// Radius of squircle shape, default is [DimensRadius.radius12].
@@ -73,7 +73,7 @@ class ShapedContainerRow extends StatelessWidget {
             Text(
               titleText!,
               style: StyleRes.h2.copyWith(
-                color: context.themeStyle.colors.textPrimary,
+                color: context.themeStyle.colors.primaryB,
               ),
             ),
           SeparatedRow(

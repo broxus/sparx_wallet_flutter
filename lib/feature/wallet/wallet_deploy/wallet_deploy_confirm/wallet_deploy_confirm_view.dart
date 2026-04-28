@@ -46,7 +46,7 @@ class WalletDeployConfirmView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return SeparatedColumn(
       spacing: DimensSize.d16,
@@ -192,7 +192,7 @@ class WalletDeployConfirmView extends StatelessWidget {
   }) {
     return Builder(
       builder: (context) {
-        final theme = context.themeStyleV2;
+        final theme = context.themeStyle;
 
         return SeparatedColumn(
           mainAxisSize: MainAxisSize.min,

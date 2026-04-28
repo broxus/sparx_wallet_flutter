@@ -15,7 +15,7 @@ class BrowserTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeStyle = context.themeStyleV2;
+    final themeStyle = context.themeStyle;
 
     return GestureDetector(
       onTap: onPressed,

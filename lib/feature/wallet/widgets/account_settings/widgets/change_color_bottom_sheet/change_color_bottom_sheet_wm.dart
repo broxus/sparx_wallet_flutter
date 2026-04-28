@@ -29,9 +29,9 @@ class ChangeColorBottomSheetWidgetModel
   ListenableState<IdentifyIconData?> get selectedColorState =>
       _selectedColorState;
 
-  TextStylesV2 get textStyle => _theme.textStyles;
+  TextStyles get textStyle => _theme.textStyles;
 
-  ThemeStyleV2 get _theme => context.themeStyleV2;
+  ThemeStyle get _theme => context.themeStyle;
 
   IdentifyIconData? get _selectedColor => _selectedColorState.value;
 

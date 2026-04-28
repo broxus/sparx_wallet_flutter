@@ -19,7 +19,7 @@ class DeleteSeedSheetWidgetModel
         > {
   DeleteSeedSheetWidgetModel(super.model);
 
-  ColorsPaletteV2 get colors => context.themeStyleV2.colors;
+  ColorsPalette get colors => context.themeStyle.colors;
 
   Seed? get seed => model.getSeedByKey(wmParams.value.publicKey);
 

@@ -111,7 +111,7 @@ class CommonCard extends StatelessWidget {
       contentColor: colors.textSecondary,
       child: Material(
         shape: const SquircleShapeBorder(cornerRadius: DimensRadius.medium),
-        color: backgroundColor ?? colors.backgroundSecondary,
+        color: backgroundColor ?? colors.background1,
         child: Container(
           alignment: alignment,
           width: width,

@@ -31,7 +31,7 @@ class _CompassErrorRedirectState extends State<CompassErrorRedirect> {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: BoxDecoration(color: context.themeStyleV2.colors.background0),
+      decoration: BoxDecoration(color: context.themeStyle.colors.background0),
     );
   }
 }

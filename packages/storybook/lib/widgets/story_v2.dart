@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:storybook_flutter/storybook_flutter.dart';
-import 'package:ui_components_lib/v2/predefined_theme_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 import 'package:ui_components_storybook/stories/v2/buttons.dart';
 import 'package:ui_components_storybook/stories/v2/chips.dart';

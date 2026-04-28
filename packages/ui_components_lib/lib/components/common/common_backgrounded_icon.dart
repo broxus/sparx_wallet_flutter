@@ -60,7 +60,7 @@ class CommonBackgroundedIconWidget extends StatelessWidget {
   final double? iconSize;
 
   /// Color of background that icon renders in, if not specified then
-  /// [ColorsPalette.lightBlue] is used.
+  /// Color(0xFF344347) is used.
   final Color? backgroundColor;
 
   /// Color of image, if not specified then color of EverButtonStyleProvider
@@ -80,26 +80,25 @@ class CommonBackgroundedIconWidget extends StatelessWidget {
   /// Radius of squircle border, default [DimensRadius.xMedium]
   final double squircleRadius;
 
-  /// If true, then [ColorsPalette.blue] is used as [iconColor] if it
+  /// If true, then Color(0xFF52B6D3) is used as [iconColor] if it
   /// is not provided.
   final bool useDefaultColor;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.themeStyle.colors;
-
     return SizedBox(
       width: size,
       height: size,
       child: Material(
-        color: backgroundColor ?? colors.lightBlue,
+        color: backgroundColor ?? const Color(0xFF344347),
         shape: SquircleShapeBorder(cornerRadius: squircleRadius),
         child: Center(
           child: CommonIconWidget(
             icon: icon,
             svg: svg,
             size: iconSize,
-            color: iconColor ?? (useDefaultColor ? colors.blue : null),
+            color:
+                iconColor ?? (useDefaultColor ? const Color(0xFF52B6D3) : null),
           ),
         ),
       ),

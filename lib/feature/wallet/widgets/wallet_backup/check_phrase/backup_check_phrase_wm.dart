@@ -36,11 +36,11 @@ class BackupCheckPhraseWidgetModel
         > {
   BackupCheckPhraseWidgetModel(super.model);
 
-  ColorsPaletteV2 get colors => _theme.colors;
+  ColorsPalette get colors => _theme.colors;
 
-  TextStylesV2 get textStyle => _theme.textStyles;
+  TextStyles get textStyle => _theme.textStyles;
 
-  ThemeStyleV2 get _theme => context.themeStyleV2;
+  ThemeStyle get _theme => context.themeStyle;
 
   late final screenState = createEntityNotifier<BackupCheckPhraseData>()
     ..loading(

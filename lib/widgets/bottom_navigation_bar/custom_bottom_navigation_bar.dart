@@ -58,7 +58,7 @@ class CustomBottomNavigationBar
                             border: Border(
                               top: BorderSide(
                                 color: switch (tab) {
-                                  RootTab.browser => ColorsResV2.midnightBlue,
+                                  RootTab.browser => ColorsRes.midnightBlue,
                                   _ => wm.colors.background1,
                                 },
                               ),

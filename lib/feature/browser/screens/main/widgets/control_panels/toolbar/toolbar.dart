@@ -80,7 +80,7 @@ class _IconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.themeStyleV2.colors;
+    final colors = context.themeStyle.colors;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: isActive ? onPressed : null,

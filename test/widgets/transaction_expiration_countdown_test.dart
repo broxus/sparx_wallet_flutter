@@ -2,8 +2,10 @@ import 'package:app/widgets/widgets.dart';
 import 'package:clock/clock.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -146,12 +148,17 @@ Future<void> _pumpLocalizedApp(WidgetTester tester, Widget body) async {
       supportedLocales: const [locale],
       path: 'assets/translations',
       fallbackLocale: locale,
-      child: Builder(
-        builder: (easyContext) => MaterialApp(
-          locale: locale,
-          localizationsDelegates: easyContext.localizationDelegates,
-          supportedLocales: easyContext.supportedLocales,
-          home: Scaffold(body: body),
+      child: ScreenUtilInit(
+        designSize: const Size(375, 812),
+        minTextAdapt: true,
+        builder: (_, __) => Builder(
+          builder: (easyContext) => MaterialApp(
+            locale: locale,
+            localizationsDelegates: easyContext.localizationDelegates,
+            supportedLocales: easyContext.supportedLocales,
+            theme: ThemeData(extensions: [getDefaultTheme()]),
+            home: Scaffold(body: body),
+          ),
         ),
       ),
     ),

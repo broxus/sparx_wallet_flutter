@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/dimens.dart';
-import 'package:ui_components_lib/v2/theme_style_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class SeedWords extends StatelessWidget {
   const SeedWords({required this.words, this.backgroundColor, super.key});
@@ -11,7 +10,7 @@ class SeedWords extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lengthHalf = words.length ~/ 2;
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return Container(
       decoration: BoxDecoration(
@@ -66,7 +65,7 @@ class SeedWords extends StatelessWidget {
 class _Word extends StatelessWidget {
   const _Word({required this.theme, required this.word, required this.index});
 
-  final ThemeStyleV2 theme;
+  final ThemeStyle theme;
   final String word;
   final int index;
 

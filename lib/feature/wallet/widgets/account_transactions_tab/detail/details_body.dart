@@ -78,7 +78,7 @@ class _WalletTransactionDetailsDefaultBodyState
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     return ShapedContainerColumn(
       color: theme.colors.background1,
       mainAxisSize: MainAxisSize.min,
@@ -182,7 +182,7 @@ class _WalletTransactionDetailsDefaultBodyState
     );
   }
 
-  Widget _statusDateRow(BuildContext context, ThemeStyleV2 theme) {
+  Widget _statusDateRow(BuildContext context, ThemeStyle theme) {
     final formatter = widget.date.year == _ntpService.now().year
         ? DateFormat('MM.dd, HH:mm:ss', context.locale.languageCode)
         : DateFormat('MM.dd.y, HH:mm:ss', context.locale.languageCode);

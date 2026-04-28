@@ -20,5 +20,5 @@ class AccountInfoWidgetModel
   late final ValueListenable<KeyAccount?> accountAddressState =
       createWmParamsNotifier((address) => model.getAccount(address));
 
-  Color get color => context.themeStyleV2.colors.background2;
+  Color get color => context.themeStyle.colors.background2;
 }

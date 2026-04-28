@@ -10,7 +10,7 @@ void showNftCollectionSettionsSheet({
 }) {
   showCommonBottomSheet<void>(
     context: context,
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     body: (_, __) => _NftCollectionSettingsSheet(
       onViewInExplorer: onViewInExplorer,
       onHideCollection: onHideCollection,
@@ -29,7 +29,7 @@ class _NftCollectionSettingsSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return ShapedContainerColumn(
       color: theme.colors.background2,

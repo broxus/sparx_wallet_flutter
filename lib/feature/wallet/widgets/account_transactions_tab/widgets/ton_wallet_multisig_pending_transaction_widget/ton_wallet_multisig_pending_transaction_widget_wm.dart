@@ -19,7 +19,7 @@ class TonWalletMultisigPendingTransactionWidgetWidgetModel
         > {
   TonWalletMultisigPendingTransactionWidgetWidgetModel(super.model);
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   bool get isFirst => wmParams.value.isFirst;
 

@@ -10,13 +10,13 @@ class UnsupportedWalletTypeAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return Container(
       height: DimensSize.d124,
       padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
       decoration: BoxDecoration(
-        color: ColorsResV2.e15,
+        color: ColorsRes.e15,
         borderRadius: BorderRadius.circular(DimensRadius.radius16),
       ),
       child: Row(
@@ -34,7 +34,7 @@ class UnsupportedWalletTypeAlert extends StatelessWidget {
                 Text(
                   LocaleKeys.unsupportedWalletTypeAlertDescription.tr(),
                   style: theme.textStyles.paragraphXSmall.copyWith(
-                    color: ColorsResV2.n80.withAlpha(128),
+                    color: ColorsRes.n80.withAlpha(128),
                   ),
                 ),
                 const SizedBox(height: DimensSize.d8),

@@ -15,19 +15,29 @@ The theme system is centralized in the `packages/ui_components_lib/` directory a
 
 ### Directory Structure
 
+The active theme system is now organized from the package root rather than a dedicated `v2/` directory:
+
 ```
 packages/ui_components_lib/lib/
-├── v2/                           # Current theme system (v2)
-│   ├── colors_v2.dart           # Color palette definitions
-│   ├── dimens_v2.dart           # Size and spacing design tokens
-│   ├── opac_v2.dart             # Opacity constants
-│   ├── predefined_theme_v2.dart # Theme configurations
-│   ├── text_styles_v2.dart      # Typography system
-│   ├── theme_style_v2.dart      # Theme extension
-│   ├── widgets/                  # V2 UI components
-│   └── ui_components_lib_v2.dart # Export file
-├── legacy files...               # V1 theme system (deprecated)
-└── utils/                        # Shared utilities
+├── colors.dart                  # Color palette definitions
+├── constants.dart               # Shared UI and theme constants
+├── dimens.dart                  # Size and spacing design tokens
+├── opac.dart                    # Opacity constants
+├── predefined_theme.dart        # Theme configurations
+├── styles.dart                  # Shared style helpers
+├── text_styles.dart             # Typography system
+├── theme_style.dart             # Theme extension
+├── ui_components_lib.dart       # Main export file
+├── components/                  # High-level UI components
+│   ├── button/
+│   ├── common/
+│   ├── displayable/
+│   └── input/
+├── widgets/                     # Reusable themed widgets
+├── extensions/                  # Package extensions
+├── fonts/                       # Font configuration and assets
+├── res/                         # Packaged resources
+└── utils/                       # Shared utilities
 ```
 
 ### Theme Extension System
@@ -35,14 +45,14 @@ packages/ui_components_lib/lib/
 The project uses Flutter's `ThemeExtension` pattern for custom theming:
 
 ```dart
-class ThemeStyleV2 extends ThemeExtension<ThemeStyleV2> {
-  ThemeStyleV2({
+class ThemeStyle extends ThemeExtension<ThemeStyle> {
+  ThemeStyle({
     required this.colors,
     required this.textStyles,
   });
 
-  final ColorsPaletteV2 colors;
-  final TextStylesV2 textStyles;
+  final ColorsPalette colors;
+  final TextStyles textStyles;
 }
 ```
 
@@ -50,7 +60,7 @@ class ThemeStyleV2 extends ThemeExtension<ThemeStyleV2> {
 
 ### Semantic Color Organization
 
-The color system is organized into semantic groups for consistent usage through the `ColorsPaletteV2` class:
+The color system is organized into semantic groups for consistent usage through the `ColorsPalette` class:
 
 **Core Brand Colors:**
 
@@ -76,7 +86,7 @@ The color system is organized into semantic groups for consistent usage through 
 
 ### Raw Color Resources
 
-Colors are systematically defined in `ColorsResV2` using a structured naming convention:
+Colors are systematically defined in `ColorsRes` using a structured naming convention:
 
 **Color Categories:**
 
@@ -92,7 +102,7 @@ The numbering system (10-100) represents intensity levels, with higher numbers t
 
 ### Text Style Hierarchy
 
-The typography system provides semantic text styles through `TextStylesV2` with consistent hierarchy:
+The typography system provides semantic text styles through `TextStyles` with consistent hierarchy:
 
 **Display Styles** (largest, for hero content):
 
@@ -153,7 +163,7 @@ All text styles use the **Inter** font family with:
 
 ### Opacity Constants
 
-`OpacV2` defines transparency levels:
+`Opac` defines transparency levels:
 
 - **Available opacities**: `opac10` (0.1), `opac16` (0.16), `opac50` (0.5), `opac80` (0.8), `opac100` (1.0)
 - **Usage**: Overlays, disabled states, alpha backgrounds
@@ -179,7 +189,7 @@ The main app configures themes in `/lib/app/view/app.dart` using:
 ```dart
 @override
 Widget build(BuildContext context) {
-  final theme = context.themeStyleV2;      // Get theme extension
+  final theme = context.themeStyle;      // Get theme extension
   final colors = theme.colors;             // Access color palette
   final textStyles = theme.textStyles;     // Access typography
 
@@ -228,7 +238,7 @@ Pre-built container components:
 
 Apply transparency using opacity utilities:
 
-- Use `colors.content0.withAlpha(OpacV2.opac50.toByteInt())` for custom transparency
+- Use `colors.content0.withAlpha(Opac.opac50.toByteInt())` for custom transparency
 - Use pre-defined alpha colors like `backgroundAlpha`, `backgroundButtonAlpha`
 - Combine with design tokens for consistent transparency levels
 

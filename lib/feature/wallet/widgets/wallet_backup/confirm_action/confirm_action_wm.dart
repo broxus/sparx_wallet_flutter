@@ -46,7 +46,7 @@ class ConfirmActionWidgetModel
 
   late final passwordController = createTextEditingController();
 
-  ThemeStyleV2 get themeStyle => context.themeStyleV2;
+  ThemeStyle get themeStyle => context.themeStyle;
 
   ListenableState<List<BiometricType>> get availableBiometryState =>
       _availableBiometryState;

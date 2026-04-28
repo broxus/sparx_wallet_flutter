@@ -17,7 +17,7 @@ class ConfigureNetworksWidgetModel
 
   ListenableState<List<Connection>> get connectionsState => _connectionsState;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   void onItemTap(Connection connection) {
     context.compassContinue(
