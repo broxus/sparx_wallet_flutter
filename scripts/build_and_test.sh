@@ -12,6 +12,6 @@ if ! melos run check-format --no-select; then
   exit 1
 fi
 
-melos run codegen --no-select
+# melos run codegen --no-select // disabled due to CI time consumption, should be run locally before pushing changes
 melos run analyze --no-select
 melos run test --no-select
