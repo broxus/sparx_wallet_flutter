@@ -720,6 +720,9 @@ abstract class LocaleKeys {
   static const toWord = 'toWord';
   static const confirmedCustodians = 'confirmedCustodians';
   static const expiresInCustodians = 'expiresInCustodians';
+  static const timeUnitHourShort = 'timeUnitHourShort';
+  static const timeUnitMinuteShort = 'timeUnitMinuteShort';
+  static const lessThanOneMinute = 'lessThanOneMinute';
   static const deploymentInProgress = 'deploymentInProgress';
   static const expirationTimeDetails = 'expirationTimeDetails';
   static const today = 'today';
