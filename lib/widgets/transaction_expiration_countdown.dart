@@ -64,11 +64,10 @@ class _TransactionExpirationCountdownState
   }
 
   void _scheduleNextUpdate() {
-    if (_remainingSeconds <= 0) {
-      return;
-    }
-
     _cancelTimer();
+
+    if (_remainingSeconds <= 0) return;
+
     _timer = Timer(Duration(seconds: _nextUpdateDelay), () {
       if (!mounted) {
         return;
