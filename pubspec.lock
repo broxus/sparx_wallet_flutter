@@ -246,10 +246,10 @@ packages:
     dependency: "direct dev"
     description:
       name: build_runner
-      sha256: "521daf8d189deb79ba474e43a696b41c49fb3987818dbacf3308f1e03673a75e"
+      sha256: "22fdcc3cfeb9d974d7408718c4be15ec5e9b1b350088f3a6c88f154e74dd700d"
       url: "https://pub.dev"
     source: hosted
-    version: "2.13.1"
+    version: "2.14.1"
   built_collection:
     dependency: transitive
     description:
@@ -816,18 +816,18 @@ packages:
     dependency: transitive
     description:
       name: flutter_gen_core
-      sha256: "22b3198a4cb1255841a3662b41adad35d36d9037fcd9d129858240030417e0b1"
+      sha256: "454ec926fd0758667615942032e1e5308d240e309627bdf3f2bf55b17d54b23e"
       url: "https://pub.dev"
     source: hosted
-    version: "5.13.0+1"
+    version: "5.14.0"
   flutter_gen_runner:
     dependency: "direct dev"
     description:
       name: flutter_gen_runner
-      sha256: "83fd55f5472a955725c5912819847e9770c4f295cd0ae4bdd26d99853f8a6546"
+      sha256: "2c926ab58103ea483963df9a000031e11958c7f4d1065ab021adc6829d9f6ddc"
       url: "https://pub.dev"
     source: hosted
-    version: "5.13.0+1"
+    version: "5.14.0"
   flutter_inappwebview:
     dependency: "direct main"
     description:
@@ -965,10 +965,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_nekoton_bridge
-      sha256: "131d62b410adf03ad4b51c0115289c7e79d6c498056ed1f654c6617ce1f53928"
+      sha256: "1658efe9298a14614519a767c9b8bcd56974c2ecf7987f0ee329da9db7d50cea"
       url: "https://pub.dev"
     source: hosted
-    version: "5.5.3"
+    version: "5.5.4-dev.1"
   flutter_plugin_android_lifecycle:
     dependency: "direct overridden"
     description:
@@ -1160,6 +1160,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "17.2.1"
+  google_cloud:
+    dependency: transitive
+    description:
+      name: google_cloud
+      sha256: fbcde933b2d8600c3cdb2328f8f4c47628ec29a39e9cef85dee535c7868993c4
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.1"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -1172,10 +1180,10 @@ packages:
     dependency: "direct dev"
     description:
       name: googleapis_auth
-      sha256: b81fe352cc4a330b3710d2b7ad258d9bcef6f909bb759b306bf42973a7d046db
+      sha256: "661738b763d3e524de69df53bf4e03943e4e01e98265cebcc6684871b06a5379"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "2.3.0"
   graphs:
     dependency: transitive
     description:
@@ -1513,10 +1521,10 @@ packages:
     dependency: transitive
     description:
       name: local_auth_android
-      sha256: b41970749c2d43791790724b76917eeee1e90de76e6b0eec3edca03a329bf44c
+      sha256: b201c006fa769c23386f89aa6837ec0eb8179fcfb212eadcf87b422b3f9a6a78
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.7"
+    version: "2.0.8"
   local_auth_darwin:
     dependency: transitive
     description:
@@ -1673,10 +1681,10 @@ packages:
     dependency: "direct main"
     description:
       name: nekoton_repository
-      sha256: b34659f070cd86b2971a4010d674093e767d4fd2b3f453e82b338938c80faa64
+      sha256: "915c777cd8af52f721360273c741d2c3cd2a14747b5333bb131dfa80035b6486"
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.0"
+    version: "4.2.1-dev.2"
   nekoton_webview:
     dependency: "direct main"
     description:
@@ -2122,26 +2130,26 @@ packages:
     dependency: "direct main"
     description:
       name: sensitive_clipboard
-      sha256: "3bb2e5e3efdd01a574d139586bae906fe494fa10de75f2d47228bd6a96a1bff8"
+      sha256: "56c74c592f65863e4ff8256abdde7d01008ec9fcd4bb55f3614af70448303675"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   sentry:
     dependency: transitive
     description:
       name: sentry
-      sha256: "9f9a35c2e74ed79e16373268e0c79bc00988412d4b30b63eb369d2fa32e6814e"
+      sha256: "1f78300740739ff4b4920802687879231554350eab73eb229778f463aabda440"
       url: "https://pub.dev"
     source: hosted
-    version: "9.17.0"
+    version: "9.19.0"
   sentry_flutter:
     dependency: "direct main"
     description:
       name: sentry_flutter
-      sha256: "2de3cc0652934dd9d833aef578e8723ccba73dd229016b60533701e5890395d6"
+      sha256: "168bbb120f7684dee6c0e100817f56ee1925bc2eb7fa55a71253337640c7e241"
       url: "https://pub.dev"
     source: hosted
-    version: "9.17.0"
+    version: "9.19.0"
   share_plus:
     dependency: "direct main"
     description:
@@ -2656,10 +2664,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "45caa6c5917fa127b5dbcfbd1fa60b14e583afdc08bfc96dda38886ca252eb60"
+      sha256: "046d3928e16fa4dc46e8350415661755ab759d9fc97fc21b5ab295f71e4f0499"
       url: "https://pub.dev"
     source: hosted
-    version: "15.0.2"
+    version: "15.1.0"
   watcher:
     dependency: transitive
     description:

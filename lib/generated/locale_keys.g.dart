@@ -720,6 +720,9 @@ abstract class LocaleKeys {
   static const toWord = 'toWord';
   static const confirmedCustodians = 'confirmedCustodians';
   static const expiresInCustodians = 'expiresInCustodians';
+  static const timeUnitHourShort = 'timeUnitHourShort';
+  static const timeUnitMinuteShort = 'timeUnitMinuteShort';
+  static const lessThanOneMinute = 'lessThanOneMinute';
   static const deploymentInProgress = 'deploymentInProgress';
   static const expirationTimeDetails = 'expirationTimeDetails';
   static const today = 'today';
@@ -832,4 +835,11 @@ abstract class LocaleKeys {
   static const invalidStateInitError = 'invalidStateInitError';
   static const unsupportedWalletTypeError = 'unsupportedWalletTypeError';
   static const internetConnectionError = 'internetConnectionError';
+  static const multisigSubmitUpdateTransaction =
+      'multisigSubmitUpdateTransaction';
+  static const multisigConfirmUpdateTransaction =
+      'multisigConfirmUpdateTransaction';
+  static const multisigExecuteUpdateTransaction =
+      'multisigExecuteUpdateTransaction';
+  static const updateId = 'updateId';
 }

@@ -193,6 +193,7 @@ class _WalletTransactionDetailsDefaultBodyState
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: DimensSize.d4,
             children: [
               Row(
                 children: [
@@ -206,7 +207,6 @@ class _WalletTransactionDetailsDefaultBodyState
                   widget.status.chipByStatus,
                 ],
               ),
-              const SizedBox(height: DimensSize.d4),
               Text(
                 formatter.format(widget.date),
                 style: theme.textStyles.labelXSmall.copyWith(
@@ -215,12 +215,10 @@ class _WalletTransactionDetailsDefaultBodyState
                 textAlign: TextAlign.right,
               ),
               if (widget.expiresAt != null)
-                const SizedBox(height: DimensSize.d4),
-              if (widget.expiresAt != null)
                 Text(
                   DateTimeUtils.formatExpirationDate(widget.expiresAt!),
                   style: theme.textStyles.labelXSmall.copyWith(
-                    color: theme.colors.content1,
+                    color: theme.colors.contentWarning,
                   ),
                 ),
             ],
