@@ -200,7 +200,7 @@ melos:
 
     analyze:
       description: Analyze all packages
-      run: melos run analyze_subpackages --no-select
+      exec: find lib test integration_test -maxdepth 0 -type d 2>/dev/null | xargs flutter analyze --no-pub
       failFast: true
 
     analyze_subpackages:
