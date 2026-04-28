@@ -125,8 +125,8 @@ class _TransactionExpirationCountdownState
       maxLines: 1,
       style:
           widget.style ??
-          context.themeStyleV2.textStyles.labelXSmall.copyWith(
-            color: context.themeStyleV2.colors.content3,
+          context.themeStyle.textStyles.labelXSmall.copyWith(
+            color: context.themeStyle.colors.content3,
           ),
     );
   }
