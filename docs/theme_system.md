@@ -52,7 +52,7 @@ class ThemeStyle extends ThemeExtension<ThemeStyle> {
   });
 
   final ColorsPalette colors;
-  final TextStylesV2 textStyles;
+  final TextStyles textStyles;
 }
 ```
 
@@ -102,7 +102,7 @@ The numbering system (10-100) represents intensity levels, with higher numbers t
 
 ### Text Style Hierarchy
 
-The typography system provides semantic text styles through `TextStylesV2` with consistent hierarchy:
+The typography system provides semantic text styles through `TextStyles` with consistent hierarchy:
 
 **Display Styles** (largest, for hero content):
 
