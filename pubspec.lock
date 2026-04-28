@@ -1681,10 +1681,10 @@ packages:
     dependency: "direct main"
     description:
       name: nekoton_repository
-      sha256: "4f9399e6cb66c8bdb99789088f655ffeb6d8c088e8e993e13a98a257ea576c83"
+      sha256: "915c777cd8af52f721360273c741d2c3cd2a14747b5333bb131dfa80035b6486"
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.1-dev.1"
+    version: "4.2.1-dev.2"
   nekoton_webview:
     dependency: "direct main"
     description:
