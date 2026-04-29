@@ -3,7 +3,7 @@ import 'package:app/feature/qa/view/qa_model.dart';
 import 'package:app/feature/qa/view/qa_page.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
-import 'package:ui_components_lib/v2/theme_style_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
 class QaWidgetModel extends CustomWidgetModel<QaSheet, QaModel> {
@@ -12,7 +12,7 @@ class QaWidgetModel extends CustomWidgetModel<QaSheet, QaModel> {
   late final _keyState = createNotifier('');
   late final _ivState = createNotifier('');
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   ListenableState<String> get ivState => _ivState;
   ListenableState<String> get keyState => _keyState;

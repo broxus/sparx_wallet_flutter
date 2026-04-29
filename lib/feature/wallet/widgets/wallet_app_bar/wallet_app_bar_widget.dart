@@ -9,13 +9,15 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _walletAppBarHeight = 68.0;
+
 class WalletAppBarWidget
     extends InjectedElementaryWidget<WalletAppBarWidgetModel>
     implements PreferredSizeWidget {
   const WalletAppBarWidget({super.key});
 
   @override
-  Size get preferredSize => const Size.fromHeight(DimensSize.d68);
+  Size get preferredSize => const Size.fromHeight(_walletAppBarHeight);
 
   @override
   Widget build(WalletAppBarWidgetModel wm) {
@@ -79,7 +81,7 @@ class _QrButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return GestureDetector(
       onTap: onTap,
@@ -110,7 +112,7 @@ class _AccountInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final custodians = walletState?.wallet?.custodians?.length ?? 1;
     final requiredConfirmations =
         walletState?.wallet?.details.requiredConfirmations;

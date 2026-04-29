@@ -113,7 +113,7 @@ class StEverHowItWorksSheet extends StatelessWidget {
   }) {
     return Builder(
       builder: (context) {
-        final theme = context.themeStyleV2;
+        final theme = context.themeStyle;
 
         return Padding(
           padding: const EdgeInsets.all(DimensSize.d16),

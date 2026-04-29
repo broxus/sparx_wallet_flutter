@@ -36,12 +36,12 @@ class ExportSeedSheetWidgetModel
       // Close the current sheet and open the save phrase sheet
       Navigator.of(contextSafe!).pop();
 
-      final textStyles = contextSafe!.themeStyleV2.textStyles;
+      final textStyles = contextSafe!.themeStyle.textStyles;
 
       await Navigator.of(contextSafe!).push(
         exportSeedSavePhraseRoute(
           textStyles.headingLarge,
-          textStyles.paragraphMedium.copyWith(color: ColorsResV2.m80),
+          textStyles.paragraphMedium.copyWith(color: ColorsRes.m80),
           phrase,
         ),
       );

@@ -196,13 +196,13 @@ class NftTransferInfoWidget
               const Icon(
                 LucideIcons.octagonAlert,
                 size: DimensSize.d20,
-                color: ColorsResV2.p75,
+                color: ColorsRes.p75,
               ),
               Expanded(
                 child: Text(
                   LocaleKeys.nftAttachedAmountNotification.tr(),
                   style: theme.textStyles.paragraphSmall.copyWith(
-                    color: ColorsResV2.p75,
+                    color: ColorsRes.p75,
                   ),
                 ),
               ),
@@ -227,7 +227,7 @@ class _InfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return Padding(
       padding: margin,
@@ -257,7 +257,7 @@ class _Item extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return Row(
       spacing: DimensSize.d8,

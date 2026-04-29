@@ -58,8 +58,8 @@ class WalletPrepareTransferComment extends StatelessWidget {
                 ),
                 Text(
                   LocaleKeys.addCommentHint.tr(),
-                  style: context.themeStyleV2.textStyles.labelXSmall.copyWith(
-                    color: context.themeStyleV2.colors.content3,
+                  style: context.themeStyle.textStyles.labelXSmall.copyWith(
+                    color: context.themeStyle.colors.content3,
                   ),
                 ),
               ],

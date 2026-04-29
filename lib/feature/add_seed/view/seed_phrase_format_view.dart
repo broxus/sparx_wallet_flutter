@@ -23,7 +23,7 @@ class SeedPhraseFormatView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     // Seed phrase format selector is available only for TON and HMSTR networks
     if (!networkType.isTon && networkGroup != 'hmstr_mainnet') {

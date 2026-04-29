@@ -166,7 +166,7 @@ class _StatusDateRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final date = request.data.timestamp;
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final formatter = date.year == now.year
         ? DateFormat('MM.dd, HH:mm', context.locale.languageCode)
         : DateFormat('MM.dd.y, HH:mm', context.locale.languageCode);

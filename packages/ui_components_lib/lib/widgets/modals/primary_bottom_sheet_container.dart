@@ -1,0 +1,80 @@
+import 'package:flutter/material.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
+
+const _height = 5.0;
+const _labelBottomPadding = 21.0;
+
+class PrimaryBottomSheetContainer extends StatelessWidget {
+  const PrimaryBottomSheetContainer({
+    required this.child,
+    this.backgroundColor,
+    super.key,
+  });
+
+  final Widget child;
+  final Color? backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return PrimaryBottomSheetContainerBox(
+      child: Column(
+        children: [
+          const PrimaryBottomSheetLabel(),
+          Flexible(child: child),
+        ],
+      ),
+    );
+  }
+}
+
+class PrimaryBottomSheetContainerBox extends StatelessWidget {
+  const PrimaryBottomSheetContainerBox({
+    required this.child,
+    this.backgroundColor,
+    super.key,
+  });
+
+  final Widget child;
+  final Color? backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.themeStyle.colors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: backgroundColor ?? colors.background1,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(DimensRadius.radius16),
+          topRight: Radius.circular(DimensRadius.radius16),
+        ),
+      ),
+      child: child,
+    );
+  }
+}
+
+class PrimaryBottomSheetLabel extends StatelessWidget {
+  const PrimaryBottomSheetLabel({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.themeStyle.colors;
+
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: DimensSize.d6,
+        bottom: _labelBottomPadding,
+      ),
+      child: SizedBox(
+        width: DimensSize.d36,
+        height: _height,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(DimensSize.d2),
+            color: colors.primaryA.withValues(alpha: .7),
+          ),
+        ),
+      ),
+    );
+  }
+}

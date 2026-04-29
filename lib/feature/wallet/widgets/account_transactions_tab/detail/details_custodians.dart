@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/chips/chips.dart';
 
 /// Widget that displays information about custodians for multisig transactions
 /// for TonWallet.
@@ -33,7 +32,7 @@ class TonWalletTransactionCustodiansDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return ShapedContainerColumn(
       color: theme.colors.background1,

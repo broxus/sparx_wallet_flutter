@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'package:ui_components_storybook/widgets/story_v1.dart';
 import 'package:ui_components_storybook/widgets/story_v2.dart';
 
 class StoryWidget extends StatefulWidget {
@@ -37,15 +35,11 @@ class _StoryWidgetState extends State<StoryWidget>
             TabBar(
               controller: _tabsController,
               onTap: _onPressedTap,
-              tabs: const [
-                _Tab(title: 'v1'),
-                _Tab(title: 'v2'),
-              ],
+              tabs: const [_Tab(title: 'v2')],
             ),
             Flexible(
               child: switch (_currentIndex) {
-                0 => const StoryV1(),
-                1 => const StoryV2(),
+                0 => const StoryV2(),
                 _ => const SizedBox.shrink(),
               },
             ),

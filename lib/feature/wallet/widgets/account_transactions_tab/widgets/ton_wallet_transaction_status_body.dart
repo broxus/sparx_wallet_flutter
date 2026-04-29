@@ -1,6 +1,6 @@
 import 'package:app/generated/generated.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:ui_components_lib/v2/widgets/chips/chips.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Status of transaction that could be used to display additional information
 /// about transaction

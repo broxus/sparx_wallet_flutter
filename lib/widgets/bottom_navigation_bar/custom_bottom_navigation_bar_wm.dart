@@ -29,7 +29,7 @@ class CustomBottomNavigationBarWidgetModel
 
   ListenableState<RootTab> get tabState => _tabState;
 
-  ColorsPaletteV2 get colors => _theme.colors;
+  ColorsPalette get colors => _theme.colors;
 
   double get bottomPadding {
     return MediaQuery.viewPaddingOf(context).bottom;
@@ -40,7 +40,7 @@ class CustomBottomNavigationBarWidgetModel
     highlightColor: Colors.transparent,
   );
 
-  ThemeStyleV2 get _theme => context.themeStyleV2;
+  ThemeStyle get _theme => context.themeStyle;
 
   late final List<BottomNavigationBarItem> items = [
     for (final tab in RootTab.values) tab.item(),

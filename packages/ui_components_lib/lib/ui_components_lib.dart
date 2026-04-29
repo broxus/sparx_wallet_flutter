@@ -1,4 +1,5 @@
 export 'package:flutter_svg/flutter_svg.dart';
+
 export 'colors.dart';
 export 'components/button/button.dart';
 export 'components/common/common.dart';
@@ -6,9 +7,11 @@ export 'components/displayable/displayable.dart';
 export 'components/input/input.dart';
 export 'constants.dart';
 export 'dimens.dart';
+export 'extensions/extensions.dart';
 export 'opac.dart';
 export 'predefined_theme.dart';
 export 'styles.dart';
+export 'text_styles.dart';
 export 'theme_style.dart';
 export 'utils/utils.dart';
-export 'v2/ui_components_lib_v2.dart';
+export 'widgets/widgets.dart';

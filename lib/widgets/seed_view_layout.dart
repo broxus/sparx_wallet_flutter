@@ -5,7 +5,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/utils/view_utils.dart';
 
 class SeedViewLayout extends StatelessWidget {
   const SeedViewLayout({
@@ -27,7 +26,7 @@ class SeedViewLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final colors = theme.colors;
     final textStyles = theme.textStyles;
 

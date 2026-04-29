@@ -72,7 +72,7 @@ dependencies:
   money2: ^6.0.0
   mutex: ^3.1.0
   native_dio_adapter: ^1.5.0
-  nekoton_repository: ^4.2.1-dev.1
+  nekoton_repository: ^4.2.1-dev.2
   nekoton_webview: ^0.2.1
   no_screenshot: ^1.1.0
   ntp: 2.0.0
@@ -92,8 +92,8 @@ dependencies:
   retrofit: ^4.9.1
   rive: ^0.14.0
   rxdart: 0.28.0
-  sensitive_clipboard: ^1.1.0
-  sentry_flutter: ^9.18.0
+  sensitive_clipboard: ^1.2.0
+  sentry_flutter: ^9.19.0
   share_plus: ^12.0.0
   shared_preferences: ^2.5.4
   sqlite3: ^3.3.1
@@ -200,7 +200,7 @@ melos:
 
     analyze:
       description: Analyze all packages
-      run: melos run analyze_subpackages --no-select
+      exec: find lib test integration_test -maxdepth 0 -type d 2>/dev/null | xargs flutter analyze --no-pub
       failFast: true
 
     analyze_subpackages:

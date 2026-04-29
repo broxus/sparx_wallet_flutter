@@ -10,7 +10,7 @@ Future<SelectAddSeedType?> showSelectAddSeedTypeSheet(BuildContext context) {
     context: context,
     title: LocaleKeys.addNewSeedPhrase.tr(),
     body: (_, __) => const SelectAddSeedTypeSheet(),
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     centerTitle: true,
   );
 }
@@ -21,7 +21,7 @@ class SelectAddSeedTypeSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.themeStyleV2.colors;
+    final colors = context.themeStyle.colors;
 
     return ShapedContainerColumn(
       squircleRadius: DimensRadius.radius24,

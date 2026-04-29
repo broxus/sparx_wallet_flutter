@@ -1,0 +1,21 @@
+import 'package:ui_components_lib/ui_components_lib.dart';
+
+class PrimaryButton extends BaseButton {
+  const PrimaryButton({
+    required super.buttonShape,
+    super.onPressed,
+    super.isLoading,
+    super.title,
+    super.child,
+    super.icon,
+    super.postfixIcon,
+    super.buttonSize,
+    super.isFullWidth,
+    super.padding,
+    super.key,
+  });
+
+  @override
+  AppButtonStyle getStyle(ThemeStyle theme) =>
+      AppButtonStyle.primary(theme.colors, theme.textStyles);
+}

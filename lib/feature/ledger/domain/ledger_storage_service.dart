@@ -3,7 +3,7 @@ import 'package:app/feature/ledger/ledger.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:ui_components_lib/utils/utils.dart';
+import 'package:ui_components_lib/utils/common_utils.dart';
 
 const _connectedLedgersKey = 'connected_ledgers';
 

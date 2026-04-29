@@ -1,0 +1,46 @@
+import 'package:flutter/material.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
+
+class SwitcherSegmentControls<T> extends StatelessWidget {
+  const SwitcherSegmentControls({
+    required this.currentValue,
+    required this.values,
+    required this.onTabChanged,
+    this.fullWidth = true,
+    super.key,
+  });
+
+  final T currentValue;
+  final List<PrimarySegmentControl<T>> values;
+  final bool fullWidth;
+  final ValueChanged<T> onTabChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyle;
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.colors.background1,
+        borderRadius: BorderRadius.circular(DimensRadius.radius12),
+      ),
+      padding: const EdgeInsets.all(DimensSize.d4),
+      child: Row(
+        mainAxisSize: fullWidth ? MainAxisSize.max : MainAxisSize.min,
+        children: [
+          for (final segment in values)
+            Flexible(
+              fit: fullWidth ? FlexFit.tight : FlexFit.loose,
+              child: GestureDetector(
+                onTap: () => onTabChanged(segment.value),
+                child: segment.copyWith(
+                  state: segment.value == currentValue
+                      ? SegmentControlState.selected
+                      : SegmentControlState.normal,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}

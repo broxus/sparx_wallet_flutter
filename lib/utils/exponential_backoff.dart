@@ -22,6 +22,7 @@ class ExponentialBackoff {
     this.maxDelay,
     this.jitter = 0.0,
     Random? random,
+    @visibleForTesting Future<void> Function(Duration duration)? delay,
   }) : assert(
          multiplier >= 1.0,
          'Multiplier must be greater than or equal to 1.0',
@@ -31,7 +32,8 @@ class ExponentialBackoff {
          jitter >= 0.0 && jitter <= 1.0,
          'Jitter must be between 0.0 and 1.0',
        ),
-       _random = random ?? (jitter > 0 ? Random() : null);
+       _random = random ?? (jitter > 0 ? Random() : null),
+       _delay = delay ?? Future<void>.delayed;
 
   final Duration initialDuration;
   final double multiplier;
@@ -39,6 +41,7 @@ class ExponentialBackoff {
   final Duration? maxDelay;
   final double jitter;
   final Random? _random;
+  final Future<void> Function(Duration duration) _delay;
 
   @visibleForTesting
   Duration calculateNextDelay(Duration currentDelay) {
@@ -92,7 +95,7 @@ class ExponentialBackoff {
           break;
         }
 
-        await Future<void>.delayed(delay);
+        await _delay(delay);
 
         delay = calculateNextDelay(delay);
       }

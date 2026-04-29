@@ -44,7 +44,7 @@ class NftItemPageWidgetModel
 
   ListenableState<String?> get marketplaceUrlState => _marketplaceUrlState;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   double get topOffset => MediaQuery.viewPaddingOf(context).top;
 

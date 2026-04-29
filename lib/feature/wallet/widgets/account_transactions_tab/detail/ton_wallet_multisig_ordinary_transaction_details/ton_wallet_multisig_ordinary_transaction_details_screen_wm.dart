@@ -4,11 +4,8 @@ import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_w
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
-import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:ui_components_lib/v2/colors_v2.dart';
-import 'package:ui_components_lib/v2/text_styles_v2.dart';
-import 'package:ui_components_lib/v2/theme_style_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class TonWalletMultisigOrdinaryTransactionDetailsWmParams {
   TonWalletMultisigOrdinaryTransactionDetailsWmParams({
@@ -92,11 +89,11 @@ class TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel
     (it) => it.transaction.creator,
   );
 
-  TextStylesV2 get textStyles => _theme.textStyles;
+  TextStyles get textStyles => _theme.textStyles;
 
-  ColorsPaletteV2 get colors => _theme.colors;
+  ColorsPalette get colors => _theme.colors;
 
-  ThemeStyleV2 get _theme => context.themeStyleV2;
+  ThemeStyle get _theme => context.themeStyle;
 
   double get bottomPadding => MediaQuery.of(context).padding.bottom;
 

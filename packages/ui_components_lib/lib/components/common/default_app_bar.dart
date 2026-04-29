@@ -150,7 +150,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = buildTitle(context.themeStyleV2);
+    final title = buildTitle(context.themeStyle);
     final isShowLeadingClose =
         _showLeadingClose && defaultCanPopAction(context);
 
@@ -212,7 +212,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     ];
   }
 
-  Widget? buildTitle(ThemeStyleV2 theme) {
+  Widget? buildTitle(ThemeStyle theme) {
     Widget? subtitleTop;
     if (subtitleTopText != null) {
       subtitleTop = Text(subtitleTopText!, style: theme.textStyles.labelSmall);

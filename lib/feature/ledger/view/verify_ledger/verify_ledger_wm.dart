@@ -42,7 +42,7 @@ class VerifyLedgerWidgetModel
   ListenableState<LedgerInteractionState> get interactionState =>
       _interactionState;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   void onCopy() {
     setClipBoardData(_account.address.address);

@@ -4,7 +4,6 @@ import 'package:app/feature/browser/widgets/bottomsheets/book/widgets/type_histo
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 
 typedef ClearHistoryType = (TimePeriod, Set<TypeHistory>);
 
@@ -32,7 +31,7 @@ class _ClearHistoryModalContentState extends State<ClearHistoryModalContent> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: DimensSize.d8),
       child: Column(
@@ -99,7 +98,7 @@ class _ClearHistoryModalContentState extends State<ClearHistoryModalContent> {
             //D92346
             buttonShape: ButtonShape.rectangle,
             title: LocaleKeys.clearWord.tr(),
-            backgroundColor: ColorsResV2.raspberryRed,
+            backgroundColor: ColorsRes.raspberryRed,
             onPressed: () {
               Navigator.of(context).pop((_timePeriod, _selectedTypes));
             },

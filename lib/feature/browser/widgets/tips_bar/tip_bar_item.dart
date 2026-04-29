@@ -11,7 +11,7 @@ class HistoryTip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return _Body(
       backgroundColor: theme.colors.background2,
@@ -41,7 +41,7 @@ class BookmarkTip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return _Body(
       backgroundColor: theme.colors.background1,

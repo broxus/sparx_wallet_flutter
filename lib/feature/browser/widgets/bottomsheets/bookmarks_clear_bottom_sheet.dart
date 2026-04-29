@@ -6,11 +6,11 @@ Future<void> showBrowserClearBookmarksSheet({
   required BuildContext context,
   required VoidCallback onClearPressed,
 }) {
-  final theme = context.themeStyleV2;
+  final theme = context.themeStyle;
 
   return showCommonBottomSheet(
     title: LocaleKeys.deleteBookmarksQuestion.tr(),
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     subtitle: LocaleKeys.deleteBookmarksDescription.tr(),
     subtitleStyle: theme.textStyles.paragraphMedium.copyWith(
       color: theme.colors.content3,

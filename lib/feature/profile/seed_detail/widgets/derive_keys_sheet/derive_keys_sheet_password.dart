@@ -15,7 +15,7 @@ void showDeriveKeysSheetPassword(BuildContext context, PublicKey publicKey) {
     title: LocaleKeys.enterPasswordTo.tr(
       args: [LocaleKeys.addKey.tr().toLowerCase()],
     ),
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     body: (_, __) => DeriveKeysEnterPasswordSheet(publicKey: publicKey),
   );
 }

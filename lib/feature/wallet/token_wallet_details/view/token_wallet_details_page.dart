@@ -11,6 +11,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/components/common/default_sliver_app_bar.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _tokenActionsHeight = 74.0;
+
 /// Details page of the [TokenWallet], that is used to look though transactions
 /// history and to send/receive tokens.
 class TokenWalletDetailsPage
@@ -81,7 +83,7 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bottomPadding = MediaQuery.of(context).systemGestureInsets.bottom;
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return CustomScrollView(
       controller: controller,
@@ -138,7 +140,7 @@ class _Body extends StatelessWidget {
                           ),
                           const SizedBox(height: DimensSize.d16),
                           SizedBox(
-                            height: DimensSize.d74,
+                            height: _tokenActionsHeight,
                             child: SeparatedRow(
                               separator: VerticalDivider(
                                 width: DimensStroke.small,

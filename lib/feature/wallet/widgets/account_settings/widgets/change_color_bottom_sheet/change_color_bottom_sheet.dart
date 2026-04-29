@@ -125,7 +125,7 @@ class _Wrapper extends StatelessWidget {
           shape: BoxShape.circle,
           border: Border.all(
             color: isVisible
-                ? context.themeStyleV2.colors.borderFocus
+                ? context.themeStyle.colors.borderFocus
                 : Colors.transparent,
           ),
         ),

@@ -57,8 +57,8 @@ class CheckSeedAnswersWidget extends StatelessWidget {
               : isSelected
               ? SelectionStatus.completed
               : SelectionStatus.unfocus,
-          focusBorderColor: ColorsResV2.p75,
-          unfocusBorderColor: ColorsResV2.p30,
+          focusBorderColor: ColorsRes.p75,
+          unfocusBorderColor: ColorsRes.p30,
         );
       },
     );
@@ -77,7 +77,7 @@ class CheckSeedAnswersCounterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     return AnimatedOpacity(
       opacity: currentIndex == 0 ? 0 : 1,
       duration: currentIndex == 0
@@ -92,7 +92,7 @@ class CheckSeedAnswersCounterWidget extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.centerRight,
                   end: Alignment.centerLeft,
-                  colors: [ColorsResV2.n70, ColorsResV2.transparentAcaeca],
+                  colors: [ColorsRes.n70, ColorsRes.transparentAcaeca],
                 ),
               ),
             ),
@@ -112,7 +112,7 @@ class CheckSeedAnswersCounterWidget extends StatelessWidget {
               height: 1,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [ColorsResV2.n70, ColorsResV2.transparentAcaeca],
+                  colors: [ColorsRes.n70, ColorsRes.transparentAcaeca],
                 ),
               ),
             ),

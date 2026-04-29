@@ -47,7 +47,9 @@ jobs:
           flutter-version: ${{ needs.read_version.outputs.flutter_version }}  # ADDED
           channel: 'stable'
           cache: true
-          cache-key: flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
+          pub-cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
+          pub-cache-key: flutter-pub-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
       - uses: bluefireteam/melos-action@v3
       - name: Generate dart code
         run: melos codegen --no-select

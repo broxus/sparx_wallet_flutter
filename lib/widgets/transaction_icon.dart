@@ -18,7 +18,7 @@ class TransactionIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     return Container(
       height: size ?? DimensSize.d40,
       width: size ?? DimensSize.d40,
@@ -37,7 +37,7 @@ class TransactionIcon extends StatelessWidget {
   }
 
   Color _getColor(
-    ThemeStyleV2 theme,
+    ThemeStyle theme,
     TonWalletTransactionStatus? status,
     bool isIncoming,
   ) {

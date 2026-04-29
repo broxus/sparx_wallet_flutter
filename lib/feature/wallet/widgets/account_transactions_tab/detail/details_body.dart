@@ -78,7 +78,7 @@ class _WalletTransactionDetailsDefaultBodyState
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     return ShapedContainerColumn(
       color: theme.colors.background1,
       mainAxisSize: MainAxisSize.min,
@@ -182,7 +182,7 @@ class _WalletTransactionDetailsDefaultBodyState
     );
   }
 
-  Widget _statusDateRow(BuildContext context, ThemeStyleV2 theme) {
+  Widget _statusDateRow(BuildContext context, ThemeStyle theme) {
     final formatter = widget.date.year == _ntpService.now().year
         ? DateFormat('MM.dd, HH:mm:ss', context.locale.languageCode)
         : DateFormat('MM.dd.y, HH:mm:ss', context.locale.languageCode);
@@ -193,6 +193,7 @@ class _WalletTransactionDetailsDefaultBodyState
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: DimensSize.d4,
             children: [
               Row(
                 children: [
@@ -206,7 +207,6 @@ class _WalletTransactionDetailsDefaultBodyState
                   widget.status.chipByStatus,
                 ],
               ),
-              const SizedBox(height: DimensSize.d4),
               Text(
                 formatter.format(widget.date),
                 style: theme.textStyles.labelXSmall.copyWith(
@@ -215,12 +215,10 @@ class _WalletTransactionDetailsDefaultBodyState
                 textAlign: TextAlign.right,
               ),
               if (widget.expiresAt != null)
-                const SizedBox(height: DimensSize.d4),
-              if (widget.expiresAt != null)
                 Text(
                   DateTimeUtils.formatExpirationDate(widget.expiresAt!),
                   style: theme.textStyles.labelXSmall.copyWith(
-                    color: theme.colors.content1,
+                    color: theme.colors.contentWarning,
                   ),
                 ),
             ],

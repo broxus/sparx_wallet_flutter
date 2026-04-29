@@ -10,7 +10,7 @@ ModalRoute<void> changeSeedPasswordSheetRoute(
   PublicKey publicKey,
 ) {
   return commonBottomSheetRoute<void>(
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     title: LocaleKeys.changeSeedPassword.tr(),
     viewInsetsBottomAddon: -DimensSize.d20,
     body: (_, __) =>

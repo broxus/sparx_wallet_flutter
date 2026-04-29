@@ -8,6 +8,8 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _startPageBackgroundOffsetY = 140.0;
+
 class TabAnimatedView
     extends
         InjectedElementaryParametrizedWidget<
@@ -84,11 +86,9 @@ class _StartPageAnimationView extends StatelessWidget {
     return SizedBox(
       height: double.infinity,
       child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: context.themeStyleV2.colors.background0,
-        ),
+        decoration: BoxDecoration(color: context.themeStyle.colors.background0),
         child: Transform.translate(
-          offset: const Offset(0, -DimensSize.d140),
+          offset: const Offset(0, -_startPageBackgroundOffsetY),
           child: Assets.images.bgNetwork.image(
             width: double.infinity,
             fit: BoxFit.fitWidth,

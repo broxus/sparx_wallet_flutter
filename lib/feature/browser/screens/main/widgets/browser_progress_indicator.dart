@@ -21,7 +21,7 @@ class BrowserProgressIndicator extends StatefulWidget {
 }
 
 class _BrowserProgressIndicatorState extends State<BrowserProgressIndicator> {
-  late final _painter = CoderPainter(widget.animation, ColorsResV2.p75);
+  late final _painter = CoderPainter(widget.animation, ColorsRes.p75);
 
   @override
   Widget build(BuildContext context) {

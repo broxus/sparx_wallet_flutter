@@ -57,7 +57,7 @@ class CancelUnstakingPageWidgetModel
 
   ListenableState<TokenContractAsset> get assetState => _assetState;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   Currency get nativeCurrency => model.nativeCurrency;
 

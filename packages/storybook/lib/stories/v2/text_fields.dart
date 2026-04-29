@@ -98,7 +98,7 @@ class _TextFieldsStoryV2State extends State<TextFieldsStoryV2> {
                 Container(
                   width: 40,
                   height: 40,
-                  color: context.themeStyleV2.colors.background3,
+                  color: context.themeStyle.colors.background3,
                   alignment: Alignment.center,
                   margin: const EdgeInsets.symmetric(horizontal: 8),
                   child: const Text('S0'),
@@ -106,7 +106,7 @@ class _TextFieldsStoryV2State extends State<TextFieldsStoryV2> {
                 Container(
                   width: 40,
                   height: 40,
-                  color: context.themeStyleV2.colors.background3,
+                  color: context.themeStyle.colors.background3,
                   alignment: Alignment.center,
                   child: const Text('S1'),
                 ),

@@ -8,15 +8,13 @@ class BrowserStartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final styles = theme.textStyles;
     final colors = theme.colors;
     return SizedBox(
       height: double.infinity,
       child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: context.themeStyleV2.colors.background0,
-        ),
+        decoration: BoxDecoration(color: context.themeStyle.colors.background0),
         child: Stack(
           children: [
             Assets.images.bgNetwork.image(width: double.infinity),

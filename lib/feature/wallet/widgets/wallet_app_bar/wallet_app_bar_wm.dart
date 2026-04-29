@@ -32,7 +32,7 @@ class WalletAppBarWidgetModel
 
   ListenableState<Connection?> get connectionState => _connectionState;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   String getWalletTypeName(WalletType walletType) =>
       model.transport.defaultAccountName(walletType);

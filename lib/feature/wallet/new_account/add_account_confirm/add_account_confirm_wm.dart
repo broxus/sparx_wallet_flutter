@@ -49,7 +49,7 @@ class AddAccountConfirmWidgetModel
 
   KeyAccount? get account => model.account;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   String get seedName => wmParams.value.seedName;
 

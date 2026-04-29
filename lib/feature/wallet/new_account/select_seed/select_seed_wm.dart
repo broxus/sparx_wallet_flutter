@@ -8,7 +8,7 @@ import 'package:app/feature/wallet/new_account/select_seed/select_seed_view.dart
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:ui_components_lib/v2/theme_style_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
 class SelectSeedWidgetModel
@@ -25,7 +25,7 @@ class SelectSeedWidgetModel
 
   ListenableState<Seed?> get currentAccountState => _currentAccountState;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   bool hasCurrentAccount(Seed seed) {
     return model.getCurrentKey() == seed.publicKey;

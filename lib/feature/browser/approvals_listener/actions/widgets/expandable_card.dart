@@ -22,7 +22,7 @@ class _ExpandableCardState extends State<ExpandableCard> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     const padding = DimensSize.d16;
     const btnSize = DimensSize.d48;
 
@@ -59,8 +59,8 @@ class _ExpandableCardState extends State<ExpandableCard> {
                           begin: Alignment.bottomCenter,
                           end: Alignment.topCenter,
                           colors: [
-                            ColorsResV2.midnightBlue,
-                            ColorsResV2.transparentDeepIndigo,
+                            ColorsRes.midnightBlue,
+                            ColorsRes.transparentDeepIndigo,
                           ],
                         ),
                       ),

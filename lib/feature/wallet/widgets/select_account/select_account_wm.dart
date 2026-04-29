@@ -25,7 +25,7 @@ class SelectAccountWidgetModel
   late final _listState = createNotifier(_accountsState.value);
   final _balances = <Address, ListenableState<Money?>>{};
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   ListenableState<List<SelectAccountData>> get listState => _listState;
 

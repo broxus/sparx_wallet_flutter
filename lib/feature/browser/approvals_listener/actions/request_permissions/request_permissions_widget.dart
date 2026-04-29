@@ -59,7 +59,7 @@ class _SelectAccountWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return SeparatedColumn(
       spacing: DimensSize.d12,
@@ -162,7 +162,7 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final account = wm.selectedState.value!;
 
     return SeparatedColumn(

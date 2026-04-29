@@ -20,7 +20,7 @@ class AccountSettingsInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return PrimaryCard(
       color: theme.colors.background2,
@@ -64,7 +64,7 @@ class _Detail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return Container(
       decoration: BoxDecoration(
@@ -134,7 +134,7 @@ class _Item extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return GestureDetector(
       onTap: onPressed,

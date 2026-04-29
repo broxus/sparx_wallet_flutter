@@ -17,13 +17,13 @@ class WalletActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: onPressed,
       child: Opacity(
-        opacity: onPressed == null ? OpacV2.opac25 : OpacV2.opac100,
+        opacity: onPressed == null ? Opac.opac25 : Opac.opac100,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

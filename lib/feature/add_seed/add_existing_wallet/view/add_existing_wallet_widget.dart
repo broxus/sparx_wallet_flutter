@@ -62,7 +62,7 @@ class _Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return GestureDetector(
       onTap: onPressed,
@@ -87,7 +87,7 @@ class _Button extends StatelessWidget {
                   Text(
                     subtitle,
                     style: theme.textStyles.labelXSmall.copyWith(
-                      color: ColorsRes.grey898989,
+                      color: theme.colors.textSecondary,
                     ),
                   ),
                 ],
@@ -96,7 +96,7 @@ class _Button extends StatelessWidget {
             Icon(
               LucideIcons.chevronRight,
               size: DimensSize.d20,
-              color: context.themeStyleV2.colors.primaryA,
+              color: context.themeStyle.colors.primaryA,
             ),
           ],
         ),

@@ -142,7 +142,7 @@ class _CarouselIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: DimensSize.d8),

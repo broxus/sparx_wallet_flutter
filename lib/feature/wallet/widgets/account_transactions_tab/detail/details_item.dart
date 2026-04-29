@@ -44,7 +44,7 @@ class TonWalletTransactionDetailsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final canCopy = copyValue != null && copyMessage != null;
 
     //old implementation
@@ -129,7 +129,7 @@ class WalletTransactionDetailsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     return GestureDetector(
       onTap: onPressed,
       child: Row(

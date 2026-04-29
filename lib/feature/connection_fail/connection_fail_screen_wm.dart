@@ -15,11 +15,11 @@ class ConnectionFailWidgetModel
     extends CustomWidgetModel<ConnectionFailScreen, ConnectionFailModel> {
   ConnectionFailWidgetModel(super.model);
 
-  ThemeStyleV2 get _theme => context.themeStyleV2;
+  ThemeStyle get _theme => context.themeStyle;
 
-  TextStylesV2 get textStyles => _theme.textStyles;
+  TextStyles get textStyles => _theme.textStyles;
 
-  ColorsPaletteV2 get colors => _theme.colors;
+  ColorsPalette get colors => _theme.colors;
 
   Future<void> onPressedTryAgain() async {
     await model.tryAgain();
