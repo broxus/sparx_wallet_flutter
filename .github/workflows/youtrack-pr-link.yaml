@@ -6,6 +6,7 @@ on:
 
 jobs:
   youtrack-pr-comment:
+    if: ${{ !startsWith(github.head_ref, 'dependabot') }}
     runs-on: ubuntu-latest
 
     steps:
