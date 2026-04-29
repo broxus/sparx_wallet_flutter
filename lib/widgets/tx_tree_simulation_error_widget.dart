@@ -27,7 +27,7 @@ class TxTreeSimulationErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final canFixTxError = txErrors.any(
       (item) => item.error.code == -14 || item.error.code == -37,
     );
@@ -132,7 +132,7 @@ class _ErrorMessage extends StatefulWidget {
 class _ErrorMessageState extends State<_ErrorMessage> {
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final address = TextSpan(
       text: widget.item.address.toEllipseString(),
       style: theme.textStyles.paragraphSmall.copyWith(

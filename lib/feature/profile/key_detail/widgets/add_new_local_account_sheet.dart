@@ -57,13 +57,13 @@ class _AddNewLocalAccountSheetState extends State<AddNewLocalAccountSheet> {
         children: [
           Text(
             LocaleKeys.newAccountName.tr(),
-            style: context.themeStyleV2.textStyles.headingLarge,
+            style: context.themeStyle.textStyles.headingLarge,
           ),
           const SizedBox(height: DimensSize.d8),
           Text(
             LocaleKeys.newAccountNameDescription.tr(),
-            style: context.themeStyleV2.textStyles.paragraphMedium.copyWith(
-              color: context.themeStyleV2.colors.content1,
+            style: context.themeStyle.textStyles.paragraphMedium.copyWith(
+              color: context.themeStyle.colors.content1,
             ),
           ),
           const SizedBox(height: DimensSize.d24),

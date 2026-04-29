@@ -144,7 +144,7 @@ class _TokenFlag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: DimensSize.d4),
@@ -238,7 +238,7 @@ class _Item extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final balance = item.wallet?.balance;
     final supply = item.nft.supply;
 

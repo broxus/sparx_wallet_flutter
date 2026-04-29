@@ -9,6 +9,8 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _updateIllustrationSpacerHeight = 112.0;
+
 /// Screen for displaying update version notification
 class UpdateVersionScreen
     extends InjectedElementaryWidget<UpdateVersionWidgetModel> {
@@ -81,7 +83,7 @@ class _UpdateVersionContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return PrimaryCard(
       padding: const EdgeInsets.all(DimensSize.d16),
@@ -92,10 +94,7 @@ class _UpdateVersionContent extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(
-            // 80 - content size of icon
-            height: DimensSize.d32 + DimensSize.d80,
-          ),
+          const SizedBox(height: _updateIllustrationSpacerHeight),
           Text(
             LocaleKeys.appNewVersionTitle.tr(),
             style: theme.textStyles.headingLarge,
@@ -160,7 +159,7 @@ class _BlurredBackground extends StatelessWidget {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
       child: Container(
-        color: context.themeStyleV2.colors.backgroundOverlay.withValues(
+        color: context.themeStyle.colors.backgroundOverlay.withValues(
           alpha: 0.6,
         ),
       ),

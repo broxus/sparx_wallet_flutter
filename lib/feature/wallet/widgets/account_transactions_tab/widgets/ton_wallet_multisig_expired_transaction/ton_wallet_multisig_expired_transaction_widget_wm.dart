@@ -67,11 +67,11 @@ class TonWalletMultisigExpiredTransactionWidgetModel
     ),
   );
 
-  TextStylesV2 get textStyles => _theme.textStyles;
+  TextStyles get textStyles => _theme.textStyles;
 
-  ColorsPaletteV2 get colors => _theme.colors;
+  ColorsPalette get colors => _theme.colors;
 
-  ThemeStyleV2 get _theme => context.themeStyleV2;
+  ThemeStyle get _theme => context.themeStyle;
 
   String get _nativeTokenTicker => model.nativeTokenTicker;
 

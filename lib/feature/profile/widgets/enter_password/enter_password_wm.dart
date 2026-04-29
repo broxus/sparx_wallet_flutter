@@ -77,7 +77,7 @@ class EnterPasswordWidgetModel
   ValueListenable<EnterPasswordState?> get enterPasswordState =>
       _enterPasswordState;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   ValueChanged<String?>? get onChangedText => wmParams.value.onChangedText;
 

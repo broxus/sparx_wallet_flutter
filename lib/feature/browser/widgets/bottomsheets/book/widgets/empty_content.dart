@@ -9,7 +9,7 @@ class BookEmpty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

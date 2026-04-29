@@ -96,7 +96,7 @@ class _SelectNewAssetSelectTabState extends State<SelectNewAssetSelectTab> {
   Widget _emptyBody() {
     return Builder(
       builder: (context) {
-        final theme = context.themeStyleV2;
+        final theme = context.themeStyle;
 
         return Padding(
           padding: const EdgeInsets.all(DimensSize.d20),
@@ -142,7 +142,7 @@ class SelectNewAssetItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return GestureDetector(
       behavior: HitTestBehavior.translucent,

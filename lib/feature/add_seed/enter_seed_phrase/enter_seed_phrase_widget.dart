@@ -26,7 +26,7 @@ class EnterSeedPhraseWidget
 
   @override
   Widget build(EnterSeedPhraseWidgetModel wm) {
-    final theme = wm.themeStyleV2;
+    final theme = wm.themeStyle;
     return GestureDetector(
       onTap: wm.onPressedResetFocus,
       child: Scaffold(

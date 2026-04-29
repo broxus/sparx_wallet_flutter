@@ -22,7 +22,7 @@ class UpdateVersionWidgetModel
   ListenableState<UpdateRequest?> get updateRequestsState =>
       _updateRequestsState;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   MediaQueryData get mediaQuery => MediaQuery.of(context);
 

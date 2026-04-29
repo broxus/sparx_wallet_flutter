@@ -17,7 +17,7 @@ class BrowserBookTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.themeStyleV2.colors;
+    final colors = context.themeStyle.colors;
 
     return SizedBox(
       height: height,
@@ -76,7 +76,7 @@ class _Item extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final textStyles = theme.textStyles;
     final colors = theme.colors;
 
@@ -90,7 +90,7 @@ class _Item extends StatelessWidget {
           child: AnimatedContainer(
             duration: _duration,
             decoration: BoxDecoration(
-              color: isActive ? ColorsResV2.midnightBlue : colors.background2,
+              color: isActive ? ColorsRes.midnightBlue : colors.background2,
               borderRadius: BorderRadius.circular(DimensRadius.radius8),
             ),
             child: Row(

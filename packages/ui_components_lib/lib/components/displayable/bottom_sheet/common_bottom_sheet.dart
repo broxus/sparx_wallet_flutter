@@ -14,8 +14,8 @@ typedef CommonSheetBodyBuilder =
 /// [avoidBottomInsets] if opened keyboard should resize sheet, same
 ///   as [Scaffold.resizeToAvoidBottomInset].
 /// [openFullScreen] if a [body] should be displayed for full screen.
-/// [useAppBackgroundColor] if true, then [ColorsPalette.appBackground] is used
-///   as sheet color, [ColorsPalette.backgroundSecondary] otherwise.
+/// [useAppBackgroundColor] if true, then [ColorsPalette.background0] is used
+///   as sheet color, [ColorsPalette.background1] otherwise.
 // ignore: long-method
 Future<T?> showCommonBottomSheet<T>({
   required BuildContext context,
@@ -56,7 +56,7 @@ Future<T?> showCommonBottomSheet<T>({
       avoidBottomInsets: avoidBottomInsets,
       openFullScreen: openFullScreen,
       barrierColor:
-          barrierColor ?? Colors.black.withAlpha(Opac.large.toByteInt()),
+          barrierColor ?? Colors.black.withAlpha(Opac.opac70.toByteInt()),
       useAppBackgroundColor: useAppBackgroundColor,
       centerTitle: centerTitle,
       titleTextStyle: titleTextStyle,
@@ -76,8 +76,8 @@ Future<T?> showCommonBottomSheet<T>({
 /// [avoidBottomInsets] if opened keyboard should resize sheet, same
 ///   as [Scaffold.resizeToAvoidBottomInset].
 /// [openFullScreen] if a [body] should be displayed for full screen.
-/// [useAppBackgroundColor] if true, then [ColorsPalette.appBackground] is used
-///   as sheet color, [ColorsPalette.backgroundSecondary] otherwise.
+/// [useAppBackgroundColor] if true, then [ColorsPalette.background0] is used
+///   as sheet color, [ColorsPalette.background1] otherwise.
 // ignore: long-method
 ModalRoute<T> commonBottomSheetRoute<T>({
   required CommonSheetBodyBuilder body,
@@ -166,7 +166,7 @@ class CommonBottomSheetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     final bodyWidget = Column(
       mainAxisSize: MainAxisSize.min,
@@ -259,7 +259,7 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final textStyles = theme.textStyles;
 
     return Column(

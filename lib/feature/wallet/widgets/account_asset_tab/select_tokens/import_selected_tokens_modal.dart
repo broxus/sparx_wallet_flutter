@@ -10,7 +10,7 @@ Future<void> showImportSelectedTokensModal(
     context: context,
     title: LocaleKeys.importSelectedTokensLabel.tr(),
     centerTitle: true,
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     body: (_, scrollController) =>
         _ImportSelectedTokensWidget(onClickConfirm: onClickConfirm),
   );
@@ -23,7 +23,7 @@ class _ImportSelectedTokensWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

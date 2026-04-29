@@ -12,7 +12,7 @@ Future<void> showAddNewExternalAccountSheet({
   required PublicKey publicKey,
 }) => showCommonBottomSheet(
   context: context,
-  titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+  titleTextStyle: context.themeStyle.textStyles.headingLarge,
   title: LocaleKeys.addExistingAccount.tr(),
   subtitle: LocaleKeys.addExistingAccountDescription.tr(),
   body: (_, scrollController) => AddNewExternalAccountSheet(

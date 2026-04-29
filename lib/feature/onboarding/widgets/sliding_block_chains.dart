@@ -11,6 +11,7 @@ const _rowItemsOffset = 2;
 const _twoLinesMinHeight = 150.0;
 const _scrollOffset = 0.5;
 const _scrollPeriod = 30;
+const _slidingBlockChainsHeight = 216.0;
 
 /// Panel of sliding block chains on main screen of onboarding
 class SlidingBlockChains extends StatefulWidget {
@@ -100,7 +101,9 @@ class _SlidingBlockChainsState extends State<SlidingBlockChains> {
       onVisibilityChanged: _visibilityChanged,
       child: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxHeight: DimensSize.d216),
+          constraints: const BoxConstraints(
+            maxHeight: _slidingBlockChainsHeight,
+          ),
           child: LayoutBuilder(
             builder: (context, constraints) {
               final lineCount = constraints.maxHeight < _twoLinesMinHeight

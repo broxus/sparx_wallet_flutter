@@ -53,7 +53,7 @@ class TokenWalletOrdinaryTransactionDetailsScreenWidgetModel
 
   late final tonIconPath = model.nativeTokenIcon;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   String? get logoURI => _asset?.logoURI;
 

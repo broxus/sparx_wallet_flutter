@@ -246,10 +246,10 @@ packages:
     dependency: "direct dev"
     description:
       name: build_runner
-      sha256: "521daf8d189deb79ba474e43a696b41c49fb3987818dbacf3308f1e03673a75e"
+      sha256: "22fdcc3cfeb9d974d7408718c4be15ec5e9b1b350088f3a6c88f154e74dd700d"
       url: "https://pub.dev"
     source: hosted
-    version: "2.13.1"
+    version: "2.14.1"
   built_collection:
     dependency: transitive
     description:
@@ -1681,10 +1681,10 @@ packages:
     dependency: "direct main"
     description:
       name: nekoton_repository
-      sha256: "4f9399e6cb66c8bdb99789088f655ffeb6d8c088e8e993e13a98a257ea576c83"
+      sha256: "915c777cd8af52f721360273c741d2c3cd2a14747b5333bb131dfa80035b6486"
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.1-dev.1"
+    version: "4.2.1-dev.2"
   nekoton_webview:
     dependency: "direct main"
     description:
@@ -2130,26 +2130,26 @@ packages:
     dependency: "direct main"
     description:
       name: sensitive_clipboard
-      sha256: "3bb2e5e3efdd01a574d139586bae906fe494fa10de75f2d47228bd6a96a1bff8"
+      sha256: "56c74c592f65863e4ff8256abdde7d01008ec9fcd4bb55f3614af70448303675"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   sentry:
     dependency: transitive
     description:
       name: sentry
-      sha256: "8c07a413ce5691db5b299024498f1ad6376e015f61b6d8fc8819b042f65df6c7"
+      sha256: "1f78300740739ff4b4920802687879231554350eab73eb229778f463aabda440"
       url: "https://pub.dev"
     source: hosted
-    version: "9.18.0"
+    version: "9.19.0"
   sentry_flutter:
     dependency: "direct main"
     description:
       name: sentry_flutter
-      sha256: "0c98ca79261325806c4eccc47274910306e2d914dfefc598650819677ce2b484"
+      sha256: "168bbb120f7684dee6c0e100817f56ee1925bc2eb7fa55a71253337640c7e241"
       url: "https://pub.dev"
     source: hosted
-    version: "9.18.0"
+    version: "9.19.0"
   share_plus:
     dependency: "direct main"
     description:

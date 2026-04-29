@@ -45,12 +45,12 @@ class ChooseNetworkItem extends StatelessWidget {
               child: isLoading
                   ? ProgressIndicatorWidget(
                       size: DimensSize.d20,
-                      color: context.themeStyleV2.colors.primaryA,
+                      color: context.themeStyle.colors.primaryA,
                     )
                   : Icon(
                       LucideIcons.chevronRight,
                       size: DimensSize.d20,
-                      color: context.themeStyleV2.colors.primaryA,
+                      color: context.themeStyle.colors.primaryA,
                     ),
             ),
           ],
@@ -73,7 +73,7 @@ class _Icon extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: context.themeStyleV2.colors.background2,
+        color: context.themeStyle.colors.background2,
         borderRadius: BorderRadius.circular(DimensRadius.radius32),
       ),
       child: NetworkVectorIcon(icon),

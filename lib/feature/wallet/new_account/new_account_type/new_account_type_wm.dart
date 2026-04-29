@@ -65,7 +65,7 @@ class NewAccountTypeWidgetModel
 
   ListenableState<bool> get showDeprecatedState => _showDeprecatedState;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   // Hamster & TON network workaround
   bool get isHmstr => model.transport.isHmstr;

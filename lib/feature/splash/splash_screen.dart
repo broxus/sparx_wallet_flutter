@@ -2,7 +2,7 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/splash/splash_screen_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/colors_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class SplashScreen extends InjectedElementaryWidget<SplashScreenWidgetModel> {
   const SplashScreen({super.key});
@@ -10,7 +10,7 @@ class SplashScreen extends InjectedElementaryWidget<SplashScreenWidgetModel> {
   @override
   Widget build(SplashScreenWidgetModel wm) {
     return DecoratedBox(
-      decoration: const BoxDecoration(color: ColorsResV2.n10),
+      decoration: const BoxDecoration(color: ColorsRes.n10),
       child: Center(child: wm.isIos ? const _IosLogo() : const _AndroidLogo()),
     );
   }

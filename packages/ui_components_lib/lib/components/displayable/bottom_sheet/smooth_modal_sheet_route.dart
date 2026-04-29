@@ -2,8 +2,7 @@ import 'dart:ui' show SemanticsRole;
 
 import 'package:flutter/material.dart';
 import 'package:smooth_sheets/smooth_sheets.dart';
-import 'package:ui_components_lib/dimens.dart';
-import 'package:ui_components_lib/v2/widgets/custom_media_query.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 const _kBottomSheetTransitionDuration = Duration(milliseconds: 400);
 const _kBottomSheetTransitionCurve = Cubic(0, 0, 0.2, 1);

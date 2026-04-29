@@ -167,9 +167,9 @@ class BrowserMainScreenWidgetModel
 
   ListenableState<String?> get activeTabIdState => model.activeTabIdState;
 
-  ColorsPaletteV2 get colors => _theme.colors;
+  ColorsPalette get colors => _theme.colors;
 
-  ThemeStyleV2 get _theme => context.themeStyleV2;
+  ThemeStyle get _theme => context.themeStyle;
 
   @override
   void initWidgetModel() {

@@ -40,7 +40,7 @@ class SeedDetailPageWidgetModel
 
   StateNotifier<Seed?> get seedNotifier => _seedNotifier;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   void onSeedSettings() => showSeedSettingsSheet(context, wmParams.value);
 

@@ -3,6 +3,8 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _groupNameSheetHeight = 530.0;
+
 Future<String?> showBrowserEditNameMenu(BuildContext context, String name) {
   return showModalBottomSheet(
     context: context,
@@ -37,11 +39,11 @@ class _EditGroupNameBottomSheetState extends State<EditGroupNameBottomSheet>
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     return SizedBox(
-      height: DimensSize.d530,
+      height: _groupNameSheetHeight,
       child: PrimaryBottomSheetContainer(
-        backgroundColor: ColorsResV2.n15,
+        backgroundColor: ColorsRes.n15,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: DimensSize.d24),
           child: Column(
@@ -54,7 +56,7 @@ class _EditGroupNameBottomSheetState extends State<EditGroupNameBottomSheet>
               PrimaryTextField(
                 textEditingController: _controller,
                 isAutofocus: true,
-                borderFocusColor: ColorsResV2.p65,
+                borderFocusColor: ColorsRes.p65,
                 textStyle: theme.textStyles.paragraphMedium.copyWith(
                   color: theme.colors.border2,
                 ),
@@ -69,7 +71,7 @@ class _EditGroupNameBottomSheetState extends State<EditGroupNameBottomSheet>
                     Expanded(
                       child: CustomButton(
                         buttonShape: ButtonShape.pill,
-                        backgroundColor: ColorsResV2.midnightBlue,
+                        backgroundColor: ColorsRes.midnightBlue,
                         title: LocaleKeys.backWord.tr(),
                         onPressed: _onPressedBack,
                       ),

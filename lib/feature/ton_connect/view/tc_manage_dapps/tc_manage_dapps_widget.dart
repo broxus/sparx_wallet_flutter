@@ -73,7 +73,7 @@ class _EmptyPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -124,6 +124,8 @@ class _Item extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.themeStyle;
+
     return Row(
       spacing: DimensSize.d10,
       children: [
@@ -146,15 +148,15 @@ class _Item extends StatelessWidget {
             children: [
               Text(
                 connection.manifest.name,
-                style: context.themeStyleV2.textStyles.button,
+                style: theme.textStyles.button,
                 maxLines: 1,
                 softWrap: false,
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
                 connection.manifest.url.toString().replaceAll(_regexp, ''),
-                style: context.themeStyleV2.textStyles.labelXSmall.copyWith(
-                  color: ColorsRes.grey898989,
+                style: theme.textStyles.labelXSmall.copyWith(
+                  color: theme.colors.textSecondary,
                 ),
                 maxLines: 1,
                 softWrap: false,

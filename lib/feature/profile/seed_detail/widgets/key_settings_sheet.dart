@@ -17,7 +17,7 @@ void showKeySettingsSheet({
 }) {
   showCommonBottomSheet<void>(
     context: context,
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     title: LocaleKeys.settingsOfKey.tr(),
     body: (_, __) => KeySettingsSheet(publicKey: publicKey, isMaster: isMaster),
   );
@@ -36,7 +36,7 @@ class KeySettingsSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.themeStyleV2.colors;
+    final colors = context.themeStyle.colors;
     final currentKeyService = inject<CurrentKeyService>();
 
     final currentKey = currentKeyService.currentKey;

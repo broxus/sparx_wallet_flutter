@@ -33,7 +33,7 @@ class ShapedContainerColumn extends StatelessWidget {
   final List<Widget> children;
 
   /// Color of the background of container, default is
-  /// [ColorsPalette.backgroundSecondary].
+  /// [ColorsPalette.background1].
   final Color? color;
 
   /// Radius of squircle shape, default is [DimensRadius.medium].
@@ -81,7 +81,7 @@ class ShapedContainerColumn extends StatelessWidget {
       crossAxisAlignment: crossAxisAlignment,
       children: children,
     );
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return ShapedContainer(
       width: width,

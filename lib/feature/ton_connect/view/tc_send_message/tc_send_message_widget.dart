@@ -213,7 +213,7 @@ class _MultitransferInfo extends StatelessWidget {
       children: [
         TokenTransferInfoWidget(
           key: UniqueKey(),
-          color: context.themeStyleV2.colors.background2,
+          color: context.themeStyle.colors.background2,
           amount: totalAmount,
           fee: fee,
           numberUnconfirmedTransactions: numberUnconfirmedTransactions,
@@ -221,7 +221,7 @@ class _MultitransferInfo extends StatelessWidget {
         for (final item in data)
           TokenTransferInfoWidget(
             key: UniqueKey(),
-            color: context.themeStyleV2.colors.background2,
+            color: context.themeStyle.colors.background2,
             amount: item.amount,
             recipient: item.recipient,
             attachedAmount: item.attachedAmount,

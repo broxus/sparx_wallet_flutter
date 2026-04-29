@@ -11,7 +11,7 @@ ModalRoute<void> deleteSeedSheetRoute(
   PublicKey publicKey,
 ) {
   return commonBottomSheetRoute<void>(
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     title: LocaleKeys.deleteSeedPhrase.tr(),
     subtitle: LocaleKeys.deleteSeedPhraseDescription.tr(),
     body: (_, __) => DeleteSeedSheet(publicKey: publicKey),

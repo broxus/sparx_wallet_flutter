@@ -30,7 +30,7 @@ class StakingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return SeparatedColumn(
       spacing: DimensSize.d16,
@@ -105,7 +105,7 @@ class StakingView extends StatelessWidget {
   }
 
   Widget _stakeUnstakeBody(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return SeparatedColumn(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,7 +167,7 @@ class _InfoField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return PrimaryCard(
       padding: const EdgeInsets.all(DimensSize.d16),
@@ -232,7 +232,7 @@ class _InfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return SeparatedRow(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

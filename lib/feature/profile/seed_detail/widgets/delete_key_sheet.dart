@@ -12,7 +12,7 @@ ModalRoute<void> deleteKeySheetRoute(
   return commonBottomSheetRoute<void>(
     title: LocaleKeys.deleteKey.tr(),
     subtitle: LocaleKeys.deleteKeyDescription.tr(),
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     body: (_, __) =>
         DeleteKeySheet(inject<NekotonRepository>(), publicKey: publicKey),
   );
@@ -31,7 +31,7 @@ class DeleteKeySheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.themeStyleV2.colors;
+    final colors = context.themeStyle.colors;
     final key = _nekotonRepository.seedList.findSeedKey(publicKey);
 
     return SeparatedColumn(
@@ -107,7 +107,7 @@ class DeleteKeySheet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: DimensSize.d12,
           children: [
-            Text(title, style: context.themeStyleV2.textStyles.headingLarge),
+            Text(title, style: context.themeStyle.textStyles.headingLarge),
             ...keys,
           ],
         );

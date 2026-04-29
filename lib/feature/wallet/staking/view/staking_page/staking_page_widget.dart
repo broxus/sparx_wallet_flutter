@@ -178,7 +178,7 @@ class _InnerButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final title = switch (tab) {
       StakingTab.stake => LocaleKeys.stakeWord.tr(),
       StakingTab.unstake => LocaleKeys.unstakeWord.tr(),

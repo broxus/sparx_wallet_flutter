@@ -30,13 +30,13 @@ class BrowserTabsListItemBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.themeStyleV2.colors;
+    final colors = context.themeStyle.colors;
 
     return ClipRRect(
       borderRadius: const BorderRadius.all(_radius),
       child: _ReactiveShapeWidget(
         activeState: activeState,
-        activeColor: ColorsResV2.p75,
+        activeColor: ColorsRes.p75,
         inactiveColor: colors.primaryA.withAlpha(25),
         child: InkWell(
           onTap: onPressed,
@@ -74,8 +74,8 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyles = context.themeStyleV2.textStyles;
-    final colors = context.themeStyleV2.colors;
+    final textStyles = context.themeStyle.textStyles;
+    final colors = context.themeStyle.colors;
 
     return SizedBox(
       height: DimensSize.d36,

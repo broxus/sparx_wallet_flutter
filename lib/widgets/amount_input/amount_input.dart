@@ -68,7 +68,7 @@ class _AmountInputState extends State<AmountInput> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final balance = widget.selectedAsset?.balance.defaultFormat() ?? '';
 
     return Container(
@@ -144,7 +144,7 @@ class _AmountInputState extends State<AmountInput> {
   }
 
   Widget _fieldBuilder(FormFieldState<String> state) {
-    final theme = state.context.themeStyleV2;
+    final theme = state.context.themeStyle;
     final inputStyle = theme.textStyles.headingLarge.copyWith(
       color: state.hasError
           ? theme.colors.contentNegative

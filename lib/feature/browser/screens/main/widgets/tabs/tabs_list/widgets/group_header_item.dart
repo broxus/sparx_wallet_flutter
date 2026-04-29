@@ -21,7 +21,7 @@ class BrowserGroupHeaderItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     final colors = theme.colors;
 
@@ -62,7 +62,7 @@ class BrowserGroupHeaderItem extends StatelessWidget {
                   child: DecoratedBox(
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: ColorsResV2.midnightBlue,
+                      color: ColorsRes.midnightBlue,
                     ),
                     child: SizedBox(
                       width: DimensSize.d20,

@@ -44,7 +44,7 @@ class NftCollectionPageWidgetModel
 
   ListenableState<NftCollection> get collectionState => _collectionState;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   @override
   void initWidgetModel() {

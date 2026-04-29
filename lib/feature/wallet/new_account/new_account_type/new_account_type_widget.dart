@@ -240,7 +240,7 @@ class _WalletType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final colors = theme.colors;
 
     return GestureDetector(
@@ -261,7 +261,7 @@ class _WalletType extends StatelessWidget {
                     name,
                     style: theme.textStyles.labelSmall.copyWith(
                       color: disabled
-                          ? colors.content0.withAlpha(OpacV2.opac50.toByteInt())
+                          ? colors.content0.withAlpha(Opac.opac50.toByteInt())
                           : null,
                     ),
                   ),
@@ -270,9 +270,7 @@ class _WalletType extends StatelessWidget {
                       description,
                       style: theme.textStyles.labelXSmall.copyWith(
                         color: disabled
-                            ? colors.content3.withAlpha(
-                                OpacV2.opac50.toByteInt(),
-                              )
+                            ? colors.content3.withAlpha(Opac.opac50.toByteInt())
                             : colors.content3,
                       ),
                     ),

@@ -21,7 +21,7 @@ class CustodianSettingsWidgetModel
   late final _custodiansState = createNotifier<List<CustodianData>>();
   late final _requiredState = createNotifier<int>();
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   ListenableState<List<CustodianData>> get custodiansState => _custodiansState;
 

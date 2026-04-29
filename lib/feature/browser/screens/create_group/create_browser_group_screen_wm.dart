@@ -12,8 +12,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
-import 'package:ui_components_lib/v2/colors_v2.dart';
-import 'package:ui_components_lib/v2/theme_style_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// [WidgetModel] для [CreateBrowserGroupScreen]
 @injectable
@@ -34,9 +33,9 @@ class CreateBrowserGroupScreenWidgetModel
   late final _screenShotState = createNotifier<File?>();
   late final _errorState = createNotifier<bool>(false);
 
-  ColorsPaletteV2 get colors => _themeStyleV2.colors;
+  ColorsPalette get colors => _themeStyle.colors;
 
-  ThemeStyleV2 get _themeStyleV2 => context.themeStyleV2;
+  ThemeStyle get _themeStyle => context.themeStyle;
 
   late final NotNullListenableState<BrowserTab>? tabNotifier = wmParams.value
       ?.let(model.getTabById);

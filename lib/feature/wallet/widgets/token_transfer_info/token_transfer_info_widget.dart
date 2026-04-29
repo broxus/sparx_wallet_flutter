@@ -323,7 +323,7 @@ class _InfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return Padding(
       padding: margin,
@@ -360,7 +360,7 @@ class _FeeItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     if (fee.isLoadingState) {
       return _InfoRow(

@@ -10,6 +10,8 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _walletActionsHeight = 74.0;
+
 /// Row with actions for current account.
 /// If account is null, then no actions available.
 class WalletAccountActions
@@ -115,12 +117,12 @@ class _ActionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return Padding(
       padding: padding,
       child: SizedBox(
-        height: DimensSize.d74,
+        height: _walletActionsHeight,
         child: SeparatedRow(
           separator: VerticalDivider(
             width: DimensStroke.small,

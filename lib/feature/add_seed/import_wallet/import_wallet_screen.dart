@@ -27,7 +27,7 @@ class ImportWalletScreen
   @override
   Widget build(ImportWalletScreenWidgetModel wm) {
     final context = wm.context;
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -178,7 +178,7 @@ class _ListWords extends StatelessWidget {
     required this.wordsCount,
   });
 
-  final ThemeStyleV2 theme;
+  final ThemeStyle theme;
   final List<String>? firstColumnWords;
   final List<String>? secondColumnWords;
   final bool isMasked;
@@ -249,7 +249,7 @@ class _WordWithIndex extends StatelessWidget {
     required this.isMasked,
   });
 
-  final ThemeStyleV2 theme;
+  final ThemeStyle theme;
   final String word;
   final int index;
   final bool isMasked;
