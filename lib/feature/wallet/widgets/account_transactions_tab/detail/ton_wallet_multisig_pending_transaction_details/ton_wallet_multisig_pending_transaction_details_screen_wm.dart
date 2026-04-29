@@ -109,13 +109,13 @@ class TonWalletMultisigPendingTransactionDetailsScreenWidgetModel
 
   late final tonIconPathState = createNotifier<String>(model.tonIconPath);
 
-  TextStylesV2 get textStyles => _theme.textStyles;
+  TextStyles get textStyles => _theme.textStyles;
 
-  ColorsPaletteV2 get colors => _theme.colors;
+  ColorsPalette get colors => _theme.colors;
 
   double get bottomPadding => MediaQuery.of(context).padding.bottom;
 
-  ThemeStyleV2 get _theme => context.themeStyleV2;
+  ThemeStyle get _theme => context.themeStyle;
 
   Future<void> onPressedConfirm() async {
     final params = wmParams.value;

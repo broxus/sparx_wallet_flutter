@@ -14,10 +14,7 @@ class DateItem extends StatelessWidget {
         left: DimensSize.d24,
         right: DimensSize.d24,
       ),
-      child: Text(
-        dateText,
-        style: context.themeStyleV2.textStyles.headingSmall,
-      ),
+      child: Text(dateText, style: context.themeStyle.textStyles.headingSmall),
     );
   }
 }

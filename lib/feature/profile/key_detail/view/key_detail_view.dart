@@ -42,7 +42,7 @@ class KeyDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     final currentAccounts = tab == KeyDetailAccountsTab.local
         ? seedKey.accountList.localAccounts
@@ -179,7 +179,7 @@ class KeyDetailView extends StatelessWidget {
   }) {
     return Builder(
       builder: (context) {
-        final theme = context.themeStyleV2;
+        final theme = context.themeStyle;
 
         return SeparatedColumn(
           spacing: DimensSize.d4,
@@ -211,7 +211,7 @@ class KeyDetailView extends StatelessWidget {
   Widget _accountItem(KeyAccount account) {
     return Builder(
       builder: (context) {
-        final colors = context.themeStyleV2.colors;
+        final colors = context.themeStyle.colors;
 
         return CommonListTile(
           padding: EdgeInsets.zero,

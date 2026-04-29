@@ -16,7 +16,7 @@ class BiometryScreenWidgetModel
   late final _isFaceBiometryState = createNotifier<bool>();
 
   StateNotifier<bool> get isFaceBiometryState => _isFaceBiometryState;
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   @override
   void initWidgetModel() {

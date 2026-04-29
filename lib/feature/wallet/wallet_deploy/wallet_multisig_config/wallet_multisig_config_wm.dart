@@ -43,9 +43,9 @@ class WalletMultisigConfigWidgetModel
   );
   ValueListenable<String?> get errorMessageState => _errorMessageState;
 
-  ColorsPaletteV2 get colors => _theme.colors;
-  TextStylesV2 get textStyles => _theme.textStyles;
-  ThemeStyleV2 get _theme => context.themeStyleV2;
+  ColorsPalette get colors => _theme.colors;
+  TextStyles get textStyles => _theme.textStyles;
+  ThemeStyle get _theme => context.themeStyle;
 
   Address get _address => wmParams.value.address;
   PublicKey get _publicKey => wmParams.value.publicKey;

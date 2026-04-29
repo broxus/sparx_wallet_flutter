@@ -25,7 +25,7 @@ class ChooseNetworkScreen
 
   @override
   Widget build(ChooseNetworkScreenWidgetModel wm) {
-    final theme = wm.themeStyleV2;
+    final theme = wm.themeStyle;
 
     return Scaffold(
       backgroundColor: theme.colors.background0,

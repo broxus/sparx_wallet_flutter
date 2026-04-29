@@ -8,7 +8,7 @@ class EmptyTokensWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

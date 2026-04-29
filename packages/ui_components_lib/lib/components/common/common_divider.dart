@@ -22,7 +22,7 @@ class CommonDivider extends StatelessWidget {
       child: Divider(
         height: CommonDivider.size,
         thickness: CommonDivider.size,
-        color: color ?? context.themeStyleV2.colors.borderAlpha,
+        color: color ?? context.themeStyle.colors.borderAlpha,
       ),
     );
   }

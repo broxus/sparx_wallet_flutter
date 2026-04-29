@@ -40,7 +40,7 @@ class EnterSeedPhraseWords extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeStyleV2 = context.themeStyleV2;
+    final themeStyle = context.themeStyle;
 
     return Form(
       key: formKey,
@@ -80,7 +80,7 @@ class EnterSeedPhraseWords extends StatelessWidget {
                         child: _InputsColumn(
                           inputs: leftInputs,
                           renderManager: renderManager,
-                          theme: themeStyleV2,
+                          theme: themeStyle,
                           currentValue: currentValue,
                           onSuggestions: onSuggestions,
                           onSuggestionSelected: onSuggestionSelected,
@@ -92,7 +92,7 @@ class EnterSeedPhraseWords extends StatelessWidget {
                         child: _InputsColumn(
                           inputs: rightInputs,
                           renderManager: renderManager,
-                          theme: themeStyleV2,
+                          theme: themeStyle,
                           currentValue: currentValue,
                           onSuggestions: onSuggestions,
                           onSuggestionSelected: onSuggestionSelected,
@@ -124,7 +124,7 @@ class _InputsColumn extends StatelessWidget {
 
   final List<EnterSeedPhraseInputData> inputs;
   final RenderManager<Object> renderManager;
-  final ThemeStyleV2 theme;
+  final ThemeStyle theme;
   final int currentValue;
   final SuggestionsCallback<String> onSuggestions;
   final SuggestionSelectedCallback onSuggestionSelected;
@@ -164,7 +164,7 @@ class _Input extends StatelessWidget {
     super.key,
   });
 
-  final ThemeStyleV2 theme;
+  final ThemeStyle theme;
   final RenderManager<Object> renderManager;
   final EnterSeedPhraseInputData data;
   final int currentValue;
@@ -175,7 +175,7 @@ class _Input extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.themeStyle.colors;
-    final themeStyleV2 = context.themeStyleV2;
+    final themeStyle = context.themeStyle;
     final displayIndex = (data.index + 1).toString();
 
     return RenderMetricsObject(
@@ -183,10 +183,10 @@ class _Input extends StatelessWidget {
       manager: renderManager,
       child: CommonInput(
         autocorrect: false,
-        hintStyle: themeStyleV2.textStyles.labelSmall,
-        inactiveBorderColor: themeStyleV2.colors.border0,
-        textStyle: themeStyleV2.textStyles.labelSmall,
-        suggestionBackground: themeStyleV2.colors.background1,
+        hintStyle: themeStyle.textStyles.labelSmall,
+        inactiveBorderColor: themeStyle.colors.border0,
+        textStyle: themeStyle.textStyles.labelSmall,
+        suggestionBackground: themeStyle.colors.background1,
         keyboardType: TextInputType.visiblePassword,
         height: DimensSize.d48,
         controller: data.controller,
@@ -213,7 +213,7 @@ class _Input extends StatelessWidget {
         textInputAction: data.index == currentValue - 1
             ? TextInputAction.done
             : TextInputAction.next,
-        v2Style: CommonInputStyleV2(themeStyleV2),
+        v2Style: CommonInputStyleV2(themeStyle),
       ),
     );
   }

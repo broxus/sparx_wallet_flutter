@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _bookItemHeight = 58.0;
+
 class BookmarkListItem extends StatelessWidget {
   const BookmarkListItem({
     required this.index,
@@ -125,7 +127,7 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final colors = theme.colors;
     final textStyles = theme.textStyles;
 
@@ -140,7 +142,7 @@ class _Content extends StatelessWidget {
         ),
         child: SizedBox(
           width: double.infinity,
-          height: DimensSize.d58,
+          height: _bookItemHeight,
           child: DecoratedBox(
             decoration: BoxDecoration(
               color: colors.background2,
@@ -230,9 +232,7 @@ class _RemoveLabel extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border(
               right: BorderSide(
-                color: context.themeStyleV2.colors.content3.withValues(
-                  alpha: .2,
-                ),
+                color: context.themeStyle.colors.content3.withValues(alpha: .2),
               ),
             ),
           ),
@@ -240,7 +240,7 @@ class _RemoveLabel extends StatelessWidget {
             child: Icon(
               LucideIcons.trash2,
               size: DimensSize.d16,
-              color: ColorsResV2.vibrantStrawberry,
+              color: ColorsRes.vibrantStrawberry,
             ),
           ),
         ),
@@ -260,7 +260,7 @@ class _DragLabel extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border(
             left: BorderSide(
-              color: context.themeStyleV2.colors.content3.withValues(alpha: .2),
+              color: context.themeStyle.colors.content3.withValues(alpha: .2),
             ),
           ),
         ),

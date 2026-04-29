@@ -9,7 +9,7 @@ class PasswordInfoSection extends StatelessWidget {
     super.key,
   });
 
-  final ThemeStyleV2 themeStyle;
+  final ThemeStyle themeStyle;
   final PasswordStatus status;
 
   @override

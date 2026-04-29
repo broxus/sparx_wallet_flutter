@@ -27,7 +27,7 @@ class AccountSettingsSheetWidgetModel
 
   bool get isSeeInExplorer => wmParams.value.seeInExplorer;
 
-  ColorsPaletteV2 get colors => context.themeStyleV2.colors;
+  ColorsPalette get colors => context.themeStyle.colors;
 
   late final KeyAccount? account = model.getAccount(wmParams.value.address);
 

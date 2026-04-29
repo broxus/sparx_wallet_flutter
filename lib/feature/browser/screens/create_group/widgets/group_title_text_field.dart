@@ -49,11 +49,11 @@ class _GroupTitleTextFieldState extends State<GroupTitleTextField> {
     hintStyle: _hintTextStyle,
   );
 
-  late final _themeStyleV2 = context.themeStyleV2;
+  late final _themeStyle = context.themeStyle;
 
-  late final _colors = _themeStyleV2.colors;
+  late final _colors = _themeStyle.colors;
 
-  late final _textStyles = _themeStyleV2.textStyles;
+  late final _textStyles = _themeStyle.textStyles;
 
   @override
   void initState() {

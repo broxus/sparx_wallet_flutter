@@ -143,7 +143,7 @@ class _CommonIconButtonState extends State<CommonIconButton> {
 
   @override
   Widget build(BuildContext context) {
-    final styles = context.themeStyle.styles;
+    final styles = context.themeStyle.legacyStyles;
     final buttonStyle = styles.buttonsStyle[widget.buttonType]!;
     final isDisabled = widget.onPressed == null && widget.onLongPress == null;
     final backgroundColor =

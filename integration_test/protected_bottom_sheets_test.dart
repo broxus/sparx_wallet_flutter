@@ -27,7 +27,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class MockProtectedContentService extends Mock
     implements ProtectedContentService {}
@@ -171,7 +171,7 @@ class FakeManualBackUpWidgetModel extends ManualBackUpWidgetModel {
 class FakeConfirmActionWidgetModel extends ConfirmActionWidgetModel {
   FakeConfirmActionWidgetModel() : super(FakeConfirmActionModel());
 
-  late ThemeStyleV2 _themeStyle;
+  late ThemeStyle _themeStyle;
   late ValueNotifier<KeyAccount?> _accountState;
   late TextEditingController _passwordController;
   late ListenableState<bool> _isPasswordLockedState;
@@ -179,7 +179,7 @@ class FakeConfirmActionWidgetModel extends ConfirmActionWidgetModel {
   late EntityStateNotifier<ConfirmActionData> _screenState;
 
   void configure({
-    required ThemeStyleV2 themeStyle,
+    required ThemeStyle themeStyle,
     required ValueNotifier<KeyAccount?> accountState,
     required TextEditingController passwordController,
     required ListenableState<bool> isPasswordLockedState,
@@ -195,7 +195,7 @@ class FakeConfirmActionWidgetModel extends ConfirmActionWidgetModel {
   }
 
   @override
-  ThemeStyleV2 get themeStyle => _themeStyle;
+  ThemeStyle get themeStyle => _themeStyle;
 
   @override
   ValueNotifier<KeyAccount?> get accountState => _accountState;
@@ -223,14 +223,14 @@ class FakeConfirmActionWidgetModel extends ConfirmActionWidgetModel {
 class FakeAddAccountConfirmWidgetModel extends AddAccountConfirmWidgetModel {
   FakeAddAccountConfirmWidgetModel() : super(FakeAddAccountConfirmModel());
 
-  late ThemeStyleV2 _theme;
+  late ThemeStyle _theme;
   late String _seedName;
   late TextEditingController _controller;
   late ListenableState<bool> _isPasswordLockedState;
   late ListenableState<List<BiometricType>> _availableBiometryState;
 
   void configure({
-    required ThemeStyleV2 theme,
+    required ThemeStyle theme,
     required String seedName,
     required TextEditingController controller,
     required ListenableState<bool> isPasswordLockedState,
@@ -244,7 +244,7 @@ class FakeAddAccountConfirmWidgetModel extends AddAccountConfirmWidgetModel {
   }
 
   @override
-  ThemeStyleV2 get theme => _theme;
+  ThemeStyle get theme => _theme;
 
   @override
   String get seedName => _seedName;

@@ -8,6 +8,8 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _balanceLoaderSize = 52.0;
+
 /// Card widget that displays information about account.
 class AccountCard
     extends
@@ -62,7 +64,7 @@ class _AccountCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return Column(
       children: [
@@ -96,7 +98,7 @@ class _AccountCard extends StatelessWidget {
                   style: theme.textStyles.displayMedium,
                 ),
               ) ??
-              const ProgressIndicatorWidget(size: DimensSize.d52),
+              const ProgressIndicatorWidget(size: _balanceLoaderSize),
         ),
       ],
     );

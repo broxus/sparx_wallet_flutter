@@ -261,7 +261,7 @@ class _StatusIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.themeStyleV2.colors;
+    final colors = context.themeStyle.colors;
 
     return switch (status) {
       TokenStatus.trusted => Icon(
@@ -291,7 +291,7 @@ class _StatusText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return switch (status) {
       TokenStatus.untrasted => PrimaryCard(

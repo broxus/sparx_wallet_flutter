@@ -87,7 +87,9 @@ jobs:
           flutter-version: ${{ steps.read_flutter.outputs.flutter_version }}
           channel: stable
           cache: true
-          cache-key: flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
+          pub-cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
+          pub-cache-key: flutter-pub-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
 
       - name: Display Flutter version
         run: flutter --version
@@ -176,7 +178,9 @@ jobs:
           flutter-version: ${{ needs.setup.outputs.flutter_version }}
           channel: stable
           cache: true
-          cache-key: flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
+          pub-cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
+          pub-cache-key: flutter-pub-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
 
       - name: Display Flutter version
         run: flutter --version
@@ -289,7 +293,9 @@ jobs:
           flutter-version: ${{ needs.setup.outputs.flutter_version }}
           channel: stable
           cache: true
-          cache-key: flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
+          pub-cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
+          pub-cache-key: flutter-pub-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
 
       - name: Display Flutter version
         run: flutter --version

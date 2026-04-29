@@ -33,7 +33,7 @@ class SelectTokenWidgetModel
 
   ListenableState<bool> get loadingState => _loadingState;
 
-  ThemeStyleV2 get themeStyle => context.themeStyleV2;
+  ThemeStyle get themeStyle => context.themeStyle;
 
   @override
   void initWidgetModel() {

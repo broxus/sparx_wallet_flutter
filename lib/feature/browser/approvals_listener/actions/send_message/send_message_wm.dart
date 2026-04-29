@@ -113,7 +113,7 @@ class SendMessageWidgetModel
 
   String? get symbol => nativeCurrency?.symbol;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   @override
   void initWidgetModel() {

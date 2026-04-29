@@ -15,7 +15,7 @@ ModalRoute<void> deriveKeysSheet(
   String? password,
 ]) {
   return commonBottomSheetRoute(
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     title: LocaleKeys.selectKeysYouNeed.tr(),
     padding: EdgeInsets.zero,
     body: (_, controller) => DeriveKeysSheet(
@@ -154,7 +154,7 @@ class _Pages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
@@ -259,7 +259,7 @@ class _Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.themeStyle.colors;
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
     final disabled = derivedKey.publicKey == masterKey;
 
     return CommonListTile(

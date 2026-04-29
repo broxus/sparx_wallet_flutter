@@ -11,7 +11,7 @@ void showReceiveFundsSheet(BuildContext context, Address address) {
   showCommonBottomSheet<void>(
     context: context,
     title: LocaleKeys.addressToReceiveFunds.tr(),
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     body: (_, __) => ReceiveFundsSheet(address: address),
   );
 }

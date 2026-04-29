@@ -91,7 +91,7 @@ class CommonCheckbox extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: context.themeStyleV2.colors.borderAlpha,
+                  color: context.themeStyle.colors.borderAlpha,
                 ),
                 borderRadius: BorderRadius.circular(DimensRadius.radius6),
               ),

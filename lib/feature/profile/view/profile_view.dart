@@ -40,7 +40,7 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return SingleChildScrollView(
       child: Padding(
@@ -182,7 +182,7 @@ class _Item extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return CommonListTile(
       padding: EdgeInsets.zero,
@@ -191,7 +191,7 @@ class _Item extends StatelessWidget {
       titleTextStyle: theme.textStyles.button,
       subtitleText: subtitle,
       subtitleTextStyle: theme.textStyles.labelXSmall.copyWith(
-        color: ColorsRes.grey898989,
+        color: theme.colors.textSecondary,
       ),
       leading: CommonBackgroundedIconWidget.icon(
         icon: icon,
@@ -213,7 +213,7 @@ class _Container extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return ShapedContainerColumn(
       color: theme.colors.background1,

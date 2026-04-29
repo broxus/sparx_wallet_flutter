@@ -14,6 +14,7 @@ void main() {
         initialDuration: const Duration(milliseconds: 10),
         multiplier: 2,
         maxAttempts: 3,
+        delay: (_) async {},
       );
 
       final result = await backoff.run(() => 'success');
@@ -26,6 +27,7 @@ void main() {
         initialDuration: const Duration(milliseconds: 10),
         multiplier: 2,
         maxAttempts: 3,
+        delay: (_) async {},
       );
 
       var attempts = 0;
@@ -47,6 +49,7 @@ void main() {
         initialDuration: const Duration(milliseconds: 10),
         multiplier: 2,
         maxAttempts: 3,
+        delay: (_) async {},
       );
 
       var callbackCalls = 0;
@@ -78,6 +81,7 @@ void main() {
         initialDuration: const Duration(milliseconds: 10),
         multiplier: 2,
         maxAttempts: 3,
+        delay: (_) async {},
       );
 
       // We'll create two different exception types
@@ -124,36 +128,29 @@ void main() {
     });
 
     test('applies maximum delay cap', () async {
+      final delays = <Duration>[];
       final backoff = ExponentialBackoff(
         initialDuration: const Duration(milliseconds: 100),
         multiplier: 10, // This would grow very quickly without a cap
         maxAttempts: 3,
         maxDelay: const Duration(milliseconds: 500), // Cap at 500ms
+        delay: (duration) async => delays.add(duration),
       );
 
       var attempts = 0;
-      final stopwatch = Stopwatch()..start();
 
-      try {
-        await backoff.run(() {
+      await expectLater(
+        backoff.run(() {
           attempts++;
           throw Exception('Always fail');
-        });
-      } catch (e) {
-        // We expect it to fail after maxAttempts
-      }
+        }),
+        throwsA(isA<Exception>()),
+      );
 
-      stopwatch.stop();
-
-      // The delays should be:
-      // 1st attempt: no delay
-      // After 1st failure: 100ms delay
-      // After 2nd failure: 500ms delay (capped from 1000ms)
-      // Total expected delay: ~600ms (plus a small amount for code execution)
-      // We'll assert it's less than 800ms to allow for execution time
-      // and greater than 550ms to ensure the cap is being applied
-      expect(stopwatch.elapsedMilliseconds, lessThan(800));
-      expect(stopwatch.elapsedMilliseconds, greaterThan(550));
+      expect(delays, [
+        const Duration(milliseconds: 100),
+        const Duration(milliseconds: 500),
+      ]);
       expect(attempts, equals(3));
     });
 

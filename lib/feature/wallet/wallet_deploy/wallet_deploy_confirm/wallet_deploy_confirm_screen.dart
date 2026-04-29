@@ -122,8 +122,8 @@ class _ErrorState extends StatelessWidget {
   final bool hasSufficientBalance;
   final Address address;
   final VoidCallback onRetry;
-  final ColorsPaletteV2 colors;
-  final TextStylesV2 textStyles;
+  final ColorsPalette colors;
+  final TextStyles textStyles;
 
   @override
   Widget build(BuildContext context) {

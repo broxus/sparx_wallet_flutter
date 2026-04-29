@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/colors.dart';
-import 'package:ui_components_lib/components/common/squircle/squircle_shape_border.dart';
-import 'package:ui_components_lib/dimens.dart';
-import 'package:ui_components_lib/theme_style.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class ShapedContainer extends StatelessWidget {
   const ShapedContainer({
@@ -31,7 +28,7 @@ class ShapedContainer extends StatelessWidget {
   final EdgeInsets padding;
 
   /// Color of the background of container, default is
-  /// [ColorsPalette.backgroundSecondary].
+  /// [ColorsPalette.background1].
   final Color? color;
 
   /// Radius of squircle shape, default is [DimensRadius.medium].
@@ -47,7 +44,7 @@ class ShapedContainer extends StatelessWidget {
       child: Padding(
         padding: margin,
         child: Material(
-          color: color ?? context.themeStyle.colors.backgroundSecondary,
+          color: color ?? context.themeStyle.colors.background1,
           shape: SquircleShapeBorder(cornerRadius: squircleRadius),
           // padding here, because ContainerColumn changes alignment in bad way
           child: Padding(padding: padding, child: child),

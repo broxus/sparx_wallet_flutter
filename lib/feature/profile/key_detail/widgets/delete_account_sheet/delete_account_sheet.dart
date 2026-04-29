@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _accountAddressTileHeight = 80.0;
+
 /// Helper method that shows the [DeleteAccountSheet] bottom sheet.
 ModalRoute<void> deleteAccountSheetRoute(
   BuildContext context,
@@ -17,7 +19,7 @@ ModalRoute<void> deleteAccountSheetRoute(
   );
 
   return commonBottomSheetRoute<void>(
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     title: LocaleKeys.deleteAccountWithName.tr(args: [name.toUpperCase()]),
     subtitle: LocaleKeys.deleteAccountDescription.tr(),
     body: (_, __) => DeleteAccountSheet(account: account),
@@ -38,7 +40,7 @@ class DeleteAccountSheet
   Widget build(DeleteAccountSheetWidgetModel wm) {
     return Builder(
       builder: (context) {
-        final colors = context.themeStyleV2.colors;
+        final colors = context.themeStyle.colors;
 
         return SeparatedColumn(
           mainAxisSize: MainAxisSize.min,
@@ -75,7 +77,7 @@ class DeleteAccountSheet
                   },
                 ),
                 CommonListTile(
-                  height: DimensSize.d80,
+                  height: _accountAddressTileHeight,
                   invertTitleSubtitleStyles: true,
                   subtitleChild: Text(wm.address.address),
                   titleText: LocaleKeys.addressWord.tr(),

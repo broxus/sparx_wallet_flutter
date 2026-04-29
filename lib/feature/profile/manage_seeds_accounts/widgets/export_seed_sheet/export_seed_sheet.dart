@@ -12,7 +12,7 @@ ModalRoute<void> exportSeedSheetRoute(
   PublicKey publicKey,
 ) {
   return commonBottomSheetRoute<void>(
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     title: LocaleKeys.enterPasswordTo.tr(
       args: [LocaleKeys.exportWord.tr().toLowerCase()],
     ),

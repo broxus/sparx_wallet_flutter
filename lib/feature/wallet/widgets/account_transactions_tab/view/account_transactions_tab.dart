@@ -32,7 +32,7 @@ class AccountTransactionsTab
     return StateNotifierBuilder<AccountTransactionsUiState>(
       listenableState: wm.transactionsState,
       builder: (context, state) {
-        final theme = context.themeStyleV2;
+        final theme = context.themeStyle;
 
         return switch (state) {
           AccountTransactionsUiLoading() => SliverToBoxAdapter(

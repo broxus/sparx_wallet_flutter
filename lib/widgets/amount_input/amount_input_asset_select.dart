@@ -23,7 +23,7 @@ class AmountInputAssetSelect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return PressScaleWidget(
       onPressed: values != null ? () => _openSelectSheet(context) : null,
@@ -68,7 +68,7 @@ class AmountInputAssetSelect extends StatelessWidget {
     VoidCallback? onPressed,
   }) => Builder(
     builder: (context) {
-      final theme = context.themeStyleV2;
+      final theme = context.themeStyle;
 
       return GestureDetector(
         onTap: onPressed,

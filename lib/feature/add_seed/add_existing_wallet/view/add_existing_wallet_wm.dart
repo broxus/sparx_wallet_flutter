@@ -14,7 +14,7 @@ class AddExistingWalletWidgetModel
     with BleAvailabilityWmMixin {
   AddExistingWalletWidgetModel(super.model);
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   void onImport() =>
       context.compassContinue(const ImportWalletRouteData(isOnboarding: true));

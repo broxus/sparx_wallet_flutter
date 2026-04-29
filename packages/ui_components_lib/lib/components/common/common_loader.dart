@@ -22,7 +22,7 @@ class CommonLoader extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: colors.loading,
+        color: colors.content4,
         borderRadius: BorderRadius.circular(borderRadius),
       ),
     );

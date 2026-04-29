@@ -20,7 +20,7 @@ ModalRoute<void> showRenameSheet({
   bool isCustodian = false,
 }) {
   return commonBottomSheetRoute(
-    titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    titleTextStyle: context.themeStyle.textStyles.headingLarge,
     title: LocaleKeys.enterNewName.tr(),
     viewInsetsBottomAddon: -DimensSize.d24,
     body: (_, __) => RenameSheet(

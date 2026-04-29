@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 Future<bool?> showBrowserClearTabsSheet({required BuildContext context}) {
-  final theme = context.themeStyleV2;
+  final theme = context.themeStyle;
 
   return showCommonBottomSheet<bool?>(
     context: context,

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _accountSettingsTitleTopMargin = 52.0;
+
 Future<void> showAccountSettingsModal({
   required BuildContext context,
   required KeyAccount account,
@@ -12,7 +14,7 @@ Future<void> showAccountSettingsModal({
     context: context,
     title: LocaleKeys.accountSettings.tr(),
     titleMargin: const EdgeInsets.only(
-      top: DimensSize.d52,
+      top: _accountSettingsTitleTopMargin,
       bottom: DimensSize.d40,
     ),
     centerTitle: true,

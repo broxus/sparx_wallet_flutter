@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+const _accountBalanceCardHeight = 76.0;
+
 class AccountDetailView extends StatelessWidget {
   const AccountDetailView({
     required this.account,
@@ -23,7 +25,7 @@ class AccountDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.themeStyle.colors;
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
@@ -55,7 +57,7 @@ class AccountDetailView extends StatelessWidget {
               amount: balance,
               style: theme.textStyles.labelMedium,
             ),
-            height: DimensSize.d76,
+            height: _accountBalanceCardHeight,
             width: double.infinity,
           ),
           ShapedContainerColumn(

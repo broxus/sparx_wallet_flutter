@@ -37,7 +37,7 @@ class TonWalletDetailsPageWidgetModel
   ListenableState<bool> get loadingErrorState => _loadingErrorState;
 
   String get symbol => model.symbol;
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
   Address get address => wmParams.value;
 
   @override

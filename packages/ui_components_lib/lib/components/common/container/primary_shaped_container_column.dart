@@ -18,14 +18,14 @@ class PrimaryShapedContainerColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShapedContainerColumn(
-      color: backgroundColor ?? context.themeStyleV2.colors.background2,
+      color: backgroundColor ?? context.themeStyle.colors.background2,
       spacing: .5,
       margin: margin,
       padding: padding,
       separator: const SizedBox(
         width: double.infinity,
         height: .5,
-        child: ColoredBox(color: ColorsResV2.gray55),
+        child: ColoredBox(color: ColorsRes.gray55),
       ),
       children: children,
     );
@@ -59,7 +59,7 @@ class PrimaryShapedContainerItem extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(title, style: context.themeStyleV2.textStyles.labelMedium),
+            Text(title, style: context.themeStyle.textStyles.labelMedium),
             Icon(icon, color: iconColor, size: DimensSize.d16),
           ],
         ),

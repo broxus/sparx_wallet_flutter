@@ -27,7 +27,7 @@ class BrowserTabsListActionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.themeStyleV2.colors;
+    final colors = context.themeStyle.colors;
 
     return SizedBox(
       height: height,

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:ui_components_lib/components/button/app_bar_back_button.dart';
-import 'package:ui_components_lib/components/common/default_app_bar.dart';
-import 'package:ui_components_lib/dimens.dart';
-import 'package:ui_components_lib/v2/theme_style_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 typedef IsColapsed = bool Function(SliverConstraints);
 
@@ -21,7 +19,7 @@ class DefaultSliverAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+    final theme = context.themeStyle;
 
     return SliverLayoutBuilder(
       builder: (context, constraints) {

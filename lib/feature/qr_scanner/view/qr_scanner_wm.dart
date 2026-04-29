@@ -29,7 +29,7 @@ class QrScannerWidgetModel
   StreamSubscription<BarcodeCapture>? _barcodeSubscription;
   StreamSubscription<AppLifecycleState>? _appStateSubscription;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ThemeStyle get theme => context.themeStyle;
 
   Rect get scanWindow => MediaQuery.sizeOf(context).let(
     (size) => Rect.fromCenter(

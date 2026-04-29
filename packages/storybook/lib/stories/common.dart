@@ -107,7 +107,7 @@ class _CommonStoryState extends State<CommonStory> {
               leadingChild: CommonButtonIconWidget.icon(
                 icon: Icons.access_alarm_sharp,
               ),
-              borderColor: colors.alert,
+              borderColor: colors.negative,
               trailingChild: CommonButtonIconWidget.icon(icon: Icons.delete),
             ),
             const SizedBox(height: DimensSize.d8),
@@ -140,7 +140,7 @@ class _CommonStoryState extends State<CommonStory> {
             CommonListTile(
               // ignore: no-empty-block
               onPressed: () {},
-              backgroundColor: colors.backgroundSecondary,
+              backgroundColor: colors.background1,
               leading: CommonBackgroundedIconWidget.icon(icon: Icons.add),
               titleText: 'ListTile tite with color',
               subtitleText: 'ListTile subtitle',
@@ -156,7 +156,7 @@ class _CommonStoryState extends State<CommonStory> {
                 CommonBackgroundedIconWidget.icon(icon: Icons.add),
                 CommonBackgroundedIconWidget.icon(
                   icon: Icons.add,
-                  backgroundColor: colors.alert,
+                  backgroundColor: colors.negative,
                   iconColor: colors.textPrimary,
                 ),
               ],

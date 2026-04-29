@@ -269,12 +269,12 @@ Future<void> loadData() async {
 
 ### Theme System
 
-- **ALWAYS** use the v2 theme/tokens exported from `package:ui_components_lib/ui_components_lib.dart`
-- **ALWAYS** access themes via `context.themeStyleV2`
+- **ALWAYS** use theme/tokens exported from `package:ui_components_lib/ui_components_lib.dart`
+- **ALWAYS** access themes via `context.themeStyle`
 - **ALWAYS** use semantic colors (`colors.content0`, `colors.background2`) instead of hardcoded colors
 - **ALWAYS** use design tokens (`DimensSize.d16`, `DimensRadius.radius12`) instead of magic numbers
 - **ALWAYS** prefer pre-built components when they cover the use case
-- **ALWAYS** follow the established typography hierarchy from `themeStyleV2.textStyles`
+- **ALWAYS** follow the established typography hierarchy from `themeStyle.textStyles`
 
 ## Localization
 
