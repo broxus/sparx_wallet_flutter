@@ -15,12 +15,13 @@ Create a release branch from `dev` when ready to prepare a new release:
 ```bash
 git checkout dev
 git pull origin dev
-git checkout -b release/EWM-XXX_version_feature
+git checkout -b release/EWM-XXX_version
 ```
 
-**Naming Convention:** `release/EWM_{task}_{version}_{desc}`
+**Naming Convention:** `release/EWM-{task}_{version}`
 
-- Example: `release/EWM-492_1.5.0_update_screen`
+- Example: `release/EWM-492_1.5.0`
+- Use `EWM-TECH` if no task created: `release/EWM-TECH_1.5.0`
 
 ### 2. Perform Release-Specific Tasks
 
@@ -85,8 +86,8 @@ Create a pull request to merge the release branch into `main`:
 ```bash
 git checkout main
 git pull
-git tag -a v1.5.0 -m "Release v1.5.0"
-git push origin v1.5.0
+git tag 1.5.0
+git push origin 1.5.0
 ```
 
 ### 6. Production Deployment
