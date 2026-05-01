@@ -3,12 +3,6 @@
 // ignore_for_file: constant_identifier_names
 
 abstract class LocaleKeys {
-  static const createNewWallet = 'createNewWallet';
-  static const signInWithPhrase = 'signInWithPhrase';
-  static const supportTokenAndAccessEverscale =
-      'supportTokenAndAccessEverscale';
-  static const byProcessingAcceptLicense = 'byProcessingAcceptLicense';
-  static const readHere = 'readHere';
   static const skipWord = 'skipWord';
   static const letsCheckSeedPhrase = 'letsCheckSeedPhrase';
   static const chooseNetwork = 'chooseNetwork';
@@ -18,21 +12,12 @@ abstract class LocaleKeys {
   static const selectNetworkNewWalletDescription =
       'selectNetworkNewWalletDescription';
   static const wordWord = 'wordWord';
-  static const createPassword = 'createPassword';
-  static const createPasswordDescription = 'createPasswordDescription';
   static const yourPassword = 'yourPassword';
-  static const passwordDescription = 'passwordDescription';
-  static const randomPassword = 'randomPassword';
-  static const confirmPassword = 'confirmPassword';
-  static const createWord = 'createWord';
   static const passwordLength = 'passwordLength';
-  static const passwordsMatch = 'passwordsMatch';
   static const passwordIsWrong = 'passwordIsWrong';
   static const saveSeedPhrase = 'saveSeedPhrase';
   static const saveSeedWarning = 'saveSeedWarning';
-  static const checkSeedPhrase = 'checkSeedPhrase';
   static const skip = 'skip';
-  static const skipTakeRisk = 'skipTakeRisk';
   static const copiedExclamation = 'copiedExclamation';
   static const copyWords = 'copyWords';
   static const copyWord = 'copyWord';
@@ -56,10 +41,8 @@ abstract class LocaleKeys {
   static const exportSeed = 'exportSeed';
   static const exportSeedPhrase = 'exportSeedPhrase';
   static const manageSeedsAndAccounts = 'manageSeedsAndAccounts';
-  static const currencyWord = 'currencyWord';
   static const languageWord = 'languageWord';
   static const biometryWord = 'biometryWord';
-  static const darkTheme = 'darkTheme';
   static const logOut = 'logOut';
   static const totalBalance = 'totalBalance';
   static const seedPhrases = 'seedPhrases';
@@ -67,7 +50,6 @@ abstract class LocaleKeys {
   static const addNewSeedPhrase = 'addNewSeedPhrase';
   static const publicKeysWithData = 'publicKeysWithData';
   static const accountsWithData = 'accountsWithData';
-  static const accountAddressWithData = 'accountAddressWithData';
   static const createNewSeed = 'createNewSeed';
   static const importSeed = 'importSeed';
   static const settingsOfSeed = 'settingsOfSeed';
@@ -112,12 +94,9 @@ abstract class LocaleKeys {
   static const publicKey = 'publicKey';
   static const selectWord = 'selectWord';
   static const selectKeysYouNeed = 'selectKeysYouNeed';
-  static const pageCountOf = 'pageCountOf';
   static const biometryAuthReason = 'biometryAuthReason';
   static const touchId = 'touchId';
-  static const touchIdDescription = 'touchIdDescription';
   static const faceId = 'faceId';
-  static const faceIdDescription = 'faceIdDescription';
   static const useSomething = 'useSomething';
   static const noThanks = 'noThanks';
   static const addNewAccount = 'addNewAccount';
@@ -166,8 +145,6 @@ abstract class LocaleKeys {
   static const networkTokenListText = 'networkTokenListText';
   static const networkTokenListTextLink = 'networkTokenListTextLink';
   static const networkTokenListTextLinkUrl = 'networkTokenListTextLinkUrl';
-  static const networkErrorMessageEmpty = 'networkErrorMessageEmpty';
-  static const networkErrorMessageInvalidURL = 'networkErrorMessageInvalidURL';
   static const networkDelete = 'networkDelete';
   static const networkAdd = 'networkAdd';
   static const networkSave = 'networkSave';
@@ -183,10 +160,10 @@ abstract class LocaleKeys {
   static const assetsWord = 'assetsWord';
   static const transactionsWord = 'transactionsWord';
   static const addAccount = 'addAccount';
-  static const createAccountOrAddExisted = 'createAccountOrAddExisted';
   static const seeInExplorer = 'seeInExplorer';
   static const langEnglish = 'langEnglish';
   static const langKorean = 'langKorean';
+  static const langChinese = 'langChinese';
   static const chooseLanguage = 'chooseLanguage';
   static const contactSupport = 'contactSupport';
   static const contactSupportBottomSheetHeaderInitiatedByUser =
@@ -207,12 +184,6 @@ abstract class LocaleKeys {
       'contactSupportEmailSubjectInitiatedByUser';
   static const contactSupportEmailBodyInitiatedByUser =
       'contactSupportEmailBodyInitiatedByUser';
-  static const contactSupportEmailToInitiatedByCrash =
-      'contactSupportEmailToInitiatedByCrash';
-  static const contactSupportEmailSubjectInitiatedByCrash =
-      'contactSupportEmailSubjectInitiatedByCrash';
-  static const contactSupportEmailBodyInitiatedByCrash =
-      'contactSupportEmailBodyInitiatedByCrash';
   static const contactSupportCantCreateFile = 'contactSupportCantCreateFile';
   static const contactSupportCantFindEmailClient =
       'contactSupportCantFindEmailClient';
@@ -226,18 +197,12 @@ abstract class LocaleKeys {
   static const browserPermissionsBody = 'browserPermissionsBody';
   static const done = 'done';
   static const browserSearchURL = 'browserSearchURL';
-  static const browserSearchURLCancel = 'browserSearchURLCancel';
   static const browserErrorTitle = 'browserErrorTitle';
-  static const browserErrorDefault = 'browserErrorDefault';
   static const browserRefresh = 'browserRefresh';
-  static const browserAddToBookmarks = 'browserAddToBookmarks';
   static const browserHistory = 'browserHistory';
   static const browserSearch = 'browserSearch';
-  static const browserHistoryEmpty = 'browserHistoryEmpty';
-  static const browserHistoryEmptySearch = 'browserHistoryEmptySearch';
   static const browserAddBookmark = 'browserAddBookmark';
   static const browserHistoryClear = 'browserHistoryClear';
-  static const deleteBrowsingData = 'deleteBrowsingData';
   static const browserTranslatePage = 'browserTranslatePage';
   static const clearWord = 'clearWord';
   static const browsingHistory = 'browsingHistory';
@@ -247,12 +212,6 @@ abstract class LocaleKeys {
       'browserClearCookiesDescription';
   static const browserClearCache = 'browserClearCache';
   static const browserBookmarks = 'browserBookmarks';
-  static const browserPopularResources = 'browserPopularResources';
-  static const browserSeeAll = 'browserSeeAll';
-  static const browserBookmarkSettings = 'browserBookmarkSettings';
-  static const browserBookmarkShare = 'browserBookmarkShare';
-  static const browserBookmarkRename = 'browserBookmarkRename';
-  static const browserBookmarkDelete = 'browserBookmarkDelete';
   static const browserBookmarkDeleted = 'browserBookmarkDeleted';
   static const browserBookmarkRenameEnterName =
       'browserBookmarkRenameEnterName';
@@ -261,9 +220,7 @@ abstract class LocaleKeys {
   static const edit = 'edit';
   static const editName = 'editName';
   static const browserBookmarkAdded = 'browserBookmarkAdded';
-  static const browserBookmarksClear = 'browserBookmarksClear';
   static const browserBookmarksDeleted = 'browserBookmarksDeleted';
-  static const browserStartEmptySearch = 'browserStartEmptySearch';
   static const browserEnterBasicAuthTitle = 'browserEnterBasicAuthTitle';
   static const browserEnterBasicAuthDescription =
       'browserEnterBasicAuthDescription';
@@ -273,7 +230,6 @@ abstract class LocaleKeys {
   static const browserStartTitle = 'browserStartTitle';
   static const browserStartDescription = 'browserStartDescription';
   static const bookmarksEmptyDescription = 'bookmarksEmptyDescription';
-  static const browserGroupWillDeleted = 'browserGroupWillDeleted';
   static const maxCharactersAllowed = 'maxCharactersAllowed';
   static const historyEmptyDescription = 'historyEmptyDescription';
   static const walletWord = 'walletWord';
@@ -306,22 +262,15 @@ abstract class LocaleKeys {
   static const proceedWord = 'proceedWord';
   static const invalidRootTokenContract = 'invalidRootTokenContract';
   static const oldWord = 'oldWord';
-  static const feesWord = 'feesWord';
-  static const feesWithData = 'feesWithData';
-  static const startExploring = 'startExploring';
   static const startPage = 'startPage';
-  static const statusWord = 'statusWord';
-  static const leftForConfirmation = 'leftForConfirmation';
   static const transactionStatusWaitingConfirmation =
       'transactionStatusWaitingConfirmation';
-  static const transactionStatusInProgress = 'transactionStatusInProgress';
   static const transactionStatusExpired = 'transactionStatusExpired';
   static const addressToReceiveFunds = 'addressToReceiveFunds';
   static const shareWord = 'shareWord';
   static const deployWord = 'deployWord';
   static const toSendMultisigAddCustodian = 'toSendMultisigAddCustodian';
   static const addWord = 'addWord';
-  static const transactionsHistory = 'transactionsHistory';
   static const emptyHistoryTitle = 'emptyHistoryTitle';
   static const commentWord = 'commentWord';
   static const tokenIncomingTransfer = 'tokenIncomingTransfer';
@@ -359,15 +308,10 @@ abstract class LocaleKeys {
   static const reinvestWord = 'reinvestWord';
   static const reasonWord = 'reasonWord';
   static const transactionInformation = 'transactionInformation';
-  static const blockchainFee = 'blockchainFee';
   static const typeWord = 'typeWord';
   static const ordinaryWord = 'ordinaryWord';
   static const hashId = 'hashId';
   static const amountWord = 'amountWord';
-  static const depoolRoundComplete = 'depoolRoundComplete';
-  static const depoolReceiveAnswer = 'depoolReceiveAnswer';
-  static const tokenWalletDeployed = 'tokenWalletDeployed';
-  static const walletInteraction = 'walletInteraction';
   static const signaturesWord = 'signaturesWord';
   static const custodianNumber = 'custodianNumber';
   static const signaturesCollected = 'signaturesCollected';
@@ -375,16 +319,11 @@ abstract class LocaleKeys {
   static const signedWord = 'signedWord';
   static const notSignedWord = 'notSignedWord';
   static const confirmTransaction = 'confirmTransaction';
-  static const tokenOutgoingTransfer = 'tokenOutgoingTransfer';
-  static const swapBack = 'swapBack';
   static const acceptWord = 'acceptWord';
-  static const transferBounced = 'transferBounced';
-  static const swapBackBounced = 'swapBackBounced';
   static const amountIsWrong = 'amountIsWrong';
   static const amountIsEmpty = 'amountIsEmpty';
   static const sendYourFunds = 'sendYourFunds';
   static const nextWord = 'nextWord';
-  static const amountAvailable = 'amountAvailable';
   static const receiverAddress = 'receiverAddress';
   static const accountNotFound = 'accountNotFound';
   static const selectToken = 'selectToken';
@@ -395,7 +334,6 @@ abstract class LocaleKeys {
   static const transactionSentSuccessfully = 'transactionSentSuccessfully';
   static const attachedAmount = 'attachedAmount';
   static const selectWalletType = 'selectWalletType';
-  static const selectWalletTypeDescription = 'selectWalletTypeDescription';
   static const standardWallet = 'standardWallet';
   static const standardWalletDescription = 'standardWalletDescription';
   static const multisigWallet = 'multisigWallet';
@@ -404,17 +342,9 @@ abstract class LocaleKeys {
   static const confirmDeployment = 'confirmDeployment';
   static const outOfNumber = 'outOfNumber';
   static const custodiansWord = 'custodiansWord';
-  static const custodians = 'custodians';
-  static const custodiansDescription = 'custodiansDescription';
-  static const addCustodian = 'addCustodian';
-  static const requiredConfirmations = 'requiredConfirmations';
-  static const requiredConfirmationsDescription =
-      'requiredConfirmationsDescription';
-  static const hoursWord = 'hoursWord';
   static const publicKeyOfCustodianNumber = 'publicKeyOfCustodianNumber';
   static const custodianRenamed = 'custodianRenamed';
   static const addOneMorePublicKey = 'addOneMorePublicKey';
-  static const deployWallet = 'deployWallet';
   static const requiredConfirms = 'requiredConfirms';
   static const requireConfirmsCount = 'requireConfirmsCount';
   static const fundsDebitedToDeploy = 'fundsDebitedToDeploy';
@@ -426,15 +356,10 @@ abstract class LocaleKeys {
   static const notGranted = 'notGranted';
   static const noPassword = 'noPassword';
   static const selectAccount = 'selectAccount';
-  static const grantPermissions = 'grantPermissions';
   static const changeAccount = 'changeAccount';
   static const changeAvatarColor = 'changeAvatarColor';
-  static const originWord = 'originWord';
   static const requestedPermissions = 'requestedPermissions';
   static const allowWord = 'allowWord';
-  static const rejectWord = 'rejectWord';
-  static const accountAddress = 'accountAddress';
-  static const accountPublicKey = 'accountPublicKey';
   static const accountInteractionNotPermitted =
       'accountInteractionNotPermitted';
   static const specifiedAccountInteractionNotPermitted =
@@ -443,34 +368,25 @@ abstract class LocaleKeys {
   static const permissionsNotGranted = 'permissionsNotGranted';
   static const addAssetTitle = 'addAssetTitle';
   static const versionWord = 'versionWord';
-  static const venom = 'venom';
-  static const tychoTestnet = 'tychoTestnet';
   static const symbolWord = 'symbolWord';
   static const decimalsWord = 'decimalsWord';
-  static const ownerAddress = 'ownerAddress';
-  static const totalSupply = 'totalSupply';
   static const typeIsWrong = 'typeIsWrong';
   static const signData = 'signData';
   static const dataWord = 'dataWord';
   static const encryptData = 'encryptData';
-  static const decryptData = 'decryptData';
   static const sourcePublicKey = 'sourcePublicKey';
   static const unsupportedAlgorithm = 'unsupportedAlgorithm';
   static const specifiedSignerIsNotPermitted = 'specifiedSignerIsNotPermitted';
   static const accountNotDeployed = 'accountNotDeployed';
   static const transactionNotFound = 'transactionNotFound';
   static const callContractMethod = 'callContractMethod';
-  static const recipientAddress = 'recipientAddress';
   static const sendMessage = 'sendMessage';
   static const unknownMessageType = 'unknownMessageType';
   static const contractWithErrorCode = 'contractWithErrorCode';
   static const scanQrCode = 'scanQrCode';
-  static const uploadPhotoFromGallery = 'uploadPhotoFromGallery';
   static const givePhotosPermission = 'givePhotosPermission';
   static const giveWord = 'giveWord';
-  static const needCameraPermissions = 'needCameraPermissions';
   static const givePermissions = 'givePermissions';
-  static const scannedDataIsNot = 'scannedDataIsNot';
   static const howLiquidStakingWorks = 'howLiquidStakingWorks';
   static const stakeWord = 'stakeWord';
   static const unstakeWord = 'unstakeWord';
@@ -484,24 +400,17 @@ abstract class LocaleKeys {
   static const howItWorks = 'howItWorks';
   static const simpleLiquidStaking = 'simpleLiquidStaking';
   static const stakeEverReceiverStever = 'stakeEverReceiverStever';
-  static const tokenAmount = 'tokenAmount';
-  static const stakingInProgress = 'stakingInProgress';
   static const inProgress = 'inProgress';
-  static const unstakingInProgress = 'unstakingInProgress';
   static const stEverAppearInMinutes = 'stEverAppearInMinutes';
   static const stEverReturnInMinutes = 'stEverReturnInMinutes';
   static const withdrawHoursNote = 'withdrawHoursNote';
   static const withdrawHoursProgress = 'withdrawHoursProgress';
   static const withdrawHoursHint = 'withdrawHoursHint';
   static const cancelUnstaking = 'cancelUnstaking';
-  static const unstakingCancelled = 'unstakingCancelled';
   static const exchangeRate = 'exchangeRate';
-  static const everscale = 'everscale';
   static const averageApy = 'averageApy';
   static const stakingInitError = 'stakingInitError';
   static const stakingMaxSendableAmount = 'stakingMaxSendableAmount';
-  static const stakingNotEnoughBalanceToStake =
-      'stakingNotEnoughBalanceToStake';
   static const stakingNotEnoughBalanceToUnstake =
       'stakingNotEnoughBalanceToUnstake';
   static const sendingNotEnoughBalanceToSend = 'sendingNotEnoughBalanceToSend';
@@ -512,13 +421,10 @@ abstract class LocaleKeys {
   static const liquidStaking = 'liquidStaking';
   static const unstakeAmount = 'unstakeAmount';
   static const textFieldShouldNotBeEmpty = 'textFieldShouldNotBeEmpty';
-  static const textFieldTooShort = 'textFieldTooShort';
   static const textFieldTooLong = 'textFieldTooLong';
   static const urlFieldShouldNotBeEmpty = 'urlFieldShouldNotBeEmpty';
   static const urlFieldShouldHasScheme = 'urlFieldShouldHasScheme';
   static const urlFieldShouldHasHost = 'urlFieldShouldHasHost';
-  static const goToWallet = 'goToWallet';
-  static const goToOnboarding = 'goToOnboarding';
   static const areYouSure = 'areYouSure';
   static const logoutConfirmText = 'logoutConfirmText';
   static const initializationRerunFailed = 'initializationRerunFailed';
@@ -526,7 +432,6 @@ abstract class LocaleKeys {
       'initializationFailedDescription';
   static const tryAgain = 'tryAgain';
   static const errorOccurred = 'errorOccurred';
-  static const closeWord = 'closeWord';
   static const connectingNetworkFailed = 'connectingNetworkFailed';
   static const creatingSubscriptionFailed = 'creatingSubscriptionFailed';
   static const suchTokenCannotBeSubscribed = 'suchTokenCannotBeSubscribed';
@@ -550,7 +455,6 @@ abstract class LocaleKeys {
   static const touchIdContent = 'touchIdContent';
   static const addExistingWalletTitle = 'addExistingWalletTitle';
   static const addExistingWalletSubtitle = 'addExistingWalletSubtitle';
-  static const useSecretPhraseTitle = 'useSecretPhraseTitle';
   static const importWalletScreenTitle = 'importWalletScreenTitle';
   static const importWalletScreenSubtitle = 'importWalletScreenSubtitle';
   static const importWalletButtonText = 'importWalletButtonText';
@@ -565,7 +469,6 @@ abstract class LocaleKeys {
   static const addCommentHint = 'addCommentHint';
   static const networkFee = 'networkFee';
   static const password = 'password';
-  static const exploreConnectFavoriteSites = 'exploreConnectFavoriteSites';
   static const transactionExpired = 'transactionExpired';
   static const transactionCompleted = 'transactionCompleted';
   static const received = 'received';
@@ -578,7 +481,6 @@ abstract class LocaleKeys {
   static const basicInteractionType = 'basicInteractionType';
   static const plusSign = 'plusSign';
   static const minusSign = 'minusSign';
-  static const approximatelySign = 'approximatelySign';
   static const currentBalanceLabel = 'currentBalanceLabel';
   static const untrastedTokenWarning = 'untrastedTokenWarning';
   static const phishingExplicitWarning = 'phishingExplicitWarning';
@@ -593,22 +495,9 @@ abstract class LocaleKeys {
   static const decrypt = 'decrypt';
   static const notBackedUpTitle = 'notBackedUpTitle';
   static const notBackedUpSubtitle = 'notBackedUpSubtitle';
-  static const backedUpTitleModal = 'backedUpTitleModal';
-  static const backedUpSubtitleModal = 'backedUpSubtitleModal';
-  static const backedUpManuallyButton = 'backedUpManuallyButton';
-  static const keepThisSafeTitleModal = 'keepThisSafeTitleModal';
-  static const keepThisSafeSubtitleModal = 'keepThisSafeSubtitleModal';
-  static const keepThisSafeContentModal = 'keepThisSafeContentModal';
-  static const gotItButton = 'gotItButton';
-  static const goodJobTitleModal = 'goodJobTitleModal';
-  static const goodJobSubtitleModal = 'goodJobSubtitleModal';
-  static const accounts = 'accounts';
   static const accountSettings = 'accountSettings';
-  static const viewInExplorer = 'viewInExplorer';
   static const hideAccount = 'hideAccount';
-  static const advancedSettings = 'advancedSettings';
   static const backToSettings = 'backToSettings';
-  static const check = 'check';
   static const checkPhrasesLabel = 'checkPhrasesLabel';
   static const manualBackupTitleDialog = 'manualBackupTitleDialog';
   static const manualBackupSubtitleDialog = 'manualBackupSubtitleDialog';
@@ -621,7 +510,6 @@ abstract class LocaleKeys {
   static const accountName = 'accountName';
   static const defaultWord = 'defaultWord';
   static const multisignatureWord = 'multisignatureWord';
-  static const forExperiencedUsers = 'forExperiencedUsers';
   static const walletDescriptionSurfWallet = 'walletDescriptionSurfWallet';
   static const walletDescriptionWalletV3 = 'walletDescriptionWalletV3';
   static const walletDescriptionSafeMultisigWallet =
@@ -732,16 +620,12 @@ abstract class LocaleKeys {
   static const tryAgainOrContact = 'tryAgainOrContact';
   static const contactUs = 'contactUs';
   static const publicKeyNull = 'publicKeyNull';
-  static const passwordNull = 'passwordNull';
   static const seedPhraseFormatLabel12 = 'seedPhraseFormatLabel12';
   static const seedPhraseFormatLabel24 = 'seedPhraseFormatLabel24';
   static const seedPhrase12FormatStandart = 'seedPhrase12FormatStandart';
   static const seedPhrase12FormatTON = 'seedPhrase12FormatTON';
   static const seedPhrase24FormatStandart = 'seedPhrase24FormatStandart';
   static const seedPhrase24FormatTON = 'seedPhrase24FormatTON';
-  static const invalidNetworkError = 'invalidNetworkError';
-  static const invalidPublicKeyError = 'invalidPublicKeyError';
-  static const invalidWalletAddressError = 'invalidWalletAddressError';
   static const dappManifestError = 'dappManifestError';
   static const appNewVersionTitle = 'appNewVersionTitle';
   static const importantUpdateReleaseNote = 'importantUpdateReleaseNote';
@@ -831,8 +715,6 @@ abstract class LocaleKeys {
   static const failedToPrepareTransaction = 'failedToPrepareTransaction';
   static const failedToSendTransaction = 'failedToSendTransaction';
   static const passwordLockedUntil = 'passwordLockedUntil';
-  static const invalidPayloadError = 'invalidPayloadError';
-  static const invalidStateInitError = 'invalidStateInitError';
   static const unsupportedWalletTypeError = 'unsupportedWalletTypeError';
   static const internetConnectionError = 'internetConnectionError';
   static const multisigSubmitUpdateTransaction =

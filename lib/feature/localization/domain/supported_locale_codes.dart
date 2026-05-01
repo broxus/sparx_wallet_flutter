@@ -4,7 +4,8 @@ import 'package:app/generated/generated.dart';
 
 enum SupportedLocaleCodes {
   en(LocaleKeys.langEnglish),
-  ko(LocaleKeys.langKorean);
+  ko(LocaleKeys.langKorean),
+  zh(LocaleKeys.langChinese);
 
   const SupportedLocaleCodes(this.localizedString);
 
@@ -13,6 +14,7 @@ enum SupportedLocaleCodes {
   String get iconPath => switch (this) {
     SupportedLocaleCodes.en => Assets.images.langIcons.english.path,
     SupportedLocaleCodes.ko => Assets.images.langIcons.korean.path,
+    SupportedLocaleCodes.zh => Assets.images.langIcons.chinese.path,
   };
 
   Locale get locale => Locale(name);

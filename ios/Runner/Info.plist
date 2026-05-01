@@ -18,6 +18,7 @@
 	<array>
 		<string>en</string>
 		<string>ko</string>
+		<string>zh</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>$(FLAVOR_APP_NAME)</string>

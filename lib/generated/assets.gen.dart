@@ -652,8 +652,11 @@ class $AssetsTranslationsGen {
   /// File path: assets/translations/ko.json
   String get ko => 'assets/translations/ko.json';
 
+  /// File path: assets/translations/zh.json
+  String get zh => 'assets/translations/zh.json';
+
   /// List of all assets
-  List<String> get values => [en, ko];
+  List<String> get values => [en, ko, zh];
 }
 
 class $AssetsImagesAlertOctagonFillGen {
@@ -694,6 +697,10 @@ class $AssetsImagesCheckCircleFillGen {
 class $AssetsImagesLangIconsGen {
   const $AssetsImagesLangIconsGen();
 
+  /// File path: assets/images/lang_icons/chinese.svg
+  SvgGenImage get chinese =>
+      const SvgGenImage('assets/images/lang_icons/chinese.svg');
+
   /// File path: assets/images/lang_icons/english.svg
   SvgGenImage get english =>
       const SvgGenImage('assets/images/lang_icons/english.svg');
@@ -703,7 +710,7 @@ class $AssetsImagesLangIconsGen {
       const SvgGenImage('assets/images/lang_icons/korean.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [english, korean];
+  List<SvgGenImage> get values => [chinese, english, korean];
 }
 
 class $AssetsImagesNftPlaceholderGen {
