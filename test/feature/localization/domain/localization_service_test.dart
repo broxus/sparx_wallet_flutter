@@ -24,7 +24,7 @@ void main() {
     test('byName resolves zh and falls back for unknown codes', () {
       // Arrange
       const supportedCode = 'zh';
-      const unknownCode = 'es';
+      const unknownCode = 'zz';
 
       // Act
       final supportedResult = SupportedLocaleCodes.byName(supportedCode);

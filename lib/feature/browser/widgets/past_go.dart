@@ -1,5 +1,6 @@
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 const _pastGoButtonWidth = 151.0;
@@ -26,11 +27,20 @@ class PastGoButton extends StatelessWidget {
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: DimensSize.d10),
-                  child: Text(
-                    LocaleKeys.pasteAndGo.tr(),
-                    style: theme.textStyles.paragraphMedium.copyWith(
-                      color: theme.colors.primaryA,
+                  padding: const EdgeInsets.fromLTRB(
+                    DimensSize.d12,
+                    DimensSize.d10,
+                    DimensSize.d12,
+                    DimensSize.d8,
+                  ),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      LocaleKeys.pasteAndGo.tr(),
+                      textAlign: TextAlign.center,
+                      style: theme.textStyles.paragraphMedium.copyWith(
+                        color: theme.colors.primaryA,
+                      ),
                     ),
                   ),
                 ),
