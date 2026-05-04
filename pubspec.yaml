@@ -129,7 +129,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   json_serializable: ^6.11.2
-  melos: ^7.5.1
+  melos: ^7.6.0
   mocktail: ^1.0.5
   path_provider_platform_interface: 2.1.2
   permission_handler_platform_interface: 4.3.0
