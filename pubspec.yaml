@@ -30,7 +30,7 @@ dependencies:
   cupertino_http: ^2.3.0
   device_info_plus: ^12.1.0
   dio: ^5.9.0
-  drift: ^2.29.0
+  drift: ^2.33.0
   easy_localization: ^3.0.8
   easy_logger: 0.0.2
   elementary: ^3.2.1
