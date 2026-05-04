@@ -164,6 +164,15 @@ abstract class LocaleKeys {
   static const langEnglish = 'langEnglish';
   static const langKorean = 'langKorean';
   static const langChinese = 'langChinese';
+  static const langSpanish = 'langSpanish';
+  static const langPortuguese = 'langPortuguese';
+  static const langRussian = 'langRussian';
+  static const langTurkish = 'langTurkish';
+  static const langVietnamese = 'langVietnamese';
+  static const langIndonesian = 'langIndonesian';
+  static const langFrench = 'langFrench';
+  static const langGerman = 'langGerman';
+  static const langJapanese = 'langJapanese';
   static const chooseLanguage = 'chooseLanguage';
   static const contactSupport = 'contactSupport';
   static const contactSupportBottomSheetHeaderInitiatedByUser =
