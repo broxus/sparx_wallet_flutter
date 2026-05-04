@@ -149,10 +149,10 @@ packages:
     dependency: "direct main"
     description:
       name: auto_size_text_field
-      sha256: "41c90b2270e38edc6ce5c02e5a17737a863e65e246bdfc94565a38f3ec399144"
+      sha256: "993622a483d30165c7536e120a145ae9b57c2d6e8a39027b9701c499cd8997a0"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.4"
+    version: "2.3.0"
   barcode:
     dependency: transitive
     description:
