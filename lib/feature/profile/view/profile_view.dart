@@ -194,7 +194,7 @@ class _Item extends StatelessWidget {
 
     return CommonListTile(
       padding: EdgeInsets.zero,
-      height: DimensSize.d40,
+      height: subtitle == null ? DimensSize.d40 : null,
       titleText: title,
       titleTextStyle: theme.textStyles.button,
       subtitleText: subtitle,
