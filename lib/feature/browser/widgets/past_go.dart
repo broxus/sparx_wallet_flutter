@@ -1,6 +1,5 @@
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 const _pastGoButtonWidth = 151.0;
