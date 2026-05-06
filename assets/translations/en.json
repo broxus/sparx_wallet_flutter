@@ -578,7 +578,7 @@
   "refreshToFind": "Refresh to find",
   "newTokensLabel": "{} new tokens",
   "foundInThisAccountLabel": "found in this account.",
-  "dontSeeYourToken": "Don`t see your token?",
+  "dontSeeYourToken": "Don't see your token?",
   "emptyTokensDescriptionModal": "Sorry, we couldn’t find anything matching your request.",
   "selectTokensLabel": "Select tokens",
   "importSelectedTokensLabel": "Import selected tokens?",
