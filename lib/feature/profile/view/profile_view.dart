@@ -15,6 +15,7 @@ class ProfileView extends StatelessWidget {
     required this.onManageSeeds,
     required this.onExportSeed,
     required this.onContactSupport,
+    required this.onChangeLanguage,
     required this.onFAQ,
     required this.onLegal,
     required this.onLogout,
@@ -32,6 +33,7 @@ class ProfileView extends StatelessWidget {
   final VoidCallback onManageSeeds;
   final VoidCallback onExportSeed;
   final VoidCallback onContactSupport;
+  final VoidCallback onChangeLanguage;
   final VoidCallback onFAQ;
   final VoidCallback onLegal;
   final VoidCallback onLogout;
@@ -72,6 +74,12 @@ class ProfileView extends StatelessWidget {
                       subtitle: LocaleKeys.connectedDappsSubtitle.tr(),
                       icon: LucideIcons.plus,
                       onPressed: onManageDapps,
+                    ),
+                    _Item(
+                      title: LocaleKeys.languageWord.tr(),
+                      subtitle: LocaleKeys.chooseLanguage.tr(),
+                      icon: LucideIcons.globe,
+                      onPressed: onChangeLanguage,
                     ),
                   ],
                 ),
@@ -186,7 +194,7 @@ class _Item extends StatelessWidget {
 
     return CommonListTile(
       padding: EdgeInsets.zero,
-      height: DimensSize.d40,
+      height: subtitle == null ? DimensSize.d40 : null,
       titleText: title,
       titleTextStyle: theme.textStyles.button,
       subtitleText: subtitle,

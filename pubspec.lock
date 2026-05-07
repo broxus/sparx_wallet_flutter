@@ -149,10 +149,10 @@ packages:
     dependency: "direct main"
     description:
       name: auto_size_text_field
-      sha256: "41c90b2270e38edc6ce5c02e5a17737a863e65e246bdfc94565a38f3ec399144"
+      sha256: "993622a483d30165c7536e120a145ae9b57c2d6e8a39027b9701c499cd8997a0"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.4"
+    version: "2.3.0"
   barcode:
     dependency: transitive
     description:
@@ -246,10 +246,10 @@ packages:
     dependency: "direct dev"
     description:
       name: build_runner
-      sha256: "22fdcc3cfeb9d974d7408718c4be15ec5e9b1b350088f3a6c88f154e74dd700d"
+      sha256: "1523ce62448ebac2c15a8ba5fbad8acac169788658a7dd2a1c2d9c2a9318b9a6"
       url: "https://pub.dev"
     source: hosted
-    version: "2.14.1"
+    version: "2.15.0"
   built_collection:
     dependency: transitive
     description:
@@ -410,22 +410,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.8.1"
-  connectivity_plus:
-    dependency: transitive
-    description:
-      name: connectivity_plus
-      sha256: "62ffa266d9a23b79fb3fcbc206afc00bb979417ba57b1324c546b5aab95ba057"
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.1.1"
-  connectivity_plus_platform_interface:
-    dependency: transitive
-    description:
-      name: connectivity_plus_platform_interface
-      sha256: "3c09627c536d22fd24691a905cdd8b14520de69da52c7a97499c8be5284a32ed"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.0"
   conventional_commit:
     dependency: transitive
     description:
@@ -566,18 +550,18 @@ packages:
     dependency: "direct main"
     description:
       name: drift
-      sha256: "055c249d1f91be5a47fe447f88afc24c4ca6f4cd6c5ed66767b4797d48acc2e5"
+      sha256: "8033500116b24398fba0cca0369cc31678cd627c01e41753a61186911cea743e"
       url: "https://pub.dev"
     source: hosted
-    version: "2.32.1"
+    version: "2.33.0"
   drift_dev:
     dependency: "direct dev"
     description:
       name: drift_dev
-      sha256: "88a9de3af8571518148a6d8a513b57779fd1e60a026d3ab8a481a878fba01d91"
+      sha256: b3dd5b75e30522a91da8abda9f5bb17230cb038097f6d15fa75d42bb563428aa
       url: "https://pub.dev"
     source: hosted
-    version: "2.32.1"
+    version: "2.33.0"
   drift_flutter:
     dependency: transitive
     description:
@@ -965,10 +949,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_nekoton_bridge
-      sha256: "1658efe9298a14614519a767c9b8bcd56974c2ecf7987f0ee329da9db7d50cea"
+      sha256: "99358bdcf871c5ac139cdb8f2c331755ffc2cfcf10292fa5ef99d63fc6cb3cc6"
       url: "https://pub.dev"
     source: hosted
-    version: "5.5.4-dev.1"
+    version: "5.6.0"
   flutter_plugin_android_lifecycle:
     dependency: "direct overridden"
     description:
@@ -1409,10 +1393,10 @@ packages:
     dependency: "direct main"
     description:
       name: internet_connection_checker_plus
-      sha256: ef43530f24de6309f99802358f8a543ea1f2babc153effc84a75133751716892
+      sha256: "64d938ddd9638ceef31aa3db84191c3fada44d3c7c8a1132662feedb852f951e"
       url: "https://pub.dev"
     source: hosted
-    version: "2.9.1+2"
+    version: "3.0.0"
   intl:
     dependency: transitive
     description:
@@ -1585,10 +1569,10 @@ packages:
     dependency: "direct dev"
     description:
       name: melos
-      sha256: "2f7381d209ab7554203c51481a6a57c7896593b7f06190a06a467aa5bfd693c5"
+      sha256: "6dfe6cdf24863ef125bfe75d6b7b1eb192430570a27722e539a453f2cf9704e7"
       url: "https://pub.dev"
     source: hosted
-    version: "7.5.1"
+    version: "7.7.0"
   meta:
     dependency: transitive
     description:
@@ -1673,18 +1657,18 @@ packages:
     dependency: transitive
     description:
       name: nekoton_bridge
-      sha256: "453e27da430439771f2130b76a1ab0e842a38b0e0737c95bbb37acd55f9120b0"
+      sha256: "828775b1b8659d93119ede67acd694a1a25d58e434444b1b21dce456367e784e"
       url: "https://pub.dev"
     source: hosted
-    version: "5.5.0"
+    version: "5.6.0"
   nekoton_repository:
     dependency: "direct main"
     description:
       name: nekoton_repository
-      sha256: "915c777cd8af52f721360273c741d2c3cd2a14747b5333bb131dfa80035b6486"
+      sha256: "884f9abe44b767deca79203c33cde33aa7830ec0aa6d57855cbd282df6fa34d0"
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.1-dev.2"
+    version: "4.2.1"
   nekoton_webview:
     dependency: "direct main"
     description:
@@ -1701,14 +1685,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  nm:
-    dependency: transitive
-    description:
-      name: nm
-      sha256: "2c9aae4127bdc8993206464fcc063611e0e36e72018696cd9631023a31b24254"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.5.0"
   no_screenshot:
     dependency: "direct main"
     description:

@@ -31,10 +31,16 @@ class WalletActionButton extends StatelessWidget {
               padding: const EdgeInsets.all(DimensSize.d18),
               child: Icon(icon, size: DimensSize.d20),
             ),
-            Text(
-              label,
-              style: theme.textStyles.labelXSmall.copyWith(
-                color: theme.colors.content3,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: DimensSize.d4),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  label,
+                  style: theme.textStyles.labelXSmall.copyWith(
+                    color: theme.colors.content3,
+                  ),
+                ),
               ),
             ),
           ],

@@ -17,7 +17,17 @@
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>en</string>
+		<string>es</string>
+		<string>pt</string>
+		<string>ru</string>
+		<string>tr</string>
+		<string>vi</string>
+		<string>id</string>
+		<string>fr</string>
+		<string>de</string>
+		<string>ja</string>
 		<string>ko</string>
+		<string>zh</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>$(FLAVOR_APP_NAME)</string>

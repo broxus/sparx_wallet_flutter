@@ -26,11 +26,20 @@ class PastGoButton extends StatelessWidget {
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: DimensSize.d10),
-                  child: Text(
-                    LocaleKeys.pasteAndGo.tr(),
-                    style: theme.textStyles.paragraphMedium.copyWith(
-                      color: theme.colors.primaryA,
+                  padding: const EdgeInsets.fromLTRB(
+                    DimensSize.d12,
+                    DimensSize.d10,
+                    DimensSize.d12,
+                    DimensSize.d8,
+                  ),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      LocaleKeys.pasteAndGo.tr(),
+                      textAlign: TextAlign.center,
+                      style: theme.textStyles.paragraphMedium.copyWith(
+                        color: theme.colors.primaryA,
+                      ),
                     ),
                   ),
                 ),

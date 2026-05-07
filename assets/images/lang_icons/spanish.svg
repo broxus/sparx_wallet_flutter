@@ -1,0 +1,16 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_spanish_flag)">
+<path d="M0 0H40V40H0V0Z" fill="#AA151B"/>
+<path d="M0 10H40V30H0V10Z" fill="#F1BF00"/>
+<path d="M9 14C9 13.4477 9.44772 13 10 13H14C14.5523 13 15 13.4477 15 14V26C15 26.5523 14.5523 27 14 27H10C9.44772 27 9 26.5523 9 26V14Z" fill="#A67C52"/>
+<path d="M11 15.5H13V18H11V15.5Z" fill="#C8102E"/>
+<path d="M11 19.5H13V24.5H11V19.5Z" fill="#C8102E"/>
+<path d="M10 18H14V19.5H10V18Z" fill="#C8102E"/>
+</g>
+<rect x="0.5" y="0.5" width="39" height="39" rx="19.5" stroke="#F3F3F3"/>
+<defs>
+<clipPath id="clip0_spanish_flag">
+<rect width="40" height="40" rx="20" fill="white"/>
+</clipPath>
+</defs>
+</svg>

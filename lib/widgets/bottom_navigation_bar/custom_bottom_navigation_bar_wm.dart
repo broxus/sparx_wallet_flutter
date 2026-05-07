@@ -42,7 +42,7 @@ class CustomBottomNavigationBarWidgetModel
 
   ThemeStyle get _theme => context.themeStyle;
 
-  late final List<BottomNavigationBarItem> items = [
+  List<BottomNavigationBarItem> get items => [
     for (final tab in RootTab.values) tab.item(),
   ];
 

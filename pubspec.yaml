@@ -1,7 +1,7 @@
 ---
 name: app
 description: SparX Wallet Flutter app
-version: 2.4.2
+version: 2.5.0
 publish_to: none
 
 environment:
@@ -17,7 +17,7 @@ dependencies:
   app_links: ^7.0.0
   async: ^2.12.0
   auto_size_text: 3.0.0
-  auto_size_text_field: 2.2.4
+  auto_size_text_field: 2.3.0
   barcode_widget: 2.0.4
   buffer: ^1.2.3
   cached_network_image: 3.4.1
@@ -30,7 +30,7 @@ dependencies:
   cupertino_http: ^2.3.0
   device_info_plus: ^12.1.0
   dio: ^5.9.0
-  drift: ^2.29.0
+  drift: ^2.33.0
   easy_localization: ^3.0.8
   easy_logger: 0.0.2
   elementary: ^3.2.1
@@ -62,7 +62,7 @@ dependencies:
   in_app_update: ^4.2.5
   infinite_scroll_pagination: ^5.1.0
   injectable: ^2.6.0
-  internet_connection_checker_plus: ^2.9.1
+  internet_connection_checker_plus: ^3.0.0
   jdenticon_dart: 2.0.0
   json_annotation: ^4.11.0
   local_auth: ^3.0.0
@@ -72,7 +72,7 @@ dependencies:
   money2: ^6.0.0
   mutex: ^3.1.0
   native_dio_adapter: ^1.5.0
-  nekoton_repository: ^4.2.1-dev.2
+  nekoton_repository: ^4.2.1
   nekoton_webview: ^0.2.1
   no_screenshot: ^1.1.0
   ntp: 2.0.0
@@ -115,9 +115,9 @@ dev_dependencies:
     git:
       url: https://github.com/broxus/flutter_templates.git
       ref: main
-  build_runner: ^2.14.1
+  build_runner: ^2.15.0
   commitlint_cli: ^0.8.1
-  drift_dev: ^2.31.0
+  drift_dev: ^2.33.0
   flutter_gen_runner: ^5.14.0
   flutter_native_splash: ^2.4.7
   flutter_test:
@@ -129,7 +129,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   json_serializable: ^6.11.2
-  melos: ^7.5.1
+  melos: ^7.7.0
   mocktail: ^1.0.5
   path_provider_platform_interface: 2.1.2
   permission_handler_platform_interface: 4.3.0

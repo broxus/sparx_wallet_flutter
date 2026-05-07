@@ -1,0 +1,14 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_turkish_flag)">
+<path d="M0 0H40V40H0V0Z" fill="#E30A17"/>
+<circle cx="16" cy="20" r="8" fill="white"/>
+<circle cx="18.5" cy="20" r="6.4" fill="#E30A17"/>
+<path d="M25.5 13L27.1485 18.0744H32.484L28.1678 21.2012L29.8164 26.2756L25.5 23.1488L21.1836 26.2756L22.8322 21.2012L18.516 18.0744H23.8515L25.5 13Z" fill="white"/>
+</g>
+<rect x="0.5" y="0.5" width="39" height="39" rx="19.5" stroke="#F3F3F3"/>
+<defs>
+<clipPath id="clip0_turkish_flag">
+<rect width="40" height="40" rx="20" fill="white"/>
+</clipPath>
+</defs>
+</svg>

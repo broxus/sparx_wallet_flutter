@@ -21,6 +21,7 @@ class ProfilePageWidget
           onManageSeeds: wm.onManageSeeds,
           onExportSeed: wm.onExportSeed,
           onContactSupport: wm.onContactSupport,
+          onChangeLanguage: wm.onChangeLanguage,
           onFAQ: wm.onFAQ,
           onLegal: wm.onLegal,
           onLogout: wm.onLogout,
