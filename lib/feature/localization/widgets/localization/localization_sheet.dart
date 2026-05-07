@@ -9,7 +9,10 @@ Future<void> showLocalizationSheet({required BuildContext context}) {
   return showCommonBottomSheet(
     context: context,
     title: LocaleKeys.chooseLanguage.tr(),
-    body: (_, __) => const LocalizationSheet(),
+    body: (_, scrollController) => SingleChildScrollView(
+      controller: scrollController,
+      child: const LocalizationSheet(),
+    ),
   );
 }
 

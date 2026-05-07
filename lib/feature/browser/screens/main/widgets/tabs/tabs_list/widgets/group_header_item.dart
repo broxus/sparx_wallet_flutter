@@ -1,5 +1,6 @@
 import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser/data/groups/browser_group.dart';
+import 'package:app/generated/generated.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
@@ -40,8 +41,12 @@ class BrowserGroupHeaderItem extends StatelessWidget {
                 firstSource: browserGroup,
                 secondSource: selectedGroupIdListenable,
                 builder: (_, BrowserGroup? group, String? selectedId) {
+                  final title = group?.id == tabsGroupId
+                      ? LocaleKeys.tabs.tr()
+                      : group?.title ?? '';
+
                   return Text(
-                    group?.title ?? '',
+                    title,
                     overflow: TextOverflow.ellipsis,
                     style: group?.id == selectedId
                         ? styles.labelMedium

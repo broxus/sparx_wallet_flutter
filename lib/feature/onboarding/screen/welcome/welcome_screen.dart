@@ -92,18 +92,31 @@ class WelcomeScreen extends InjectedElementaryWidget<WelcomeScreenWidgetModel> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Align(
-                alignment: Alignment.centerRight,
+                alignment: Alignment.topCenter,
                 child: Padding(
                   padding: const EdgeInsets.only(
                     top: DimensSize.d12,
                     bottom: DimensSize.d56,
+                    left: DimensSize.d16,
                     right: DimensSize.d16,
                   ),
-                  child: FloatButton(
-                    buttonShape: ButtonShape.circle,
-                    icon: LucideIcons.headset,
-                    onPressed: wm.onClickSupport,
-                    buttonSize: ButtonSize.medium,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GhostButton(
+                        buttonShape: ButtonShape.pill,
+                        buttonSize: ButtonSize.small,
+                        icon: LucideIcons.globe,
+                        title: LocaleKeys.languageWord.tr(),
+                        onPressed: wm.onChangeLanguage,
+                      ),
+                      FloatButton(
+                        buttonShape: ButtonShape.circle,
+                        icon: LucideIcons.headset,
+                        onPressed: wm.onClickSupport,
+                        buttonSize: ButtonSize.medium,
+                      ),
+                    ],
                   ),
                 ),
               ),

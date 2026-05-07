@@ -646,14 +646,44 @@ class $AssetsSplashGen {
 class $AssetsTranslationsGen {
   const $AssetsTranslationsGen();
 
+  /// File path: assets/translations/de.json
+  String get de => 'assets/translations/de.json';
+
   /// File path: assets/translations/en.json
   String get en => 'assets/translations/en.json';
+
+  /// File path: assets/translations/es.json
+  String get es => 'assets/translations/es.json';
+
+  /// File path: assets/translations/fr.json
+  String get fr => 'assets/translations/fr.json';
+
+  /// File path: assets/translations/id.json
+  String get id => 'assets/translations/id.json';
+
+  /// File path: assets/translations/ja.json
+  String get ja => 'assets/translations/ja.json';
 
   /// File path: assets/translations/ko.json
   String get ko => 'assets/translations/ko.json';
 
+  /// File path: assets/translations/pt.json
+  String get pt => 'assets/translations/pt.json';
+
+  /// File path: assets/translations/ru.json
+  String get ru => 'assets/translations/ru.json';
+
+  /// File path: assets/translations/tr.json
+  String get tr => 'assets/translations/tr.json';
+
+  /// File path: assets/translations/vi.json
+  String get vi => 'assets/translations/vi.json';
+
+  /// File path: assets/translations/zh.json
+  String get zh => 'assets/translations/zh.json';
+
   /// List of all assets
-  List<String> get values => [en, ko];
+  List<String> get values => [de, en, es, fr, id, ja, ko, pt, ru, tr, vi, zh];
 }
 
 class $AssetsImagesAlertOctagonFillGen {
@@ -694,16 +724,69 @@ class $AssetsImagesCheckCircleFillGen {
 class $AssetsImagesLangIconsGen {
   const $AssetsImagesLangIconsGen();
 
+  /// File path: assets/images/lang_icons/chinese.svg
+  SvgGenImage get chinese =>
+      const SvgGenImage('assets/images/lang_icons/chinese.svg');
+
   /// File path: assets/images/lang_icons/english.svg
   SvgGenImage get english =>
       const SvgGenImage('assets/images/lang_icons/english.svg');
+
+  /// File path: assets/images/lang_icons/french.svg
+  SvgGenImage get french =>
+      const SvgGenImage('assets/images/lang_icons/french.svg');
+
+  /// File path: assets/images/lang_icons/german.svg
+  SvgGenImage get german =>
+      const SvgGenImage('assets/images/lang_icons/german.svg');
+
+  /// File path: assets/images/lang_icons/indonesian.svg
+  SvgGenImage get indonesian =>
+      const SvgGenImage('assets/images/lang_icons/indonesian.svg');
+
+  /// File path: assets/images/lang_icons/japanese.svg
+  SvgGenImage get japanese =>
+      const SvgGenImage('assets/images/lang_icons/japanese.svg');
 
   /// File path: assets/images/lang_icons/korean.svg
   SvgGenImage get korean =>
       const SvgGenImage('assets/images/lang_icons/korean.svg');
 
+  /// File path: assets/images/lang_icons/portuguese.svg
+  SvgGenImage get portuguese =>
+      const SvgGenImage('assets/images/lang_icons/portuguese.svg');
+
+  /// File path: assets/images/lang_icons/russian.svg
+  SvgGenImage get russian =>
+      const SvgGenImage('assets/images/lang_icons/russian.svg');
+
+  /// File path: assets/images/lang_icons/spanish.svg
+  SvgGenImage get spanish =>
+      const SvgGenImage('assets/images/lang_icons/spanish.svg');
+
+  /// File path: assets/images/lang_icons/turkish.svg
+  SvgGenImage get turkish =>
+      const SvgGenImage('assets/images/lang_icons/turkish.svg');
+
+  /// File path: assets/images/lang_icons/vietnamese.svg
+  SvgGenImage get vietnamese =>
+      const SvgGenImage('assets/images/lang_icons/vietnamese.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [english, korean];
+  List<SvgGenImage> get values => [
+    chinese,
+    english,
+    french,
+    german,
+    indonesian,
+    japanese,
+    korean,
+    portuguese,
+    russian,
+    spanish,
+    turkish,
+    vietnamese,
+  ];
 }
 
 class $AssetsImagesNftPlaceholderGen {
