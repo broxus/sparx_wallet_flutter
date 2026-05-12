@@ -15,7 +15,7 @@ dependencies:
   flutter_form_builder: ^10.3.0+2
   flutter_keyboard_visibility: ^6.0.0
   flutter_screenutil: ^5.9.3
-  flutter_svg: ^2.2.3
+  flutter_svg: ^2.3.0
   form_builder_validators: ^11.3.0
   lucide_icons_flutter: ^3.1.6
   money2: ^6.0.5
