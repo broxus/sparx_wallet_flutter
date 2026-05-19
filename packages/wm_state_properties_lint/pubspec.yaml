@@ -15,7 +15,7 @@ dependencies:
   analyzer_plugin: ^0.14.1
 
 dev_dependencies:
-  analyzer_testing: ^0.1.9
+  analyzer_testing: ^0.2.1
   injectable_generator: ^2.8.1
   lints: ^6.1.0
   test: ^1.24.0
