@@ -18,5 +18,5 @@ dev_dependencies:
   analyzer_testing: ^0.1.9
   injectable_generator: ^2.8.1
   lints: ^6.1.0
-  test: ^1.24.0
+  test: ^1.31.0
   test_reflective_loader: ^0.4.0
