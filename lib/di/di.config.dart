@@ -721,6 +721,8 @@ import '../http/repository/gasless_repository.dart' as _i487;
 import '../http/repository/repository.dart' as _i593;
 import '../http/repository/token_repository.dart' as _i700;
 import '../http/repository/ton_repository.dart' as _i495;
+import '../widgets/account_list/account_list_model.dart' as _i96;
+import '../widgets/account_list/account_list_wm.dart' as _i130;
 import '../widgets/barcode_address/barcode_address_model.dart' as _i257;
 import '../widgets/barcode_address/barcode_address_wm.dart' as _i798;
 import '../widgets/bottom_navigation_bar/custom_bottom_navigation_bar_model.dart'
@@ -1266,6 +1268,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i771.NekotonRepository>(),
       ),
     );
+    gh.factory<_i96.AccountListModel>(
+      () => _i96.AccountListModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+      ),
+    );
     gh.factory<_i880.AccountInfoWidgetModel>(
       () => _i880.AccountInfoWidgetModel(gh<_i647.AccountInfoModel>()),
     );
@@ -1750,6 +1758,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i199.AddNewExternalAccountSheetWidgetModel(
         gh<_i964.AddNewExternalAccountSheetModel>(),
       ),
+    );
+    gh.factory<_i130.AccountListWidgetModel>(
+      () => _i130.AccountListWidgetModel(gh<_i96.AccountListModel>()),
     );
     gh.factory<_i359.TonWalletMultisigPendingTransactionWidgetWidgetModel>(
       () => _i359.TonWalletMultisigPendingTransactionWidgetWidgetModel(

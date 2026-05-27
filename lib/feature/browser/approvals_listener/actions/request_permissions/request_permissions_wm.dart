@@ -1,16 +1,13 @@
-import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/browser/approvals_listener/actions/request_permissions/request_permissions_model.dart';
 import 'package:app/feature/browser/approvals_listener/actions/request_permissions/request_permissions_widget.dart';
 import 'package:app/feature/browser/approvals_listener/actions/wallet_type_to_contract.dart';
 import 'package:collection/collection.dart';
-
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 enum RequestPermissionsStep { account, confirm }
@@ -44,20 +41,11 @@ class RequestPermissionsWidgetModel
   late final searchController = createTextEditingController();
   late final _stepState = createValueNotifier(RequestPermissionsStep.account);
   late final _selectedState = createNotifier(_initialSelectedAccount);
-  late final _accountsState = createNotifier(model.accounts);
   late final _permissionsState = createWmParamsNotifier(
     (it) => it.permissions.toSet(),
   );
-  late final _zeroBalance = Money.fromBigIntWithCurrency(
-    BigInt.zero,
-    Currencies()[model.symbol] ??
-        Currency.create(model.symbol, 0, pattern: moneyPattern(0)),
-  );
-  final _balances = <Address, ListenableState<Money>>{};
 
   ValueListenable<RequestPermissionsStep> get stepState => _stepState;
-
-  ListenableState<List<KeyAccount>> get accountsState => _accountsState;
 
   ListenableState<KeyAccount?> get selectedState => _selectedState;
 
@@ -73,24 +61,6 @@ class RequestPermissionsWidgetModel
   void onNext() {
     if (_selectedState.value == null) return;
     _stepState.value = RequestPermissionsStep.confirm;
-  }
-
-  void onSearch() {
-    final value = searchController.value.text.trim().toLowerCase();
-
-    if (value.isEmpty) {
-      _accountsState.accept(model.accounts);
-    } else {
-      _accountsState.accept(
-        model.accounts
-            .where(
-              (account) =>
-                  account.name.toLowerCase().contains(value) ||
-                  account.address.address.toLowerCase().contains(value),
-            )
-            .toList(),
-      );
-    }
   }
 
   void onSelectedChanged(KeyAccount? account) {
@@ -133,20 +103,5 @@ class RequestPermissionsWidgetModel
 
     model.setPermissions(wmParams.value.origin, result);
     Navigator.of(context).pop(result);
-  }
-
-  ListenableState<Money> getBalanceEntity(KeyAccount account) {
-    var entity = _balances[account.address];
-
-    if (entity == null) {
-      final notifier = createNotifier<Money>();
-      entity = _balances[account.address] = notifier;
-
-      model
-          .getBalance(account)
-          .then((value) => notifier.accept(value ?? _zeroBalance));
-    }
-
-    return entity;
   }
 }

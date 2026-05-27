@@ -1,8 +1,8 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
+import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
-import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
@@ -18,46 +18,13 @@ class RequestPermissionsModel extends ElementaryModel {
   final PermissionsService _permissionsService;
   final CurrentAccountsService _currentAccountsService;
 
-  String get symbol => currentTransport.nativeTokenTicker;
-
   KeyAccount? get currentAccount =>
       _currentAccountsService.currentActiveAccount;
 
-  List<KeyAccount> get accounts => _nekotonRepository.seedList.seeds
-      .expand(
-        (seed) => seed.allKeys.expand((key) => key.accountList.allAccounts),
-      )
-      .where((account) => !account.isHidden)
-      .toList();
+  Iterable<KeyAccount> get accounts => _nekotonRepository.allVisibleAccounts;
 
   TransportStrategy get currentTransport => _nekotonRepository.currentTransport;
 
   void setPermissions(Uri origin, Permissions permissions) =>
       _permissionsService.setPermissions(url: origin, permissions: permissions);
-
-  Future<Money?> getBalance(KeyAccount account) async {
-    final wallet =
-        _nekotonRepository.walletsMap[account.address]?.wallet ??
-        await _getWallet(account);
-
-    return Money.fromBigIntWithCurrency(
-      wallet.contractState.balance,
-      Currencies()[currentTransport.nativeTokenTicker]!,
-    );
-  }
-
-  Future<TonWallet> _getWallet(KeyAccount account) async {
-    TonWallet? wallet;
-    try {
-      wallet = await TonWallet.subscribe(
-        transport: currentTransport.transport,
-        workchainId: account.workchain,
-        publicKey: account.publicKey,
-        walletType: account.account.tonWallet.contract,
-      );
-    } finally {
-      wallet?.dispose();
-    }
-    return wallet;
-  }
 }
