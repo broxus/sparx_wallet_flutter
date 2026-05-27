@@ -1729,10 +1729,10 @@ packages:
     dependency: "direct main"
     description:
       name: open_settings_plus
-      sha256: "17c5d1c90affd224b0c19ee3dc5bbcff39b630889a90912ba1441c7e821fa914"
+      sha256: "941c12d3c34f8eea29f86d5a6c867b14fc99740fd5521951c043e7f44fc120b0"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.2"
+    version: "0.5.0"
   package_config:
     dependency: transitive
     description:
