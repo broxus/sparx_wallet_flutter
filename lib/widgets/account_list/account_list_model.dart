@@ -22,8 +22,8 @@ class AccountListModel extends ElementaryModel {
   TransportStrategy get currentTransport => _nekotonRepository.currentTransport;
 
   Future<Money?> getBalance(KeyAccount account) async {
-    final wallet = await _getWallet(account);
-    if (wallet == null) return null;
+    final balance = await _getWalletBalance(account);
+    if (balance == null) return null;
 
     var currency = Currencies()[symbol];
     if (currency == null) {
@@ -31,10 +31,28 @@ class AccountListModel extends ElementaryModel {
       _log.warning('Currency with symbol $symbol is not registered');
     }
 
-    return Money.fromBigIntWithCurrency(wallet.contractState.balance, currency);
+    return Money.fromBigIntWithCurrency(balance, currency);
   }
 
-  Future<TonWallet?> _getWallet(KeyAccount keyAccount) async =>
-      _nekotonRepository.walletsMap[keyAccount.address]?.wallet ??
-      (await _nekotonRepository.subscribe(keyAccount.account.tonWallet)).wallet;
+  Future<BigInt?> _getWalletBalance(KeyAccount keyAccount) async {
+    final wallet = _nekotonRepository.walletsMap[keyAccount.address]?.wallet;
+    if (wallet != null) {
+      return wallet.contractState.balance;
+    }
+
+    TonWallet? subscribed;
+    try {
+      subscribed = await TonWallet.subscribeByAddress(
+        transport: currentTransport.transport,
+        address: keyAccount.address,
+      );
+
+      return subscribed.contractState.balance;
+    } catch (e) {
+      _log.warning('Failed to subscribe to wallet: $e');
+      return null;
+    } finally {
+      subscribed?.dispose();
+    }
+  }
 }
