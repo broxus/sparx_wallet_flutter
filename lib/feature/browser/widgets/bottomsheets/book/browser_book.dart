@@ -100,7 +100,7 @@ class BrowserBook extends InjectedElementaryWidget<BrowserBookWidgetModel> {
                           SliverReorderableList(
                             proxyDecorator: _proxyDecorator,
                             itemCount: list.length,
-                            onReorder: wm.bookmarksDelegate.onReorder,
+                            onReorderItem: wm.bookmarksDelegate.onReorder,
                             itemBuilder: (_, int index) {
                               final item = list[index];
 

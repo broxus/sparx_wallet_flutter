@@ -10,12 +10,10 @@ import 'package:injectable/injectable.dart';
 @singleton
 class BleAvailabilityModelDelegate {
   BleAvailabilityModelDelegate({
-    required LedgerService ledgerService,
-    required MessengerService messengerService,
-    required AppPermissionsService permissionsService,
-  }) : _ledgerService = ledgerService,
-       _messengerService = messengerService,
-       _permissionsService = permissionsService;
+    required this._ledgerService,
+    required this._messengerService,
+    required this._permissionsService,
+  });
 
   final LedgerService _ledgerService;
   final MessengerService _messengerService;

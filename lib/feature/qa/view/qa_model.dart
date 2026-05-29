@@ -6,11 +6,7 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class QaModel extends ElementaryModel {
-  QaModel({
-    required EncryptedStorage storage,
-    required MessengerService messengerService,
-  }) : _storage = storage,
-       _messengerService = messengerService;
+  QaModel({required this._storage, required this._messengerService});
 
   static const String _keyKey = 'cipher_storage_key';
   static const String _ivKey = 'cipher_storage_iv';
