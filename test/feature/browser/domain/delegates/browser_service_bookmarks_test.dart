@@ -172,8 +172,8 @@ void main() {
           verify(() => storage.saveBrowserBookmarks(captureAny())).captured.last
               as List<BrowserBookmarkItem>;
 
-      expect(savedArg, [b2, b1, b3]);
-      expect(delegate.browserBookmarks, [b2, b1, b3]);
+      expect(savedArg, [b2, b3, b1]);
+      expect(delegate.browserBookmarks, [b2, b3, b1]);
     });
   });
 
