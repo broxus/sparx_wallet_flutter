@@ -71,7 +71,7 @@ dependencies:
   mobile_scanner: ^7.2.0
   money2: ^6.0.0
   mutex: ^3.1.0
-  native_dio_adapter: ^1.5.0
+  native_dio_adapter: ^1.6.0
   nekoton_repository: ^4.2.1
   nekoton_webview: ^0.2.1
   no_screenshot: ^1.1.0
