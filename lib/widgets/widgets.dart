@@ -3,6 +3,7 @@ export 'barcode_address/barcode_address.dart';
 export 'cached_svg.dart';
 export 'change_notifier_listener.dart';
 export 'clipboard_paste_button.dart';
+export 'confirmation_sheet.dart';
 export 'protected_content.dart';
 export 'transaction_expiration_countdown.dart';
 export 'tx_tree_simulation_error_widget.dart';
