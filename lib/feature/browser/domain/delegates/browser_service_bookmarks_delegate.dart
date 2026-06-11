@@ -103,23 +103,9 @@ class BrowserServiceBookmarksDelegate
   @override
   void reorder(int oldIndex, int newIndex) {
     final bookmarks = [...browserBookmarks];
-
     final item = bookmarks.removeAt(oldIndex);
 
-    var index = newIndex;
-
-    if (index > bookmarks.length) {
-      index = bookmarks.length;
-    }
-    // Hack for:
-    // https://github.com/flutter/flutter/issues/24786
-    // Due to backward compatibility issues,
-    // the development team decided not to fix this issue.
-    if (oldIndex < index) {
-      index--;
-    }
-
-    bookmarks.insert(index, item);
+    bookmarks.insert(newIndex, item);
 
     saveBrowserBookmarks(bookmarks);
   }
