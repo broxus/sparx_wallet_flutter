@@ -1,6 +1,12 @@
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 extension NekotonRepositoryUtils on NekotonRepository {
+  Iterable<KeyAccount> get allVisibleAccounts => seedList.seeds
+      .expand(
+        (seed) => seed.allKeys.expand((key) => key.accountList.allAccounts),
+      )
+      .where((account) => !account.isHidden);
+
   /// Waits for the completion of all background seed scanning processes.
   ///
   /// When a seed is added to the repository via [addSeed]
