@@ -80,6 +80,7 @@ import '../app/service/storage_service/nekoton_repository_service.dart'
     as _i386;
 import '../app/service/storage_service/secure_storage_service.dart' as _i679;
 import '../app/service/storage_service/storage_adapter.dart' as _i541;
+import '../app/service/storage_service/storage_backup_service.dart' as _i909;
 import '../app/service/storage_service/storage_manager_service.dart' as _i725;
 import '../app/service/storage_service/storage_service.dart' as _i966;
 import '../app/service/storage_service/token_wallet_storage_service/token_wallet_storage_service.dart'
@@ -811,6 +812,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i569.EncryptedStorageConfigurator>(
       () => _i569.EncryptedStorageConfigurator(gh<_i426.EncryptedStorage>()),
+    );
+    gh.singleton<_i909.StorageBackupService>(
+      () => _i909.StorageBackupService(gh<_i426.EncryptedStorage>()),
     );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i653.WalletDeployStatusRoute(),

@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:encrypted_storage/encrypted_storage.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -26,6 +27,7 @@ const _ivLength = 16;
 
 const _fileName = 'storage_backup.json';
 
+@singleton
 class StorageBackupService {
   StorageBackupService(this._encryptedStorage);
 
@@ -99,9 +101,11 @@ class StorageBackupService {
     final data = jsonDecode(backup) as Map<String, dynamic>;
 
     for (final domain in _domains) {
-      final domainData = data[domain] as Map<String, dynamic>?;
+      final rawDomainData = data[domain] as String?;
 
-      if (domainData != null) {
+      if (rawDomainData != null) {
+        final domainData = jsonDecode(rawDomainData) as Map<String, dynamic>;
+
         await _encryptedStorage.setDomain(
           Map<String, String>.from(domainData),
           domain: domain,
@@ -116,6 +120,10 @@ class StorageBackupService {
 
     if (!directory.existsSync()) {
       await directory.create(recursive: true);
+    }
+
+    if (file.existsSync()) {
+      await file.delete();
     }
 
     await file.writeAsString(backup);
