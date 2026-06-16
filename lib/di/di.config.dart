@@ -22,7 +22,6 @@ import '../app/router/compass/compass.dart' as _i82;
 import '../app/router/guard.dart' as _i484;
 import '../app/router/router.dart' as _i309;
 import '../app/service/app_lifecycle_service.dart' as _i830;
-import '../app/service/app_links/app_links.dart' as _i850;
 import '../app/service/app_links/app_links_service.dart' as _i746;
 import '../app/service/app_permissions_service.dart' as _i1070;
 import '../app/service/app_version_service.dart' as _i143;
@@ -677,6 +676,10 @@ import '../feature/wallet/widgets/select_account/select_account_model.dart'
     as _i1035;
 import '../feature/wallet/widgets/select_account/select_account_wm.dart'
     as _i371;
+import '../feature/wallet/widgets/storage_backup/storage_backup_sheet_model.dart'
+    as _i408;
+import '../feature/wallet/widgets/storage_backup/storage_backup_sheet_wm.dart'
+    as _i257;
 import '../feature/wallet/widgets/token_transfer_info/token_transfer_info_model.dart'
     as _i207;
 import '../feature/wallet/widgets/token_transfer_info/token_transfer_info_wm.dart'
@@ -1418,6 +1421,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i231.AddExternalAccountModel>(),
       ),
     );
+    gh.factory<_i408.StorageBackupSheetModel>(
+      () => _i408.StorageBackupSheetModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.StorageBackupService>(),
+        gh<_i553.MessengerService>(),
+      ),
+    );
     gh.singleton<_i272.CurrentKeyService>(
       () => _i272.CurrentKeyService(
         gh<_i128.GeneralStorageService>(),
@@ -1790,6 +1800,11 @@ extension GetItInjectableX on _i174.GetIt {
     >(
       () => _i743.TonWalletMultisigPendingTransactionDetailsScreenWidgetModel(
         gh<_i772.TonWalletMultisigPendingTransactionDetailsScreenModel>(),
+      ),
+    );
+    gh.factory<_i257.StorageBackupSheetWidgetModel>(
+      () => _i257.StorageBackupSheetWidgetModel(
+        gh<_i408.StorageBackupSheetModel>(),
       ),
     );
     gh.singleton<_i82.CompassBaseRoute>(
@@ -3051,6 +3066,17 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'RestoreSubroutesGuard',
     );
+    gh.factory<_i348.WalletPageModel>(
+      () => _i348.WalletPageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.AssetsService>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i128.AppStorageService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i533.RootTabService>(),
+        gh<_i128.StorageBackupService>(),
+      ),
+    );
     gh.factory<_i161.TonWalletMultisigOrdinaryTransactionDetailsScreenModel>(
       () => _i161.TonWalletMultisigOrdinaryTransactionDetailsScreenModel(
         gh<_i83.ErrorHandler>(),
@@ -3077,6 +3103,25 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i938.TonWalletMultisigExpiredTransactionModel>(),
       ),
     );
+    gh.factory<_i425.AppModel>(
+      () => _i425.AppModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i309.CompassRouter>(),
+        gh<_i128.AppLinksService>(),
+        gh<_i128.AppLifecycleService>(),
+        gh<_i1071.LocalizationService>(),
+        gh<_i128.BiometryService>(),
+        gh<_i553.MessengerService>(),
+        gh<_i1058.CrashDetectorService>(),
+        gh<_i335.LoggerConfigurator>(),
+        gh<_i202.BrowserLauncher>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i468.BootstrapService>(),
+        gh<_i239.PendingDeepLinkService>(),
+        gh<_i275.NavigationService>(),
+        gh<_i128.StorageBackupService>(),
+      ),
+    );
     gh.factory<_i342.ProfilePageModel>(
       () => _i342.ProfilePageModel(
         gh<_i83.ErrorHandler>(),
@@ -3094,34 +3139,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i553.MessengerService>(),
         gh<_i128.CurrentAccountsService>(),
         gh<_i202.BrowserLauncher>(),
-      ),
-    );
-    gh.factory<_i425.AppModel>(
-      () => _i425.AppModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i309.CompassRouter>(),
-        gh<_i850.AppLinksService>(),
-        gh<_i830.AppLifecycleService>(),
-        gh<_i1071.LocalizationService>(),
-        gh<_i575.BiometryService>(),
-        gh<_i553.MessengerService>(),
-        gh<_i1058.CrashDetectorService>(),
-        gh<_i335.LoggerConfigurator>(),
-        gh<_i202.BrowserLauncher>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i468.BootstrapService>(),
-        gh<_i239.PendingDeepLinkService>(),
-        gh<_i275.NavigationService>(),
-      ),
-    );
-    gh.factory<_i348.WalletPageModel>(
-      () => _i348.WalletPageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.AssetsService>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i128.AppStorageService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i533.RootTabService>(),
       ),
     );
     gh.factory<_i972.NftPageWidgetModel>(

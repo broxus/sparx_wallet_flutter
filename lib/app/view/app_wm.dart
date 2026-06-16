@@ -70,7 +70,7 @@ class AppWidgetModel extends CustomWidgetModel<App, AppModel> {
 
     final savedNavigation = model.getSavedNavigation();
 
-    if (savedNavigation != null) {
+    if (savedNavigation != null && await model.isBackupAvailable()) {
       _logger.info('Initial navigation. Navigate to $savedNavigation');
       // Use CompassRouter methods for all navigation to maintain consistency
       router.compassPoint(

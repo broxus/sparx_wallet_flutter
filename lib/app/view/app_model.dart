@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/app_lifecycle_service.dart';
-import 'package:app/app/service/app_links/app_links.dart';
-import 'package:app/app/service/biometry_service.dart';
 import 'package:app/app/service/bootstrap/bootstrap_service.dart';
 import 'package:app/app/service/bootstrap/bootstrap_steps.dart';
 import 'package:app/app/service/bootstrap/configurators/logger.dart';
 import 'package:app/app/service/navigation_service.dart';
 import 'package:app/app/service/pending_deep_link_service.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/app/view/app.dart';
 import 'package:app/feature/browser/domain/browser_launcher.dart';
 import 'package:app/feature/browser/screens/main/route.dart';
@@ -43,6 +41,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     this._bootstrapService,
     this._pendingDeepLinkService,
     this._navigationService,
+    this._storageBackupService,
   ) : super(errorHandler: errorHandler);
 
   static final _logger = Logger('AppModel');
@@ -60,6 +59,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   final BootstrapService _bootstrapService;
   final PendingDeepLinkService _pendingDeepLinkService;
   final NavigationService _navigationService;
+  final StorageBackupService _storageBackupService;
 
   AppLifecycleListener? _listener;
   StreamSubscription<BrowserAppLinksData>? _appLinksSubs;
@@ -106,6 +106,8 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
       _crashDetectorService.checkCrashDetected();
 
   String? getSavedNavigation() => _navigationService.getSavedState();
+
+  Future<bool> isBackupAvailable() => _storageBackupService.isBackupAvailable();
 
   void _onStateChanged(AppLifecycleState state) {
     switch (state) {
