@@ -61,6 +61,7 @@ void main() {
                     onLogout: () {},
                     onBiomentryChanged: (_) {},
                     onManageDapps: () {},
+                    onClearStorage: () {},
                   ),
                 ),
               ),

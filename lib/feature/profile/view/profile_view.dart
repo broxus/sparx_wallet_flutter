@@ -21,6 +21,7 @@ class ProfileView extends StatelessWidget {
     required this.onLogout,
     required this.onBiomentryChanged,
     required this.onManageDapps,
+    required this.onClearStorage,
     this.isDarkThemeEnabled = false,
     super.key,
   });
@@ -39,6 +40,7 @@ class ProfileView extends StatelessWidget {
   final VoidCallback onLogout;
   final VoidCallback onManageDapps;
   final ValueChanged<bool> onBiomentryChanged;
+  final VoidCallback onClearStorage;
 
   @override
   Widget build(BuildContext context) {
@@ -152,6 +154,12 @@ class ProfileView extends StatelessWidget {
                         title: LocaleKeys.logOut.tr(),
                         icon: LucideIcons.logOut,
                         onPressed: onLogout,
+                      ),
+                      DestructiveButton(
+                        buttonShape: ButtonShape.pill,
+                        title: 'Clear storage',
+                        icon: LucideIcons.trash,
+                        onPressed: onClearStorage,
                       ),
                       Text(
                         '${LocaleKeys.versionWord.tr()} $appVersion',

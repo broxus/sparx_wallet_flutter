@@ -53,6 +53,10 @@ class ProfilePageWidgetModel
     }
   }
 
+  Future<void> onClearStorage() async {
+    await model.clearStorage();
+  }
+
   // ignore: avoid_positional_boolean_parameters
   Future<void> onBiomentryChanged(bool enabled) async {
     String? password;

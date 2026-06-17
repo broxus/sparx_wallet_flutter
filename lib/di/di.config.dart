@@ -3059,6 +3059,18 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i544.BrowserService>(),
       ),
     );
+    gh.factory<_i342.ProfilePageModel>(
+      () => _i342.ProfilePageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.CurrentSeedService>(),
+        gh<_i128.BiometryService>(),
+        gh<_i128.SessionService>(),
+        gh<_i143.AppVersionService>(),
+        gh<_i202.BrowserLauncher>(),
+        gh<_i128.SecureStorageService>(),
+        gh<_i771.NekotonRepository>(),
+      ),
+    );
     gh.factory<_i680.NftPageModel>(
       () => _i680.NftPageModel(
         gh<_i83.ErrorHandler>(),
@@ -3146,16 +3158,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i239.PendingDeepLinkService>(),
         gh<_i275.NavigationService>(),
         gh<_i128.StorageBackupService>(),
-      ),
-    );
-    gh.factory<_i342.ProfilePageModel>(
-      () => _i342.ProfilePageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.CurrentSeedService>(),
-        gh<_i128.BiometryService>(),
-        gh<_i128.SessionService>(),
-        gh<_i143.AppVersionService>(),
-        gh<_i202.BrowserLauncher>(),
       ),
     );
     gh.factory<_i8.AccountSettingsModel>(

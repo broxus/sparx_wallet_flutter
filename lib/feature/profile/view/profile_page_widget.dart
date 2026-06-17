@@ -27,6 +27,7 @@ class ProfilePageWidget
           onLogout: wm.onLogout,
           onBiomentryChanged: wm.onBiomentryChanged,
           onManageDapps: wm.onManageDapps,
+          onClearStorage: wm.onClearStorage,
         );
       },
     );
