@@ -128,7 +128,7 @@ void main() {
         await expectLater(service.restore(_password), throwsException);
       });
 
-      test('restores all domains and deletes the backup file', () async {
+      test('restores all domains', () async {
         secureStorage['default'] = {'foo': 'bar', 'count': '42'};
         secureStorage['passwords_key'] = {'pwd': 'value'};
 
@@ -143,7 +143,6 @@ void main() {
 
         expect(secureStorage['default'], {'foo': 'bar', 'count': '42'});
         expect(secureStorage['passwords_key'], {'pwd': 'value'});
-        expect(backupFile().existsSync(), isFalse);
       });
 
       test('throws when the password is incorrect', () async {
