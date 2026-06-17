@@ -2,6 +2,7 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/add_seed/add_existing_wallet/route.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
 import 'package:app/feature/choose_network/choose_network_screen.dart';
+import 'package:app/feature/onboarding/screen/restore_backup/route.dart';
 import 'package:injectable/injectable.dart';
 
 const _nextStepQueryParam = 'nextStep';
@@ -13,6 +14,7 @@ class ChooseNetworkRoute extends CompassRoute<ChooseNetworkRouteData> {
     @Named.from(CreateSeedOnboardingPasswordRoute)
     CompassBaseRoute createSeedOnboardingPasswordRoute,
     @Named.from(AddExistingWalletRoute) CompassBaseRoute addExistingWalletRoute,
+    @Named.from(RestoreBackupRoute) CompassBaseRoute restoreBackupRoute,
   ) : super(
         path: '/choose-network',
         builder: (context, data, _) {
@@ -21,6 +23,7 @@ class ChooseNetworkRoute extends CompassRoute<ChooseNetworkRouteData> {
         compassBaseRoutes: [
           createSeedOnboardingPasswordRoute,
           addExistingWalletRoute,
+          restoreBackupRoute,
         ],
       );
 
@@ -35,7 +38,11 @@ class ChooseNetworkRoute extends CompassRoute<ChooseNetworkRouteData> {
 }
 
 /// Enum representing possible next steps after choosing a network
-enum ChooseNetworkNextStep { createSeedPassword, addExistingWallet }
+enum ChooseNetworkNextStep {
+  createSeedPassword,
+  addExistingWallet,
+  restoreBackup,
+}
 
 class ChooseNetworkRouteData implements CompassRouteDataQuery {
   const ChooseNetworkRouteData({required this.nextStep});

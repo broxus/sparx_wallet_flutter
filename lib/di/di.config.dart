@@ -345,6 +345,11 @@ import '../feature/no_internet/no_internet_screen_wm.dart' as _i775;
 import '../feature/no_internet/route.dart' as _i225;
 import '../feature/onboarding/guard.dart' as _i13;
 import '../feature/onboarding/route.dart' as _i1010;
+import '../feature/onboarding/screen/restore_backup/restore_backup_screen_model.dart'
+    as _i237;
+import '../feature/onboarding/screen/restore_backup/restore_backup_screen_wm.dart'
+    as _i508;
+import '../feature/onboarding/screen/restore_backup/route.dart' as _i823;
 import '../feature/onboarding/screen/welcome/welcome_screen_model.dart'
     as _i437;
 import '../feature/onboarding/screen/welcome/welcome_screen_wm.dart' as _i634;
@@ -910,6 +915,10 @@ extension GetItInjectableX on _i174.GetIt {
       instanceName: 'AddNftRoute',
     );
     gh.singleton<_i82.CompassBaseRoute>(
+      () => _i823.RestoreBackupRoute(),
+      instanceName: 'RestoreBackupRoute',
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
       () => _i217.EditNetworkRoute(),
       instanceName: 'EditNetworkRoute',
     );
@@ -1143,6 +1152,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i156.AppNotificationsWidgetModel>(),
       ),
     );
+    gh.factory<_i437.WelcomeScreenModel>(
+      () => _i437.WelcomeScreenModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.AppStorageService>(),
+        gh<_i128.StorageBackupService>(),
+      ),
+    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i650.WalletPrepareSpecifiedTransferRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'TonWalletSendRoute'),
@@ -1290,6 +1306,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i68.NtpService>(),
       ),
     );
+    gh.factory<_i634.WelcomeScreenWidgetModel>(
+      () => _i634.WelcomeScreenWidgetModel(gh<_i437.WelcomeScreenModel>()),
+    );
     gh.factory<_i1050.SendMessageModel>(
       () => _i1050.SendMessageModel(
         gh<_i83.ErrorHandler>(),
@@ -1355,12 +1374,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i82.CompassBaseRoute>(instanceName: 'CheckPhraseRoute'),
       ),
       instanceName: 'ManualBackupRoute',
-    );
-    gh.factory<_i437.WelcomeScreenModel>(
-      () => _i437.WelcomeScreenModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.AppStorageService>(),
-      ),
     );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i512.TonWalletDetailsRoute(
@@ -1807,15 +1820,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i408.StorageBackupSheetModel>(),
       ),
     );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i805.ChooseNetworkRoute(
-        gh<_i82.CompassBaseRoute>(
-          instanceName: 'CreateSeedOnboardingPasswordRoute',
-        ),
-        gh<_i82.CompassBaseRoute>(instanceName: 'AddExistingWalletRoute'),
-      ),
-      instanceName: 'ChooseNetworkRoute',
-    );
     gh.factory<_i894.ContactSupportWidgetModel>(
       () => _i894.ContactSupportWidgetModel(gh<_i915.ContactSupportModel>()),
     );
@@ -1827,6 +1831,16 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i83.ErrorHandler>(),
         gh<_i128.CurrentKeyService>(),
       ),
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i805.ChooseNetworkRoute(
+        gh<_i82.CompassBaseRoute>(
+          instanceName: 'CreateSeedOnboardingPasswordRoute',
+        ),
+        gh<_i82.CompassBaseRoute>(instanceName: 'AddExistingWalletRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'RestoreBackupRoute'),
+      ),
+      instanceName: 'ChooseNetworkRoute',
     );
     gh.factory<_i858.SignDataWidgetModel>(
       () => _i858.SignDataWidgetModel(gh<_i744.SignDataModel>()),
@@ -1846,9 +1860,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.NtpService>(),
         gh<_i865.BleAvailabilityModelDelegate>(),
       ),
-    );
-    gh.factory<_i634.WelcomeScreenWidgetModel>(
-      () => _i634.WelcomeScreenWidgetModel(gh<_i437.WelcomeScreenModel>()),
     );
     gh.singleton<_i720.UpdateService>(
       () => _i720.UpdateService(
@@ -2385,6 +2396,16 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i32.AppBuildType>(),
       ),
     );
+    gh.factory<_i237.RestoreBackupScreenModel>(
+      () => _i237.RestoreBackupScreenModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.StorageBackupService>(),
+        gh<_i553.MessengerService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrentKeyService>(),
+        gh<_i128.CurrentAccountsService>(),
+      ),
+    );
     gh.factory<_i236.WalletPrepareTransferPageWidgetModel>(
       () => _i236.WalletPrepareTransferPageWidgetModel(
         gh<_i149.WalletPrepareTransferPageModel>(),
@@ -2665,6 +2686,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i425.NftSendWidgetModel>(
       () => _i425.NftSendWidgetModel(gh<_i1015.NftSendModel>()),
+    );
+    gh.factory<_i508.RestoreBackupScreenWidgetModel>(
+      () => _i508.RestoreBackupScreenWidgetModel(
+        gh<_i237.RestoreBackupScreenModel>(),
+      ),
     );
     gh.factory<_i159.ConnectionConfigurator>(
       () => _i159.ConnectionConfigurator(

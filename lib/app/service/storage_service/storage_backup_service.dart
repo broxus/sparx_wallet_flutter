@@ -79,10 +79,22 @@ class StorageBackupService {
       final decryptedData = encrypter.decrypt(encryptedData, iv: iv);
 
       await _writeBackupDataToSecureStorage(decryptedData);
-      await _deleteBackupFile();
     } catch (e, st) {
       _logger.severe('Error during restore', e, st);
       rethrow;
+    }
+  }
+
+  Future<void> deleteBackupFile() async {
+    try {
+      final directory = await _getBackupDirectory();
+      final file = File('${directory.path}/$_fileName');
+
+      if (file.existsSync()) {
+        await file.delete();
+      }
+    } catch (e, st) {
+      _logger.warning('Failed to delete backup file', e, st);
     }
   }
 
@@ -138,15 +150,6 @@ class StorageBackupService {
     }
 
     return file.readAsString();
-  }
-
-  Future<void> _deleteBackupFile() async {
-    final directory = await _getBackupDirectory();
-    final file = File('${directory.path}/$_fileName');
-
-    if (file.existsSync()) {
-      await file.delete();
-    }
   }
 
   Future<Directory> _getBackupDirectory() async {

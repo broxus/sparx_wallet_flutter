@@ -9,6 +9,7 @@ import 'package:app/feature/choose_network/choose_network_screen_const.dart';
 import 'package:app/feature/choose_network/choose_network_screen_model.dart';
 import 'package:app/feature/choose_network/data/choose_network_item_data.dart';
 import 'package:app/feature/choose_network/route.dart';
+import 'package:app/feature/onboarding/screen/restore_backup/route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -85,14 +86,13 @@ class ChooseNetworkScreenWidgetModel
 
       if (!isMounted) return;
 
-      switch (nextStep) {
-        case ChooseNetworkNextStep.createSeedPassword:
-          context.compassContinue(
-            const CreateSeedOnboardingPasswordRouteData(),
-          );
-        case ChooseNetworkNextStep.addExistingWallet:
-          context.compassContinue(const AddExistingWalletRouteData());
-      }
+      final routeData = switch (nextStep) {
+        .createSeedPassword => const CreateSeedOnboardingPasswordRouteData(),
+        .addExistingWallet => const AddExistingWalletRouteData(),
+        .restoreBackup => const RestoreBackupRouteData(),
+      };
+
+      context.compassContinue(routeData);
     } finally {
       _loadingItemIdState.accept(null);
     }

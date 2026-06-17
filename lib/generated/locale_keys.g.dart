@@ -518,6 +518,12 @@ abstract class LocaleKeys {
       'storageBackupPasswordsDoNotMatch';
   static const storageBackupSuccess = 'storageBackupSuccess';
   static const storageBackupError = 'storageBackupError';
+  static const restoreBackupButton = 'restoreBackupButton';
+  static const restoreBackupTitle = 'restoreBackupTitle';
+  static const restoreBackupDescription = 'restoreBackupDescription';
+  static const restoreBackupConfirmButton = 'restoreBackupConfirmButton';
+  static const restoreBackupSuccess = 'restoreBackupSuccess';
+  static const restoreBackupError = 'restoreBackupError';
   static const accountSettings = 'accountSettings';
   static const hideAccount = 'hideAccount';
   static const backToSettings = 'backToSettings';
