@@ -75,6 +75,8 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
 
   bool? get hasSeeds => _nekotonRepository.hasSeeds.valueOrNull;
 
+  bool get isBackupEnabled => _storageBackupService.isEnabled;
+
   @override
   void init() {
     _listener = AppLifecycleListener(onStateChange: _onStateChanged);

@@ -9,13 +9,17 @@ class WalletAccountBodyModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._storageService,
+    this._storageBackupService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final AppStorageService _storageService;
+  final StorageBackupService _storageBackupService;
 
   Stream<TransportStrategy> get transport =>
       _nekotonRepository.currentTransportStream;
+
+  bool get isBackupEnabled => _storageBackupService.isEnabled;
 
   Stream<bool> getShowingManualBackupBadgeStream(KeyAccount account) =>
       _storageService

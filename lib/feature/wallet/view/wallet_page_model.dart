@@ -31,6 +31,8 @@ class WalletPageModel extends ElementaryModel {
       .scrollTabToTopSubject
       .where((tab) => tab == RootTab.wallet);
 
+  bool get isBackupEnabled => _storageBackupService.isEnabled;
+
   @override
   void init() {
     super.init();

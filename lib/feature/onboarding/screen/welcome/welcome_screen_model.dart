@@ -15,6 +15,8 @@ class WelcomeScreenModel extends ElementaryModel {
   final AppStorageService _storageService;
   final StorageBackupService _storageBackupService;
 
+  bool get isBackupEnabled => _storageBackupService.isEnabled;
+
   void saveUserNew({required bool userWithNewWallet}) => _storageService
       .addValue(StorageKey.userWithNewWallet(), userWithNewWallet);
 

@@ -34,6 +34,9 @@ class StorageBackupService {
   final EncryptedStorage _encryptedStorage;
   final _logger = Logger('StorageBackupService');
 
+  // TODO: remove android
+  bool get isEnabled => Platform.isAndroid || Platform.isIOS;
+
   Future<bool> isBackupAvailable() async {
     try {
       final directory = await _getBackupDirectory();
