@@ -1582,19 +1582,20 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       dispose: (i) => i.dispose(),
     );
+    gh.factory<_i516.WalletAccountBodyModel>(
+      () => _i516.WalletAccountBodyModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.AppStorageService>(),
+        gh<_i128.StorageBackupService>(),
+      ),
+    );
     gh.factory<_i241.DeleteSeedSheetWidgetModel>(
       () => _i241.DeleteSeedSheetWidgetModel(gh<_i976.DeleteSeedSheetModel>()),
     );
     gh.singleton<_i700.TokenRepository>(
       () =>
           _i700.TokenRepository(gh<_i771.NekotonRepository>(), gh<_i361.Dio>()),
-    );
-    gh.factory<_i516.WalletAccountBodyModel>(
-      () => _i516.WalletAccountBodyModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.AppStorageService>(),
-      ),
     );
     gh.factory<_i313.CustodiansSettingsModel>(
       () => _i313.CustodiansSettingsModel(
