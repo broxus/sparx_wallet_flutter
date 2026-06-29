@@ -74,6 +74,8 @@ class WalletPageWidgetModel
   }
 
   Future<void> _checkStorageBackup() async {
+    if (!model.isBackupEnabled) return;
+
     final hasBackup = await model.isBackupAvailable();
     if (!hasBackup && context.mounted) {
       await showStorageBackupSheet(context, dismissible: false);

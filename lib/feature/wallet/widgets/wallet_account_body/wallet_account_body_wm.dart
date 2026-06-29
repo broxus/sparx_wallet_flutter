@@ -48,7 +48,8 @@ class WalletAccountBodyWidgetModel
         bool isShowingBackup,
         bool isInvalidExternalAccount,
       ) => <NotificationType>[
-        .storageBackup,
+        // show backup banner only if backup is enabled (iOS)
+        if (model.isBackupEnabled) .storageBackup,
         if (isInvalidExternalAccount) .invalidExternalAccount,
         if (isUnsupportedWalletType) .unsupportedWalletType,
         if (isShowingBackup) .backup,

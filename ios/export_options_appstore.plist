@@ -9,7 +9,7 @@
     <key>provisioningProfiles</key>
     <dict>
         <key>com.broxus.sparx.app</key>
-        <string>match AppStore com.broxus.sparx.app</string>
+        <string>fastlane match AppStore com.broxus.sparx.app</string>
     </dict>
     <key>signingCertificate</key>
     <string>iOS Distribution</string>

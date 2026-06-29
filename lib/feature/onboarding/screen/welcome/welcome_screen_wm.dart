@@ -68,6 +68,8 @@ class WelcomeScreenWidgetModel
   );
 
   Future<void> _checkBackupAvailability() async {
+    if (!model.isBackupEnabled) return;
+
     final isAvailable = await model.isBackupAvailable();
     _isBackupAvailableState.accept(isAvailable);
   }

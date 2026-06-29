@@ -34,6 +34,8 @@ class StorageBackupService {
   final EncryptedStorage _encryptedStorage;
   final _logger = Logger('StorageBackupService');
 
+  bool get isEnabled => Platform.isIOS;
+
   Future<bool> isBackupAvailable() async {
     try {
       final directory = await _getBackupDirectory();
