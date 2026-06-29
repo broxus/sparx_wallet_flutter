@@ -7,7 +7,7 @@
     <key>provisioningProfiles</key>
     <dict>
         <key>com.broxus.sparx.app</key>
-        <string>match AdHoc com.broxus.sparx.app</string>
+        <string>fastlane match AdHoc com.broxus.sparx.app</string>
     </dict>
     <key>signingStyle</key>
     <string>manual</string>

@@ -408,8 +408,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.broxus.sparx.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.broxus.sparx.app";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc com.broxus.sparx.app";
+				PROVISIONING_PROFILE_SPECIFIER = "fastlane match Development com.broxus.sparx.app";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "fastlane match AdHoc com.broxus.sparx.app";
 				STRIP_STYLE = "non-global";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -497,8 +497,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.broxus.sparx.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.broxus.sparx.app";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc com.broxus.sparx.app";
+				PROVISIONING_PROFILE_SPECIFIER = "fastlane match AdHoc com.broxus.sparx.app";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "fastlane match AdHoc com.broxus.sparx.app";
 				STRIP_STYLE = "non-global";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -642,8 +642,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.broxus.sparx.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.broxus.sparx.app";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc com.broxus.sparx.app";
+				PROVISIONING_PROFILE_SPECIFIER = "fastlane match Development com.broxus.sparx.app";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "fastlane match AdHoc com.broxus.sparx.app";
 				STRIP_STYLE = "non-global";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -679,8 +679,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.broxus.sparx.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.broxus.sparx.app";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AppStore com.broxus.sparx.app";
+				PROVISIONING_PROFILE_SPECIFIER = "fastlane match AppStore com.broxus.sparx.app";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "fastlane match AppStore com.broxus.sparx.app";
 				STRIP_STYLE = "non-global";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -769,7 +769,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.broxus.sparx.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc com.broxus.sparx.app";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "fastlane match AdHoc com.broxus.sparx.app";
 				STRIP_STYLE = "non-global";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -856,7 +856,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.broxus.sparx.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc com.broxus.sparx.app";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "fastlane match AdHoc com.broxus.sparx.app";
 				STRIP_STYLE = "non-global";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -940,7 +940,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.broxus.sparx.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc com.broxus.sparx.app";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "fastlane match AdHoc com.broxus.sparx.app";
 				STRIP_STYLE = "non-global";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1029,7 +1029,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.broxus.sparx.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc com.broxus.sparx.app";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "fastlane match AdHoc com.broxus.sparx.app";
 				STRIP_STYLE = "non-global";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1116,7 +1116,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.broxus.sparx.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc com.broxus.sparx.app";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "fastlane match AdHoc com.broxus.sparx.app";
 				STRIP_STYLE = "non-global";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1200,7 +1200,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.broxus.sparx.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc com.broxus.sparx.app";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "fastlane match AdHoc com.broxus.sparx.app";
 				STRIP_STYLE = "non-global";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
