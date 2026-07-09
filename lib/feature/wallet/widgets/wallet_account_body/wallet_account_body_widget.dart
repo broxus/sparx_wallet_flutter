@@ -114,6 +114,7 @@ class _Carousel extends StatelessWidget {
       itemBuilder: (_, i, __) {
         final child = switch (items[i]) {
           .backup => BackUpBadge(currentAccount: account),
+          .storageBackup => const StorageBackupBanner(),
           .unsupportedWalletType => UnsupportedWalletTypeAlert(
             onSwitchAccount: onSwitchAccount,
           ),

@@ -1,10 +1,10 @@
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/feature/browser/approvals_listener/actions/request_permissions/account_list_item.dart';
 import 'package:app/feature/browser/approvals_listener/actions/request_permissions/request_permissions_wm.dart';
 import 'package:app/feature/browser/approvals_listener/actions/widgets/widgets.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -77,8 +77,6 @@ class _SelectAccountWidget extends StatelessWidget {
               PrimaryTextField(
                 textEditingController: wm.searchController,
                 hintText: LocaleKeys.searchWord.tr(),
-                onChanged: (_) => wm.onSearch(),
-                onSubmit: (_) => wm.onSearch(),
               ),
               Flexible(
                 child: Container(
@@ -89,33 +87,11 @@ class _SelectAccountWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(DimensRadius.radius12),
                     color: theme.colors.background1,
                   ),
-                  child: DoubleSourceBuilder(
-                    firstSource: wm.accountsState,
-                    secondSource: wm.selectedState,
-                    builder: (_, accounts, selected) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        _scrollToActiveAccount(accounts, selected);
-                      });
-                      return ListView.separated(
-                        controller: scrollController,
-                        physics: const ClampingScrollPhysics(),
-                        itemCount: accounts?.length ?? 0,
-                        itemBuilder: (_, index) {
-                          final account = accounts?[index];
-                          return account == null
-                              ? const SizedBox.shrink()
-                              : AccountListItem(
-                                  key: ValueKey(account.address),
-                                  account: account,
-                                  balance: wm.getBalanceEntity(account),
-                                  active: account.address == selected?.address,
-                                  onTap: () => wm.onSelectedChanged(account),
-                                );
-                        },
-                        separatorBuilder: (_, __) =>
-                            CommonDivider(color: theme.colors.border0),
-                      );
-                    },
+                  child: AccountListWidget(
+                    selectedAccountState: wm.selectedState,
+                    onSelectedChanged: wm.onSelectedChanged,
+                    searchController: wm.searchController,
+                    scrollController: scrollController,
                   ),
                 ),
               ),
@@ -132,25 +108,6 @@ class _SelectAccountWidget extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  void _scrollToActiveAccount(
-    List<KeyAccount>? accounts,
-    KeyAccount? selected,
-  ) {
-    if (accounts != null && selected != null) {
-      final index = accounts.indexWhere(
-        (account) => account.address == selected.address,
-      );
-
-      if (index != -1) {
-        scrollController.animateTo(
-          index * DimensSize.d72,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        );
-      }
-    }
   }
 }
 

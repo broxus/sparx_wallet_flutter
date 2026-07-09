@@ -4,6 +4,7 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/root/view/root_tab.dart';
 import 'package:app/feature/wallet/view/wallet_page_model.dart';
 import 'package:app/feature/wallet/view/wallet_page_widget.dart';
+import 'package:app/feature/wallet/widgets/storage_backup/storage_backup_sheet.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -51,6 +52,8 @@ class WalletPageWidgetModel
     _currentAccountSubscribtion = model.currentAccount.whereNotNull().listen(
       _onAccountChanged,
     );
+
+    _checkStorageBackup();
   }
 
   @override
@@ -67,6 +70,15 @@ class WalletPageWidgetModel
     _isShowingNewTokensState.accept(false);
     if (account != null) {
       model.hideNewTokenLabels(account);
+    }
+  }
+
+  Future<void> _checkStorageBackup() async {
+    if (!model.isBackupEnabled) return;
+
+    final hasBackup = await model.isBackupAvailable();
+    if (!hasBackup && context.mounted) {
+      await showStorageBackupSheet(context, dismissible: false);
     }
   }
 

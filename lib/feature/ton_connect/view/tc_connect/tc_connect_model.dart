@@ -9,7 +9,6 @@ import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
-import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
@@ -25,35 +24,18 @@ class TCConnectModel extends ElementaryModel {
   final CurrentAccountsService _currentAccountsService;
   final NtpService _ntpService;
 
-  String get symbol => currentTransport.nativeTokenTicker;
-
   KeyAccount? get currentAccount =>
       _currentAccountsService.currentActiveAccount;
 
-  List<KeyAccount> get accounts => _nekotonRepository.seedList.seeds
-      .expand(
-        (seed) => seed.allKeys.expand((key) => key.accountList.allAccounts),
-      )
-      .where((account) => !account.isHidden)
-      .toList();
-
   TransportStrategy get currentTransport => _nekotonRepository.currentTransport;
+
+  Iterable<KeyAccount> get accounts => _nekotonRepository.allVisibleAccounts;
 
   TonNetwork get _currentTonNetwork =>
       TonNetwork.values.firstWhereOrNull(
         (e) => e.toInt() == currentTransport.transport.networkId,
       ) ??
       TonNetwork.mainnet;
-
-  Future<Money?> getBalance(KeyAccount account) async {
-    final wallet = await _getWallet(account);
-    if (wallet == null) return null;
-
-    return Money.fromBigIntWithCurrency(
-      wallet.contractState.balance,
-      Currencies()[currentTransport.nativeTokenTicker]!,
-    );
-  }
 
   Future<List<ConnectItemReply>> createReplyItems({
     required SignInputAuth signInputAuth,

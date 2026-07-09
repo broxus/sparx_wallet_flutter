@@ -504,6 +504,26 @@ abstract class LocaleKeys {
   static const decrypt = 'decrypt';
   static const notBackedUpTitle = 'notBackedUpTitle';
   static const notBackedUpSubtitle = 'notBackedUpSubtitle';
+  static const storageBackupBannerTitle = 'storageBackupBannerTitle';
+  static const storageBackupBannerDescription =
+      'storageBackupBannerDescription';
+  static const storageBackupSheetTitle = 'storageBackupSheetTitle';
+  static const storageBackupSheetDescription = 'storageBackupSheetDescription';
+  static const storageBackupPasswordHint = 'storageBackupPasswordHint';
+  static const storageBackupConfirmPasswordHint =
+      'storageBackupConfirmPasswordHint';
+  static const storageBackupConfirmButton = 'storageBackupConfirmButton';
+  static const storageBackupPasswordRequired = 'storageBackupPasswordRequired';
+  static const storageBackupPasswordsDoNotMatch =
+      'storageBackupPasswordsDoNotMatch';
+  static const storageBackupSuccess = 'storageBackupSuccess';
+  static const storageBackupError = 'storageBackupError';
+  static const restoreBackupButton = 'restoreBackupButton';
+  static const restoreBackupTitle = 'restoreBackupTitle';
+  static const restoreBackupDescription = 'restoreBackupDescription';
+  static const restoreBackupConfirmButton = 'restoreBackupConfirmButton';
+  static const restoreBackupSuccess = 'restoreBackupSuccess';
+  static const restoreBackupError = 'restoreBackupError';
   static const accountSettings = 'accountSettings';
   static const hideAccount = 'hideAccount';
   static const backToSettings = 'backToSettings';

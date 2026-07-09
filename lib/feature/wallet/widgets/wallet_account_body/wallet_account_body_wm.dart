@@ -7,7 +7,12 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-enum NotificationType { backup, unsupportedWalletType, invalidExternalAccount }
+enum NotificationType {
+  backup,
+  unsupportedWalletType,
+  invalidExternalAccount,
+  storageBackup,
+}
 
 @injectable
 class WalletAccountBodyWidgetModel
@@ -43,6 +48,8 @@ class WalletAccountBodyWidgetModel
         bool isShowingBackup,
         bool isInvalidExternalAccount,
       ) => <NotificationType>[
+        // show backup banner only if backup is enabled (iOS)
+        if (model.isBackupEnabled) .storageBackup,
         if (isInvalidExternalAccount) .invalidExternalAccount,
         if (isUnsupportedWalletType) .unsupportedWalletType,
         if (isShowingBackup) .backup,

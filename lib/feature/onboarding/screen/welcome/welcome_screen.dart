@@ -4,6 +4,7 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/onboarding/screen/welcome/welcome_screen_wm.dart';
 import 'package:app/feature/onboarding/widgets/sliding_block_chains.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -60,6 +61,23 @@ class WelcomeScreen extends InjectedElementaryWidget<WelcomeScreenWidgetModel> {
                   title: LocaleKeys.welcomeIHaveOne.tr(),
                   onPressed: wm.onPressedWalletLogin,
                   buttonShape: ButtonShape.pill,
+                ),
+                StateNotifierBuilder(
+                  listenableState: wm.isBackupAvailableState,
+                  builder: (_, isBackupAvailable) {
+                    if (!(isBackupAvailable ?? false)) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return Padding(
+                      padding: EdgeInsets.only(top: DimensAdaptiveSize.d8.hp),
+                      child: GhostButton(
+                        title: LocaleKeys.restoreBackupButton.tr(),
+                        onPressed: wm.onPressedRestoreBackup,
+                        buttonShape: ButtonShape.pill,
+                      ),
+                    );
+                  },
                 ),
                 SizedBox(height: DimensAdaptiveSize.d12.hp),
                 Center(

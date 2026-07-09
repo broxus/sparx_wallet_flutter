@@ -70,7 +70,10 @@ class AppWidgetModel extends CustomWidgetModel<App, AppModel> {
 
     final savedNavigation = model.getSavedNavigation();
 
-    if (savedNavigation != null) {
+    // If backup isn't enabled or already exists, navigate to the saved route.
+    // Otherwise, navigate to the wallet page to enforce backup flow.
+    if (savedNavigation != null &&
+        (!model.isBackupEnabled || await model.isBackupAvailable())) {
       _logger.info('Initial navigation. Navigate to $savedNavigation');
       // Use CompassRouter methods for all navigation to maintain consistency
       router.compassPoint(

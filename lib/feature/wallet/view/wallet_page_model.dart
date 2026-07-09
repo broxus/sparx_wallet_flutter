@@ -14,6 +14,7 @@ class WalletPageModel extends ElementaryModel {
     this._storageService,
     this._nekotonRepository,
     this._rootTabRepository,
+    this._storageBackupService,
   ) : super(errorHandler: errorHandler);
 
   final AssetsService _assetsService;
@@ -21,6 +22,7 @@ class WalletPageModel extends ElementaryModel {
   final AppStorageService _storageService;
   final NekotonRepository _nekotonRepository;
   final RootTabService _rootTabRepository;
+  final StorageBackupService _storageBackupService;
 
   Stream<KeyAccount?> get currentAccount =>
       _currentAccountsService.currentActiveAccountStream;
@@ -28,6 +30,8 @@ class WalletPageModel extends ElementaryModel {
   Stream<RootTab> get shouldScrollTopStream => _rootTabRepository
       .scrollTabToTopSubject
       .where((tab) => tab == RootTab.wallet);
+
+  bool get isBackupEnabled => _storageBackupService.isEnabled;
 
   @override
   void init() {
@@ -84,6 +88,8 @@ class WalletPageModel extends ElementaryModel {
 
     return isShowingNewTokens;
   }
+
+  Future<bool> isBackupAvailable() => _storageBackupService.isBackupAvailable();
 
   void _hideShowingBadge(KeyAccount account) {
     final masterPublicKey = _nekotonRepository.seedList
