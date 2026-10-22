@@ -21,7 +21,7 @@ jobs:
           echo "flutter_version=$(cat .github/configs/flutter_version)" >> $GITHUB_OUTPUT
 
   semantic_pull_request:
-    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/semantic_pull_request.yml@v1
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/semantic_pull_request.yml@v2
 
   build_and_test:
     needs: [ read_flutter_version ]
